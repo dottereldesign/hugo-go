@@ -243,3 +243,76 @@ or headband.
 
 Generated sources: `hugo-freefall-sheet-magenta.png` and
 `hugo-freefall-sheet-transparent.png`.
+
+## Thirty-frame shoe-jet flame loop
+
+Generated with the built-in image-generation tool as three consecutive ten-frame source
+sheets. All three sheets use a flat green chroma key and contain only the opaque flame
+body; the runtime supplies the soft glow so alpha extraction stays clean.
+
+### Frames 1–10
+
+Use case: stylized-concept.
+
+Asset type: production game VFX sprite sheet, shoe-jet flame animation, frames 1–10 of a
+30-frame one-second loop.
+
+Create exactly ten consecutive animation frames of one compact high-energy rocket flame
+fired from a tiny sneaker heel jet. The motion is a smooth, temporally coherent steady
+flicker: subtle plasma-core breathing, gentle orange-envelope bending, and slight pointed
+tail sway. This is not ignition or shutdown.
+
+The flame has a tight white-hot/cyan core at the top, pale yellow and rich golden-orange
+body, and a small coral-red tapered tip. Use a polished stylized 3D mobile-game VFX
+finish with a bold silhouette that remains crisp at tiny size.
+
+Layout: strict five-column by two-row grid in reading order, exactly one flame per equal
+cell and ten total. Every flame points vertically downward, begins at the identical
+top-center origin, extends about 70% of the cell height, and uses the same scale, width
+range, camera, and alignment. Use wide clean gutters, no dividers, no crops, and no
+overlap.
+
+Use a perfectly flat solid `#00FF00` chroma-key background with no shadow, gradient,
+texture, reflection, floor plane, or lighting variation. No green inside the flame.
+Flame only: no shoe, nozzle, character, smoke, detached spark, ember, glow spill, text,
+number, label, border, grid line, watermark, or extra object. All ten frames must be
+distinct adjacent moments rather than duplicates or unrelated designs.
+
+Generated sources: `jet-flame-frames-01-10-green.png` and
+`jet-flame-frames-01-10-transparent.png`.
+
+### Frames 11–20
+
+Use `jet-flame-frames-01-10-green.png` as the authoritative style, palette, grid, scale,
+top-center origin, and flame-design reference.
+
+Continue with exactly ten new consecutive frames of the identical steady-thrust flame.
+These are frames 11–20 of the same loop. Preserve the flame identity while the
+white/cyan core narrows then breathes wider, the golden-orange envelope bends gently
+through center, and the coral-red tip sways smoothly. Adjacent frames must differ subtly
+and sequentially with no sudden redesign.
+
+Match the first sheet’s strict five-column by two-row grid, ten-flame count, downward
+orientation, common top-center origin, scale, gutters, flat `#00FF00` background, and all
+negative constraints exactly.
+
+Generated sources: `jet-flame-frames-11-20-green.png` and
+`jet-flame-frames-11-20-transparent.png`.
+
+### Frames 21–30
+
+Use the first sheet as the loop’s starting state and the second sheet as the immediately
+preceding motion, palette, grid, scale, and flame-identity reference.
+
+Create exactly ten new consecutive continuation frames, frames 21–30. Continue smoothly
+from frame 20, then gradually return the cyan-white core, golden-orange envelope, and
+small coral-red tail toward frame 1 so frame 30 loops seamlessly into frame 1. Use only
+subtle sequential plasma breathing and gentle tail sway, with no ignition, shutdown, or
+sudden redesign.
+
+Match the two previous sheets’ strict five-column by two-row grid, ten-flame count,
+downward orientation, shared top-center origin, scale, gutters, flat `#00FF00`
+background, and all negative constraints exactly.
+
+Generated sources: `jet-flame-frames-21-30-green.png` and
+`jet-flame-frames-21-30-transparent.png`.

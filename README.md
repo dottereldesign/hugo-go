@@ -42,7 +42,7 @@ npm run test:e2e
 npm run build
 ```
 
-The tests cover deterministic held-thrust physics, double jumps, smooth release to gravity, ground and obstacle-top landing, wall splats and recovery, pushed-off loss, obstacle spacing, coin collection, per-frame flame anchors, animation timing, persistence, direct Play-to-game navigation, retry, and mobile no-scroll behavior.
+The tests cover deterministic held-thrust physics, double jumps, smooth release to gravity, ground and obstacle-top landing, wall splats and recovery, pushed-off loss, obstacle spacing, coin collection, per-frame flame anchors, all 30 sequential 30 fps flame frames, animation timing, persistence, direct Play-to-game navigation, retry, and mobile no-scroll behavior.
 
 ## Project map
 

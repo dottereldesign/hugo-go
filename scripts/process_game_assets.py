@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from PIL import Image
+from PIL import Image, ImageChops, ImageStat
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -28,6 +28,16 @@ CHARACTER_POSE_REPLACEMENTS = {
         (360, 395),
     ),
 }
+JET_FLAME_SOURCE_SHEETS = (
+    "jet-flame-frames-01-10-transparent.png",
+    "jet-flame-frames-11-20-transparent.png",
+    "jet-flame-frames-21-30-transparent.png",
+)
+JET_FLAME_SOURCE_COLUMNS = 5
+JET_FLAME_SOURCE_ROWS = 2
+JET_FLAME_FRAME_SIZE = (96, 160)
+JET_FLAME_ATLAS_COLUMNS = 10
+JET_FLAME_ATLAS_ROWS = 3
 
 
 def process_transparent_asset(source_name: str, output_name: str) -> None:
@@ -202,6 +212,88 @@ def process_trail_ground() -> None:
     print(f"Wrote {output.relative_to(ROOT)} ({image.width}x{image.height})")
 
 
+def process_jet_flame_sheets() -> None:
+    flames: list[Image.Image] = []
+    for source_name in JET_FLAME_SOURCE_SHEETS:
+        sheet = Image.open(SOURCE_DIRECTORY / source_name).convert("RGBA")
+        for row in range(JET_FLAME_SOURCE_ROWS):
+            for column in range(JET_FLAME_SOURCE_COLUMNS):
+                left = round(column * sheet.width / JET_FLAME_SOURCE_COLUMNS)
+                top = round(row * sheet.height / JET_FLAME_SOURCE_ROWS)
+                right = round((column + 1) * sheet.width / JET_FLAME_SOURCE_COLUMNS)
+                bottom = round((row + 1) * sheet.height / JET_FLAME_SOURCE_ROWS)
+                cell = sheet.crop((left, top, right, bottom))
+                bounds = cell.getchannel("A").getbbox()
+                if bounds is None:
+                    raise ValueError(
+                        f"{source_name} row {row + 1}, column {column + 1} has no flame"
+                    )
+                flame = cell.crop(bounds)
+                flame_center = (bounds[0] + bounds[2]) / 2
+                if abs(flame_center - cell.width / 2) > cell.width * 0.08:
+                    raise ValueError(
+                        f"{source_name} row {row + 1}, column {column + 1} "
+                        "does not share the top-center nozzle origin"
+                    )
+                flames.append(flame)
+
+    expected_count = JET_FLAME_ATLAS_COLUMNS * JET_FLAME_ATLAS_ROWS
+    if len(flames) != expected_count:
+        raise ValueError(f"Expected {expected_count} jet flames, found {len(flames)}")
+
+    widths = [flame.width for flame in flames]
+    heights = [flame.height for flame in flames]
+    if max(widths) / min(widths) > 1.25 or max(heights) / min(heights) > 1.15:
+        raise ValueError("Generated jet flames vary too much in scale for a stable animation")
+
+    frame_width, frame_height = JET_FLAME_FRAME_SIZE
+    scale = min((frame_width - 16) / max(widths), (frame_height - 12) / max(heights))
+    atlas = Image.new(
+        "RGBA",
+        (
+            frame_width * JET_FLAME_ATLAS_COLUMNS,
+            frame_height * JET_FLAME_ATLAS_ROWS,
+        ),
+        (0, 0, 0, 0),
+    )
+    normalized_frames: list[Image.Image] = []
+    for index, flame in enumerate(flames):
+        resized = flame.resize(
+            (round(flame.width * scale), round(flame.height * scale)),
+            Image.Resampling.LANCZOS,
+        )
+        frame = Image.new("RGBA", JET_FLAME_FRAME_SIZE, (0, 0, 0, 0))
+        frame.alpha_composite(resized, ((frame_width - resized.width) // 2, 4))
+        normalized_frames.append(frame)
+        atlas.alpha_composite(
+            frame,
+            (
+                (index % JET_FLAME_ATLAS_COLUMNS) * frame_width,
+                (index // JET_FLAME_ATLAS_COLUMNS) * frame_height,
+            ),
+        )
+
+    if len({frame.tobytes() for frame in normalized_frames}) != expected_count:
+        raise ValueError("Every jet-flame animation frame must be visually distinct")
+
+    adjacent_deltas = []
+    for index, frame in enumerate(normalized_frames):
+        following_frame = normalized_frames[(index + 1) % expected_count]
+        difference = ImageChops.difference(frame, following_frame)
+        adjacent_deltas.append(sum(ImageStat.Stat(difference).mean) / 4)
+    if min(adjacent_deltas) < 2 or max(adjacent_deltas) > 14:
+        raise ValueError(
+            "Jet-flame frames must change visibly without an abrupt sheet or loop seam"
+        )
+
+    output = OUTPUT_DIRECTORY / "jet-flame-cycle.webp"
+    atlas.save(output, "WEBP", quality=94, method=6, exact=True)
+    print(
+        f"Wrote {output.relative_to(ROOT)} "
+        f"({expected_count} frames, {atlas.width}x{atlas.height})"
+    )
+
+
 if __name__ == "__main__":
     OUTPUT_DIRECTORY.mkdir(parents=True, exist_ok=True)
     for source_asset, output_asset in TRANSPARENT_ASSETS.items():
@@ -209,3 +301,4 @@ if __name__ == "__main__":
     for sheet in CHARACTER_SHEETS:
         process_character_sheet(*sheet)
     process_trail_ground()
+    process_jet_flame_sheets()

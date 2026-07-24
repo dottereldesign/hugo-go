@@ -87,8 +87,20 @@ test('loads the generated character and trail art over a clean blue sky', async 
       && resources.some((name) => name.includes('hugo-freefall-cycle'))
       && resources.some((name) => name.includes('hugo-jump-land-cycle'))
       && resources.some((name) => name.includes('hugo-double-jump-cycle'))
-      && resources.some((name) => name.includes('hugo-wall-recovery-cycle'));
+      && resources.some((name) => name.includes('hugo-wall-recovery-cycle'))
+      && resources.some((name) => name.includes('jet-flame-cycle'));
   });
+  const flameAtlas = await page.evaluate(async () => {
+    const source = performance.getEntriesByType('resource')
+      .map((entry) => entry.name)
+      .find((name) => name.includes('jet-flame-cycle') && !name.includes('?import'));
+    if (!source) throw new Error('Jet-flame atlas did not load.');
+    const image = new Image();
+    image.src = source;
+    await image.decode();
+    return { width: image.naturalWidth, height: image.naturalHeight };
+  });
+  expect(flameAtlas).toEqual({ width: 960, height: 480 });
   const skyPixel = await page.locator('#game-canvas').evaluate((canvas) => (
     Array.from((canvas as HTMLCanvasElement).getContext('2d')!.getImageData(10, 10, 1, 1).data)
   ));

@@ -30,10 +30,10 @@ The audit serves the production build, opens a `390 × 844` Chromium viewport at
 
 Latest local result on 25 July 2026:
 
-- average frame interval: approximately `18.0 ms` (about 55 fps);
-- p95 interval: `33.3 ms`;
+- average frame interval: approximately `17.2 ms` (about 58 fps);
+- p95 interval: `16.8 ms`;
 - backing store: `780 × 1560`;
-- decoded resources: approximately `2.29 MB` across 27 requests;
+- decoded resources: approximately `2.42 MB` across 28 requests;
 - long tasks during the settled sample: `0`.
 
 The 2× cap is a deliberate quality/performance balance: it doubles Hugo's physical render height compared with the former 1× mobile path while avoiding the 2.25× pixel-count increase from 2× to 3×. A controlled 3× comparison regressed the same audit to a `50 ms` p95 with repeated long tasks, so 3× is not used on phones.
@@ -49,9 +49,7 @@ Runtime character atlases are approximately:
 - double jump: 120 KB;
 - wall impact/recovery: 100 KB.
 
-The trail is 64 KB. Full generation sources under `art/` are excluded from production.
-
-Jet fire remains a few Canvas paths/gradients, so its color and intensity do not require another decoded atlas.
+The 30-frame jet-flame atlas is approximately 132 KB and the trail is 64 KB. Full generation sources under `art/` are excluded from production. The flame uses one shared decoded atlas for both shoes; only its small glow remains procedural.
 
 ## Mobile behavior
 

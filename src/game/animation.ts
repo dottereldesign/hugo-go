@@ -15,6 +15,11 @@ export const DOUBLE_JUMP_DURATION = DOUBLE_JUMP_FRAME_COUNT / DOUBLE_JUMP_FRAMES
 export const WALL_RECOVERY_FRAME_COUNT = 6;
 export const WALL_RECOVERY_FRAMES_PER_SECOND = 12;
 export const WALL_RECOVERY_DURATION = 3 / WALL_RECOVERY_FRAMES_PER_SECOND;
+export const JET_FLAME_FRAME_COUNT = 30;
+export const JET_FLAME_FRAMES_PER_SECOND = 30;
+export const JET_FLAME_FRAME_WIDTH = 96;
+export const JET_FLAME_FRAME_HEIGHT = 160;
+export const JET_FLAME_ATLAS_COLUMNS = 10;
 export type FlightPoseKind = 'powered' | 'glide';
 
 const RUN_FRAME_Y_OFFSETS = [0, 2, -1, -7, 0, 2, -1, -7] as const;
@@ -147,6 +152,24 @@ export function getJetFlameAnchors(
 ): readonly JetFlameAnchor[] {
   const safeIndex = Math.max(0, Math.min(FLIGHT_FRAME_COUNT - 1, Math.floor(frameIndex)));
   return JET_FLAME_ANCHORS[pose][safeIndex];
+}
+
+export function getJetFlameFrame(
+  elapsedSeconds: number,
+  frameOffset = 0,
+): AtlasFrame {
+  const safeElapsed = Number.isFinite(elapsedSeconds) ? Math.max(0, elapsedSeconds) : 0;
+  const safeOffset = Number.isFinite(frameOffset) ? Math.floor(frameOffset) : 0;
+  const index = (
+    (Math.floor(safeElapsed * JET_FLAME_FRAMES_PER_SECOND) + safeOffset)
+    % JET_FLAME_FRAME_COUNT
+    + JET_FLAME_FRAME_COUNT
+  ) % JET_FLAME_FRAME_COUNT;
+  return {
+    index,
+    sourceX: (index % JET_FLAME_ATLAS_COLUMNS) * JET_FLAME_FRAME_WIDTH,
+    sourceY: Math.floor(index / JET_FLAME_ATLAS_COLUMNS) * JET_FLAME_FRAME_HEIGHT,
+  };
 }
 
 function getTimedFrame(elapsedSeconds: number, firstFrame: number, endFrame: number): number {

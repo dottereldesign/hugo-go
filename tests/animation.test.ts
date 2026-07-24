@@ -2,6 +2,9 @@ import { describe, expect, it } from 'vitest';
 import {
   DOUBLE_JUMP_DURATION,
   FLIGHT_FRAME_COUNT,
+  JET_FLAME_FRAME_COUNT,
+  JET_FLAME_FRAME_HEIGHT,
+  JET_FLAME_FRAME_WIDTH,
   LANDING_FRAME_START,
   RUN_FRAME_HEIGHT,
   RUN_FRAME_WIDTH,
@@ -11,12 +14,12 @@ import {
   getFlightLoopFrame,
   getFreefallLoopFrame,
   getJetFlameAnchors,
+  getJetFlameFrame,
   getLandingFrame,
   getTakeoffFrame,
   getWallRecoveryFrame,
   getWallStuckFrame,
 } from '../src/game/animation';
-import { JET_FLAME_COLORS } from '../src/game/FlightGame';
 
 describe('Hugo character animation timing', () => {
   it('loops all six powered or glide frames without leaving the atlas', () => {
@@ -116,11 +119,22 @@ describe('Hugo character animation timing', () => {
     expect(getWallRecoveryFrame(WALL_RECOVERY_DURATION).index).toBe(5);
   });
 
-  it('uses a white-cyan plasma core with a warm exhaust tail', () => {
-    expect(JET_FLAME_COLORS.core).toBe('#f8ffff');
-    expect(JET_FLAME_COLORS.plasma).toBe('#62efff');
-    expect(JET_FLAME_COLORS.outer).toBe('#ff7a18');
-    expect(JET_FLAME_COLORS.tip).toBe('#e82f4f');
-    expect(JET_FLAME_COLORS.glow).toContain('70, 232, 255');
+  it('plays all 30 authored jet-flame frames in one second at 30 fps', () => {
+    const frames = Array.from({ length: JET_FLAME_FRAME_COUNT }, (_, index) => (
+      getJetFlameFrame(index / 30)
+    ));
+    expect(frames.map((frame) => frame.index)).toEqual(
+      Array.from({ length: 30 }, (_, index) => index),
+    );
+    expect(getJetFlameFrame(1).index).toBe(0);
+    expect(new Set(frames.map(({ sourceX, sourceY }) => `${sourceX},${sourceY}`)).size).toBe(30);
+    expect(frames.every(({ sourceX }) => sourceX % JET_FLAME_FRAME_WIDTH === 0)).toBe(true);
+    expect(frames.every(({ sourceY }) => sourceY % JET_FLAME_FRAME_HEIGHT === 0)).toBe(true);
+  });
+
+  it('offsets the second shoe without changing the 30 fps flame cadence', () => {
+    expect(getJetFlameFrame(0, 13).index).toBe(13);
+    expect(getJetFlameFrame(1 / 30, 13).index).toBe(14);
+    expect(getJetFlameFrame(17 / 30, 13).index).toBe(0);
   });
 });
