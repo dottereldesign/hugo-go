@@ -7,17 +7,20 @@ export const HUGO_HEIGHT = 50;
 export const FIXED_STEP = 1 / 120;
 
 const GRAVITY = 1_000;
+const RELEASE_GRAVITY = 1_450;
 const JET_ACCELERATION = 1_950;
-const MAX_RISE_SPEED = -310;
+const MAX_RISE_SPEED = -430;
+const DOUBLE_JUMP_MAX_RISE_SPEED = -560;
 const MAX_FALL_SPEED = 570;
-const THRUST_RESPONSE_PER_SECOND = 6;
-const BASE_WORLD_SPEED = 142;
-const MAX_WORLD_SPEED = 202;
-const SPEED_RAMP_PER_SECOND = 0.72;
+const THRUST_RESPONSE_PER_SECOND = 8;
+const BASE_WORLD_SPEED = 174;
+const MAX_WORLD_SPEED = 244;
+const SPEED_RAMP_PER_SECOND = 1.05;
 const METRES_PER_PIXEL = 0.085;
 const CEILING_Y = 34;
-const JUMP_VELOCITY = -360;
-const DOUBLE_JUMP_VELOCITY = -430;
+const JUMP_VELOCITY = -390;
+const DOUBLE_JUMP_MIN_VELOCITY = -480;
+const DOUBLE_JUMP_IMPULSE = 260;
 export const DOUBLE_JUMP_WINDOW = 0.48;
 const WALL_RECOVERY_VELOCITY = -450;
 const WALL_RECOVERY_GRACE = 0.48;
@@ -137,7 +140,10 @@ export function setFlightThrust(state: FlightGameState, thrusting: boolean): boo
     && state.hugo.doubleJumpAvailable
     && state.hugo.jumpTime <= DOUBLE_JUMP_WINDOW
   ) {
-    state.hugo.velocityY = DOUBLE_JUMP_VELOCITY;
+    state.hugo.velocityY = Math.max(
+      DOUBLE_JUMP_MAX_RISE_SPEED,
+      Math.min(DOUBLE_JUMP_MIN_VELOCITY, state.hugo.velocityY - DOUBLE_JUMP_IMPULSE),
+    );
     state.hugo.grounded = false;
     state.hugo.surfaceId = null;
     state.hugo.doubleJumpAvailable = false;
@@ -244,9 +250,14 @@ function advanceFixedStep(state: FlightGameState, elapsedSeconds: number): void 
 
   state.hugo.x = moveTowards(state.hugo.x, HUGO_X, RECOVERY_X_SPEED * elapsedSeconds);
   const jetAcceleration = state.hugo.thrusting ? JET_ACCELERATION : 0;
+  const effectiveGravity = GRAVITY
+    + (RELEASE_GRAVITY - GRAVITY) * (1 - state.hugo.thrustIntensity);
+  const doubleJumpProgress = clamp(state.hugo.doubleJumpTime / DOUBLE_JUMP_WINDOW, 0, 1);
+  const riseSpeedLimit = DOUBLE_JUMP_MAX_RISE_SPEED
+    + (MAX_RISE_SPEED - DOUBLE_JUMP_MAX_RISE_SPEED) * doubleJumpProgress;
   state.hugo.velocityY = clamp(
-    state.hugo.velocityY + (GRAVITY - jetAcceleration) * elapsedSeconds,
-    MAX_RISE_SPEED,
+    state.hugo.velocityY + (effectiveGravity - jetAcceleration) * elapsedSeconds,
+    riseSpeedLimit,
     MAX_FALL_SPEED,
   );
   state.hugo.y += state.hugo.velocityY * elapsedSeconds;

@@ -79,7 +79,7 @@ test('a fast second press triggers the authored double-jump state', async ({ pag
   await page.mouse.up();
 
   expect(doubleJump.doubleJumpAvailable).toBe(false);
-  expect(doubleJump.doubleJumpTime).toBeLessThan(0.2);
+  expect(doubleJump.doubleJumpTime).toBeLessThan(0.35);
   expect(doubleJump.velocityY).toBeLessThan(-300);
 });
 

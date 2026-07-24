@@ -68,6 +68,7 @@ describe('HUGO GO! deterministic flight physics', () => {
     expect(state.hugo.thrustIntensity).toBeLessThan(0.1);
     advanceFlight(state, 0.25);
     advanceFlight(state, 0.2);
+    advanceFlight(state, 0.2);
     expect(state.hugo.y).toBeGreaterThan(releaseY);
   });
 
@@ -86,7 +87,7 @@ describe('HUGO GO! deterministic flight physics', () => {
     advanceFlight(state, 0.12);
     setFlightThrust(state, false);
     setFlightThrust(state, true);
-    expect(state.hugo.velocityY).toBeLessThan(-400);
+    expect(state.hugo.velocityY).toBeLessThanOrEqual(-480);
     expect(state.hugo.doubleJumpTime).toBe(0);
     expect(state.hugo.doubleJumpAvailable).toBe(false);
 
@@ -94,6 +95,17 @@ describe('HUGO GO! deterministic flight physics', () => {
     setFlightThrust(state, false);
     setFlightThrust(state, true);
     expect(state.hugo.velocityY).toBe(doubleJumpVelocity);
+  });
+
+  it('adds double-jump impulse to the current vertical momentum', () => {
+    const rising = clearCourse();
+    setFlightThrust(rising, true);
+    advanceFlight(rising, 0.08);
+    setFlightThrust(rising, false);
+    const velocityBeforeDoubleJump = rising.hugo.velocityY;
+    setFlightThrust(rising, true);
+    expect(rising.hugo.velocityY).toBeLessThan(velocityBeforeDoubleJump);
+    expect(rising.hugo.velocityY).toBe(-560);
   });
 
   it('does not grant the double jump after the fast-press window closes', () => {

@@ -4,6 +4,7 @@ export const RUN_FRAME_COUNT = 8;
 export const RUN_FRAMES_PER_SECOND = 12;
 export const FLIGHT_FRAME_COUNT = 6;
 export const FLIGHT_FRAMES_PER_SECOND = 12;
+export const FREEFALL_FRAMES_PER_SECOND = 10;
 export const TRANSITION_FRAME_COUNT = 8;
 export const TAKEOFF_FRAME_COUNT = 2;
 export const LANDING_FRAME_START = 4;
@@ -80,6 +81,12 @@ export function getRunFrame(elapsedSeconds: number): RunFrame {
 export function getFlightLoopFrame(elapsedSeconds: number): AtlasFrame {
   const safeElapsed = Number.isFinite(elapsedSeconds) ? Math.max(0, elapsedSeconds) : 0;
   const index = Math.floor(safeElapsed * FLIGHT_FRAMES_PER_SECOND) % FLIGHT_FRAME_COUNT;
+  return getFlightAtlasFrame(index);
+}
+
+export function getFreefallLoopFrame(elapsedSeconds: number): AtlasFrame {
+  const safeElapsed = Number.isFinite(elapsedSeconds) ? Math.max(0, elapsedSeconds) : 0;
+  const index = Math.floor(safeElapsed * FREEFALL_FRAMES_PER_SECOND) % FLIGHT_FRAME_COUNT;
   return getFlightAtlasFrame(index);
 }
 

@@ -7,6 +7,7 @@ import {
   getDoubleJumpFrame,
   getDoubleJumpFrameLayout,
   getFlightLoopFrame,
+  getFreefallLoopFrame,
   getJetFlameAnchors,
   getLandingFrame,
   getTakeoffFrame,
@@ -26,6 +27,14 @@ describe('Hugo character animation timing', () => {
       expect(frame.sourceX).toBeGreaterThanOrEqual(0);
       expect(frame.sourceY).toBeGreaterThanOrEqual(0);
     }
+  });
+
+  it('loops all six freefall banking frames at its own relaxed cadence', () => {
+    const frames = Array.from({ length: FLIGHT_FRAME_COUNT }, (_, index) => (
+      getFreefallLoopFrame(index / 10)
+    ));
+    expect(frames.map((frame) => frame.index)).toEqual([0, 1, 2, 3, 4, 5]);
+    expect(getFreefallLoopFrame(FLIGHT_FRAME_COUNT / 10).index).toBe(0);
   });
 
   it('uses the two fluid crouch-and-airborne poses and skips stiff duplicate strides', () => {

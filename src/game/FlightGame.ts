@@ -1,4 +1,5 @@
 import hugoDoubleJumpCycleUrl from '../assets/game/hugo-double-jump-cycle.webp';
+import hugoFreefallCycleUrl from '../assets/game/hugo-freefall-cycle.webp';
 import hugoGlideCycleUrl from '../assets/game/hugo-glide-cycle.webp';
 import hugoJumpLandCycleUrl from '../assets/game/hugo-jump-land-cycle.webp';
 import hugoPoweredCycleUrl from '../assets/game/hugo-powered-cycle.webp';
@@ -11,6 +12,7 @@ import {
   getDoubleJumpFrame,
   getDoubleJumpFrameLayout,
   getFlightLoopFrame,
+  getFreefallLoopFrame,
   getJetFlameAnchors,
   getLandingFrame,
   getRunFrame,
@@ -35,7 +37,7 @@ import {
   type FlightGameState,
   type Obstacle,
 } from './engine';
-import { getSeasonVisual, type SeasonId, type SeasonVisual } from './seasons';
+import { getSeasonVisual, type SeasonVisual } from './seasons';
 
 export interface RunResult {
   distance: number;
@@ -82,6 +84,7 @@ export class FlightGame {
   private assetsStarted = false;
   private readonly poweredCycleSprite = this.createSprite();
   private readonly glideCycleSprite = this.createSprite();
+  private readonly freefallCycleSprite = this.createSprite();
   private readonly jumpLandCycleSprite = this.createSprite();
   private readonly doubleJumpCycleSprite = this.createSprite();
   private readonly wallRecoveryCycleSprite = this.createSprite();
@@ -92,6 +95,7 @@ export class FlightGame {
   private hudBest = -1;
   private activePointerId: number | null = null;
   private readonly thrustKeys = new Set<string>();
+  private canvasPixelRatio = 1;
 
   constructor(
     private readonly elements: FlightGameElements,
@@ -112,7 +116,7 @@ export class FlightGame {
     this.running = true;
     this.previousFrameTime = performance.now();
     this.elements.overlay.hidden = true;
-    this.elements.announcer.textContent = 'Forest run started. Press and hold to jump, then fly upward; release to descend.';
+    this.elements.announcer.textContent = 'Forest run started.';
     this.updateHud();
     this.render();
     cancelAnimationFrame(this.animationFrame);
@@ -194,8 +198,8 @@ export class FlightGame {
   }
 
   private configureCanvas(): void {
-    const pixelRatioLimit = window.innerWidth <= 680 ? 1 : 2;
-    const pixelRatio = Math.min(window.devicePixelRatio || 1, pixelRatioLimit);
+    const pixelRatio = Math.min(window.devicePixelRatio || 1, 3);
+    this.canvasPixelRatio = pixelRatio;
     this.elements.canvas.width = Math.round(GAME_WIDTH * pixelRatio);
     this.elements.canvas.height = Math.round(GAME_HEIGHT * pixelRatio);
     this.context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
@@ -262,7 +266,6 @@ export class FlightGame {
     this.drawCoins(context);
     for (const obstacle of this.state.obstacles) this.drawObstacle(context, obstacle);
     this.drawHugo(context);
-    this.drawStartHint(context);
   }
 
   private drawSky(context: CanvasRenderingContext2D): void {
@@ -287,51 +290,6 @@ export class FlightGame {
       context.fillRect(0, GROUND_Y + 13, GAME_WIDTH, GAME_HEIGHT - GROUND_Y - 13);
     }
 
-    for (const seasonId of ['spring', 'summer', 'autumn', 'winter'] as const) {
-      const weight = season.particleWeights[seasonId];
-      if (weight > 0.002) this.drawSeasonParticles(context, seasonId, weight);
-    }
-  }
-
-  private drawSeasonParticles(context: CanvasRenderingContext2D, season: SeasonId, weight: number): void {
-    const counts: Record<SeasonId, number> = { spring: 13, summer: 9, autumn: 16, winter: 24 };
-    const speeds: Record<SeasonId, number> = { spring: 18, summer: 7, autumn: 30, winter: 25 };
-    const elapsed = this.state.elapsed;
-    context.save();
-    context.globalAlpha = weight;
-    for (let index = 0; index < counts[season]; index += 1) {
-      const seed = index * 67.31 + (season === 'winter' ? 19 : season === 'autumn' ? 11 : 3);
-      const x = modulo(seed * 5.7 + elapsed * (season === 'summer' ? 3 : -9), GAME_WIDTH + 50) - 25;
-      const y = modulo(seed * 9.1 + elapsed * speeds[season], GROUND_Y - 70) + 70;
-      context.save();
-      context.translate(x, y);
-      context.rotate(elapsed * 0.7 + seed);
-      if (season === 'spring') {
-        context.fillStyle = index % 3 === 0 ? '#fff0f6' : '#f2a9c6';
-        context.beginPath();
-        context.ellipse(0, 0, 5.5, 2.7, 0, 0, Math.PI * 2);
-        context.fill();
-      } else if (season === 'summer') {
-        context.fillStyle = '#fff2a1';
-        context.shadowColor = '#fff5b7';
-        context.shadowBlur = 7;
-        context.beginPath();
-        context.arc(0, 0, 1.7 + (index % 2), 0, Math.PI * 2);
-        context.fill();
-      } else if (season === 'autumn') {
-        context.fillStyle = index % 3 === 0 ? '#f6bd3d' : index % 2 === 0 ? '#d9512e' : '#e8872e';
-        context.beginPath();
-        context.ellipse(0, 0, 6, 3.2, 0.4, 0, Math.PI * 2);
-        context.fill();
-      } else {
-        context.fillStyle = 'rgba(255,255,255,.92)';
-        context.beginPath();
-        context.arc(0, 0, 1.8 + (index % 4) * 0.65, 0, Math.PI * 2);
-        context.fill();
-      }
-      context.restore();
-    }
-    context.restore();
   }
 
   private drawGround(context: CanvasRenderingContext2D): void {
@@ -466,7 +424,7 @@ export class FlightGame {
       const runFrame = getRunFrame(this.state.elapsed);
       const drawHeight = RUN_DRAW_HEIGHT;
       const drawWidth = drawHeight * (RUN_FRAME_WIDTH / RUN_FRAME_HEIGHT);
-      const drawX = hugo.x + HUGO_WIDTH / 2 - drawWidth / 2;
+      const drawX = this.snapToDevicePixel(hugo.x + HUGO_WIDTH / 2 - drawWidth / 2);
       context.save();
       context.drawImage(
         this.runCycleSprite,
@@ -475,7 +433,7 @@ export class FlightGame {
         RUN_FRAME_WIDTH,
         RUN_FRAME_HEIGHT,
         drawX,
-        hugo.y + HUGO_HEIGHT - drawHeight + runFrame.verticalOffset,
+        this.snapToDevicePixel(hugo.y + HUGO_HEIGHT - drawHeight + runFrame.verticalOffset),
         drawWidth,
         drawHeight,
       );
@@ -493,8 +451,10 @@ export class FlightGame {
         : { scale: 1, verticalOffset: 0 };
       const drawHeight = AIRBORNE_DRAW_HEIGHT * frameLayout.scale;
       const drawWidth = baseDrawWidth * frameLayout.scale;
-      const drawX = baseDrawX + (baseDrawWidth - drawWidth) / 2;
-      const drawY = baseDrawY + AIRBORNE_DRAW_HEIGHT * frameLayout.verticalOffset;
+      const drawX = this.snapToDevicePixel(baseDrawX + (baseDrawWidth - drawWidth) / 2);
+      const drawY = this.snapToDevicePixel(
+        baseDrawY + AIRBORNE_DRAW_HEIGHT * frameLayout.verticalOffset,
+      );
 
       if (
         !hugo.grounded
@@ -552,7 +512,7 @@ export class FlightGame {
   private getAnimatedFlightPose(): {
     sprite: LoadedSprite;
     frame: AtlasFrame;
-    kind: FlightPoseKind | 'transition' | 'doubleJump' | 'wall';
+    kind: FlightPoseKind | 'freefall' | 'transition' | 'doubleJump' | 'wall';
   } | null {
     const { hugo } = this.state;
     if (hugo.stuckObstacleId !== null && this.wallRecoveryCycleSprite.ready) {
@@ -595,6 +555,13 @@ export class FlightGame {
         sprite: this.poweredCycleSprite,
         frame: getFlightLoopFrame(this.state.elapsed),
         kind: 'powered',
+      };
+    }
+    if (hugo.velocityY > 45 && this.freefallCycleSprite.ready) {
+      return {
+        sprite: this.freefallCycleSprite,
+        frame: getFreefallLoopFrame(this.state.elapsed),
+        kind: 'freefall',
       };
     }
     if (this.glideCycleSprite.ready) {
@@ -707,26 +674,8 @@ export class FlightGame {
     }
   }
 
-  private drawStartHint(context: CanvasRenderingContext2D): void {
-    if (this.state.elapsed > 4.5 || this.state.phase !== 'playing') return;
-    const alpha = this.state.elapsed < 2.7 ? 1 : Math.max(0, 1 - (this.state.elapsed - 2.7) / 1.8);
-    context.save();
-    context.globalAlpha = alpha;
-    context.fillStyle = 'rgba(5, 31, 45, .82)';
-    context.beginPath();
-    context.roundRect(73, 160, 244, 76, 20);
-    context.fill();
-    context.strokeStyle = 'rgba(255,255,255,.55)';
-    context.lineWidth = 2;
-    context.stroke();
-    context.fillStyle = '#fffbe0';
-    context.textAlign = 'center';
-    context.font = '900 19px Inter, sans-serif';
-    context.fillText('HOLD TO JUMP + FLY', GAME_WIDTH / 2, 191);
-    context.fillStyle = '#c9f7ff';
-    context.font = '700 11px Inter, sans-serif';
-    context.fillText('Quick re-press = double jump · Hold if stuck', GAME_WIDTH / 2, 215);
-    context.restore();
+  private snapToDevicePixel(value: number): number {
+    return Math.round(value * this.canvasPixelRatio) / this.canvasPixelRatio;
   }
 
   private createSprite(): LoadedSprite {
@@ -744,6 +693,7 @@ export class FlightGame {
     this.assetsStarted = true;
     this.poweredCycleSprite.src = hugoPoweredCycleUrl;
     this.glideCycleSprite.src = hugoGlideCycleUrl;
+    this.freefallCycleSprite.src = hugoFreefallCycleUrl;
     this.jumpLandCycleSprite.src = hugoJumpLandCycleUrl;
     this.doubleJumpCycleSprite.src = hugoDoubleJumpCycleUrl;
     this.wallRecoveryCycleSprite.src = hugoWallRecoveryCycleUrl;

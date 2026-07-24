@@ -54,6 +54,7 @@ test('loads the generated character and trail art over a clean blue sky', async 
       && resources.some((name) => name.includes('hugo-run-cycle'))
       && resources.some((name) => name.includes('hugo-powered-cycle'))
       && resources.some((name) => name.includes('hugo-glide-cycle'))
+      && resources.some((name) => name.includes('hugo-freefall-cycle'))
       && resources.some((name) => name.includes('hugo-jump-land-cycle'))
       && resources.some((name) => name.includes('hugo-double-jump-cycle'))
       && resources.some((name) => name.includes('hugo-wall-recovery-cycle'));

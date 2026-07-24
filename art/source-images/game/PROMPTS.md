@@ -212,3 +212,34 @@ The two camera-facing splat/wobble poses were replaced at processing time by
 `hugo-wall-splat-side-profile-transparent.png`. Those replacement frames preserve Hugo's
 right-facing side profile, puffed cheek, palm-first contact plane, and harmless flattened
 silhouette without looking toward the camera.
+
+## Six-frame freefall glide sheet
+
+Use case: identity-preserve game animation asset.
+
+Use the supplied Hugo glide sheet as the authoritative identity, face, age, proportions,
+outfit, colors, right-facing camera, and polished stylized 3D rendering reference. Create
+exactly six sequential full-body frames of a fun forward wingsuit-style freefall glide,
+without adding an actual wingsuit. Hugo uses his teal jacket and body posture like a
+playful human glider: arms spread wide for a strong silhouette, torso pitched forward,
+legs trailing, and hair and jacket reacting to airflow.
+
+Animate a fluid loop: settle into glide, left shoulder dip, playful bank and slight grin,
+level wide-arm soar, opposite shoulder dip, then return toward the first pose. The motion
+must feel fast, buoyant, confident, parkour-like, and child-friendly rather than panicked
+or limp.
+
+Layout: strict two-column by three-row grid in reading order, one full-body pose per equal
+cell, consistent scale and camera, generous gutters, nothing cropped or overlapping.
+Use a perfectly flat uniform `#FF00FF` chroma-key background with no gradient, shadow,
+texture, floor, or lighting variation. Do not use magenta on Hugo.
+
+Preserve Hugo's natural round eyes, chunky windswept dark hair, teal jacket with orange
+trim and silver fern badge, cream shirt, navy shorts over black leggings, and white/teal
+shoes with heel thruster ports. No actual wings, cape, parachute, added clothing, flames,
+exhaust, smoke, sparks, glow, motion trails, text, labels, borders, logos, watermark,
+extra person, duplicate or missing limbs, camera-facing pose, franchise costume, weapon,
+or headband.
+
+Generated sources: `hugo-freefall-sheet-magenta.png` and
+`hugo-freefall-sheet-transparent.png`.
