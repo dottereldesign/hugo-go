@@ -17,6 +17,8 @@ CHARACTER_SHEETS = (
     ("hugo-powered-sheet-transparent.png", "hugo-powered-cycle.webp", 3, 3, 2),
     ("hugo-glide-sheet-transparent.png", "hugo-glide-cycle.webp", 3, 3, 2),
     ("hugo-jump-land-sheet-transparent.png", "hugo-jump-land-cycle.webp", 4, 4, 2),
+    ("hugo-double-jump-sheet-transparent.png", "hugo-double-jump-cycle.webp", 3, 3, 2),
+    ("hugo-wall-recovery-sheet-transparent.png", "hugo-wall-recovery-cycle.webp", 3, 3, 2),
 )
 
 

@@ -19,20 +19,18 @@ No character image required for the current Forest controls is missing.
 - Six-frame powered-glide loop with stable shoe anchors, wind-rustled hair, and jacket flutter.
 - Six-frame unpowered glide/fall loop with calmer secondary motion.
 - Eight-frame jump/landing sheet: push-off, rise, airborne, fall, toe-contact, compression, and run recovery.
+- Six-frame double-jump sheet: tuck, corkscrew, open, and stabilized flight.
+- Six-frame non-injury wall sheet: approach, splat, wobble, peel, crouch, and upward recovery.
 - Two animated shoe flames drawn in Canvas code, with per-frame shoe-port anchors, an editable scorched-red palette, and thrust-responsive length/glow.
+- Three giant code-authored SVG planets with distance fades, slow rotation, and restrained built-in glow.
 
-The run cycle plays at 12 fps and repeats every `0.667 s`. The two flight loops each repeat every `0.5 s`. Across run, powered glide, free glide, and jump/landing there are **28 authored full-body frames**. More generated in-betweens should be added only when they improve silhouette continuity enough to justify their download/decode cost.
+The run cycle plays at 12 fps and repeats every `0.667 s`. The two flight loops each repeat every `0.5 s`; the double jump plays at 14 fps and the wall action at 12 fps. Across all six atlases there are **40 authored full-body frames**. More generated in-betweens should be added only when they improve silhouette continuity enough to justify their download/decode cost.
 
 Full-body normalized cells are intentional. Separately generated heads, arms, jacket panels, and legs would be useful for a purpose-built 2D skeletal rig, but this established stylized 3D render contains overlapping cloth, hands, hair, soft lighting, and self-shadowing. Cutting it apart would create seams and inconsistent occlusion. If a future art direction changes to rigged 2D, author layered source parts together from one turnaround rather than slicing these rendered poses.
 
 ## Optional future character sheet
 
-The only useful missing character sheet is a six-frame, non-injury game-over reaction:
-
-- three surprised aerial wobble frames;
-- three safe recovery/result poses.
-
-It is not required yet because collision currently freezes immediately under the game-over overlay. Generate it when the game-over state is given a short reaction timeline.
+No control or collision animation is currently missing. A future new-best celebration could add three short poses, but it is not required for gameplay.
 
 ## Optional authored obstacle set
 

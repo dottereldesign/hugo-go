@@ -2,40 +2,66 @@
 
 ## Current runtime
 
-The game uses one `390 × 780` logical Canvas and caps device pixel ratio at `2`. Physics and collision are independent of render rate and run in fixed `1/120 s` substeps.
+The game uses one `390 × 780` logical Canvas. Phones render at a capped `1×` backing resolution even on a simulated `3×` device, while larger screens may use up to `2×`. CSS preserves the same physical play size, so the mobile cap trades invisible excess pixels for steadier input and animation.
 
-Each animation frame:
+Physics and collision are render-rate independent and use fixed `1/120 s` substeps. Each frame:
 
-- advances at most `0.05 s` in the browser controller;
-- moves a small obstacle/coin list;
-- fills a flat sky, draws the scrolling trail, pickups, obstacles, one Hugo atlas cell, and at most 24 simple seasonal particles;
-- updates three compact HUD values.
+- advances at most `0.05 s`;
+- moves a short obstacle/coin list;
+- uses one cached sky gradient;
+- draws the scrolling trail, pickups, red obstacles, one Hugo atlas cell, up to 24 seasonal particles, and at most one giant SVG planet;
+- writes HUD text only when a displayed value changes.
 
-Expired entities are removed and course content is generated only a short distance ahead.
+The animation loop pauses while the document is hidden. Planet glow is authored inside the SVGs, avoiding per-frame Canvas blur filters or offscreen buffers.
+
+## Production audit
+
+Run:
+
+```bash
+npm run build
+npm run audit:performance
+```
+
+The audit serves the production build, opens a `390 × 844` Chromium viewport at simulated DPR 3, starts a powered jump, and samples 180 animation frames after load/input settling. The checked mobile budget is:
+
+- backing store no larger than `390 × 780`;
+- p95 frame interval no slower than `34 ms` in the constrained headless runner.
+
+Latest local result on 24 July 2026:
+
+- average frame interval: approximately `20 ms` (about 50 fps);
+- p95 interval: `33.4 ms`;
+- backing store: `390 × 780`;
+- decoded resources: approximately `2.21 MB` across 30 requests.
+
+This improved the first DPR-3 audit from a `50 ms` p95 at a `585 × 1170` backing store.
 
 ## Asset budget
 
-The eight-frame run atlas is about 167 KB. The powered, glide/fall, and eight-frame jump/landing atlases are approximately 111 KB, 119 KB, and 140 KB. The wide transparent trail is about 64 KB. Full-resolution generation sources live under `art/` and are not included in the Vite output.
+Runtime character atlases are approximately:
 
-Jet fire is drawn from a handful of Canvas paths and gradients. No flame texture or particle atlas is decoded, and color/intensity changes do not require new artwork.
+- run: 167 KB;
+- powered glide: 111 KB;
+- free glide: 119 KB;
+- jump/landing: 140 KB;
+- double jump: 120 KB;
+- wall impact/recovery: 111 KB.
 
-The seasonal system does not decode or cross-fade full-screen plates. Tint and particle alpha weights are interpolated numerically over the flat blue sky and lightweight trail.
+The trail is 64 KB. The three planets are external SVG files between 1.3 and 1.6 KB each; `?no-inline` keeps their markup out of the JavaScript bundle. Full generation sources under `art/` are excluded from production.
 
-Gameplay images are not requested on the home route. `FlightGame.start()` begins their lazy load only after Play opens `#/game`, so the new textures do not compete with the existing home illustrations.
-
-The previous `390 × 704` filtered-background buffer has been removed. The main renderer now uses one sky fill and at most two trail draws, avoiding both the offscreen allocation and full-plate copy.
+Jet fire remains a few Canvas paths/gradients, so its color and intensity do not require another decoded atlas.
 
 ## Mobile behavior
 
 - gameplay is fixed to `100dvh`;
-- page overflow is hidden;
+- document overflow is hidden and overscroll is contained;
 - Canvas touch action is disabled;
-- overscroll is contained;
-- the board uses a fixed portrait aspect ratio;
 - safe-area insets are included;
-- the render backing store never exceeds 2× logical resolution.
+- the board preserves its portrait aspect ratio;
+- a high-density phone still uses only the `390 × 780` mobile backing store.
 
-The browser tests assert that a 390×844 game view has equal viewport/document height and `overflow: hidden`.
+Browser tests assert the no-scroll viewport contract and backing-store cap.
 
 ## Regression checks
 
@@ -45,12 +71,7 @@ Before deployment:
 npm test
 npm run test:e2e
 npm run build
+npm run audit:performance
 ```
 
-Review the production build for:
-
-- unexpectedly large new runtime images;
-- long main-thread frames while many obstacles are visible;
-- touch input causing page movement;
-- a changed canvas aspect ratio;
-- HUD or overlay DOM triggering layout outside the fixed game view.
+Investigate new full-screen images, per-frame filters, unnecessary DOM writes, growing entity lists, touch-driven page movement, or a changed Canvas backing size.

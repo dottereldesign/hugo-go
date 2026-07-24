@@ -1,11 +1,16 @@
 import { describe, expect, it } from 'vitest';
 import {
+  DOUBLE_JUMP_DURATION,
   FLIGHT_FRAME_COUNT,
   LANDING_FRAME_START,
+  WALL_RECOVERY_DURATION,
+  getDoubleJumpFrame,
   getFlightLoopFrame,
   getJetFlameAnchors,
   getLandingFrame,
   getTakeoffFrame,
+  getWallRecoveryFrame,
+  getWallStuckFrame,
 } from '../src/game/animation';
 import { JET_FLAME_COLORS } from '../src/game/FlightGame';
 
@@ -48,14 +53,31 @@ describe('Hugo character animation timing', () => {
           expect(anchor.x).toBeLessThan(0.5);
           expect(anchor.y).toBeGreaterThan(0.7);
           expect(anchor.y).toBeLessThan(0.95);
-          expect(anchor.angle).toBeGreaterThan(0);
-          expect(anchor.angle).toBeLessThan(0.35);
+          expect(anchor.angle).toBeGreaterThanOrEqual(0.45);
+          expect(anchor.angle).toBeLessThanOrEqual(0.7);
         }
       }
       expect(new Set(frameAnchors.map((anchors) => (
         anchors.map(({ x, y }) => `${x},${y}`).join('|')
       ))).size).toBeGreaterThan(3);
     }
+  });
+
+  it('plays every double-jump spin frame once before returning to flight', () => {
+    const frames = Array.from({ length: 6 }, (_, index) => (
+      getDoubleJumpFrame(index / 14).index
+    ));
+    expect(frames).toEqual([0, 1, 2, 3, 4, 5]);
+    expect(getDoubleJumpFrame(DOUBLE_JUMP_DURATION + 1).index).toBe(5);
+  });
+
+  it('holds the splat wobble and then plays all three recovery poses', () => {
+    expect(getWallStuckFrame(0).index).toBe(0);
+    expect([1, 2]).toContain(getWallStuckFrame(0.25).index);
+    expect([1, 2]).toContain(getWallStuckFrame(0.4).index);
+    expect(getWallRecoveryFrame(0).index).toBe(3);
+    expect(getWallRecoveryFrame(1 / 12).index).toBe(4);
+    expect(getWallRecoveryFrame(WALL_RECOVERY_DURATION).index).toBe(5);
   });
 
   it('uses a warm scorched-red fire palette without the old cyan flame', () => {

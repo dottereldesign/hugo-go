@@ -64,6 +64,25 @@ test('holding the game glides Hugo smoothly upward and release returns gravity',
   expect(afterRelease.velocityY).toBeGreaterThan(velocityAtRelease);
 });
 
+test('a fast second press triggers the authored double-jump state', async ({ page }) => {
+  await page.goto('/#/game');
+  const canvas = page.locator('#game-canvas');
+  await canvas.hover({ position: { x: 190, y: 420 } });
+  await page.mouse.down();
+  await page.waitForTimeout(70);
+  await page.mouse.up();
+  await page.waitForTimeout(70);
+  await page.mouse.down();
+  await page.waitForTimeout(90);
+  const doubleJump = await page.evaluate(() => ({ ...window.__HUGO_GO__.getGameState().hugo }));
+  await page.mouse.up();
+
+  expect(doubleJump.doubleJumpAvailable).toBe(false);
+  expect(doubleJump.doubleJumpTime).toBeLessThan(0.2);
+  expect(doubleJump.velocityY).toBeLessThan(-300);
+  await expect(page.locator('#game-phase')).toHaveText('DOUBLE JUMP');
+});
+
 test('lands on an obstacle, runs along it, and jumps cleanly from its top', async ({ page }) => {
   await page.goto('/#/game');
   await page.evaluate(() => {
@@ -81,7 +100,7 @@ test('lands on an obstacle, runs along it, and jumps cleanly from its top', asyn
       coins: [],
     });
     Object.assign(state.hugo, {
-      y: platformY - 58 - 6,
+      y: platformY - 50 - 6,
       velocityY: 240,
       grounded: false,
       thrusting: false,
@@ -111,9 +130,39 @@ test('lands on an obstacle, runs along it, and jumps cleanly from its top', asyn
   expect(jumping.jumpTime).toBeLessThan(0.34);
 });
 
-test('crashing records the run and Fly again restarts without a level screen', async ({ page }) => {
+test('a front impact splats first and a quick hold recovers the run', async ({ page }) => {
   await page.goto('/#/game');
-  await expect(page.locator('#game-over-overlay')).toBeVisible({ timeout: 6_000 });
+  await page.evaluate(() => {
+    const state = window.__HUGO_GO__.getGameState();
+    state.obstacles.splice(0, state.obstacles.length, {
+      id: 888,
+      kind: 'stump',
+      x: state.hugo.x + 34,
+      y: state.hugo.y - 10,
+      width: 100,
+      height: 110,
+    });
+    state.coins.splice(0);
+  });
+  await page.waitForFunction(() => window.__HUGO_GO__.getGameState().hugo.stuckObstacleId === 888);
+  await expect(page.locator('#game-phase')).toHaveText('STUCK — HOLD!');
+  await expect(page.locator('#game-over-overlay')).toBeHidden();
+
+  const canvas = page.locator('#game-canvas');
+  await canvas.hover({ position: { x: 190, y: 420 } });
+  await page.mouse.down();
+  await page.waitForTimeout(140);
+  const recovered = await page.evaluate(() => ({ ...window.__HUGO_GO__.getGameState().hugo }));
+  await page.mouse.up();
+  expect(recovered.stuckObstacleId).toBeNull();
+  expect(recovered.recoveryTime).toBeLessThan(0.25);
+  expect(recovered.velocityY).toBeLessThan(0);
+  await expect(page.locator('#game-over-overlay')).toBeHidden();
+});
+
+test('an unrecovered splat eventually records the run and retry skips level select', async ({ page }) => {
+  await page.goto('/#/game');
+  await expect(page.locator('#game-over-overlay')).toBeVisible({ timeout: 8_000 });
   await expect(page.locator('#game-over-result')).toHaveText(/\d+ m · \d+ coins?/);
   await expect(page.locator('#game-restart-button')).toBeFocused();
 

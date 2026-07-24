@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 360">
+  <defs>
+    <radialGradient id="halo" cx="50%" cy="50%" r="50%">
+      <stop offset="0.58" stop-color="#55f4ff" stop-opacity=".22"/>
+      <stop offset="1" stop-color="#55f4ff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="body" cx="34%" cy="27%" r="72%">
+      <stop offset="0" stop-color="#b9ffff"/>
+      <stop offset=".28" stop-color="#43d9ea"/>
+      <stop offset=".67" stop-color="#1667bd"/>
+      <stop offset="1" stop-color="#09275f"/>
+    </radialGradient>
+    <linearGradient id="ring" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#f9fff0" stop-opacity=".18"/>
+      <stop offset=".45" stop-color="#81efff" stop-opacity=".72"/>
+      <stop offset="1" stop-color="#466aff" stop-opacity=".18"/>
+    </linearGradient>
+    <clipPath id="planetClip"><circle cx="180" cy="180" r="94"/></clipPath>
+  </defs>
+  <circle cx="180" cy="180" r="176" fill="url(#halo)"/>
+  <ellipse cx="180" cy="180" rx="155" ry="48" fill="none" stroke="url(#ring)" stroke-width="18" transform="rotate(-16 180 180)"/>
+  <circle cx="180" cy="180" r="94" fill="url(#body)"/>
+  <g clip-path="url(#planetClip)" fill="none" opacity=".44">
+    <path d="M66 143c54 23 165 12 229-18" stroke="#a9ffff" stroke-width="13"/>
+    <path d="M63 188c72 29 177 25 236-5" stroke="#60d4e8" stroke-width="18"/>
+    <path d="M82 229c62 19 137 13 206-17" stroke="#9b8cff" stroke-width="11"/>
+  </g>
+  <path d="M109 112c30-36 80-49 124-29" fill="none" stroke="#fff" stroke-linecap="round" stroke-opacity=".55" stroke-width="9"/>
+</svg>

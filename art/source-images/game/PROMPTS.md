@@ -168,3 +168,41 @@ Use a perfectly flat uniform `#FF00FF` chroma-key background with no gradient, s
 No characters, buildings, signs, words, logos, UI, hazards, coins, animals, cultural patterns, watermarks, photorealism, repeating checker/tile pattern, or large foreground object. No sky artwork—the game supplies a solid blue sky in code.
 
 Generated sources: `trail-ground-magenta.png` and `trail-ground-transparent.png`.
+
+## Six-frame double-jump sheet
+
+Use case: identity-preserve game animation asset.
+
+Use the supplied Hugo flight/run sheets as the authoritative identity, face, outfit, proportions, right-facing camera, polished stylized 3D rendering, and scale reference. Create exactly six sequential full-body frames for one spectacular but readable airborne double jump:
+
+1. compact recoil/tuck immediately after the second input;
+2. upward corkscrew beginning, knees tucked;
+3. strongest twist at the jump apex;
+4. body opening out of the spin;
+5. legs and arms stabilizing toward flight;
+6. clean right-facing glide pose that connects to the powered-flight loop.
+
+Keep the same 10-year-old Hugo, natural non-caricatured facial anatomy, chunky windswept dark hair, teal jacket with orange trim, cream shirt, navy shorts over dark leggings, and white/teal shoes with visible heel thruster ports. Hair and jacket should follow the spin with believable delayed motion. No exaggerated eye shape or ethnic stereotype, franchise costume, weapon, headband, or Māori pattern.
+
+Layout: strict two-column by three-row grid in reading order, one full-body pose per equal cell, consistent camera/scale, generous gutters, nothing cropped or overlapping. Perfectly flat uniform `#FF00FF` background. No flame, exhaust, smoke, sparks, glow, motion trails, floor, cast shadow, text, labels, borders, logo, watermark, extra person, duplicate limb, or missing limb.
+
+Generated sources: `hugo-double-jump-sheet-magenta.png` and `hugo-double-jump-sheet-transparent.png`.
+
+## Six-frame wall impact and recovery sheet
+
+Use case: identity-preserve, non-injury game animation asset.
+
+Use the supplied Hugo sheets as the authoritative identity, outfit, proportions, right-facing camera, polished stylized 3D rendering, and scale reference. Create exactly six sequential full-body frames for a playful Looney-Tunes-style wall collision and recovery without pain, injury, bruising, or distress:
+
+1. surprised right-facing approach just before contact;
+2. harmless frontal star-splat pose, torso flat to an invisible vertical wall, arms and legs spread;
+3. compressed wobble while still attached;
+4. peeling torso and head away from the wall;
+5. compact recovery crouch/tuck;
+6. strong upward/rightward escape pose that connects to flight.
+
+Preserve the same 10-year-old Hugo, natural non-caricatured facial anatomy, hair, teal/orange jacket, cream shirt, navy shorts, dark leggings, sneakers, badges, and proportions. Keep the expression surprised and determined rather than hurt. No exaggerated eye shape or ethnic stereotype, franchise costume, weapon, headband, or Māori pattern.
+
+Layout: strict two-column by three-row grid in reading order, one full-body pose per equal cell, consistent camera/scale, generous gutters, nothing cropped or overlapping. The invisible impact wall must not be drawn. Perfectly flat uniform `#FF00FF` background. No flames, exhaust, smoke, sparks, blood, bruises, injury marks, text, labels, borders, logo, watermark, extra person, duplicate limb, or missing limb.
+
+Generated sources: `hugo-wall-recovery-sheet-magenta.png` and `hugo-wall-recovery-sheet-transparent.png`.

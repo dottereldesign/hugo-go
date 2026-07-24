@@ -19,9 +19,11 @@ The home screen still shows Workshop, Word, Number, Space, and Music so the prod
 | Touch | Press and hold the game | Jump once, then apply continuous upward shoe-jet acceleration |
 | Mouse/trackpad | Hold the primary button in the game | Jump once, then apply continuous upward shoe-jet acceleration |
 | Keyboard | Hold Space, Up Arrow, or W | Jump once, then apply continuous upward shoe-jet acceleration |
+| Any gameplay input | Release and press again within `0.48 s` | Trigger one stronger double jump |
+| Any gameplay input | Press while wall-splatted | Peel upward from the obstacle and resume flight |
 | Any | Back home | End the active view and return home |
 
-Input is press-and-hold rather than repeated impulses. A fresh press jumps from the current running surface. If Hugo walked off a platform without jumping, his first airborne press supplies one rescue jump; it cannot be repeated before the next landing. Thrust ramps smoothly while held, and releasing immediately returns control to gravity. Repeated `pointerdown` or keyboard-repeat events do not reset or multiply Hugo's velocity.
+The main input is press-and-hold rather than repeated impulses. A fresh press jumps from the current running surface; one deliberate rapid re-press within `0.48 s` supplies a stronger double jump. It cannot be repeated before landing. Thrust ramps smoothly while held, and releasing returns control to gravity. Browser-generated repeated pointer/key events do not reset or multiply velocity.
 
 ## Run rules
 
@@ -31,9 +33,10 @@ Input is press-and-hold rather than repeated impulses. A fresh press jumps from 
 4. Gravity returns Hugo to the first clear surface below him.
 5. The fixed ground and obstacle tops are safe running surfaces.
 6. Hugo remains grounded while an obstacle scrolls beneath him and falls when its trailing edge passes.
-7. Only a direct horizontal impact with an obstacle's front face ends the run.
-8. Coins are collected once and removed.
-9. A crash freezes the run, saves its result, and shows **Fly again**.
+7. A direct horizontal impact splats Hugo against the obstacle instead of ending the run immediately.
+8. Pressing while splatted peels Hugo upward with a short side-collision grace window. If he is pushed fully off-screen or remains stuck for `1.25 s`, the run ends.
+9. Coins are collected once and removed.
+10. A failed recovery freezes the run, saves its result, and shows **Fly again**.
 
 The opening obstacle is placed far enough away for the player to see the running state and learn the control.
 
@@ -48,7 +51,7 @@ Obstacle detection combines:
 - inclusive axis-aligned overlap, where exact edge contact counts;
 - swept rectangle helpers for diagnostic coverage;
 - swept top-crossing tests using relative world motion for platform landings;
-- front-face crossing tests for fatal impacts;
+- front-face crossing tests for wall attachment;
 - fixed-step integration for vertical falls and horizontal scrolling.
 
 This makes these outcomes explicit:
@@ -58,6 +61,9 @@ This makes these outcomes explicit:
 - fast downward travel through a thin platform still lands on its top;
 - a fall toward an obstacle top lands precisely on that top;
 - a supported Hugo runs at the platform height until its trailing edge passes;
+- front contact attaches Hugo to the scrolling obstacle without an immediate loss;
+- a recovery press clears the attachment and provides upward velocity;
+- an unrecovered Hugo is eventually pushed out and loses;
 - clear-ground descent lands exactly on the ground plane;
 - a coin can increment the run total only once.
 
@@ -81,18 +87,20 @@ The home profile, missions, resource counters, best-distance footer, and local l
 
 ## Presentation
 
-Hugo has four generated full-body animation atlases:
+Hugo has six generated full-body animation atlases:
 
 - an eight-frame grounded forward-leaning sprint cycle with arms swept back;
 - an eight-frame jump/landing sheet with push-off, airborne, falling, toe-contact, compression, and recovery poses;
 - a six-frame powered-glide loop with wind-rustled hair and jacket;
 - a six-frame unpowered glide/fall loop with distinct secondary motion.
+- a six-frame double-jump sheet with tuck, corkscrew, opening, and stabilization;
+- a six-frame non-injury wall-impact sheet with splat, wobble, peel, crouch, and upward recovery.
 
 All atlases play at 12 fps. Jumping uses the clean crouch and airborne silhouettes in transition frames 3–4; the two stiffer duplicate stride poses are intentionally skipped. Landing uses frames 5–8 before returning to the run cycle. The authored frames keep Hugo as a complete rendered character so cloth, lighting, hands, and joint occlusion stay coherent; splitting this particular 3D art into separately generated limbs would introduce seams and identity drift.
 
-The two shoe flames are Canvas paths rather than baked pixels. Each powered and glide atlas frame has two measured shoe-port anchors, so the fire follows the moving feet instead of using one fixed pair of points. Their scorched-red gradients, glow, length, opacity, and flicker respond to a smoothed thrust-intensity value. The editable palette is the exported `JET_FLAME_COLORS` object in `src/game/FlightGame.ts`.
+The two shoe flames are Canvas paths rather than baked pixels. Every powered and glide frame has two independently measured heel-port anchors and down/back angles, so each flame follows its own moving shoe. Their warm gradients, glow, length, opacity, and flicker respond to smoothed thrust intensity. The editable palette is the exported `JET_FLAME_COLORS` object in `src/game/FlightGame.ts`.
 
-The old full-screen Forest image is not loaded. The play corridor uses the `#26d9ff` blue from the HUGO GO! home wordmark as a clean sky, while a generated transparent ochre/scorched-red New Zealand forestry trail scrolls below it. Obstacles, coins, and weather particles remain procedural so hazard art and collision bounds stay aligned.
+The old full-screen Forest image is not loaded. The play corridor uses the `#26d9ff` blue from the HUGO GO! home wordmark as a clean sky, while a generated transparent ochre/scorched-red New Zealand forestry trail scrolls below it. Three external SVG planets fade in by distance with slow Canvas rotation. Obstacles are large red procedural silhouettes with stripe, facet, or panel identities, keeping their art aligned with collision bounds.
 
 ## Seasonal cycle
 
@@ -135,5 +143,4 @@ Hugo is 10 years old and has Japanese/New Zealand family heritage.
 - accounts and global leaderboards;
 - monetization;
 - multiplayer;
-- a dedicated non-injury game-over reaction animation;
 - authored audio specifically for shoe jets, coins, and impacts.

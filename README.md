@@ -10,11 +10,12 @@ Pressing **Play** on the home screen opens `#/game` and starts the run immediate
 - Desktop: hold the primary mouse button, Space, Up Arrow, or W to jump/fly; release to descend.
 - Hugo automatically runs on the ground and on obstacle tops.
 - Ground running uses an eight-pose generated cycle at 12 fps.
-- A first press while falling supplies one jump before the jets take over.
-- Obstacle tops are safe platforms; only a direct impact with an obstacle's front face ends the run.
+- A quick second press after takeoff triggers one stronger animated double jump.
+- Obstacle tops are safe platforms. A direct front impact splats Hugo against the red obstacle; press and hold quickly to peel away before the scrolling world pushes him off-screen.
 - Collect coins, increase distance, and set a local best.
-- A crash opens an immediate **Fly again** action.
+- Failing to recover from a splat opens an immediate **Fly again** action.
 - Forest World moves through Spring, Summer, Autumn, and Winter at 30-second boundaries, with a gradual ten-second blend before each change.
+- Huge, softly glowing planets rotate through the distant sky as the run progresses.
 
 Forest World is the one playable course. The other five world cards remain on the home screen in a muted, locked **Coming soon** state.
 
@@ -41,7 +42,7 @@ npm run test:e2e
 npm run build
 ```
 
-The tests cover deterministic held-thrust physics, first-press jumps, smooth release to gravity, ground and obstacle-top landing, running along and leaving a platform, frontal impacts, coin collection, per-frame flame anchors, animation timing, persistence, direct Play-to-game navigation, retry, and mobile no-scroll behavior.
+The tests cover deterministic held-thrust physics, double jumps, smooth release to gravity, ground and obstacle-top landing, wall splats and recovery, pushed-off loss, obstacle spacing, coin collection, per-frame flame anchors, animation timing, persistence, direct Play-to-game navigation, retry, and mobile no-scroll behavior.
 
 ## Project map
 

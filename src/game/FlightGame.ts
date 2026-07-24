@@ -1,14 +1,24 @@
+import auroraRingUrl from '../assets/game/planets/aurora-ring.svg?no-inline';
+import emberMoonUrl from '../assets/game/planets/ember-moon.svg?no-inline';
+import iceGiantUrl from '../assets/game/planets/ice-giant.svg?no-inline';
+import hugoDoubleJumpCycleUrl from '../assets/game/hugo-double-jump-cycle.webp';
 import hugoGlideCycleUrl from '../assets/game/hugo-glide-cycle.webp';
 import hugoJumpLandCycleUrl from '../assets/game/hugo-jump-land-cycle.webp';
 import hugoPoweredCycleUrl from '../assets/game/hugo-powered-cycle.webp';
 import hugoRunCycleUrl from '../assets/game/hugo-run-cycle.webp';
+import hugoWallRecoveryCycleUrl from '../assets/game/hugo-wall-recovery-cycle.webp';
 import trailGroundUrl from '../assets/game/trail-ground.webp';
 import {
+  DOUBLE_JUMP_DURATION,
+  WALL_RECOVERY_DURATION,
+  getDoubleJumpFrame,
   getFlightLoopFrame,
   getJetFlameAnchors,
   getLandingFrame,
   getRunFrame,
   getTakeoffFrame,
+  getWallRecoveryFrame,
+  getWallStuckFrame,
   RUN_FRAME_HEIGHT,
   RUN_FRAME_WIDTH,
   TRANSITION_DURATION,
@@ -69,13 +79,23 @@ export class FlightGame {
   private running = false;
   private runReported = false;
   private readonly context: CanvasRenderingContext2D;
+  private skyGradient: CanvasGradient | null = null;
   private assetsStarted = false;
   private readonly poweredCycleSprite = this.createSprite();
   private readonly glideCycleSprite = this.createSprite();
   private readonly jumpLandCycleSprite = this.createSprite();
+  private readonly doubleJumpCycleSprite = this.createSprite();
+  private readonly wallRecoveryCycleSprite = this.createSprite();
   private readonly runCycleSprite = this.createSprite();
   private readonly trailGroundSprite = this.createSprite();
+  private readonly auroraRingSprite = this.createSprite();
+  private readonly emberMoonSprite = this.createSprite();
+  private readonly iceGiantSprite = this.createSprite();
   private seasonLabel = '';
+  private hudDistance = -1;
+  private hudCoins = -1;
+  private hudBest = -1;
+  private hudPhase = '';
   private activePointerId: number | null = null;
   private readonly thrustKeys = new Set<string>();
 
@@ -153,7 +173,13 @@ export class FlightGame {
       this.syncThrustInput();
     });
     document.addEventListener('visibilitychange', () => {
-      if (document.hidden) this.clearThrustInputs();
+      if (document.hidden) {
+        this.clearThrustInputs();
+        cancelAnimationFrame(this.animationFrame);
+      } else if (this.running && this.state.phase === 'playing') {
+        cancelAnimationFrame(this.animationFrame);
+        this.animationFrame = requestAnimationFrame((time) => this.tick(time));
+      }
       this.previousFrameTime = performance.now();
     });
     window.addEventListener('blur', () => this.clearThrustInputs());
@@ -175,7 +201,8 @@ export class FlightGame {
   }
 
   private configureCanvas(): void {
-    const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+    const pixelRatioLimit = window.innerWidth <= 680 ? 1 : 2;
+    const pixelRatio = Math.min(window.devicePixelRatio || 1, pixelRatioLimit);
     this.elements.canvas.width = Math.round(GAME_WIDTH * pixelRatio);
     this.elements.canvas.height = Math.round(GAME_HEIGHT * pixelRatio);
     this.context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
@@ -217,18 +244,39 @@ export class FlightGame {
   }
 
   private updateHud(): void {
-    this.elements.distance.textContent = `${Math.floor(this.state.distance)} m`;
-    this.elements.coins.textContent = String(this.state.runCoins);
-    this.elements.best.textContent = `${Math.max(this.options.bestDistance(), Math.floor(this.state.distance))} m`;
+    const distance = Math.floor(this.state.distance);
+    const best = Math.max(this.options.bestDistance(), distance);
+    if (distance !== this.hudDistance) {
+      this.hudDistance = distance;
+      this.elements.distance.textContent = `${distance} m`;
+    }
+    if (this.state.runCoins !== this.hudCoins) {
+      this.hudCoins = this.state.runCoins;
+      this.elements.coins.textContent = String(this.state.runCoins);
+    }
+    if (best !== this.hudBest) {
+      this.hudBest = best;
+      this.elements.best.textContent = `${best} m`;
+    }
     const season = getSeasonVisual(this.state.elapsed);
     if (this.seasonLabel !== season.label) {
       this.seasonLabel = season.label;
       this.elements.season.textContent = season.label.toUpperCase();
     }
     if (this.state.phase === 'playing') {
-      this.elements.phase.textContent = this.state.hugo.grounded
-        ? 'RUNNING'
-        : this.state.hugo.thrusting ? 'THRUST' : 'GLIDING';
+      const phase = this.state.hugo.stuckObstacleId !== null
+        ? 'STUCK — HOLD!'
+        : this.state.hugo.recoveryTime < WALL_RECOVERY_DURATION
+          ? 'RECOVERING'
+          : this.state.hugo.doubleJumpTime < DOUBLE_JUMP_DURATION
+            ? 'DOUBLE JUMP'
+            : this.state.hugo.grounded
+              ? 'RUNNING'
+              : this.state.hugo.thrusting ? 'THRUST' : 'GLIDING';
+      if (phase !== this.hudPhase) {
+        this.hudPhase = phase;
+        this.elements.phase.textContent = phase;
+      }
     }
   }
 
@@ -237,6 +285,7 @@ export class FlightGame {
     const season = getSeasonVisual(this.state.elapsed);
     context.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
     this.drawSky(context);
+    this.drawPlanets(context);
     this.drawGround(context);
     this.drawSeasonAtmosphere(context, season);
     this.drawCoins(context);
@@ -246,8 +295,43 @@ export class FlightGame {
   }
 
   private drawSky(context: CanvasRenderingContext2D): void {
-    context.fillStyle = '#26d9ff';
+    if (!this.skyGradient) {
+      this.skyGradient = context.createLinearGradient(0, 0, 0, GROUND_Y);
+      this.skyGradient.addColorStop(0, '#20c8f3');
+      this.skyGradient.addColorStop(1, '#31e1ff');
+    }
+    context.fillStyle = this.skyGradient;
     context.fillRect(0, 0, GAME_WIDTH, GROUND_Y);
+  }
+
+  private drawPlanets(context: CanvasRenderingContext2D): void {
+    const scenes = [
+      { sprite: this.auroraRingSprite, start: 18, end: 190, size: 330, x: 292, y: 218, rate: 0.018 },
+      { sprite: this.emberMoonSprite, start: 170, end: 390, size: 280, x: 82, y: 286, rate: -0.013 },
+      { sprite: this.iceGiantSprite, start: 360, end: 650, size: 350, x: 286, y: 190, rate: 0.010 },
+    ] as const;
+    const distance = this.state.distance;
+
+    for (const scene of scenes) {
+      if (!scene.sprite.ready || distance < scene.start || distance > scene.end) continue;
+      const fadeIn = clamp01((distance - scene.start) / 30);
+      const fadeOut = clamp01((scene.end - distance) / 42);
+      const opacity = Math.min(fadeIn, fadeOut) * 0.34;
+      const parallaxX = scene.x - (distance - scene.start) * 0.31;
+
+      context.save();
+      context.globalAlpha = opacity;
+      context.translate(parallaxX, scene.y);
+      context.rotate(this.state.elapsed * scene.rate);
+      context.drawImage(
+        scene.sprite,
+        -scene.size / 2,
+        -scene.size / 2,
+        scene.size,
+        scene.size,
+      );
+      context.restore();
+    }
   }
 
   private drawSeasonAtmosphere(context: CanvasRenderingContext2D, season: SeasonVisual): void {
@@ -318,7 +402,7 @@ export class FlightGame {
       return;
     }
 
-    const drawHeight = 200;
+    const drawHeight = 132;
     const drawWidth = drawHeight * (
       this.trailGroundSprite.naturalWidth / this.trailGroundSprite.naturalHeight
     );
@@ -328,7 +412,7 @@ export class FlightGame {
       context.drawImage(
         this.trailGroundSprite,
         x,
-        GROUND_Y - 49,
+        GROUND_Y - 33,
         drawWidth,
         drawHeight,
       );
@@ -364,46 +448,73 @@ export class FlightGame {
   private drawObstacle(context: CanvasRenderingContext2D, obstacle: Obstacle): void {
     context.save();
     context.translate(obstacle.x, obstacle.y);
-    const gradient = context.createLinearGradient(0, 0, obstacle.width, obstacle.height);
-    gradient.addColorStop(0, obstacle.kind === 'boulder' ? '#8d8776' : '#a26332');
-    gradient.addColorStop(1, obstacle.kind === 'boulder' ? '#4b5147' : '#543216');
-    context.fillStyle = gradient;
-    context.strokeStyle = '#263c24';
+    context.fillStyle = obstacle.kind === 'log'
+      ? '#ed334e'
+      : obstacle.kind === 'boulder' ? '#d8204f' : '#bb173f';
+    context.strokeStyle = '#6f0d2b';
     context.lineWidth = 4;
-    context.beginPath();
-    context.roundRect(0, 0, obstacle.width, obstacle.height + 3, obstacle.kind === 'boulder' ? 13 : 7);
-    context.fill();
-    context.stroke();
-
-    context.strokeStyle = obstacle.kind === 'boulder' ? '#aaa78e' : '#d18b45';
-    context.lineWidth = 3;
     if (obstacle.kind === 'log') {
-      for (let y = 18; y < obstacle.height; y += 22) {
+      context.beginPath();
+      context.roundRect(0, 0, obstacle.width, obstacle.height + 3, 8);
+      context.fill();
+      context.stroke();
+      context.save();
+      context.beginPath();
+      context.roundRect(2, 2, obstacle.width - 4, obstacle.height - 1, 6);
+      context.clip();
+      context.strokeStyle = '#ff7890';
+      context.lineWidth = 7;
+      for (let x = -obstacle.height; x < obstacle.width; x += 28) {
         context.beginPath();
-        context.moveTo(8, y);
-        context.lineTo(obstacle.width - 8, y - 8);
+        context.moveTo(x, obstacle.height);
+        context.lineTo(x + obstacle.height, 0);
         context.stroke();
       }
+      context.restore();
     } else if (obstacle.kind === 'boulder') {
       context.beginPath();
-      context.moveTo(8, obstacle.height * 0.55);
-      context.lineTo(obstacle.width * 0.45, 12);
-      context.lineTo(obstacle.width - 8, obstacle.height * 0.43);
+      context.moveTo(0, 0);
+      context.lineTo(obstacle.width, 0);
+      context.lineTo(obstacle.width * 0.86, obstacle.height);
+      context.lineTo(obstacle.width * 0.14, obstacle.height);
+      context.closePath();
+      context.fill();
+      context.stroke();
+      context.strokeStyle = '#ff6d8d';
+      context.lineWidth = 3;
+      context.beginPath();
+      context.moveTo(4, 4);
+      context.lineTo(obstacle.width * 0.48, obstacle.height * 0.43);
+      context.lineTo(obstacle.width * 0.23, obstacle.height);
+      context.moveTo(obstacle.width - 4, 4);
+      context.lineTo(obstacle.width * 0.48, obstacle.height * 0.43);
+      context.lineTo(obstacle.width * 0.74, obstacle.height);
       context.stroke();
     } else {
       context.beginPath();
-      context.ellipse(obstacle.width / 2, 7, obstacle.width * 0.37, 5, 0, 0, Math.PI * 2);
+      context.rect(0, 0, obstacle.width, obstacle.height + 3);
+      context.fill();
       context.stroke();
+      context.fillStyle = '#ed345c';
+      context.fillRect(8, 8, obstacle.width - 16, obstacle.height - 13);
+      context.strokeStyle = '#ff7895';
+      context.lineWidth = 3;
       context.beginPath();
-      context.moveTo(12, 20);
-      context.lineTo(obstacle.width - 12, obstacle.height - 12);
+      context.moveTo(obstacle.width / 2, 10);
+      context.lineTo(obstacle.width / 2, obstacle.height - 9);
+      context.moveTo(10, obstacle.height * 0.33);
+      context.lineTo(obstacle.width - 10, obstacle.height * 0.33);
+      context.moveTo(10, obstacle.height * 0.66);
+      context.lineTo(obstacle.width - 10, obstacle.height * 0.66);
       context.stroke();
     }
 
-    context.strokeStyle = 'rgba(255, 213, 71, .54)';
+    context.strokeStyle = 'rgba(255, 185, 199, .72)';
     context.lineWidth = 2;
-    context.setLineDash([5, 5]);
-    context.strokeRect(1, 1, obstacle.width - 2, obstacle.height - 1);
+    context.beginPath();
+    context.moveTo(5, 5);
+    context.lineTo(obstacle.width - 5, 5);
+    context.stroke();
     context.restore();
   }
 
@@ -412,7 +523,7 @@ export class FlightGame {
 
     if (hugo.grounded && hugo.groundedTime >= TRANSITION_DURATION && this.runCycleSprite.ready) {
       const runFrame = getRunFrame(this.state.elapsed);
-      const drawHeight = 106;
+      const drawHeight = 90;
       const drawWidth = drawHeight * (RUN_FRAME_WIDTH / RUN_FRAME_HEIGHT);
       context.save();
       context.drawImage(
@@ -421,7 +532,7 @@ export class FlightGame {
         runFrame.sourceY,
         RUN_FRAME_WIDTH,
         RUN_FRAME_HEIGHT,
-        hugo.x - 43,
+        hugo.x - 38,
         hugo.y + HUGO_HEIGHT - drawHeight + runFrame.verticalOffset,
         drawWidth,
         drawHeight,
@@ -432,15 +543,15 @@ export class FlightGame {
 
     const animatedPose = this.getAnimatedFlightPose();
     if (animatedPose) {
-      const drawHeight = 118;
+      const drawHeight = 100;
       const drawWidth = drawHeight * (RUN_FRAME_WIDTH / RUN_FRAME_HEIGHT);
-      const drawX = hugo.x - 52;
+      const drawX = hugo.x - 44;
       const drawY = hugo.y + HUGO_HEIGHT - drawHeight;
 
       if (
         !hugo.grounded
         && hugo.thrustIntensity > 0.01
-        && animatedPose.kind !== 'transition'
+        && (animatedPose.kind === 'powered' || animatedPose.kind === 'glide')
       ) {
         this.drawJetFlames(
           context,
@@ -454,8 +565,17 @@ export class FlightGame {
         );
       }
 
+      if (animatedPose.kind === 'doubleJump') {
+        this.drawDoubleJumpEffect(context);
+      } else if (animatedPose.kind === 'wall' && hugo.stuckObstacleId !== null) {
+        this.drawWallImpactEffect(context);
+      }
+
       context.save();
-      if (animatedPose.kind !== 'transition' && hugo.thrustIntensity > 0.12) {
+      if (
+        (animatedPose.kind === 'powered' || animatedPose.kind === 'glide')
+        && hugo.thrustIntensity > 0.12
+      ) {
         context.shadowColor = JET_FLAME_COLORS.glow;
         context.shadowBlur = 12 * hugo.thrustIntensity;
       }
@@ -484,9 +604,30 @@ export class FlightGame {
   private getAnimatedFlightPose(): {
     sprite: LoadedSprite;
     frame: AtlasFrame;
-    kind: FlightPoseKind | 'transition';
+    kind: FlightPoseKind | 'transition' | 'doubleJump' | 'wall';
   } | null {
     const { hugo } = this.state;
+    if (hugo.stuckObstacleId !== null && this.wallRecoveryCycleSprite.ready) {
+      return {
+        sprite: this.wallRecoveryCycleSprite,
+        frame: getWallStuckFrame(hugo.stuckTime),
+        kind: 'wall',
+      };
+    }
+    if (hugo.recoveryTime < WALL_RECOVERY_DURATION && this.wallRecoveryCycleSprite.ready) {
+      return {
+        sprite: this.wallRecoveryCycleSprite,
+        frame: getWallRecoveryFrame(hugo.recoveryTime),
+        kind: 'wall',
+      };
+    }
+    if (hugo.doubleJumpTime < DOUBLE_JUMP_DURATION && this.doubleJumpCycleSprite.ready) {
+      return {
+        sprite: this.doubleJumpCycleSprite,
+        frame: getDoubleJumpFrame(hugo.doubleJumpTime),
+        kind: 'doubleJump',
+      };
+    }
     if (hugo.grounded && this.jumpLandCycleSprite.ready) {
       return {
         sprite: this.jumpLandCycleSprite,
@@ -516,6 +657,53 @@ export class FlightGame {
       };
     }
     return null;
+  }
+
+  private drawDoubleJumpEffect(context: CanvasRenderingContext2D): void {
+    const progress = clamp01(this.state.hugo.doubleJumpTime / DOUBLE_JUMP_DURATION);
+    const centerX = this.state.hugo.x + HUGO_WIDTH / 2;
+    const centerY = this.state.hugo.y + HUGO_HEIGHT / 2;
+    context.save();
+    context.translate(centerX, centerY);
+    context.rotate(this.state.hugo.doubleJumpTime * 11);
+    context.globalAlpha = Math.sin(progress * Math.PI) * 0.72;
+    context.strokeStyle = '#fff0a3';
+    context.lineWidth = 3;
+    context.beginPath();
+    context.arc(0, 0, 24 + progress * 18, -0.4, 1.8);
+    context.stroke();
+    context.strokeStyle = '#63f4ff';
+    context.lineWidth = 2;
+    context.beginPath();
+    context.arc(0, 0, 31 + progress * 22, 2.3, 5.7);
+    context.stroke();
+    context.fillStyle = '#fff6b8';
+    for (let index = 0; index < 5; index += 1) {
+      const angle = index * (Math.PI * 2 / 5);
+      const radius = 34 + progress * 24;
+      context.beginPath();
+      context.arc(Math.cos(angle) * radius, Math.sin(angle) * radius, 2.2, 0, Math.PI * 2);
+      context.fill();
+    }
+    context.restore();
+  }
+
+  private drawWallImpactEffect(context: CanvasRenderingContext2D): void {
+    const impact = clamp01(1 - this.state.hugo.stuckTime / 0.24);
+    if (impact <= 0) return;
+    const x = this.state.hugo.x + HUGO_WIDTH + 2;
+    const y = this.state.hugo.y + HUGO_HEIGHT / 2;
+    context.save();
+    context.globalAlpha = impact * 0.7;
+    context.strokeStyle = '#ffd1da';
+    context.lineWidth = 3;
+    for (let index = -2; index <= 2; index += 1) {
+      context.beginPath();
+      context.moveTo(x + 3, y + index * 8);
+      context.lineTo(x + 12 + impact * 10, y + index * 13);
+      context.stroke();
+    }
+    context.restore();
   }
 
   private drawJetFlames(
@@ -586,10 +774,10 @@ export class FlightGame {
     context.fillStyle = '#fffbe0';
     context.textAlign = 'center';
     context.font = '900 19px Inter, sans-serif';
-    context.fillText('PRESS & HOLD TO JUMP + FLY', GAME_WIDTH / 2, 191);
+    context.fillText('HOLD TO JUMP + FLY', GAME_WIDTH / 2, 191);
     context.fillStyle = '#c9f7ff';
     context.font = '700 11px Inter, sans-serif';
-    context.fillText('Release to descend · Space, ↑ or W', GAME_WIDTH / 2, 215);
+    context.fillText('Quick re-press = double jump · Hold if stuck', GAME_WIDTH / 2, 215);
     context.restore();
   }
 
@@ -609,11 +797,20 @@ export class FlightGame {
     this.poweredCycleSprite.src = hugoPoweredCycleUrl;
     this.glideCycleSprite.src = hugoGlideCycleUrl;
     this.jumpLandCycleSprite.src = hugoJumpLandCycleUrl;
+    this.doubleJumpCycleSprite.src = hugoDoubleJumpCycleUrl;
+    this.wallRecoveryCycleSprite.src = hugoWallRecoveryCycleUrl;
     this.runCycleSprite.src = hugoRunCycleUrl;
     this.trailGroundSprite.src = trailGroundUrl;
+    this.auroraRingSprite.src = auroraRingUrl;
+    this.emberMoonSprite.src = emberMoonUrl;
+    this.iceGiantSprite.src = iceGiantUrl;
   }
 }
 
 function modulo(value: number, divisor: number): number {
   return ((value % divisor) + divisor) % divisor;
+}
+
+function clamp01(value: number): number {
+  return Math.max(0, Math.min(1, value));
 }

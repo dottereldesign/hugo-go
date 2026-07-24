@@ -80,21 +80,32 @@ describe('HUGO GO! deterministic flight physics', () => {
     expect(state.hugo.velocityY).toBe(velocityBeforeRepeatedPress);
   });
 
-  it('gives a falling Hugo one first-press jump without enabling repeated air jumps', () => {
+  it('turns a fast second press into one stronger double jump', () => {
     const state = clearCourse();
-    state.hugo.y = 420;
-    state.hugo.velocityY = 260;
-    state.hugo.grounded = false;
-    state.hugo.jumpAvailable = true;
     setFlightThrust(state, true);
-    const firstJumpVelocity = state.hugo.velocityY;
-    expect(firstJumpVelocity).toBeLessThan(0);
-    expect(state.hugo.jumpTime).toBe(0);
-    expect(state.hugo.jumpAvailable).toBe(false);
-
+    advanceFlight(state, 0.12);
     setFlightThrust(state, false);
     setFlightThrust(state, true);
-    expect(state.hugo.velocityY).toBe(firstJumpVelocity);
+    expect(state.hugo.velocityY).toBeLessThan(-400);
+    expect(state.hugo.doubleJumpTime).toBe(0);
+    expect(state.hugo.doubleJumpAvailable).toBe(false);
+
+    const doubleJumpVelocity = state.hugo.velocityY;
+    setFlightThrust(state, false);
+    setFlightThrust(state, true);
+    expect(state.hugo.velocityY).toBe(doubleJumpVelocity);
+  });
+
+  it('does not grant the double jump after the fast-press window closes', () => {
+    const state = clearCourse();
+    setFlightThrust(state, true);
+    setFlightThrust(state, false);
+    advanceFlight(state, 0.25);
+    advanceFlight(state, 0.25);
+    const velocityBeforeLatePress = state.hugo.velocityY;
+    setFlightThrust(state, true);
+    expect(state.hugo.velocityY).toBe(velocityBeforeLatePress);
+    expect(state.hugo.doubleJumpTime).toBe(Number.POSITIVE_INFINITY);
   });
 
   it('lands precisely on clear ground and resumes running', () => {
@@ -151,7 +162,7 @@ describe('HUGO GO! deterministic flight physics', () => {
 
   it('lands on a thin obstacle even after a long frame', () => {
     const state = clearCourse();
-    const hazard = obstacle({ x: state.hugo.x - 3, y: 500, width: HUGO_WIDTH + 6, height: 8 });
+    const hazard = obstacle({ x: state.hugo.x - 3, y: 500, width: HUGO_WIDTH + 60, height: 8 });
     state.obstacles = [hazard];
     state.hugo.y = 390;
     state.hugo.velocityY = 560;
@@ -192,7 +203,7 @@ describe('HUGO GO! deterministic flight physics', () => {
     expect(state.hugo.y).toBeGreaterThan(platformRunY);
   });
 
-  it('only ends the run when Hugo meets the obstacle front face', () => {
+  it('sticks Hugo harmlessly to an obstacle front instead of ending immediately', () => {
     const state = clearCourse();
     state.obstacles = [obstacle({
       x: state.hugo.x + HUGO_WIDTH + 1,
@@ -201,8 +212,43 @@ describe('HUGO GO! deterministic flight physics', () => {
     })];
     setFlightThrust(state, true);
     advanceFlight(state, 0.04);
-    expect(state.phase).toBe('gameover');
+    expect(state.phase).toBe('playing');
+    expect(state.hugo.stuckObstacleId).toBe(99);
     expect(state.hugo.thrusting).toBe(false);
+  });
+
+  it('lets a stuck Hugo spring upward before the recovery window expires', () => {
+    const state = clearCourse();
+    state.obstacles = [obstacle({
+      x: state.hugo.x + HUGO_WIDTH + 1,
+      y: state.hugo.y - 10,
+      height: HUGO_HEIGHT + 10,
+    })];
+    advanceFlight(state, 0.04);
+    expect(state.hugo.stuckObstacleId).toBe(99);
+    const stuckY = state.hugo.y;
+
+    setFlightThrust(state, true);
+    expect(state.hugo.stuckObstacleId).toBeNull();
+    expect(state.hugo.recoveryTime).toBe(0);
+    advanceFlight(state, 0.12);
+    expect(state.phase).toBe('playing');
+    expect(state.hugo.y).toBeLessThan(stuckY);
+    expect(state.hugo.recoveryGrace).toBeGreaterThan(0);
+  });
+
+  it('ends only after an unrecovered wall impact pushes Hugo off screen', () => {
+    const state = clearCourse();
+    state.obstacles = [obstacle({
+      x: state.hugo.x + HUGO_WIDTH + 1,
+      y: state.hugo.y - 10,
+      height: HUGO_HEIGHT + 10,
+    })];
+    advanceFlight(state, 0.04);
+    expect(state.phase).toBe('playing');
+    for (let index = 0; index < 6; index += 1) advanceFlight(state, 0.2);
+    expect(state.phase).toBe('gameover');
+    expect(state.hugo.x).toBeLessThanOrEqual(-HUGO_WIDTH);
   });
 
   it('keeps substantially more running room between obstacle groups', () => {
@@ -210,7 +256,7 @@ describe('HUGO GO! deterministic flight physics', () => {
     const clearances = state.obstacles.slice(1).map((current, index) => (
       current.x - (state.obstacles[index].x + state.obstacles[index].width)
     ));
-    expect(Math.min(...clearances)).toBeGreaterThanOrEqual(390);
+    expect(Math.min(...clearances)).toBeGreaterThanOrEqual(560);
   });
 
   it('collects each coin exactly once', () => {

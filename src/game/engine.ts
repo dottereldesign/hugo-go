@@ -1,9 +1,9 @@
 export const GAME_WIDTH = 390;
 export const GAME_HEIGHT = 780;
 export const GROUND_Y = 704;
-export const HUGO_X = 82;
-export const HUGO_WIDTH = 38;
-export const HUGO_HEIGHT = 58;
+export const HUGO_X = 72;
+export const HUGO_WIDTH = 32;
+export const HUGO_HEIGHT = 50;
 export const FIXED_STEP = 1 / 120;
 
 const GRAVITY = 1_000;
@@ -17,6 +17,12 @@ const SPEED_RAMP_PER_SECOND = 0.72;
 const METRES_PER_PIXEL = 0.085;
 const CEILING_Y = 34;
 const JUMP_VELOCITY = -360;
+const DOUBLE_JUMP_VELOCITY = -430;
+export const DOUBLE_JUMP_WINDOW = 0.48;
+const WALL_RECOVERY_VELOCITY = -450;
+const WALL_RECOVERY_GRACE = 0.48;
+const WALL_STUCK_TIMEOUT = 1.25;
+const RECOVERY_X_SPEED = 170;
 const COLLISION_EPSILON = 0.001;
 
 export type GamePhase = 'playing' | 'gameover';
@@ -40,7 +46,13 @@ export interface HugoState {
   groundedTime: number;
   jumpTime: number;
   jumpAvailable: boolean;
+  doubleJumpAvailable: boolean;
+  doubleJumpTime: number;
   surfaceId: number | null;
+  stuckObstacleId: number | null;
+  stuckTime: number;
+  recoveryTime: number;
+  recoveryGrace: number;
 }
 
 export interface Obstacle extends Rect {
@@ -87,7 +99,13 @@ export function createFlightGame(randomSeed = 0x48_55_47_4f): FlightGameState {
       groundedTime: 1,
       jumpTime: Number.POSITIVE_INFINITY,
       jumpAvailable: true,
+      doubleJumpAvailable: false,
+      doubleJumpTime: Number.POSITIVE_INFINITY,
       surfaceId: null,
+      stuckObstacleId: null,
+      stuckTime: 0,
+      recoveryTime: Number.POSITIVE_INFINITY,
+      recoveryGrace: 0,
     },
     obstacles: [],
     coins: [],
@@ -95,9 +113,9 @@ export function createFlightGame(randomSeed = 0x48_55_47_4f): FlightGameState {
     randomSeed: randomSeed >>> 0,
   };
 
-  spawnObstacleGroup(state, 620, 'log', 70, 100);
-  spawnObstacleGroup(state, 1_120, 'boulder', 94, 120);
-  spawnObstacleGroup(state, 1_660, 'stump', 112, 90);
+  spawnObstacleGroup(state, 720, 'log', 70, 100);
+  spawnObstacleGroup(state, 1_420, 'boulder', 94, 120);
+  spawnObstacleGroup(state, 2_160, 'stump', 112, 90);
   return state;
 }
 
@@ -105,12 +123,25 @@ export function setFlightThrust(state: FlightGameState, thrusting: boolean): boo
   if (state.phase !== 'playing') return false;
   const freshPress = thrusting && !state.hugo.thrusting;
   state.hugo.thrusting = thrusting;
-  if (freshPress && state.hugo.jumpAvailable) {
+  if (freshPress && state.hugo.stuckObstacleId !== null) {
+    recoverFromWall(state);
+  } else if (freshPress && state.hugo.jumpAvailable) {
     state.hugo.velocityY = JUMP_VELOCITY;
     state.hugo.grounded = false;
     state.hugo.surfaceId = null;
     state.hugo.jumpAvailable = false;
+    state.hugo.doubleJumpAvailable = true;
     state.hugo.jumpTime = 0;
+  } else if (
+    freshPress
+    && state.hugo.doubleJumpAvailable
+    && state.hugo.jumpTime <= DOUBLE_JUMP_WINDOW
+  ) {
+    state.hugo.velocityY = DOUBLE_JUMP_VELOCITY;
+    state.hugo.grounded = false;
+    state.hugo.surfaceId = null;
+    state.hugo.doubleJumpAvailable = false;
+    state.hugo.doubleJumpTime = 0;
   }
   return true;
 }
@@ -197,10 +228,21 @@ function advanceFixedStep(state: FlightGameState, elapsedSeconds: number): void 
     THRUST_RESPONSE_PER_SECOND * elapsedSeconds,
   );
   state.hugo.jumpTime += elapsedSeconds;
+  state.hugo.doubleJumpTime += elapsedSeconds;
+  state.hugo.recoveryTime += elapsedSeconds;
+  state.hugo.recoveryGrace = Math.max(0, state.hugo.recoveryGrace - elapsedSeconds);
 
   for (const obstacle of state.obstacles) obstacle.x -= worldMovement;
   for (const coin of state.coins) coin.x -= worldMovement;
 
+  if (state.hugo.stuckObstacleId !== null) {
+    advanceWallStuck(state, elapsedSeconds);
+    removeExpiredEntities(state);
+    ensureCourseAhead(state);
+    return;
+  }
+
+  state.hugo.x = moveTowards(state.hugo.x, HUGO_X, RECOVERY_X_SPEED * elapsedSeconds);
   const jetAcceleration = state.hugo.thrusting ? JET_ACCELERATION : 0;
   state.hugo.velocityY = clamp(
     state.hugo.velocityY + (GRAVITY - jetAcceleration) * elapsedSeconds,
@@ -224,9 +266,13 @@ function advanceFixedStep(state: FlightGameState, elapsedSeconds: number): void 
       if (!landingSurface || obstacle.y < landingSurface.y) landingSurface = obstacle;
       continue;
     }
-    if (runsIntoObstacle(previousHugo, hugoDeltaY, worldMovement, previousObstacle)) {
-      state.phase = 'gameover';
-      state.hugo.thrusting = false;
+    if (
+      state.hugo.recoveryGrace <= 0
+      && runsIntoObstacle(previousHugo, hugoDeltaY, worldMovement, previousObstacle)
+    ) {
+      stickHugoToObstacle(state, obstacle);
+      removeExpiredEntities(state);
+      ensureCourseAhead(state);
       return;
     }
   }
@@ -249,6 +295,8 @@ function advanceFixedStep(state: FlightGameState, elapsedSeconds: number): void 
     state.hugo.airborneTime = 0;
     state.hugo.groundedTime = wasGrounded ? state.hugo.groundedTime + elapsedSeconds : 0;
     state.hugo.jumpAvailable = true;
+    state.hugo.doubleJumpAvailable = false;
+    state.hugo.doubleJumpTime = Number.POSITIVE_INFINITY;
   } else {
     state.hugo.airborneTime = wasGrounded ? elapsedSeconds : state.hugo.airborneTime + elapsedSeconds;
     state.hugo.groundedTime = 0;
@@ -344,7 +392,7 @@ function ensureCourseAhead(state: FlightGameState): void {
   if (lastObstacle && lastObstacle.x > GAME_WIDTH + 470) return;
 
   const previousRight = lastObstacle ? lastObstacle.x + lastObstacle.width : GAME_WIDTH + 250;
-  const gap = randomBetween(state, 390, 520);
+  const gap = randomBetween(state, 560, 740);
   const height = randomBetween(state, 66, 124);
   const width = randomBetween(state, 82, 130);
   const kinds: readonly ObstacleKind[] = ['log', 'boulder', 'stump'];
@@ -389,6 +437,51 @@ function randomBetween(state: FlightGameState, minimum: number, maximum: number)
 
 function clamp(value: number, minimum: number, maximum: number): number {
   return Math.max(minimum, Math.min(maximum, value));
+}
+
+function stickHugoToObstacle(state: FlightGameState, obstacle: Obstacle): void {
+  state.hugo.x = obstacle.x - HUGO_WIDTH;
+  state.hugo.velocityY = 0;
+  state.hugo.grounded = false;
+  state.hugo.thrusting = false;
+  state.hugo.surfaceId = null;
+  state.hugo.stuckObstacleId = obstacle.id;
+  state.hugo.stuckTime = 0;
+  state.hugo.jumpAvailable = false;
+  state.hugo.doubleJumpAvailable = false;
+}
+
+function recoverFromWall(state: FlightGameState): void {
+  state.hugo.stuckObstacleId = null;
+  state.hugo.stuckTime = 0;
+  state.hugo.velocityY = WALL_RECOVERY_VELOCITY;
+  state.hugo.grounded = false;
+  state.hugo.jumpAvailable = false;
+  state.hugo.doubleJumpAvailable = true;
+  state.hugo.jumpTime = 0;
+  state.hugo.recoveryTime = 0;
+  state.hugo.recoveryGrace = WALL_RECOVERY_GRACE;
+}
+
+function advanceWallStuck(state: FlightGameState, elapsedSeconds: number): void {
+  const obstacle = state.obstacles.find((candidate) => candidate.id === state.hugo.stuckObstacleId);
+  state.hugo.stuckTime += elapsedSeconds;
+  state.hugo.velocityY = 0;
+  state.hugo.thrustIntensity = moveTowards(
+    state.hugo.thrustIntensity,
+    0,
+    THRUST_RESPONSE_PER_SECOND * elapsedSeconds,
+  );
+
+  if (!obstacle) {
+    state.phase = 'gameover';
+    return;
+  }
+
+  state.hugo.x = obstacle.x - HUGO_WIDTH;
+  if (state.hugo.x <= -HUGO_WIDTH || state.hugo.stuckTime >= WALL_STUCK_TIMEOUT) {
+    state.phase = 'gameover';
+  }
 }
 
 function moveTowards(value: number, target: number, maximumDelta: number): number {

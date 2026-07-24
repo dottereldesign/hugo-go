@@ -54,7 +54,10 @@ test('loads the generated character and trail art over a clean blue sky', async 
       && resources.some((name) => name.includes('hugo-run-cycle'))
       && resources.some((name) => name.includes('hugo-powered-cycle'))
       && resources.some((name) => name.includes('hugo-glide-cycle'))
-      && resources.some((name) => name.includes('hugo-jump-land-cycle'));
+      && resources.some((name) => name.includes('hugo-jump-land-cycle'))
+      && resources.some((name) => name.includes('hugo-double-jump-cycle'))
+      && resources.some((name) => name.includes('hugo-wall-recovery-cycle'))
+      && resources.some((name) => name.includes('aurora-ring'));
   });
   const skyPixel = await page.locator('#game-canvas').evaluate((canvas) => (
     Array.from((canvas as HTMLCanvasElement).getContext('2d')!.getImageData(10, 10, 1, 1).data)
@@ -86,9 +89,11 @@ test('locks mobile gameplay to the viewport with no page scrolling', async ({ pa
     bodyHeight: document.body.scrollHeight,
     bodyOverflow: getComputedStyle(document.body).overflow,
     touchAction: getComputedStyle(document.querySelector('#game-canvas')!).touchAction,
+    canvasWidth: (document.querySelector('#game-canvas') as HTMLCanvasElement).width,
   }));
   expect(viewport.rootHeight).toBe(viewport.innerHeight);
   expect(viewport.bodyHeight).toBe(viewport.innerHeight);
   expect(viewport.bodyOverflow).toBe('hidden');
   expect(viewport.touchAction).toBe('none');
+  expect(viewport.canvasWidth).toBeLessThanOrEqual(390);
 });

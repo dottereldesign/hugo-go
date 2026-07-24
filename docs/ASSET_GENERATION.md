@@ -2,7 +2,7 @@
 
 ## Current generated assets
 
-The playable release uses four Hugo animation atlases and one transparent forestry-trail strip. Full generation and alpha sources are retained:
+The playable release uses six Hugo animation atlases and one transparent forestry-trail strip. Full generation and alpha sources are retained:
 
 ```text
 art/source-images/game/hugo-run-sheet-magenta.png
@@ -13,12 +13,18 @@ art/source-images/game/hugo-glide-sheet-magenta.png
 art/source-images/game/hugo-glide-sheet-transparent.png
 art/source-images/game/hugo-jump-land-sheet-magenta.png
 art/source-images/game/hugo-jump-land-sheet-transparent.png
+art/source-images/game/hugo-double-jump-sheet-magenta.png
+art/source-images/game/hugo-double-jump-sheet-transparent.png
+art/source-images/game/hugo-wall-recovery-sheet-magenta.png
+art/source-images/game/hugo-wall-recovery-sheet-transparent.png
 art/source-images/game/trail-ground-magenta.png
 art/source-images/game/trail-ground-transparent.png
 src/assets/game/hugo-run-cycle.webp
 src/assets/game/hugo-powered-cycle.webp
 src/assets/game/hugo-glide-cycle.webp
 src/assets/game/hugo-jump-land-cycle.webp
+src/assets/game/hugo-double-jump-cycle.webp
+src/assets/game/hugo-wall-recovery-cycle.webp
 src/assets/game/trail-ground.webp
 ```
 
@@ -52,13 +58,15 @@ Current runtime sizes are approximately:
 - six-frame powered-glide atlas: 111 KB;
 - six-frame unpowered glide/fall atlas: 119 KB;
 - eight-frame jump/landing atlas: 140 KB;
+- six-frame double-jump atlas: 120 KB;
+- six-frame wall-impact/recovery atlas: 111 KB;
 - scrolling trail strip: 64 KB.
 
-The old single flight pose, single-pose run WebP, six-frame transition sheet, and full-screen Forest plate are retired from runtime. The game now has 28 authored character frames. Code-rendered flames remain color- and intensity-adjustable without another texture, and per-frame shoe-port anchors keep both flames aligned across the powered and glide atlases.
+The old single flight pose, single-pose run WebP, six-frame transition sheet, and full-screen Forest plate are retired from runtime. The game now has 40 authored character frames. Code-rendered flames remain color- and intensity-adjustable without another texture, and individually tuned shoe-port anchors/angles keep both flames aligned across every powered and glide frame.
 
 ## Generated and procedural scene art
 
-The sky is a code-rendered `#26d9ff` fill. Generated ochre/scorched-red earth, stones, roots, grass, and fern tips come from the transparent trail strip. Coins, seasonal particles, and obstacles remain Canvas drawings. This is deliberate:
+The sky is a code-rendered `#26d9ff` fill. Generated ochre/scorched-red earth, stones, roots, grass, and fern tips come from the transparent trail strip. Three lightweight, code-authored SVG planets appear by distance. Coins, seasonal particles, and red obstacles remain Canvas drawings. This is deliberate:
 
 - collision silhouettes remain tied to the same rectangles the player sees;
 - the wide trail can scroll without an obvious repeated motif inside one viewport;
