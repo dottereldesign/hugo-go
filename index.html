@@ -121,8 +121,8 @@
     <section class="game-screen" id="game-screen" aria-labelledby="game-page-title" hidden>
       <div class="game-screen-vignette" aria-hidden="true"></div>
       <header class="game-screen-header">
-        <button class="game-back-button" id="game-back-button" type="button"><i data-lucide="arrow-left" aria-hidden="true"></i> Back home</button>
-        <strong>HUGO GO!</strong>
+        <button class="game-back-button" id="game-back-button" type="button" aria-label="Back home"><i data-lucide="arrow-left" aria-hidden="true"></i><span>Home</span></button>
+        <strong class="game-wordmark" aria-label="HUGOGO!"><span>HUGO</span><span>GO!</span></strong>
         <span id="game-world-label">Forest World</span>
       </header>
       <main class="game-shell" id="game-shell">
@@ -141,8 +141,6 @@
             <div><small>Coins</small><strong><span aria-hidden="true">●</span> <em id="game-run-coins">0</em></strong></div>
             <div><small>Best</small><strong id="game-best">0 m</strong></div>
           </div>
-          <div class="game-phase" id="game-phase">RUNNING</div>
-          <div class="game-season" id="game-season">SPRING</div>
           <p class="game-controls-help" id="game-controls-help">Hold to jump and fly; release, then press again quickly for a double jump. If Hugo splats into a wall, hold immediately to recover.</p>
           <section class="game-over" id="game-over-overlay" aria-labelledby="game-over-title" hidden>
             <span>FOREST RUN COMPLETE</span>

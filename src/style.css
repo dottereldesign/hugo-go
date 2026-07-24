@@ -1299,11 +1299,24 @@ body.reduce-motion *, body.reduce-motion *::before, body.reduce-motion *::after 
   box-shadow: 0 6px 24px rgba(0,0,0,.32);
 }
 
-.game-screen-header > strong {
-  color: #ffd72b;
+.game-wordmark {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0;
   font: 400 clamp(19px, 2vw, 28px)/1 'Titan One', var(--round);
-  letter-spacing: .02em;
-  text-shadow: 0 4px 0 #713500, 0 7px 12px rgba(0,0,0,.5);
+  letter-spacing: -.035em;
+  white-space: nowrap;
+  filter: drop-shadow(0 5px 5px rgba(0,0,0,.48));
+}
+
+.game-wordmark span:first-child {
+  color: #ffd724;
+  text-shadow: 0 3px 0 #9e2e00;
+}
+
+.game-wordmark span:last-child {
+  color: #26d9ff;
+  text-shadow: 0 3px 0 #06458d;
 }
 
 .game-screen-header > span {
@@ -1318,27 +1331,46 @@ body.reduce-motion *, body.reduce-motion *::before, body.reduce-motion *::after 
 }
 
 .game-back-button {
-  min-height: 40px;
-  padding: 0 14px;
+  min-height: 46px;
+  padding: 0 17px 0 13px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 7px;
+  gap: 8px;
   justify-self: start;
-  border: 1px solid #7edcb3;
-  border-radius: 13px;
-  background: linear-gradient(#287d68, #15503f);
-  box-shadow: inset 0 2px 0 rgba(255,255,255,.24), 0 3px 0 #082e25;
-  color: white;
-  font: 1000 10px/1 var(--round);
+  border: 2px solid #fff2a1;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #ffdf3c 0%, #ffad1a 58%, #ed7113 100%);
+  box-shadow:
+    inset 0 3px 0 rgba(255,255,255,.58),
+    inset 0 -3px 0 rgba(151, 52, 5, .28),
+    0 5px 0 #8c3b08,
+    0 8px 16px rgba(0,0,0,.34);
+  color: #392000;
+  font: 1000 11px/1 var(--round);
+  letter-spacing: .025em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: transform 160ms ease, filter 160ms ease;
+  transition: transform 120ms ease, filter 120ms ease, box-shadow 120ms ease;
+}
+
+.game-back-button svg {
+  width: 19px;
+  height: 19px;
+  stroke-width: 4;
 }
 
 .game-back-button:hover {
-  filter: brightness(1.15);
+  filter: saturate(1.1) brightness(1.08);
   transform: translateY(-2px);
+}
+
+.game-back-button:active {
+  box-shadow:
+    inset 0 3px 0 rgba(255,255,255,.44),
+    inset 0 -2px 0 rgba(151, 52, 5, .2),
+    0 2px 0 #8c3b08;
+  transform: translateY(3px);
 }
 
 .game-shell {
@@ -1417,39 +1449,6 @@ body.reduce-motion *, body.reduce-motion *::before, body.reduce-motion *::after 
 .game-hud strong span { color: #ffd236; }
 .game-hud em { font-style: normal; }
 
-.game-phase {
-  position: absolute;
-  z-index: 3;
-  top: 76px;
-  left: 50%;
-  padding: 5px 10px;
-  border-radius: 999px;
-  background: rgba(8, 43, 47, .68);
-  color: #fff7a6;
-  font: 900 8px/1 var(--round);
-  letter-spacing: .1em;
-  pointer-events: none;
-  transform: translateX(-50%);
-}
-
-.game-season {
-  position: absolute;
-  z-index: 3;
-  top: 100px;
-  left: 50%;
-  padding: 4px 9px;
-  border: 1px solid rgba(255,255,255,.38);
-  border-radius: 999px;
-  background: rgba(255,255,255,.68);
-  color: #245847;
-  font: 900 7px/1 var(--round);
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  pointer-events: none;
-  transform: translateX(-50%);
-  backdrop-filter: blur(7px);
-}
-
 .game-culture-note {
   position: absolute;
   z-index: 3;
@@ -1527,12 +1526,15 @@ body.reduce-motion *, body.reduce-motion *::before, body.reduce-motion *::after 
 
 @media (max-width: 680px) {
   .game-screen-header {
-    min-height: 58px;
+    min-height: 62px;
+    padding-inline: max(9px, env(safe-area-inset-left, 0px)) max(9px, env(safe-area-inset-right, 0px));
     grid-template-columns: 1fr auto;
+    gap: 8px;
   }
 
-  .game-screen-header > strong {
+  .game-wordmark {
     justify-self: end;
+    font-size: clamp(22px, 7vw, 29px);
   }
 
   .game-screen-header > span {
@@ -1540,15 +1542,28 @@ body.reduce-motion *, body.reduce-motion *::before, body.reduce-motion *::after 
   }
 
   .game-back-button {
-    min-height: 38px;
-    padding: 0 11px;
-    font-size: 8px;
+    min-height: 43px;
+    padding: 0 13px 0 10px;
+    border-radius: 14px;
+    font-size: 9px;
   }
 
-  .game-portrait { border: 0; box-shadow: none; }
+  .game-shell {
+    width: 100%;
+    height: 100%;
+    place-items: stretch;
+  }
+
+  .game-portrait {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    aspect-ratio: auto;
+    border: 0;
+    box-shadow: none;
+  }
+
   .game-hud { top: 9px; }
-  .game-phase { top: 70px; }
-  .game-season { top: 94px; }
 }
 
 @media (max-width: 680px) and (orientation: landscape) {

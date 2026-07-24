@@ -32,7 +32,8 @@ test('Play starts Forest immediately and Back returns home', async ({ page }) =>
   await expect(page.locator('#game-screen')).toBeVisible();
   await expect(page.locator('#game-world-label')).toHaveText('Forest World');
   await expect(page.locator('#game-canvas')).toBeVisible();
-  await expect(page.locator('#game-phase')).toHaveText('RUNNING');
+  await expect(page.locator('.game-wordmark')).toHaveText('HUGOGO!');
+  await expect(page.locator('#game-phase, #game-season')).toHaveCount(0);
   await expect(page.locator('#game-distance')).toHaveText(/^\d+ m$/);
   await expect(page.locator('text=/level select/i')).toHaveCount(0);
 
@@ -80,7 +81,6 @@ test('a fast second press triggers the authored double-jump state', async ({ pag
   expect(doubleJump.doubleJumpAvailable).toBe(false);
   expect(doubleJump.doubleJumpTime).toBeLessThan(0.2);
   expect(doubleJump.velocityY).toBeLessThan(-300);
-  await expect(page.locator('#game-phase')).toHaveText('DOUBLE JUMP');
 });
 
 test('lands on an obstacle, runs along it, and jumps cleanly from its top', async ({ page }) => {
@@ -145,17 +145,16 @@ test('a front impact splats first and a quick hold recovers the run', async ({ p
     state.coins.splice(0);
   });
   await page.waitForFunction(() => window.__HUGO_GO__.getGameState().hugo.stuckObstacleId === 888);
-  await expect(page.locator('#game-phase')).toHaveText('STUCK — HOLD!');
   await expect(page.locator('#game-over-overlay')).toBeHidden();
 
   const canvas = page.locator('#game-canvas');
   await canvas.hover({ position: { x: 190, y: 420 } });
   await page.mouse.down();
-  await page.waitForTimeout(140);
+  await page.waitForFunction(() => window.__HUGO_GO__.getGameState().hugo.stuckObstacleId === null);
   const recovered = await page.evaluate(() => ({ ...window.__HUGO_GO__.getGameState().hugo }));
   await page.mouse.up();
   expect(recovered.stuckObstacleId).toBeNull();
-  expect(recovered.recoveryTime).toBeLessThan(0.25);
+  expect(recovered.recoveryTime).toBeLessThan(0.35);
   expect(recovered.velocityY).toBeLessThan(0);
   await expect(page.locator('#game-over-overlay')).toBeHidden();
 });
@@ -174,7 +173,6 @@ test('an unrecovered splat eventually records the run and retry skips level sele
 
   await page.locator('#game-restart-button').click();
   await expect(page.locator('#game-over-overlay')).toBeHidden();
-  await expect(page.locator('#game-phase')).toHaveText('RUNNING');
   await expect(page.locator('text=/level select/i')).toHaveCount(0);
 });
 

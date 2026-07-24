@@ -49,8 +49,6 @@ class HugoGoApp {
       distance: this.element('game-distance'),
       coins: this.element('game-run-coins'),
       best: this.element('game-best'),
-      phase: this.element('game-phase'),
-      season: this.element('game-season'),
       overlay: this.element('game-over-overlay'),
       result: this.element('game-over-result'),
       restart: this.button('game-restart-button'),

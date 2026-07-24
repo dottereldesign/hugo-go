@@ -49,8 +49,6 @@ interface FlightGameElements {
   distance: HTMLElement;
   coins: HTMLElement;
   best: HTMLElement;
-  phase: HTMLElement;
-  season: HTMLElement;
   overlay: HTMLElement;
   result: HTMLElement;
   restart: HTMLButtonElement;
@@ -91,11 +89,9 @@ export class FlightGame {
   private readonly auroraRingSprite = this.createSprite();
   private readonly emberMoonSprite = this.createSprite();
   private readonly iceGiantSprite = this.createSprite();
-  private seasonLabel = '';
   private hudDistance = -1;
   private hudCoins = -1;
   private hudBest = -1;
-  private hudPhase = '';
   private activePointerId: number | null = null;
   private readonly thrustKeys = new Set<string>();
 
@@ -118,7 +114,6 @@ export class FlightGame {
     this.running = true;
     this.previousFrameTime = performance.now();
     this.elements.overlay.hidden = true;
-    this.elements.phase.textContent = 'RUNNING';
     this.elements.announcer.textContent = 'Forest run started. Press and hold to jump, then fly upward; release to descend.';
     this.updateHud();
     this.render();
@@ -235,7 +230,6 @@ export class FlightGame {
       coins: this.state.runCoins,
     };
     this.options.onRunComplete(result);
-    this.elements.phase.textContent = 'RUN OVER';
     this.elements.result.textContent = `${result.distance} m · ${result.coins} coin${result.coins === 1 ? '' : 's'}`;
     this.elements.overlay.hidden = false;
     this.elements.announcer.textContent = `Run over at ${result.distance} metres with ${result.coins} coins.`;
@@ -257,26 +251,6 @@ export class FlightGame {
     if (best !== this.hudBest) {
       this.hudBest = best;
       this.elements.best.textContent = `${best} m`;
-    }
-    const season = getSeasonVisual(this.state.elapsed);
-    if (this.seasonLabel !== season.label) {
-      this.seasonLabel = season.label;
-      this.elements.season.textContent = season.label.toUpperCase();
-    }
-    if (this.state.phase === 'playing') {
-      const phase = this.state.hugo.stuckObstacleId !== null
-        ? 'STUCK — HOLD!'
-        : this.state.hugo.recoveryTime < WALL_RECOVERY_DURATION
-          ? 'RECOVERING'
-          : this.state.hugo.doubleJumpTime < DOUBLE_JUMP_DURATION
-            ? 'DOUBLE JUMP'
-            : this.state.hugo.grounded
-              ? 'RUNNING'
-              : this.state.hugo.thrusting ? 'THRUST' : 'GLIDING';
-      if (phase !== this.hudPhase) {
-        this.hudPhase = phase;
-        this.elements.phase.textContent = phase;
-      }
     }
   }
 

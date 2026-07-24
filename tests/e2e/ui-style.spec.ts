@@ -65,17 +65,14 @@ test('loads the generated character and trail art over a clean blue sky', async 
   expect(skyPixel[0]).toBeLessThan(80);
   expect(skyPixel[1]).toBeGreaterThan(190);
   expect(skyPixel[2]).toBeGreaterThan(235);
-  await expect(page.locator('#game-season')).toHaveText('SPRING');
-
   await page.evaluate(() => {
     Object.assign(window.__HUGO_GO__.getGameState(), { elapsed: 25 });
   });
-  await expect(page.locator('#game-season')).toHaveText('SPRING → SUMMER');
 
   await page.evaluate(() => {
     Object.assign(window.__HUGO_GO__.getGameState(), { elapsed: 90 });
   });
-  await expect(page.locator('#game-season')).toHaveText('WINTER');
+  await expect(page.locator('#game-phase, #game-season')).toHaveCount(0);
 });
 
 test('locks mobile gameplay to the viewport with no page scrolling', async ({ page }) => {
@@ -90,10 +87,19 @@ test('locks mobile gameplay to the viewport with no page scrolling', async ({ pa
     bodyOverflow: getComputedStyle(document.body).overflow,
     touchAction: getComputedStyle(document.querySelector('#game-canvas')!).touchAction,
     canvasWidth: (document.querySelector('#game-canvas') as HTMLCanvasElement).width,
+    canvasBox: document.querySelector('#game-canvas')!.getBoundingClientRect().toJSON(),
+    wordmarkColors: Array.from(document.querySelectorAll('.game-wordmark span')).map(
+      (span) => getComputedStyle(span).color,
+    ),
+    backBackground: getComputedStyle(document.querySelector('#game-back-button')!).backgroundImage,
   }));
   expect(viewport.rootHeight).toBe(viewport.innerHeight);
   expect(viewport.bodyHeight).toBe(viewport.innerHeight);
   expect(viewport.bodyOverflow).toBe('hidden');
   expect(viewport.touchAction).toBe('none');
   expect(viewport.canvasWidth).toBeLessThanOrEqual(390);
+  expect(viewport.canvasBox.left).toBe(0);
+  expect(viewport.canvasBox.right).toBe(390);
+  expect(viewport.wordmarkColors[0]).not.toBe(viewport.wordmarkColors[1]);
+  expect(viewport.backBackground).toContain('linear-gradient');
 });
