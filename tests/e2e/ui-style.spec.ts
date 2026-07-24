@@ -46,6 +46,36 @@ test('renders the playable portrait canvas as a separate full-screen view', asyn
   expect(canvasBox?.width).toBeLessThan(canvasBox?.height ?? 0);
 });
 
+test('preserves the native game aspect ratio and sharp backing store at every screen size', async ({ page }) => {
+  const viewports = [
+    { width: 390, height: 844 },
+    { width: 600, height: 1024 },
+    { width: 820, height: 1180 },
+    { width: 1440, height: 900 },
+  ];
+
+  for (const viewport of viewports) {
+    await page.setViewportSize(viewport);
+    await page.goto('/#/game');
+
+    const canvas = await page.locator('#game-canvas').evaluate((element) => {
+      const htmlCanvas = element as HTMLCanvasElement;
+      const rect = htmlCanvas.getBoundingClientRect();
+      return {
+        cssWidth: rect.width,
+        cssHeight: rect.height,
+        backingWidth: htmlCanvas.width,
+        backingHeight: htmlCanvas.height,
+      };
+    });
+
+    expect(canvas.cssWidth / canvas.cssHeight).toBeCloseTo(390 / 780, 3);
+    expect(canvas.backingWidth).toBe(780);
+    expect(canvas.backingHeight).toBe(1560);
+    expect(canvas.backingWidth / canvas.backingHeight).toBe(390 / 780);
+  }
+});
+
 test('loads the generated character and trail art over a clean blue sky', async ({ page }) => {
   await page.goto('/#/game');
   await page.waitForFunction(() => {

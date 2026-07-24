@@ -2,7 +2,7 @@
 
 ## Current runtime
 
-The game uses one `390 × 780` logical Canvas. Phones always render to a `2×` (`780 × 1560`) backing store, including browsers that report DPR 1; high-density phones are capped at 2×. This keeps the small character sprite crisp without paying the disproportionate fill-rate cost of a 3× full-screen Canvas. Larger screens use their reported density up to 2×.
+The game uses one `390 × 780` logical Canvas. Every viewport renders to a stable `2×` (`780 × 1560`) backing store, including desktop displays that report DPR 1. This keeps the small character sprite crisp at larger CSS sizes without paying the disproportionate fill-rate cost of a 3× full-screen Canvas.
 
 Physics and collision are render-rate independent and use fixed `1/120 s` substeps. Each frame:
 
@@ -30,8 +30,8 @@ The audit serves the production build, opens a `390 × 844` Chromium viewport at
 
 Latest local result on 25 July 2026:
 
-- average frame interval: approximately `19.4 ms` (about 52 fps);
-- p95 interval: `33.4 ms`;
+- average frame interval: approximately `18.0 ms` (about 55 fps);
+- p95 interval: `33.3 ms`;
 - backing store: `780 × 1560`;
 - decoded resources: approximately `2.29 MB` across 27 requests;
 - long tasks during the settled sample: `0`.
@@ -59,10 +59,10 @@ Jet fire remains a few Canvas paths/gradients, so its color and intensity do not
 - document overflow is hidden and overscroll is contained;
 - Canvas touch action is disabled;
 - safe-area insets are included;
-- the board preserves its portrait aspect ratio;
-- every phone uses the `780 × 1560` mobile backing store, regardless of a reported DPR from 1 through 3.
+- the board preserves its `1:2` portrait aspect ratio at phone, tablet, and desktop sizes;
+- every device uses the `780 × 1560` backing store, regardless of its reported DPR.
 
-Browser tests assert the no-scroll viewport contract and backing-store cap.
+Browser tests assert the no-scroll viewport contract, backing-store size, and undistorted aspect ratio across phone, tablet, and desktop viewports.
 
 ## Regression checks
 

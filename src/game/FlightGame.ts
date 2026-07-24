@@ -199,10 +199,9 @@ export class FlightGame {
   }
 
   private configureCanvas(): void {
-    const reportedPixelRatio = window.devicePixelRatio || 1;
-    const pixelRatio = window.innerWidth <= 680
-      ? 2
-      : Math.min(reportedPixelRatio, 2);
+    // A stable 2× backing store keeps Hugo sharp on DPR-1 desktop displays
+    // without the performance cost of rendering the whole game at 3×.
+    const pixelRatio = 2;
     this.canvasPixelRatio = pixelRatio;
     this.elements.canvas.width = Math.round(GAME_WIDTH * pixelRatio);
     this.elements.canvas.height = Math.round(GAME_HEIGHT * pixelRatio);

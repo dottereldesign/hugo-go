@@ -1379,15 +1379,17 @@ body.reduce-motion *, body.reduce-motion *::before, body.reduce-motion *::after 
   display: grid;
   place-items: center;
   overflow: hidden;
+  container-type: size;
 }
 
 .game-portrait {
   position: relative;
-  height: 100%;
-  max-width: 100%;
+  width: min(100cqw, 50cqh);
+  height: min(100cqh, 200cqw);
   aspect-ratio: 1 / 2;
   overflow: hidden;
-  border-inline: 1px solid rgba(172, 245, 199, .3);
+  outline: 1px solid rgba(172, 245, 199, .3);
+  outline-offset: -1px;
   background: #7dd8dc;
   box-shadow: 0 0 54px rgba(0,0,0,.52);
   user-select: none;
@@ -1551,15 +1553,11 @@ body.reduce-motion *, body.reduce-motion *::before, body.reduce-motion *::after 
   .game-shell {
     width: 100%;
     height: 100%;
-    place-items: stretch;
+    place-items: center;
   }
 
   .game-portrait {
-    width: 100%;
-    height: 100%;
-    max-width: none;
-    aspect-ratio: auto;
-    border: 0;
+    outline: 0;
     box-shadow: none;
   }
 

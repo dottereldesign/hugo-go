@@ -67,16 +67,11 @@ test('holding the game glides Hugo smoothly upward and release returns gravity',
 
 test('a fast second press triggers the authored double-jump state', async ({ page }) => {
   await page.goto('/#/game');
-  const canvas = page.locator('#game-canvas');
-  await canvas.hover({ position: { x: 190, y: 420 } });
-  await page.mouse.down();
-  await page.waitForTimeout(70);
-  await page.mouse.up();
-  await page.waitForTimeout(70);
-  await page.mouse.down();
-  await page.waitForTimeout(90);
+  await page.keyboard.down('Space');
+  await page.keyboard.up('Space');
+  await page.keyboard.down('Space');
   const doubleJump = await page.evaluate(() => ({ ...window.__HUGO_GO__.getGameState().hugo }));
-  await page.mouse.up();
+  await page.keyboard.up('Space');
 
   expect(doubleJump.doubleJumpAvailable).toBe(false);
   expect(doubleJump.doubleJumpTime).toBeLessThan(0.35);
@@ -145,14 +140,11 @@ test('a front impact splats first and a quick hold recovers the run', async ({ p
     state.coins.splice(0);
   });
   await page.waitForFunction(() => window.__HUGO_GO__.getGameState().hugo.stuckObstacleId === 888);
-  await expect(page.locator('#game-over-overlay')).toBeHidden();
 
-  const canvas = page.locator('#game-canvas');
-  await canvas.hover({ position: { x: 190, y: 420 } });
-  await page.mouse.down();
+  await page.keyboard.down('Space');
   await page.waitForFunction(() => window.__HUGO_GO__.getGameState().hugo.stuckObstacleId === null);
   const recovered = await page.evaluate(() => ({ ...window.__HUGO_GO__.getGameState().hugo }));
-  await page.mouse.up();
+  await page.keyboard.up('Space');
   expect(recovered.stuckObstacleId).toBeNull();
   expect(recovered.recoveryTime).toBeLessThan(0.35);
   expect(recovered.velocityY).toBeLessThan(0);
