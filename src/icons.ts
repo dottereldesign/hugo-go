@@ -42,7 +42,6 @@ import {
   Users,
   Volume2,
   VolumeX,
-  Waves,
   X,
   Zap,
   createIcons,
@@ -92,7 +91,6 @@ const icons = {
   Users,
   Volume2,
   VolumeX,
-  Waves,
   X,
   Zap,
 };

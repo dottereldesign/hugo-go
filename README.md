@@ -1,148 +1,90 @@
-# Wizino TD
+# HUGO GO!
 
-Wizino TD is a complete single-player learning tower-defense prototype built for static hosting on GitHub Pages. It uses a full-viewport, high-DPI Canvas battlefield with responsive HTML controls layered over the map. No backend, account, or paid service is required.
+HUGO GO! is a browser game in development: a fast, friendly flight game inspired by the immediate one-button rhythm of Flappy Bird and the momentum, boosts, pickups, and obstacle variety of Jetpack-style runners.
 
-For the complete product vision, educational goals, world roster, progression,
-gameplay rules, architecture, authoring conventions, and implementation status,
-read [docs/GAME_SPEC.md](docs/GAME_SPEC.md).
+The polished home screen is the current product surface. It introduces Hugo, preserves six imaginative learning worlds, and hands Play off to a separate placeholder game page while the flight mechanics are built.
 
-The interface uses a playful green-and-cream molded-game style: rounded cards, inset highlights, short 3D button shadows, chunky icons, and illustrated household-object towers. The exact tower portraits are lossless crops from the supplied `art/reference/ui/shop-layout.png`; all interactive panels and controls are responsive HTML/CSS rather than flattened screenshots. Natural cool greens, neutral concrete, and local top-down sprites keep the battlefield readable beneath the UI.
+## Current experience
 
-## Play locally
+- Full-screen animated HUGO GO! home screen.
+- Hugo as the player identity.
+- Six selectable world themes: Forest, Workshop, Word, Number, Space, and Music.
+- Responsive desktop and mobile layouts.
+- Local world selection and accessibility preferences.
+- Optional music and interface sound packs.
+- A dedicated `#/game` page reached directly from Play.
+- No maps, level selector, combat board, or legacy strategy-game flow.
 
-Requirements: Node.js 20 or newer.
+The game page currently communicates the intended direction without pretending the flight game is already complete.
+
+## Product direction
+
+The first playable version should focus on one clear loop:
+
+1. Hugo begins moving forward automatically.
+2. The player taps or presses to flap upward.
+3. A held input activates a limited jetpack boost.
+4. Hugo passes through gaps, avoids obstacles, and collects useful items.
+5. Distance and clean passes build the score.
+6. A collision ends the run and offers a quick retry.
+
+Worlds are visual and learning themes for future courses, not map packs. Each world may change scenery, obstacle behavior, pickups, audio, and lightweight learning moments without changing the core flight controls.
+
+See [docs/GAME_SPEC.md](docs/GAME_SPEC.md) for the detailed product specification.
+
+## Development
+
+Requirements:
+
+- Node.js 20+
+- npm
+
+Install and run:
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
+
+Open the local URL shown by Vite.
 
 Windows note for this machine: its user-level npm configuration currently reports `script-shell=/bin/bash`, which is not present. Either remove that stale setting with `npm config delete script-shell`, or use a command-scoped override in PowerShell:
 
 ```powershell
-$env:npm_config_script_shell='C:\Windows\System32\cmd.exe'
-npm run dev
+$env:npm_config_script_shell='cmd.exe'
+npm ci
+npm test
+npm run build
 ```
 
-Production checks:
+## Verification
 
 ```bash
 npm test
-npm run build
 npm run test:e2e
-npm run test:perf
+npm run build
 ```
 
-The build output is written to `dist/`.
+- Vitest checks audio URL resolution and local player-state behavior.
+- Playwright checks branding, world selection, the Play handoff, responsive navigation, artwork, and the placeholder game page.
+- The production build is emitted to `dist/`.
 
-## Included game systems
+## Static hosting
 
-- Six learning worlds with three data-driven maps each.
-- Eight designed waves per map with Unarmored, Light, Medium, Heavy, and Fortified contacts.
-- Six towers: Normal, Pierce, Siege, Magic + slow, Pierce + poison, and Chaos.
-- Warcraft III: The Frozen Throne/Reforged-inspired attack-versus-armor multipliers.
-- Warcraft III numerical armor reduction curve.
-- Target priorities: First, Strong, and Last.
-- Tier 1–3 upgrades, 72% sell refunds, kill bounties, and wave-clear bonuses.
-- Projectile travel, siege splash, non-stacking slow, and up to three poison sources per enemy.
-- Fullscreen terrain with opaque low-cost overlay controls, responsive safe areas, and a mobile command tray.
-- Placement ghost, true range preview, faint grid, and text/pattern invalid-placement feedback.
-- Pause and 1×/2×/3× simulation speed.
-- Local completion records and best remaining integrity via `localStorage`.
-- Generated Web Audio feedback with a persistent mute control.
-- Responsive desktop/mobile layouts and auto-pause when the tab is hidden.
-- Built-in F3 performance monitor with frame-time, subsystem, workload, canvas, long-task, and memory diagnostics.
+The Vite base is `./`, so the app works from a nested GitHub Pages path such as `username.github.io/hugo-go/`. The included GitHub Actions workflow tests, builds, and deploys `dist/` after updates to `main`.
 
-## Performance diagnostics
-
-Press `F3` or the activity icon in the top bar to open the performance monitor. Add `?perf=1` to the URL to open it automatically. The panel identifies UI-event, simulation, Canvas, long-task, and likely compositor pressure, and can copy a JSON report for comparison.
-
-This work is called **performance profiling**, **frame-time analysis**, or **bottleneck analysis** in game development. The browser cannot read whole-system CPU/GPU percentages or temperatures; use Chrome Task Manager (`Shift+Esc`) or Windows Task Manager beside the in-game panel for those system-level numbers.
-
-See [docs/PERFORMANCE.md](docs/PERFORMANCE.md) for the profiler guide, measured bottlenecks, optimization architecture, and stress-test commands.
-
-## Controls
-
-| Input | Action |
-|---|---|
-| `1`–`6` | Select a tower |
-| Click/tap | Place or select |
-| Hold `Shift` while placing | Keep building the same tower |
-| Right-click or `Esc` | Cancel/deselect |
-| `Space` | Send next wave or pause/resume |
-| `F` | Cycle 1×/2×/3× speed |
-| `U` | Upgrade selected tower |
-| `T` | Cycle selected tower priority |
-| `?` | Open the field manual |
-
-## Tower roster
-
-| Tower | Cost | Attack | Base damage / interval | Job |
-|---|---:|---|---:|---|
-| Mycelium Network | $90 | Normal | 24 / 0.82s | Reliable; counters Medium |
-| Pollinator Post | $120 | Pierce | 13 / 0.38s | Rapid; counters Light and Unarmored |
-| Canopy Guardian | $175 | Siege | 58 / 1.70s | Splash; counters Fortified and Unarmored |
-| Root Snare | $160 | Magic | 33 / 1.05s | Counters Heavy and applies a short slow |
-| Seed Slinger | $145 | Pierce | 8 / 0.75s | Adds 6 DPS poison for 4.5s |
-| Weathered Oak | $280 | Chaos | 72 / 1.25s | Expensive armor-neutral generalist |
-
-## Combat model
-
-The prototype uses five armor classes and five attack classes. Multipliers are visible in the in-game field manual and the shop shows each tower's multiplier against the next wave's first armor class.
+## Code map
 
 ```text
-final attack damage = base damage × class multiplier × armor factor
-armor factor (armor >= 0) = 1 / (1 + 0.06 × armor)
-armor factor (armor < 0)  = 2 - 0.94 ^ (-armor)
+index.html            home screen, flight placeholder, and shared overlays
+src/main.ts           navigation and home-screen interaction controller
+src/state.ts          small local player/settings state
+src/worlds.ts         the six retained world themes
+src/audio.ts          music and interface sounds
+src/homeAssets.ts     fingerprinted home and world artwork
+src/style.css         home presentation and placeholder game-page styling
+tests/                unit and browser-level regression checks
+docs/                 product, design, performance, and art guidance
 ```
 
-Poison is deliberately adapted for tower-defense readability: the same Seed Slinger refreshes its own effect; different slingers stack up to three times; poison bypasses numerical armor and can kill. This is documented as an adaptation, not a claim of exact Warcraft III status-effect behavior.
-
-See [docs/DESIGN_AUDIT.md](docs/DESIGN_AUDIT.md) for the comparative game audit, source links, WC3 distinctions, and design decisions.
-
-## Deploy to GitHub Pages
-
-A Pages workflow is included at `.github/workflows/deploy.yml`.
-
-1. Commit and push the project to the repository's `main` branch.
-2. In GitHub, open **Settings → Pages**.
-3. Set **Source** to **GitHub Actions**.
-4. Push to `main` or run the workflow manually from the Actions tab.
-
-The Vite base is `./`, so the single-page build works from a repository subpath such as `username.github.io/td/` without hard-coding the repository name. There are no client-side routes that require a Pages 404 workaround.
-
-## Project structure
-
-```text
-src/data.ts             levels, waves, armor labels, tower balance
-src/game/Game.ts        deterministic simulation, economy, targeting, status effects
-src/game/damage.ts      matchup matrix and armor formula
-src/render/Renderer.ts  fullscreen high-DPI Canvas terrain and combat rendering
-src/render/assets.ts    local terrain and tower asset manifest/loading
-src/terrain/TerrainMap.ts editable terrain grid, path networks, and 8-neighbour masks
-src/assets/terrain/    runtime ground, individual path tiles, and scenery props
-src/assets/towers/     battlefield sprites and interface portraits
-art/                   source sheets, supplied references, and unused materials
-src/performance/        profiler core and in-game diagnostics panel
-src/ui/UI.ts            HUD, shop, modals, local records, keyboard-facing controls
-src/audio.ts            small generated Web Audio cues
-scripts/                reproducible reference-asset extraction and generated-asset processing
-tests/                  unit and Playwright browser tests
-```
-
-## Terrain authoring
-
-Enemy movement still follows the ordered `LevelDefinition.path`. Optional
-`level.terrain.pathBranches` cells extend only the visible/build-blocking path
-network, so maps can contain dead ends, T-junctions, loops, and four-way
-junctions without accidentally changing a wave's route. Optional
-`level.terrain.dirt` cells form full-tile clearings using canonical
-eight-neighbour blob masks.
-
-`TerrainMap.fromArray()` accepts rectangular rows containing `.` (grass), `#`
-(path), and `d` (dirt). `TerrainMap.generate()` accepts a coordinate callback
-for procedural maps. At runtime, `game.terrain.set(x, y, kind)` updates local
-neighbour masks and increments the terrain revision; the renderer notices that
-revision and rebuilds its cached static terrain layer automatically.
-
-All runtime art is bundled locally; the game does not hotlink image assets. The generated-art workflow and prompt record are in [docs/ASSET_GENERATION.md](docs/ASSET_GENERATION.md). Third-party icons and fonts are permissively licensed; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+The playable flight engine does not exist yet. It should be introduced as a focused module behind `#/game`, without reconnecting the removed strategy-game systems.

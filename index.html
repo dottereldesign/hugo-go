@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Wizino TD — build clever defenses and unlock discoveries across six learning worlds."
+      content="HUGO GO! — flap, boost, and fly through six imaginative learning worlds."
     />
     <meta name="theme-color" content="#779f37" />
     <link rel="icon" href="./favicon.webp" type="image/webp" sizes="64x64" />
-    <link rel="icon" href="./wizino-icon-512.webp" type="image/webp" sizes="512x512" />
-    <title>Wizino TD</title>
+    <link rel="icon" href="./hugo-go-icon-512.webp" type="image/webp" sizes="512x512" />
+    <title>HUGO GO!</title>
   </head>
   <body>
     <section class="home-screen home-screen--intro-smash is-open" id="home-screen" data-intro-state="running" aria-labelledby="home-title">
@@ -19,7 +19,7 @@
         <header class="home-topbar" id="home-topbar">
           <button class="home-profile glass-panel" id="home-profile-button" type="button" data-home-panel="profile" aria-haspopup="dialog" aria-controls="home-resources" aria-expanded="false">
             <span class="home-avatar"><img src="/src/assets/home/icons/profile-avatar.webp" alt="" /></span>
-            <span class="home-profile-copy"><strong id="home-player-name">WizinoHero</strong><span><i data-lucide="star" aria-hidden="true"></i> Level <em id="home-player-level">1</em></span><span class="home-xp"><i id="home-xp-fill" style="--xp: 0%"></i></span></span>
+            <span class="home-profile-copy"><strong id="home-player-name">Hugo</strong><span><i data-lucide="star" aria-hidden="true"></i> Level <em id="home-player-level">1</em></span><span class="home-xp"><i id="home-xp-fill" style="--xp: 0%"></i></span></span>
           </button>
           <div class="home-resources" id="home-resources" aria-label="Player resources">
             <button class="resource-chip resource-chip--energy" type="button" data-home-panel="profile"><i data-lucide="zap" aria-hidden="true"></i><strong id="home-energy-value">0/100</strong><span>+</span></button>
@@ -38,44 +38,40 @@
             <button class="home-quick-button" type="button" data-home-panel="collection" aria-haspopup="dialog"><img src="/src/assets/home/icons/collection.webp" alt="" /><strong>Collection</strong><b id="home-collection-badge">0</b></button>
           </nav>
 
-          <section class="home-hero home-hero--intro-smash" id="home-hero" data-intro-state="running" aria-label="Wizino TD">
-            <h1 id="home-title" aria-label="Wizino TD"><span>Wizino</span><span>TD</span></h1>
-            <p>Build defenses. Unlock discoveries!</p>
-            <button class="home-play" id="home-play-button" type="button" aria-label="Start adventure">Play</button>
-            <div class="home-modes" aria-label="Game modes">
-              <button id="home-adventure-button" type="button"><i data-lucide="map" aria-hidden="true"></i> Adventure mode</button>
-              <button type="button" data-home-message="Endless mode is coming soon."><i data-lucide="skull" aria-hidden="true"></i> Endless mode</button>
-            </div>
+          <section class="home-hero home-hero--intro-smash" id="home-hero" data-intro-state="running" aria-label="HUGO GO!">
+            <h1 id="home-title" aria-label="HUGO GO!"><span>HUGO</span><span>GO!</span></h1>
+            <p>Flap. Boost. Go!</p>
+            <button class="home-play" id="home-play-button" type="button" aria-label="Play HUGO GO!">Play</button>
             <button class="home-intro-next" id="home-intro-next" type="button" aria-label="Play the alternate magical intro" title="Play alternate intro animation">
               <i data-lucide="arrow-right" aria-hidden="true"></i>
             </button>
           </section>
 
           <aside class="home-feature-cards" id="home-feature-cards">
-            <button class="home-event-card" type="button" data-home-message="The Mold Invasion summer event is coming soon."><img data-menu-art="summerEvent" alt="" loading="lazy" decoding="async" /><span><strong>Summer event!</strong><small>Mold invasion</small><b>Double rewards</b></span></button>
-            <button class="home-squad-card" type="button" data-home-panel="profile"><img data-menu-art="squad" alt="" loading="lazy" decoding="async" /><span><small><i data-lucide="shield" aria-hidden="true"></i> Squad power</small><strong id="home-power-value">0</strong><b>View squad</b></span></button>
+            <button class="home-event-card" type="button" data-home-message="The Mold Invasion flight event is coming soon."><img data-menu-art="summerEvent" alt="" loading="lazy" decoding="async" /><span><strong>Summer event!</strong><small>Mold invasion</small><b>Double rewards</b></span></button>
+            <button class="home-squad-card" type="button" data-home-panel="profile"><img data-menu-art="squad" alt="" loading="lazy" decoding="async" /><span><small><i data-lucide="shield" aria-hidden="true"></i> Flight power</small><strong id="home-power-value">0</strong><b>View crew</b></span></button>
           </aside>
         </main>
 
         <section class="home-world-grid" id="home-world-grid" aria-label="Learning worlds">
-          <button class="home-world home-world--forest" type="button" data-home-world="forest"><img data-menu-art="forest" alt="" loading="lazy" decoding="async" /><span><strong>Forest World</strong><small>Ecosystems &amp; nature</small><b><i data-lucide="star" aria-hidden="true"></i><em data-home-stars="forest">0</em>/9</b></span></button>
-          <button class="home-world home-world--workshop" type="button" data-home-world="workshop"><img data-menu-art="workshop" alt="" loading="lazy" decoding="async" /><span><strong>Workshop World</strong><small>Machines &amp; cause-effect</small><b><i data-lucide="star" aria-hidden="true"></i><em data-home-stars="workshop">0</em>/9</b></span></button>
-          <button class="home-world home-world--word" type="button" data-home-world="word"><img data-menu-art="word" alt="" loading="lazy" decoding="async" /><span><strong>Word World</strong><small>Literacy &amp; language</small><b><i data-lucide="star" aria-hidden="true"></i><em data-home-stars="word">0</em>/9</b></span></button>
-          <button class="home-world home-world--number" type="button" data-home-world="number"><img data-menu-art="number" alt="" loading="lazy" decoding="async" /><span><strong>Number World</strong><small>Patterns, counting &amp; logic</small><b><i data-lucide="star" aria-hidden="true"></i><em data-home-stars="number">0</em>/9</b></span></button>
-          <button class="home-world home-world--space" type="button" data-home-world="space"><img data-menu-art="space" alt="" loading="lazy" decoding="async" /><span><strong>Space World</strong><small>Planets, gravity &amp; science</small><b><i data-lucide="star" aria-hidden="true"></i><em data-home-stars="space">0</em>/9</b></span></button>
-          <button class="home-world home-world--music" type="button" data-home-world="music"><img data-menu-art="music" alt="" loading="lazy" decoding="async" /><span><strong>Music World</strong><small>Rhythm &amp; sequencing</small><b><i data-lucide="star" aria-hidden="true"></i><em data-home-stars="music">0</em>/9</b></span></button>
+          <button class="home-world home-world--forest" type="button" data-home-world="forest"><img data-menu-art="forest" alt="" loading="lazy" decoding="async" /><span><strong>Forest World</strong><small>Ecosystems &amp; nature</small><b>Flight world</b></span></button>
+          <button class="home-world home-world--workshop" type="button" data-home-world="workshop"><img data-menu-art="workshop" alt="" loading="lazy" decoding="async" /><span><strong>Workshop World</strong><small>Machines &amp; cause-effect</small><b>Flight world</b></span></button>
+          <button class="home-world home-world--word" type="button" data-home-world="word"><img data-menu-art="word" alt="" loading="lazy" decoding="async" /><span><strong>Word World</strong><small>Literacy &amp; language</small><b>Flight world</b></span></button>
+          <button class="home-world home-world--number" type="button" data-home-world="number"><img data-menu-art="number" alt="" loading="lazy" decoding="async" /><span><strong>Number World</strong><small>Patterns, counting &amp; logic</small><b>Flight world</b></span></button>
+          <button class="home-world home-world--space" type="button" data-home-world="space"><img data-menu-art="space" alt="" loading="lazy" decoding="async" /><span><strong>Space World</strong><small>Planets, gravity &amp; science</small><b>Flight world</b></span></button>
+          <button class="home-world home-world--music" type="button" data-home-world="music"><img data-menu-art="music" alt="" loading="lazy" decoding="async" /><span><strong>Music World</strong><small>Rhythm &amp; sequencing</small><b>Flight world</b></span></button>
         </section>
 
         <footer class="home-footer" id="home-footer">
           <button type="button" data-home-panel="achievements"><i data-lucide="flame" aria-hidden="true"></i><span><small>Streak</small><strong id="home-streak-value">Start today</strong></span></button>
-          <button type="button" data-home-panel="leaderboard"><i data-lucide="skull" aria-hidden="true"></i><span><small>Best wave</small><strong id="home-best-wave-value">No waves</strong></span></button>
+          <button type="button" data-home-panel="leaderboard"><i data-lucide="zap" aria-hidden="true"></i><span><small>Best distance</small><strong id="home-best-distance-value">No runs</strong></span></button>
           <button type="button" data-home-panel="leaderboard" aria-haspopup="dialog"><i data-lucide="trophy" aria-hidden="true"></i><strong>Leaderboards</strong></button>
           <button type="button" data-home-message="The Parents Learning Hub is coming soon."><i data-lucide="users" aria-hidden="true"></i><span><strong>Parents</strong><small>Learning hub</small></span></button>
           <button
             class="home-premium"
             type="button"
             aria-label="Get premium. Unlock the full game on mobile with every world, bonus rewards, and no ads."
-            data-home-message="Wizino TD for mobile is coming soon. Premium unlocks every world, bonus rewards, and removes ads."
+            data-home-message="HUGO GO! for mobile is coming soon. Premium will unlock every world, bonus rewards, and no ads."
           >
             <span class="home-premium-crown" aria-hidden="true"><i data-lucide="crown"></i></span>
             <span class="home-premium-copy">
@@ -84,43 +80,27 @@
               <em>All worlds · bonus rewards · no ads</em>
             </span>
             <span class="home-premium-stores" aria-hidden="true">
-              <img
-                class="store-badge store-badge--apple"
-                data-menu-public-src="assets/store-badges/download-on-app-store.webp"
-                alt=""
-                width="359"
-                height="120"
-                loading="lazy"
-                decoding="async"
-              />
-              <img
-                class="store-badge store-badge--google"
-                data-menu-public-src="assets/store-badges/get-it-on-google-play.webp"
-                alt=""
-                width="646"
-                height="250"
-                loading="lazy"
-                decoding="async"
-              />
+              <img class="store-badge store-badge--apple" data-menu-public-src="assets/store-badges/download-on-app-store.webp" alt="" width="359" height="120" loading="lazy" decoding="async" />
+              <img class="store-badge store-badge--google" data-menu-public-src="assets/store-badges/get-it-on-google-play.webp" alt="" width="646" height="250" loading="lazy" decoding="async" />
             </span>
           </button>
         </footer>
         <div class="home-status" id="home-status" role="status" aria-live="polite"></div>
       </div>
-      <button class="home-menu-button" id="home-menu-button" type="button" aria-label="Open adventure menu" aria-controls="home-mobile-menu" aria-expanded="false">
+      <button class="home-menu-button" id="home-menu-button" type="button" aria-label="Open flight menu" aria-controls="home-mobile-menu" aria-expanded="false">
         <i data-lucide="menu" aria-hidden="true"></i>
       </button>
       <section class="home-mobile-menu" id="home-mobile-menu" role="dialog" aria-modal="true" aria-labelledby="home-mobile-menu-title" aria-hidden="true">
         <header class="home-mobile-menu-header">
           <div>
-            <span>WIZINO TD</span>
-            <h2 id="home-mobile-menu-title">Adventure menu</h2>
+            <span>HUGO GO!</span>
+            <h2 id="home-mobile-menu-title">Flight menu</h2>
           </div>
-          <button class="home-mobile-menu-close" id="home-mobile-menu-close" type="button" aria-label="Close adventure menu"><i data-lucide="x" aria-hidden="true"></i></button>
+          <button class="home-mobile-menu-close" id="home-mobile-menu-close" type="button" aria-label="Close flight menu"><i data-lucide="x" aria-hidden="true"></i></button>
         </header>
         <div class="home-mobile-menu-scroll">
           <section class="home-mobile-menu-section" aria-labelledby="home-menu-highlights-title">
-            <h3 id="home-menu-highlights-title">Live adventure</h3>
+            <h3 id="home-menu-highlights-title">Flight highlights</h3>
             <div id="home-menu-features-slot"></div>
           </section>
           <section class="home-mobile-menu-section" aria-labelledby="home-menu-progress-title">
@@ -138,139 +118,29 @@
       </section>
     </section>
 
-    <div id="app" class="app-shell">
-      <header class="topbar">
-        <button class="brand" id="level-menu-button" type="button" aria-label="Open level select">
-          <span class="brand-mark" aria-hidden="true"><img src="/wizino-icon-512.webp" alt="" /></span>
-          <span>
-            <strong>WIZINO TD</strong>
-            <small id="level-name">01 — SWITCHBACK</small>
-          </span>
-          <i data-lucide="chevron-down" aria-hidden="true"></i>
-        </button>
-
-        <div class="hud" aria-label="Game status">
-          <div class="hud-stat">
-            <i data-lucide="heart" aria-hidden="true"></i>
-            <span><small>Integrity</small><strong id="lives-value">20</strong></span>
-          </div>
-          <div class="hud-stat">
-            <i data-lucide="coins" aria-hidden="true"></i>
-            <span><small>Credits</small><strong id="cash-value">$420</strong></span>
-          </div>
-          <div class="hud-stat">
-            <i data-lucide="waves" aria-hidden="true"></i>
-            <span><small>Wave</small><strong id="wave-value">0 / 8</strong></span>
-          </div>
-        </div>
-
-        <div class="top-actions">
-          <button class="icon-button" id="performance-button" type="button" aria-label="Open performance monitor" aria-pressed="false" title="Performance monitor (F3)">
-            <i data-lucide="activity" aria-hidden="true"></i>
-          </button>
-          <button class="icon-button" id="help-button" type="button" aria-label="Open field manual" title="Field manual">
-            <i data-lucide="circle-help" aria-hidden="true"></i>
-          </button>
-        </div>
+    <section class="game-screen" id="game-screen" aria-labelledby="game-page-title" hidden>
+      <div class="game-screen-vignette" aria-hidden="true"></div>
+      <header class="game-screen-header">
+        <button class="game-back-button" id="game-back-button" type="button"><i data-lucide="arrow-left" aria-hidden="true"></i> Back home</button>
+        <strong>HUGO GO!</strong>
+        <span id="game-world-label">Forest World</span>
       </header>
-
-      <main class="game-layout">
-        <section class="board-panel" aria-label="Tower defense board">
-          <div class="board-frame" id="board-frame">
-            <canvas id="terrain-canvas" aria-hidden="true"></canvas>
-            <canvas id="game-canvas" aria-label="Tile map. Select a tower, then click an open tile to build."></canvas>
-            <div id="playfield-fit" aria-hidden="true"></div>
-            <div class="board-corner board-corner--top"><span id="phase-label">BUILD PHASE</span></div>
-            <div class="board-corner board-corner--bottom"><span id="cursor-readout">GRID 00:00</span></div>
-            <div class="board-prompt" id="board-prompt" role="status">
-              <strong>Select a tower</strong>
-              <span>Use the build roster or press keys 1–6</span>
-            </div>
-          </div>
-
-          <div class="command-bar" aria-label="Wave controls">
-            <div class="wave-brief">
-              <span class="eyebrow">NEXT WAVE</span>
-              <strong id="next-wave-name">W01 · Soft targets</strong>
-              <span id="next-wave-detail">9 × Unarmored · 0 armor</span>
-            </div>
-            <div class="command-actions">
-              <button class="button button--gold" id="pause-button" type="button" disabled>
-                <i data-lucide="pause" aria-hidden="true"></i><span>Pause</span>
-              </button>
-              <button class="button button--cocoa speed-button" id="speed-button" type="button" title="Cycle speed (F)">
-                <i data-lucide="fast-forward" aria-hidden="true"></i><span>1×</span>
-              </button>
-              <button class="button button--primary" id="wave-button" type="button">
-                <i data-lucide="play" aria-hidden="true"></i><span>Send wave 01</span>
-              </button>
-            </div>
+      <main class="game-placeholder">
+        <span class="game-placeholder-kicker">THE NEXT ADVENTURE</span>
+        <h1 id="game-page-title"><span>HUGO</span><span>GO!</span></h1>
+        <p>A fast, joyful Flappy Bird meets Jetpack-style flight game is being built here.</p>
+        <section class="game-placeholder-card">
+          <i data-lucide="sparkles" aria-hidden="true"></i>
+          <div>
+            <strong>Flight course coming next</strong>
+            <span>Tap to flap, hold to boost, dodge obstacles, and chase a new best distance.</span>
           </div>
         </section>
-
-        <aside class="side-panel" aria-label="Build and tower controls">
-          <div class="panel-heading">
-            <div>
-              <span class="eyebrow">TOWER SHOP</span>
-              <h1>Choose a defender</h1>
-            </div>
-            <span class="key-hint">1—6</span>
-          </div>
-
-          <div id="tower-shop" class="tower-shop"></div>
-
-          <section id="selection-panel" class="selection-panel" hidden aria-live="polite">
-            <div class="selection-heading">
-              <div>
-                <span class="eyebrow">SELECTED UNIT</span>
-                <h2 id="selected-name">Sentry</h2>
-              </div>
-              <button class="icon-button icon-button--small" id="deselect-button" type="button" aria-label="Deselect tower">
-                <i data-lucide="x" aria-hidden="true"></i>
-              </button>
-            </div>
-            <div class="stat-grid">
-              <div><small>Damage</small><strong id="selected-damage">0</strong></div>
-              <div><small>Rate</small><strong id="selected-rate">0/s</strong></div>
-              <div><small>Range</small><strong id="selected-range">0</strong></div>
-              <div><small>Output</small><strong id="selected-output">0</strong></div>
-            </div>
-            <div class="target-row">
-              <span>Priority</span>
-              <div class="segmented" id="target-controls" aria-label="Target priority">
-                <button type="button" data-target="first">First</button>
-                <button type="button" data-target="strong">Strong</button>
-                <button type="button" data-target="last">Last</button>
-              </div>
-            </div>
-            <div class="selection-actions">
-              <button class="button button--primary" id="upgrade-button" type="button">
-                <i data-lucide="arrow-up" aria-hidden="true"></i><span>Upgrade</span><b id="upgrade-cost">$0</b>
-              </button>
-              <button class="button button--ghost" id="sell-button" type="button">
-                <i data-lucide="badge-dollar-sign" aria-hidden="true"></i><span>Sell</span><b id="sell-value">+$0</b>
-              </button>
-            </div>
-          </section>
-
-          <section class="intel-card" id="intel-card">
-            <div class="intel-icon" id="intel-icon" aria-hidden="true">U</div>
-            <div>
-              <span class="eyebrow">ARMOR INTEL</span>
-              <strong id="intel-title">Unarmored contact</strong>
-              <p id="intel-copy">Pierce and siege attacks earn a 1.5× damage bonus.</p>
-            </div>
-          </section>
-        </aside>
+        <button class="game-placeholder-home" id="game-placeholder-home" type="button">Return to home screen</button>
       </main>
+    </section>
 
-      <footer class="footer-bar">
-        <span>ESC cancel · SPACE wave/pause · F speed · U upgrade</span>
-        <span>Offline-ready static prototype · v0.1</span>
-      </footer>
-    </div>
-
-    <audio id="background-music" src="./audio/wizino-magical-loop.ogg" preload="none" loop></audio>
+    <audio id="background-music" src="./audio/hugo-go-magical-loop.ogg" preload="none" loop></audio>
     <button class="global-audio-toggle" id="sound-button" type="button" aria-label="Enable sound" aria-pressed="false" title="Enable sound">
       <i data-lucide="volume-x" aria-hidden="true"></i>
     </button>
@@ -280,149 +150,10 @@
         <button class="modal-close icon-button" id="home-panel-close" type="button" aria-label="Close">
           <i data-lucide="x" aria-hidden="true"></i>
         </button>
-        <span class="eyebrow" id="home-panel-eyebrow">GUEST PROGRESS</span>
+        <span class="eyebrow" id="home-panel-eyebrow">HUGO'S JOURNEY</span>
         <h2 id="home-panel-title">Progress</h2>
-        <p id="home-panel-copy">Your progress is stored in this browser.</p>
+        <p id="home-panel-copy">Hugo's progress will be stored in this browser.</p>
         <div class="home-panel-content" id="home-panel-content"></div>
-      </section>
-    </div>
-
-    <section class="selection-screen" id="level-modal" aria-label="World and map selection">
-      <div class="selection-shell">
-        <section class="world-select-view" id="world-select-view">
-          <header class="world-select-header">
-            <div>
-              <span>WIZINO TD · LEARNING ADVENTURE</span>
-              <h2 id="world-select-title">Select a world</h2>
-              <p>Learn. Build. Defend.</p>
-            </div>
-            <div class="world-select-resources" aria-label="Player resources">
-              <span class="world-resource world-resource--energy"><i data-lucide="zap" aria-hidden="true"></i><strong id="selection-energy-value">0/100</strong></span>
-              <span class="world-resource world-resource--coins"><i data-lucide="coins" aria-hidden="true"></i><strong id="selection-coins-value">0</strong></span>
-              <span class="world-resource world-resource--gems"><i data-lucide="gem" aria-hidden="true"></i><strong id="selection-gems-value">0</strong></span>
-              <button class="world-settings-button" id="selection-settings-button" type="button" aria-label="Settings"><i data-lucide="settings" aria-hidden="true"></i></button>
-            </div>
-          </header>
-
-          <div class="world-select-layout">
-            <aside class="world-detail-panel" aria-live="polite">
-              <span class="world-detail-icon" id="world-detail-icon" aria-hidden="true"><i data-lucide="trees"></i></span>
-              <span class="world-detail-number" id="world-detail-number">WORLD 01</span>
-              <h3 id="world-detail-name">Forest World</h3>
-              <strong id="world-detail-theme">Ecosystems and nature</strong>
-              <p id="world-detail-description">Grow a living defence and learn how woodland systems support one another.</p>
-              <div class="world-detail-progress">
-                <span><small>Worlds completed</small><b id="world-complete-value">0 / 6</b></span>
-                <span class="world-progress-track"><i id="world-progress-fill" style="--progress:0%"></i></span>
-                <em id="world-map-progress">0 / 3 maps cleared</em>
-              </div>
-              <button class="world-view-maps" id="world-view-maps-button" type="button">View maps <i data-lucide="arrow-right" aria-hidden="true"></i></button>
-              <button class="world-back-home" id="selection-home-button" type="button"><i data-lucide="house" aria-hidden="true"></i> Back home</button>
-            </aside>
-
-            <div id="world-grid" class="world-grid" aria-label="Learning worlds"></div>
-          </div>
-        </section>
-
-        <section class="map-select-view" id="map-select-view" hidden>
-          <header class="map-select-header">
-            <div class="selection-topline"><span>WIZINO TD / MAP SELECT</span><span id="map-select-summary">18 MAPS · 0 CLEARED</span></div>
-            <button class="map-back-button" id="world-back-button" type="button" aria-label="Back to world selection"><i data-lucide="arrow-left" aria-hidden="true"></i></button>
-          </header>
-          <div class="map-select-title">
-            <span class="map-world-icon" id="map-world-icon" aria-hidden="true"><i data-lucide="trees"></i></span>
-            <div>
-              <span class="eyebrow" id="select-eyebrow">ECOSYSTEMS AND NATURE</span>
-              <h2 id="level-modal-title">Forest World</h2>
-              <p id="select-copy">Select a map to deploy immediately.</p>
-            </div>
-          </div>
-
-          <div class="map-select-layout">
-            <section class="map-catalog" aria-label="Maps in this world">
-              <div id="level-grid" class="level-grid"></div>
-              <button class="map-home-button" id="selection-map-home-button" type="button">Back home</button>
-            </section>
-
-            <aside class="selected-map-panel" aria-live="polite">
-              <span class="selected-map-eyebrow">Selected map</span>
-              <div class="selected-map-title">
-                <span id="selected-map-number">1-1</span>
-                <h3 id="selected-map-name">Mossy Crossing</h3>
-                <b id="selected-map-mode">Guided</b>
-              </div>
-              <div class="selected-map-preview" id="selected-map-preview"></div>
-
-              <section class="selected-map-section">
-                <h4>About this map</h4>
-                <p id="selected-map-about">Protect a young woodland crossing while learning how every organism has a role.</p>
-              </section>
-
-              <section class="selected-map-section">
-                <h4>Educational focus</h4>
-                <div class="selected-map-focus" id="selected-map-focus"></div>
-              </section>
-
-              <div class="selected-map-stats">
-                <div><small>Difficulty</small><strong id="selected-map-difficulty">★☆☆</strong><em id="selected-map-difficulty-label">Beginner friendly</em></div>
-                <div><small>Best result</small><strong><i data-lucide="shield" aria-hidden="true"></i><span id="selected-map-best">No record</span></strong><em>Local device record</em></div>
-              </div>
-
-              <button class="selected-map-play" id="selected-map-play" type="button">Play selected map <i data-lucide="arrow-right" aria-hidden="true"></i></button>
-              <span class="selected-map-hint" id="selection-hint">Choose any map card to deploy immediately.</span>
-            </aside>
-          </div>
-        </section>
-      </div>
-    </section>
-
-    <div class="modal-backdrop" id="help-modal" role="dialog" aria-modal="true" aria-labelledby="help-modal-title">
-      <section class="modal modal--manual">
-        <button class="modal-close icon-button" id="help-close-button" type="button" aria-label="Close field manual">
-          <i data-lucide="x" aria-hidden="true"></i>
-        </button>
-        <span class="eyebrow">FIELD MANUAL / QUICK REFERENCE</span>
-        <h2 id="help-modal-title">Win through composition.</h2>
-        <div class="manual-grid">
-          <section>
-            <h3>01 · The loop</h3>
-            <p>Spend credits on open terrain, send the next wave, and stop contacts before they reach the core. Kills and cleared waves award credits.</p>
-          </section>
-          <section>
-            <h3>02 · Placement</h3>
-            <p>Select a roster card, then click an open tile. The faint grid appears while building. Dashed cells are blocked by the route or another tower.</p>
-          </section>
-          <section>
-            <h3>03 · Counter rules</h3>
-            <div id="manual-matrix" class="damage-matrix-wrap"></div>
-          </section>
-          <section>
-            <h3>04 · Status & control</h3>
-            <p>Poison refreshes one non-stacking damage-over-time effect. Select a built tower to upgrade, sell, or change First / Strong / Last targeting.</p>
-          </section>
-        </div>
-        <div class="manual-note">
-          <i data-lucide="info" aria-hidden="true"></i>
-          <span>The combat table follows Warcraft III: The Frozen Throne values, trimmed to the five armor classes used by this prototype.</span>
-        </div>
-      </section>
-    </div>
-
-    <div class="modal-backdrop" id="outcome-modal" role="dialog" aria-modal="true" aria-labelledby="outcome-title">
-      <section class="modal modal--outcome">
-        <span class="eyebrow" id="outcome-eyebrow">SECTOR REPORT</span>
-        <h2 id="outcome-title">Sector held.</h2>
-        <p id="outcome-copy">All eight waves have been neutralized.</p>
-        <div class="outcome-stats">
-          <div><small>Stars</small><strong id="outcome-stars">☆☆☆</strong></div>
-          <div><small>Integrity</small><strong id="outcome-lives">0</strong></div>
-          <div><small>Towers</small><strong id="outcome-towers">0</strong></div>
-          <div><small>Credits</small><strong id="outcome-cash">$0</strong></div>
-        </div>
-        <div class="outcome-actions">
-          <button class="button button--ghost" id="outcome-levels" type="button">Level select</button>
-          <button class="button button--primary" id="outcome-retry" type="button">Run sector again</button>
-        </div>
       </section>
     </div>
 

@@ -1,6 +1,4 @@
-import type { GameEvent } from './types';
-
-export type UiSound = 'click' | 'card' | 'confirm' | 'toggle' | 'back' | 'open' | 'tower';
+export type UiSound = 'click' | 'card' | 'confirm' | 'toggle' | 'back' | 'open';
 export type UiSoundPack = 'magic-chimes' | 'cozy-clicks' | 'gentle-quest';
 
 export const UI_SOUND_PACKS: ReadonlyArray<{ id: UiSoundPack; name: string; description: string }> = [
@@ -20,9 +18,9 @@ export interface AudioChannels {
 }
 
 const UI_SOUND_FILES: Record<UiSoundPack, Record<UiSound, string>> = {
-  'magic-chimes': Object.fromEntries(['click', 'card', 'confirm', 'toggle', 'back', 'open', 'tower'].map((sound) => [sound, `${sound}.ogg`])) as Record<UiSound, string>,
-  'cozy-clicks': Object.fromEntries(['click', 'card', 'confirm', 'toggle', 'back', 'open', 'tower'].map((sound) => [sound, `${sound}.wav`])) as Record<UiSound, string>,
-  'gentle-quest': Object.fromEntries(['click', 'card', 'confirm', 'toggle', 'back', 'open', 'tower'].map((sound) => [sound, `${sound}.mp3`])) as Record<UiSound, string>,
+  'magic-chimes': Object.fromEntries(['click', 'card', 'confirm', 'toggle', 'back', 'open'].map((sound) => [sound, `${sound}.ogg`])) as Record<UiSound, string>,
+  'cozy-clicks': Object.fromEntries(['click', 'card', 'confirm', 'toggle', 'back', 'open'].map((sound) => [sound, `${sound}.wav`])) as Record<UiSound, string>,
+  'gentle-quest': Object.fromEntries(['click', 'card', 'confirm', 'toggle', 'back', 'open'].map((sound) => [sound, `${sound}.mp3`])) as Record<UiSound, string>,
 };
 
 export function resolveUiSoundUrl(
@@ -45,10 +43,9 @@ export class AudioEngine {
   private soundPack: UiSoundPack = 'magic-chimes';
   private effectPlays = 0;
   private lastEffect: UiSound | null = null;
-  private lastShotAt = 0;
 
   constructor() {
-    const storedPreference = localStorage.getItem('wizino-td-muted') ?? localStorage.getItem('mono-ward-muted');
+    const storedPreference = localStorage.getItem('hugo-go-muted');
     this.muted = storedPreference === null ? true : storedPreference !== 'false';
     if (this.music) this.music.volume = 0.18;
   }
@@ -71,7 +68,7 @@ export class AudioEngine {
 
   toggle(): boolean {
     this.muted = !this.muted;
-    localStorage.setItem('wizino-td-muted', String(this.muted));
+    localStorage.setItem('hugo-go-muted', String(this.muted));
     if (this.muted) {
       this.music?.pause();
     } else {
@@ -104,50 +101,6 @@ export class AudioEngine {
       effectPlays: this.effectPlays,
       lastEffect: this.lastEffect,
     };
-  }
-
-  handle(event: GameEvent): void {
-    if (!this.effectsEnabled || !this.context) return;
-    if (event.type === 'tower-built') this.sequence([240, 360], 0.055, 0.045);
-    if (event.type === 'tower-fired' && performance.now() - this.lastShotAt > 55) {
-      this.lastShotAt = performance.now();
-      this.tone(150 + (event.tower.id % 4) * 35, 0.025, 0.009, 'square');
-    }
-    if (event.type === 'enemy-killed') this.tone(520, 0.022, 0.008, 'triangle');
-    if (event.type === 'enemy-leaked') this.sequence([150, 90], 0.11, 0.05);
-    if (event.type === 'wave-started') this.sequence([260, 330, 420], 0.07, 0.04);
-    if (event.type === 'wave-cleared') this.sequence([330, 440, 550], 0.065, 0.035);
-    if (event.type === 'outcome') {
-      this.sequence(event.outcome === 'victory' ? [330, 440, 660] : [220, 160, 100], 0.15, 0.055);
-    }
-  }
-
-  private tone(
-    frequency: number,
-    duration: number,
-    volume: number,
-    type: OscillatorType = 'sine',
-    delay = 0,
-  ): void {
-    if (!this.context || !this.effectsEnabled) return;
-    const start = this.context.currentTime + delay;
-    const oscillator = this.context.createOscillator();
-    const gain = this.context.createGain();
-    oscillator.type = type;
-    oscillator.frequency.setValueAtTime(frequency, start);
-    gain.gain.setValueAtTime(0.0001, start);
-    gain.gain.exponentialRampToValueAtTime(volume, start + 0.008);
-    gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
-    oscillator.connect(gain);
-    gain.connect(this.context.destination);
-    oscillator.start(start);
-    oscillator.stop(start + duration + 0.02);
-  }
-
-  private sequence(frequencies: number[], duration: number, volume: number): void {
-    frequencies.forEach((frequency, index) => {
-      this.tone(frequency, duration, volume, 'triangle', index * duration * 0.72);
-    });
   }
 
   private async preloadEffects(): Promise<void> {
@@ -185,7 +138,7 @@ export class AudioEngine {
     const gain = this.context.createGain();
     source.buffer = buffer;
     const packVolume = this.soundPack === 'cozy-clicks' ? 0.72 : this.soundPack === 'gentle-quest' ? 0.38 : 0.34;
-    const soundVolume = sound === 'confirm' ? 1 : sound === 'tower' ? 0.9 : sound === 'click' ? 0.76 : 0.84;
+    const soundVolume = sound === 'confirm' ? 1 : sound === 'click' ? 0.76 : 0.84;
     gain.gain.value = packVolume * soundVolume;
     source.connect(gain);
     gain.connect(this.context.destination);

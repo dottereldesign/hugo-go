@@ -1,4 +1,4 @@
-import type { WorldId } from './types';
+import type { WorldId } from './worlds';
 
 export const HOME_PANEL_ART = {
   summerEvent: new URL('./assets/home/panels/summer-event.webp', import.meta.url).href,
