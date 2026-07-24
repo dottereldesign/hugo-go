@@ -46,16 +46,22 @@ test('renders the playable portrait canvas as a separate full-screen view', asyn
   expect(canvasBox?.width).toBeLessThan(canvasBox?.height ?? 0);
 });
 
-test('loads generated Forest art and exposes gradual seasonal changes', async ({ page }) => {
+test('loads the generated character and trail art over a clean blue sky', async ({ page }) => {
   await page.goto('/#/game');
   await page.waitForFunction(() => {
     const resources = performance.getEntriesByType('resource').map((entry) => entry.name);
-    return resources.some((name) => name.includes('forest-season-base'))
+    return resources.some((name) => name.includes('trail-ground'))
       && resources.some((name) => name.includes('hugo-run-cycle'))
       && resources.some((name) => name.includes('hugo-powered-cycle'))
       && resources.some((name) => name.includes('hugo-glide-cycle'))
-      && resources.some((name) => name.includes('hugo-transition-cycle'));
+      && resources.some((name) => name.includes('hugo-jump-land-cycle'));
   });
+  const skyPixel = await page.locator('#game-canvas').evaluate((canvas) => (
+    Array.from((canvas as HTMLCanvasElement).getContext('2d')!.getImageData(10, 10, 1, 1).data)
+  ));
+  expect(skyPixel[0]).toBeLessThan(80);
+  expect(skyPixel[1]).toBeGreaterThan(190);
+  expect(skyPixel[2]).toBeGreaterThan(235);
   await expect(page.locator('#game-season')).toHaveText('SPRING');
 
   await page.evaluate(() => {

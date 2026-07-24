@@ -44,8 +44,9 @@ describe('HUGO GO! deterministic flight physics', () => {
   it('accelerates upward continuously while thrust is held', () => {
     const state = clearCourse();
     expect(setFlightThrust(state, true)).toBe(true);
-    expect(state.hugo.grounded).toBe(true);
-    expect(state.hugo.velocityY).toBe(0);
+    expect(state.hugo.grounded).toBe(false);
+    expect(state.hugo.velocityY).toBeLessThan(0);
+    expect(state.hugo.jumpTime).toBe(0);
     const startingY = state.hugo.y;
     advanceFlight(state, 0.2);
     expect(state.hugo.y).toBeLessThan(startingY);
@@ -77,6 +78,23 @@ describe('HUGO GO! deterministic flight physics', () => {
     const velocityBeforeRepeatedPress = state.hugo.velocityY;
     setFlightThrust(state, true);
     expect(state.hugo.velocityY).toBe(velocityBeforeRepeatedPress);
+  });
+
+  it('gives a falling Hugo one first-press jump without enabling repeated air jumps', () => {
+    const state = clearCourse();
+    state.hugo.y = 420;
+    state.hugo.velocityY = 260;
+    state.hugo.grounded = false;
+    state.hugo.jumpAvailable = true;
+    setFlightThrust(state, true);
+    const firstJumpVelocity = state.hugo.velocityY;
+    expect(firstJumpVelocity).toBeLessThan(0);
+    expect(state.hugo.jumpTime).toBe(0);
+    expect(state.hugo.jumpAvailable).toBe(false);
+
+    setFlightThrust(state, false);
+    setFlightThrust(state, true);
+    expect(state.hugo.velocityY).toBe(firstJumpVelocity);
   });
 
   it('lands precisely on clear ground and resumes running', () => {
@@ -116,7 +134,7 @@ describe('HUGO GO! deterministic flight physics', () => {
     expect(sweptRectangleHits(moving, 70, 0, thinObstacle)).toBe(false);
   });
 
-  it('never converts an obstacle top into landable ground', () => {
+  it('lands safely on an obstacle top while falling', () => {
     const state = clearCourse();
     const hazard = obstacle({ x: state.hugo.x - 4, width: HUGO_WIDTH + 8, height: 96, y: GROUND_Y - 96 });
     state.obstacles = [hazard];
@@ -124,12 +142,14 @@ describe('HUGO GO! deterministic flight physics', () => {
     state.hugo.velocityY = 420;
     state.hugo.grounded = false;
     advanceFlight(state, 0.08);
-    expect(state.phase).toBe('gameover');
-    expect(state.hugo.grounded).toBe(false);
-    expect(state.hugo.y + HUGO_HEIGHT).toBeLessThan(GROUND_Y);
+    expect(state.phase).toBe('playing');
+    expect(state.hugo.grounded).toBe(true);
+    expect(state.hugo.surfaceId).toBe(hazard.id);
+    expect(state.hugo.y + HUGO_HEIGHT).toBe(hazard.y);
+    expect(state.hugo.velocityY).toBe(0);
   });
 
-  it('catches a fall through a thin obstacle even after a long frame', () => {
+  it('lands on a thin obstacle even after a long frame', () => {
     const state = clearCourse();
     const hazard = obstacle({ x: state.hugo.x - 3, y: 500, width: HUGO_WIDTH + 6, height: 8 });
     state.obstacles = [hazard];
@@ -137,10 +157,42 @@ describe('HUGO GO! deterministic flight physics', () => {
     state.hugo.velocityY = 560;
     state.hugo.grounded = false;
     advanceFlight(state, 0.25);
-    expect(state.phase).toBe('gameover');
+    expect(state.phase).toBe('playing');
+    expect(state.hugo.grounded).toBe(true);
+    expect(state.hugo.surfaceId).toBe(hazard.id);
+    expect(state.hugo.y + HUGO_HEIGHT).toBe(hazard.y);
   });
 
-  it('still collides with a solid obstacle while thrust is held', () => {
+  it('runs along an obstacle top and falls only after its trailing edge passes', () => {
+    const state = clearCourse();
+    const platform = obstacle({
+      x: state.hugo.x - 15,
+      y: 560,
+      width: 120,
+      height: GROUND_Y - 560,
+    });
+    state.obstacles = [platform];
+    state.hugo.y = platform.y - HUGO_HEIGHT - 2;
+    state.hugo.velocityY = 180;
+    state.hugo.grounded = false;
+    advanceFlight(state, 0.05);
+    expect(state.hugo.surfaceId).toBe(platform.id);
+    const platformRunY = state.hugo.y;
+
+    advanceFlight(state, 0.25);
+    expect(state.phase).toBe('playing');
+    expect(state.hugo.grounded).toBe(true);
+    expect(state.hugo.y).toBe(platformRunY);
+
+    advanceFlight(state, 0.25);
+    advanceFlight(state, 0.25);
+    expect(state.phase).toBe('playing');
+    expect(state.hugo.grounded).toBe(false);
+    expect(state.hugo.surfaceId).toBeNull();
+    expect(state.hugo.y).toBeGreaterThan(platformRunY);
+  });
+
+  it('only ends the run when Hugo meets the obstacle front face', () => {
     const state = clearCourse();
     state.obstacles = [obstacle({
       x: state.hugo.x + HUGO_WIDTH + 1,
@@ -151,6 +203,14 @@ describe('HUGO GO! deterministic flight physics', () => {
     advanceFlight(state, 0.04);
     expect(state.phase).toBe('gameover');
     expect(state.hugo.thrusting).toBe(false);
+  });
+
+  it('keeps substantially more running room between obstacle groups', () => {
+    const state = createFlightGame(123);
+    const clearances = state.obstacles.slice(1).map((current, index) => (
+      current.x - (state.obstacles[index].x + state.obstacles[index].width)
+    ));
+    expect(Math.min(...clearances)).toBeGreaterThanOrEqual(390);
   });
 
   it('collects each coin exactly once', () => {

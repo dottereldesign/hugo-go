@@ -16,7 +16,7 @@ CHARACTER_SHEETS = (
     ("hugo-run-sheet-transparent.png", "hugo-run-cycle.webp", 4, 4, 2),
     ("hugo-powered-sheet-transparent.png", "hugo-powered-cycle.webp", 3, 3, 2),
     ("hugo-glide-sheet-transparent.png", "hugo-glide-cycle.webp", 3, 3, 2),
-    ("hugo-transition-sheet-transparent.png", "hugo-transition-cycle.webp", 3, 3, 2),
+    ("hugo-jump-land-sheet-transparent.png", "hugo-jump-land-cycle.webp", 4, 4, 2),
 )
 
 
@@ -150,14 +150,19 @@ def process_character_sheet(
     )
 
 
-def process_forest_background() -> None:
-    source = SOURCE_DIRECTORY / "forest-season-source.png"
-    output = OUTPUT_DIRECTORY / "forest-season-base.webp"
-    image = Image.open(source).convert("RGB")
+def process_trail_ground() -> None:
+    source = SOURCE_DIRECTORY / "trail-ground-transparent.png"
+    output = OUTPUT_DIRECTORY / "trail-ground.webp"
+    image = Image.open(source).convert("RGBA")
+    bounds = image.getchannel("A").getbbox()
+    if bounds is None:
+        raise ValueError(f"{source.name} contains no visible pixels")
+    left, top, right, bottom = bounds
+    image = image.crop((left, max(0, top - PADDING), right, bottom))
     if image.width > 1024:
         height = round(image.height * 1024 / image.width)
         image = image.resize((1024, height), Image.Resampling.LANCZOS)
-    image.save(output, "WEBP", quality=84, method=6)
+    image.save(output, "WEBP", quality=88, method=6, exact=True)
     print(f"Wrote {output.relative_to(ROOT)} ({image.width}x{image.height})")
 
 
@@ -167,4 +172,4 @@ if __name__ == "__main__":
         process_transparent_asset(source_asset, output_asset)
     for sheet in CHARACTER_SHEETS:
         process_character_sheet(*sheet)
-    process_forest_background()
+    process_trail_ground()

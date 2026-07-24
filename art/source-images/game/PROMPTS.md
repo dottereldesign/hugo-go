@@ -36,6 +36,8 @@ Constraints: no people, animals, coins, hazards, text, logo, UI, watermark, fram
 
 Generated source: `forest-season-source.png`.
 
+This full-screen background is retained as a legacy source but is no longer loaded by the game.
+
 ## Eight-frame run-cycle sheet
 
 Use `hugo-run-magenta.png` as the exact identity, outfit, materials, lighting, side camera, and polished 3D style anchor.
@@ -117,3 +119,52 @@ Match the supplied polished stylized 3D game render exactly. Use a perfectly fla
 Critical constraints: no flame, fire, exhaust, smoke, sparks, glow, or motion trails. Keep shoe thruster ports visible where possible. No text, numbers, labels, borders, dividers, arrows, logos, watermark, extra objects or people, duplicate limbs, or missing fingers.
 
 Generated sources: `hugo-transition-sheet-magenta.png` and `hugo-transition-sheet-transparent.png`.
+
+The six-frame transition sheet is retained as a legacy source but is no longer processed into the runtime build.
+
+## Eight-frame jump/landing sheet
+
+Use case: identity-preserve game animation asset.
+
+Asset type: production eight-frame jump, fall, toe-touch, and landing sprite sheet for HUGO GO!, replacing the referenced six-frame transition sheet.
+
+Use `hugo-transition-sheet-magenta.png` as the authoritative Hugo identity, face, outfit, proportions, polished stylized 3D rendering, right-facing side camera, and flat magenta sheet reference.
+
+Preserve exactly the same 10-year-old Hugo and render exactly eight consecutive full-body frames in reading order:
+
+1. planted running stride preparing to jump;
+2. clear toe push-off with rear heel lifted;
+3. rising jump with knees beginning to fold and hair/jacket catching air;
+4. fully airborne jump pose transitioning toward flight;
+5. falling approach with both feet extending downward;
+6. first landing contact on the front/toe of one shoe, heel still visibly raised;
+7. soft landing compression with knees bent and jacket settling;
+8. smooth recovery into the running pose.
+
+Use believable windswept chunky hair, hood and jacket-hem rustle, sleeve flutter, and anatomically consistent legs and feet. Frames must form one fluid action rather than unrelated poses.
+
+Layout: exactly two columns by four rows, one pose per equal cell, uniform scale/camera/bounding box, generous magenta gutters, nothing cropped, no overlap, reading left-to-right then top-to-bottom.
+
+Use a perfectly flat uniform `#FF00FF` chroma-key background across the entire image, with no floor, shadows, gradients, dividers, texture, reflection, or lighting variation; never use magenta on Hugo.
+
+Preserve his face, natural round eyes, age, hair, teal jacket with orange trim and silver fern badge, cream shirt, navy shorts over black leggings, and white/teal shoes. Both shoe-thruster ports should be visible where anatomy allows. No flames, exhaust, smoke, sparks, glow, motion trails, text, numbers, labels, borders, logos, watermark, extra person, duplicate or missing limbs, headband, weapon, or franchise costume.
+
+Generated sources: `hugo-jump-land-sheet-magenta.png` and `hugo-jump-land-sheet-transparent.png`.
+
+## Scrolling forestry trail
+
+Use case: illustration-story.
+
+Asset type: wide scrolling ground/terrain strip for a portrait side-running children's game.
+
+Create one original, very wide side-view New Zealand forestry trail terrain band: a warm dusty ochre path surface along the top, compact reddish-brown earth beneath, a few hand-painted stones, exposed roots, tiny tufts of hardy grass, and sparse fern tips. Use vibrant minimalist children's picture-book art with polished mobile-game readability, chunky shapes, and a clean collision silhouette. The surface must be broadly level and runnable, with gentle natural bumps only; avoid visual repetition and obvious tiled motifs.
+
+Composition: panoramic horizontal strip. Terrain fills the bottom 42% of the image from edge to edge; the upper 58% is empty chroma-key space. Keep important detail away from the extreme left/right edges so the strip can scroll beside a second offset copy without a conspicuous seam.
+
+Palette: scorched-red earth, warm terracotta, ochre dust, dark umber roots, and small fresh-green accents.
+
+Use a perfectly flat uniform `#FF00FF` chroma-key background with no gradient, shadow, texture, reflection, horizon, scenery, or lighting variation. Do not use magenta anywhere in the terrain.
+
+No characters, buildings, signs, words, logos, UI, hazards, coins, animals, cultural patterns, watermarks, photorealism, repeating checker/tile pattern, or large foreground object. No sky artwork—the game supplies a solid blue sky in code.
+
+Generated sources: `trail-ground-magenta.png` and `trail-ground-transparent.png`.

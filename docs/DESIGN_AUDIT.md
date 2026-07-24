@@ -8,8 +8,10 @@
 - One input works across touch, mouse, and keyboard.
 - Ground and flight use distinct generated poses.
 - Ground running now uses eight generated stride phases at 12 fps.
-- Shoe jets visibly fire during flight.
-- A generated Forest plate replaces the simple vector mountain/tree scenery.
+- Jumping/landing uses eight authored phases, including a toe-contact frame.
+- Shoe jets visibly fire from per-frame shoe anchors during flight.
+- A clean wordmark-blue sky and generated forestry trail replace the full-screen Forest plate.
+- Hugo can land on and run across obstacle tops; only frontal impacts end the run.
 - Four seasons transition without swapping or decoding additional background images.
 - Five unbuilt worlds remain discoverable without looking playable.
 - Distance, coins, XP, best distance, and local top-five runs connect gameplay back to home.
@@ -31,13 +33,13 @@ Obstacle rectangles receive a subtle warm dashed edge so the hazard boundary is 
 
 ## Game feel
 
-Hugo automatically runs, so an inactive player still sees forward motion. Holding touch, mouse, or a flight key applies continuous shoe-jet acceleration; releasing hands control back to gravity. The acceleration and capped rise speed make takeoff smooth without converting repeated taps into stronger impulses, and the course speed ramps slowly.
+Hugo automatically runs, so an inactive player still sees forward motion. A fresh hold starts with a jump and then applies continuous shoe-jet acceleration; releasing hands control back to gravity. The jump, acceleration, and capped rise speed make takeoff readable without converting repeated events into stronger impulses, and the course speed ramps slowly.
 
 The game borrows the immediate single-action readability associated with Flappy Bird and the energetic forward momentum associated with jetpack runners. Its character, shoe-jet mechanic, Forest presentation, rules, art, and progression are original.
 
 ## Respectful representation
 
-The generated Hugo art uses the same individual face in both poses. Heritage is not conveyed through distorted facial anatomy. New Zealand/Japanese cues stay in contemporary badges, plants, petals, evergreen forest, and volcanic geography.
+The generated Hugo art uses the same individual face across every animation sheet. Heritage is not conveyed through distorted facial anatomy. New Zealand/Japanese cues stay in contemporary badges, plants, petals, and the forestry-trail setting.
 
 No Māori motifs or patterns are present.
 
@@ -46,7 +48,7 @@ No Māori motifs or patterns are present.
 - Forest is one endless course rather than a level campaign.
 - Obstacles are procedural Canvas art.
 - The local leaderboard is not global.
-- Flight currently uses one authored pose; takeoff, glide, and landing transition sheets remain optional.
+- Game-over still freezes the active pose; a dedicated non-injury reaction sheet remains optional.
 - Existing home music/UI sounds remain; bespoke gameplay sound design is deferred.
 
 These limits do not block the current playable loop. Optional visual upgrades are recorded separately in `docs/ART_BACKLOG.md`.

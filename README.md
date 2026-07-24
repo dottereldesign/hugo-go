@@ -6,12 +6,12 @@ Pressing **Play** on the home screen opens `#/game` and starts the run immediate
 
 ## Play
 
-- Mobile: press and hold anywhere in the game to glide upward; release to descend.
-- Desktop: hold the primary mouse button, Space, Up Arrow, or W; release to descend.
-- Hugo automatically runs on safe ground.
+- Mobile: press and hold anywhere in the game to jump, then fly upward; release to descend.
+- Desktop: hold the primary mouse button, Space, Up Arrow, or W to jump/fly; release to descend.
+- Hugo automatically runs on the ground and on obstacle tops.
 - Ground running uses an eight-pose generated cycle at 12 fps.
-- Ground is the only landable surface.
-- Obstacles are solid hazards from every direction, including their tops.
+- A first press while falling supplies one jump before the jets take over.
+- Obstacle tops are safe platforms; only a direct impact with an obstacle's front face ends the run.
 - Collect coins, increase distance, and set a local best.
 - A crash opens an immediate **Fly again** action.
 - Forest World moves through Spring, Summer, Autumn, and Winter at 30-second boundaries, with a gradual ten-second blend before each change.
@@ -41,7 +41,7 @@ npm run test:e2e
 npm run build
 ```
 
-The tests cover deterministic held-thrust physics, smooth release to gravity, safe ground landing, forbidden obstacle landing, edge contact, positive-gap near misses, swept collision/tunnelling, coin collection, animation timing, persistence, direct Play-to-game navigation, retry, and mobile no-scroll behavior.
+The tests cover deterministic held-thrust physics, first-press jumps, smooth release to gravity, ground and obstacle-top landing, running along and leaving a platform, frontal impacts, coin collection, per-frame flame anchors, animation timing, persistence, direct Play-to-game navigation, retry, and mobile no-scroll behavior.
 
 ## Project map
 
@@ -54,7 +54,7 @@ src/game/animation.ts         eight-frame run-cycle timing and atlas coordinates
 src/game/seasons.ts           seasonal timing, filters, blends, and weights
 src/state.ts                  local player state and top-five runs
 src/style.css                 home and portrait-game presentation
-src/assets/game/              compressed background, run atlas, and flight sprite
+src/assets/game/              compressed terrain and character atlases
 art/source-images/game/       full generated sources and prompt record
 tests/engine.test.ts          physics/collision unit tests
 tests/e2e/                    desktop and mobile browser tests

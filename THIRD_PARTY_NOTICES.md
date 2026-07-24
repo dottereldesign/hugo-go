@@ -50,4 +50,4 @@ The license text is bundled at [public/licenses/LUCIDE.txt](public/licenses/LUCI
 
 ## Original artwork
 
-The HUGO GO! home background, world illustrations, profile art, interface compositions, generated Forest background, generated Hugo eight-frame run/flight artwork, and procedural seasonal/gameplay effects are project assets. Their inclusion here does not change the licenses of the third-party libraries listed above.
+The HUGO GO! home background, world illustrations, profile art, interface compositions, generated forestry trail, generated Hugo animation artwork, and procedural seasonal/gameplay effects are project assets. Their inclusion here does not change the licenses of the third-party libraries listed above.

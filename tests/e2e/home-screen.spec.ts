@@ -64,6 +64,53 @@ test('holding the game glides Hugo smoothly upward and release returns gravity',
   expect(afterRelease.velocityY).toBeGreaterThan(velocityAtRelease);
 });
 
+test('lands on an obstacle, runs along it, and jumps cleanly from its top', async ({ page }) => {
+  await page.goto('/#/game');
+  await page.evaluate(() => {
+    const state = window.__HUGO_GO__.getGameState();
+    const platformY = 520;
+    Object.assign(state, {
+      obstacles: [{
+        id: 777,
+        kind: 'log',
+        x: state.hugo.x - 20,
+        y: platformY,
+        width: 260,
+        height: 704 - platformY,
+      }],
+      coins: [],
+    });
+    Object.assign(state.hugo, {
+      y: platformY - 58 - 6,
+      velocityY: 240,
+      grounded: false,
+      thrusting: false,
+      thrustIntensity: 0,
+      jumpAvailable: true,
+      surfaceId: null,
+    });
+  });
+
+  await page.waitForFunction(() => window.__HUGO_GO__.getGameState().hugo.surfaceId === 777);
+  const landed = await page.evaluate(() => ({ ...window.__HUGO_GO__.getGameState().hugo }));
+  await page.waitForTimeout(220);
+  const running = await page.evaluate(() => ({ ...window.__HUGO_GO__.getGameState().hugo }));
+  expect(running.grounded).toBe(true);
+  expect(running.surfaceId).toBe(777);
+  expect(running.y).toBeCloseTo(landed.y, 4);
+
+  const canvas = page.locator('#game-canvas');
+  await canvas.hover({ position: { x: 190, y: 420 } });
+  await page.mouse.down();
+  await page.waitForTimeout(120);
+  const jumping = await page.evaluate(() => ({ ...window.__HUGO_GO__.getGameState().hugo }));
+  await page.mouse.up();
+  expect(jumping.grounded).toBe(false);
+  expect(jumping.surfaceId).toBeNull();
+  expect(jumping.y).toBeLessThan(running.y);
+  expect(jumping.jumpTime).toBeLessThan(0.34);
+});
+
 test('crashing records the run and Fly again restarts without a level screen', async ({ page }) => {
   await page.goto('/#/game');
   await expect(page.locator('#game-over-overlay')).toBeVisible({ timeout: 6_000 });

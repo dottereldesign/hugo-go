@@ -16,22 +16,22 @@ The home screen still shows Workshop, Word, Number, Space, and Music so the prod
 
 | Device | Input | Action |
 | --- | --- | --- |
-| Touch | Press and hold the game | Apply continuous upward shoe-jet acceleration |
-| Mouse/trackpad | Hold the primary button in the game | Apply continuous upward shoe-jet acceleration |
-| Keyboard | Hold Space, Up Arrow, or W | Apply continuous upward shoe-jet acceleration |
+| Touch | Press and hold the game | Jump once, then apply continuous upward shoe-jet acceleration |
+| Mouse/trackpad | Hold the primary button in the game | Jump once, then apply continuous upward shoe-jet acceleration |
+| Keyboard | Hold Space, Up Arrow, or W | Jump once, then apply continuous upward shoe-jet acceleration |
 | Any | Back home | End the active view and return home |
 
-Input is press-and-hold rather than repeated impulses. Thrust ramps smoothly while held; releasing immediately returns control to gravity. Repeated `pointerdown` or keyboard-repeat events do not reset or multiply Hugo's velocity.
+Input is press-and-hold rather than repeated impulses. A fresh press jumps from the current running surface. If Hugo walked off a platform without jumping, his first airborne press supplies one rescue jump; it cannot be repeated before the next landing. Thrust ramps smoothly while held, and releasing immediately returns control to gravity. Repeated `pointerdown` or keyboard-repeat events do not reset or multiply Hugo's velocity.
 
 ## Run rules
 
 1. The game begins in `playing` state with Hugo running on the ground.
 2. The world scrolls automatically and gradually accelerates.
-3. Holding thrust smoothly changes Hugo from running to powered flight.
-4. Gravity returns Hugo to the ground when the space below him is clear.
-5. Only the fixed ground plane is safe for landing.
-6. Logs, boulders, and stumps are solid hazards on their top, sides, and bottom.
-7. Touching a hazard ends the run. The engine never snaps Hugo onto a hazard.
+3. A fresh hold begins with a jump animation, then smoothly changes Hugo to powered flight.
+4. Gravity returns Hugo to the first clear surface below him.
+5. The fixed ground and obstacle tops are safe running surfaces.
+6. Hugo remains grounded while an obstacle scrolls beneath him and falls when its trailing edge passes.
+7. Only a direct horizontal impact with an obstacle's front face ends the run.
 8. Coins are collected once and removed.
 9. A crash freezes the run, saves its result, and shows **Fly again**.
 
@@ -46,16 +46,18 @@ Simulation is split into fixed `1/120 s` substeps. The public advance function c
 Obstacle detection combines:
 
 - inclusive axis-aligned overlap, where exact edge contact counts;
-- swept rectangle collision using relative world motion;
-- collision checks before any ground snap;
+- swept rectangle helpers for diagnostic coverage;
+- swept top-crossing tests using relative world motion for platform landings;
+- front-face crossing tests for fatal impacts;
 - fixed-step integration for vertical falls and horizontal scrolling.
 
 This makes these outcomes explicit:
 
 - a measurable positive gap is safe;
-- exact edge contact is a collision;
-- fast travel through a thin hazard is detected;
-- a fall toward an obstacle top is a collision, never a landing;
+- exact horizontal front-face contact is a collision;
+- fast downward travel through a thin platform still lands on its top;
+- a fall toward an obstacle top lands precisely on that top;
+- a supported Hugo runs at the platform height until its trailing edge passes;
 - clear-ground descent lands exactly on the ground plane;
 - a coin can increment the run total only once.
 
@@ -82,15 +84,15 @@ The home profile, missions, resource counters, best-distance footer, and local l
 Hugo has four generated full-body animation atlases:
 
 - an eight-frame grounded forward-leaning sprint cycle with arms swept back;
-- a six-frame takeoff/landing transition sheet;
+- an eight-frame jump/landing sheet with push-off, airborne, falling, toe-contact, compression, and recovery poses;
 - a six-frame powered-glide loop with wind-rustled hair and jacket;
 - a six-frame unpowered glide/fall loop with distinct secondary motion.
 
-All atlases play at 12 fps. Takeoff uses transition frames 1–3 and landing uses frames 4–6 before returning to the run cycle. The authored frames keep Hugo as a complete rendered character so cloth, lighting, hands, and joint occlusion stay coherent; splitting this particular 3D art into separately generated limbs would introduce seams and identity drift.
+All atlases play at 12 fps. Jumping uses the clean crouch and airborne silhouettes in transition frames 3–4; the two stiffer duplicate stride poses are intentionally skipped. Landing uses frames 5–8 before returning to the run cycle. The authored frames keep Hugo as a complete rendered character so cloth, lighting, hands, and joint occlusion stay coherent; splitting this particular 3D art into separately generated limbs would introduce seams and identity drift.
 
-The two shoe flames are Canvas paths rather than baked pixels. Their two-layer gradients, glow, length, opacity, and flicker respond to a smoothed thrust-intensity value. The editable palette is the exported `JET_FLAME_COLORS` object in `src/game/FlightGame.ts`.
+The two shoe flames are Canvas paths rather than baked pixels. Each powered and glide atlas frame has two measured shoe-port anchors, so the fire follows the moving feet instead of using one fixed pair of points. Their scorched-red gradients, glow, length, opacity, and flicker respond to a smoothed thrust-intensity value. The editable palette is the exported `JET_FLAME_COLORS` object in `src/game/FlightGame.ts`.
 
-The Forest backdrop is a generated 3D-style image with a distant volcanic mountain, rimu-like evergreen trees, sakura blossom, and silver-fern-like plants. Obstacles, coins, ground markings, and weather particles remain procedural so hazard art and collision bounds stay aligned.
+The old full-screen Forest image is not loaded. The play corridor uses the `#26d9ff` blue from the HUGO GO! home wordmark as a clean sky, while a generated transparent ochre/scorched-red New Zealand forestry trail scrolls below it. Obstacles, coins, and weather particles remain procedural so hazard art and collision bounds stay aligned.
 
 ## Seasonal cycle
 
@@ -103,7 +105,7 @@ Forest World uses four visual profiles in this order:
 
 Each season owns a 30-second slot. Its first 20 seconds hold steady; its final 10 seconds use smooth-step interpolation into the next profile. The sequence loops from Winter back to Spring after 120 seconds.
 
-Only one 308 KB background texture is held in memory. Canvas filter values, one translucent tint, and at most 24 simple particles create the transitions, avoiding four large decoded images. A logical-resolution offscreen canvas caches the filtered plate; it refreshes only when one of 120 blend steps changes.
+No full-screen background texture or offscreen filter buffer is held in memory. One translucent tint and at most 24 simple particles create the seasonal transitions over the blue sky and 64 KB trail strip.
 
 ## Cultural and character guardrails
 

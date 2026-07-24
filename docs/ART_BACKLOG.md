@@ -4,8 +4,8 @@ No character image required for the current Forest controls is missing.
 
 ## Completed now
 
-- One season-neutral illustrated Forest background.
-- Spring, Summer, Autumn, and Winter grading from that single image.
+- One wide transparent ochre/scorched-red New Zealand forestry trail.
+- Flat home-wordmark-blue sky with Spring, Summer, Autumn, and Winter tint/particles.
 - Lightweight seasonal petals, light motes, leaves, and snow.
 - Eight-frame Hugo run cycle:
   1. right contact;
@@ -18,10 +18,10 @@ No character image required for the current Forest controls is missing.
   8. right-leading airborne/up.
 - Six-frame powered-glide loop with stable shoe anchors, wind-rustled hair, and jacket flutter.
 - Six-frame unpowered glide/fall loop with calmer secondary motion.
-- Six-frame transition sheet: three takeoff poses followed by three landing poses.
-- Two animated shoe flames drawn in Canvas code, with an editable color palette and thrust-responsive length/glow.
+- Eight-frame jump/landing sheet: push-off, rise, airborne, fall, toe-contact, compression, and run recovery.
+- Two animated shoe flames drawn in Canvas code, with per-frame shoe-port anchors, an editable scorched-red palette, and thrust-responsive length/glow.
 
-The run cycle plays at 12 fps and repeats every `0.667 s`. The two flight loops each repeat every `0.5 s`. Across run, powered glide, free glide, and transition there are **26 authored full-body frames**. More generated in-betweens would add download/decode cost and are less reliable than the deterministic 12 fps timing plus the acceleration and thrust-intensity interpolation already performed every simulation/render frame.
+The run cycle plays at 12 fps and repeats every `0.667 s`. The two flight loops each repeat every `0.5 s`. Across run, powered glide, free glide, and jump/landing there are **28 authored full-body frames**. More generated in-betweens should be added only when they improve silhouette continuity enough to justify their download/decode cost.
 
 Full-body normalized cells are intentional. Separately generated heads, arms, jacket panels, and legs would be useful for a purpose-built 2D skeletal rig, but this established stylized 3D render contains overlapping cloth, hands, hair, soft lighting, and self-shadowing. Cutting it apart would create seams and inconsistent occlusion. If a future art direction changes to rigged 2D, author layered source parts together from one turnaround rather than slicing these rendered poses.
 

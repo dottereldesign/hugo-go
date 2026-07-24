@@ -1,10 +1,11 @@
-import forestSeasonUrl from '../assets/game/forest-season-base.webp';
 import hugoGlideCycleUrl from '../assets/game/hugo-glide-cycle.webp';
+import hugoJumpLandCycleUrl from '../assets/game/hugo-jump-land-cycle.webp';
 import hugoPoweredCycleUrl from '../assets/game/hugo-powered-cycle.webp';
 import hugoRunCycleUrl from '../assets/game/hugo-run-cycle.webp';
-import hugoTransitionCycleUrl from '../assets/game/hugo-transition-cycle.webp';
+import trailGroundUrl from '../assets/game/trail-ground.webp';
 import {
   getFlightLoopFrame,
+  getJetFlameAnchors,
   getLandingFrame,
   getRunFrame,
   getTakeoffFrame,
@@ -12,6 +13,7 @@ import {
   RUN_FRAME_WIDTH,
   TRANSITION_DURATION,
   type AtlasFrame,
+  type FlightPoseKind,
 } from './animation';
 import {
   GAME_HEIGHT,
@@ -53,11 +55,11 @@ interface FlightGameOptions {
 type LoadedSprite = HTMLImageElement & { ready?: boolean };
 
 export const JET_FLAME_COLORS = {
-  core: '#edffff',
-  inner: '#58e5ff',
-  outer: '#ffc83d',
-  tip: '#ff6526',
-  glow: 'rgba(63, 224, 255, .48)',
+  core: '#fff1bd',
+  inner: '#ffad16',
+  outer: '#e53b18',
+  tip: '#8f160f',
+  glow: 'rgba(207, 39, 17, .56)',
 } as const;
 
 export class FlightGame {
@@ -67,15 +69,12 @@ export class FlightGame {
   private running = false;
   private runReported = false;
   private readonly context: CanvasRenderingContext2D;
-  private readonly backgroundBuffer: HTMLCanvasElement;
-  private readonly backgroundContext: CanvasRenderingContext2D;
-  private backgroundCacheKey = '';
   private assetsStarted = false;
   private readonly poweredCycleSprite = this.createSprite();
   private readonly glideCycleSprite = this.createSprite();
-  private readonly transitionCycleSprite = this.createSprite();
+  private readonly jumpLandCycleSprite = this.createSprite();
   private readonly runCycleSprite = this.createSprite();
-  private readonly forestBackground = this.createSprite();
+  private readonly trailGroundSprite = this.createSprite();
   private seasonLabel = '';
   private activePointerId: number | null = null;
   private readonly thrustKeys = new Set<string>();
@@ -87,12 +86,6 @@ export class FlightGame {
     const context = elements.canvas.getContext('2d');
     if (!context) throw new Error('HUGO GO! needs Canvas 2D support.');
     this.context = context;
-    this.backgroundBuffer = document.createElement('canvas');
-    this.backgroundBuffer.width = GAME_WIDTH;
-    this.backgroundBuffer.height = GROUND_Y;
-    const backgroundContext = this.backgroundBuffer.getContext('2d');
-    if (!backgroundContext) throw new Error('HUGO GO! needs offscreen Canvas 2D support.');
-    this.backgroundContext = backgroundContext;
     this.configureCanvas();
     this.bindControls();
   }
@@ -106,7 +99,7 @@ export class FlightGame {
     this.previousFrameTime = performance.now();
     this.elements.overlay.hidden = true;
     this.elements.phase.textContent = 'RUNNING';
-    this.elements.announcer.textContent = 'Forest run started. Press and hold to glide upward; release to descend.';
+    this.elements.announcer.textContent = 'Forest run started. Press and hold to jump, then fly upward; release to descend.';
     this.updateHud();
     this.render();
     cancelAnimationFrame(this.animationFrame);
@@ -243,7 +236,7 @@ export class FlightGame {
     const context = this.context;
     const season = getSeasonVisual(this.state.elapsed);
     context.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-    this.drawSeasonBackground(context, season);
+    this.drawSky(context);
     this.drawGround(context);
     this.drawSeasonAtmosphere(context, season);
     this.drawCoins(context);
@@ -252,54 +245,9 @@ export class FlightGame {
     this.drawStartHint(context);
   }
 
-  private drawSeasonBackground(context: CanvasRenderingContext2D, season: SeasonVisual): void {
-    const sky = context.createLinearGradient(0, 0, 0, GROUND_Y);
-    sky.addColorStop(0, '#70d8f2');
-    sky.addColorStop(0.52, '#bdf2df');
-    sky.addColorStop(1, '#f6e7a8');
-    context.fillStyle = sky;
+  private drawSky(context: CanvasRenderingContext2D): void {
+    context.fillStyle = '#26d9ff';
     context.fillRect(0, 0, GAME_WIDTH, GROUND_Y);
-
-    if (!this.forestBackground.ready) return;
-
-    const filterStep = Math.round(season.transition * 120);
-    const cacheKey = `${season.current}-${season.next}-${filterStep}`;
-    if (cacheKey !== this.backgroundCacheKey) {
-      this.renderBackgroundBuffer(season);
-      this.backgroundCacheKey = cacheKey;
-    }
-    context.drawImage(this.backgroundBuffer, 0, 0, GAME_WIDTH, GROUND_Y);
-  }
-
-  private renderBackgroundBuffer(season: SeasonVisual): void {
-    const context = this.backgroundContext;
-    const sourceWidth = this.forestBackground.naturalWidth;
-    const sourceHeight = this.forestBackground.naturalHeight;
-    const targetAspect = GAME_WIDTH / GROUND_Y;
-    const sourceAspect = sourceWidth / sourceHeight;
-    let cropWidth = sourceWidth;
-    let cropHeight = sourceHeight;
-    if (sourceAspect > targetAspect) cropWidth = sourceHeight * targetAspect;
-    else cropHeight = sourceWidth / targetAspect;
-    const sourceX = (sourceWidth - cropWidth) / 2;
-    const sourceY = sourceHeight - cropHeight;
-
-    context.clearRect(0, 0, GAME_WIDTH, GROUND_Y);
-    context.imageSmoothingEnabled = true;
-    context.imageSmoothingQuality = 'high';
-    context.filter = season.filter;
-    context.drawImage(
-      this.forestBackground,
-      sourceX,
-      sourceY,
-      cropWidth,
-      cropHeight,
-      0,
-      0,
-      GAME_WIDTH,
-      GROUND_Y,
-    );
-    context.filter = 'none';
   }
 
   private drawSeasonAtmosphere(context: CanvasRenderingContext2D, season: SeasonVisual): void {
@@ -362,18 +310,28 @@ export class FlightGame {
   }
 
   private drawGround(context: CanvasRenderingContext2D): void {
-    context.fillStyle = '#5f9f38';
+    context.fillStyle = '#7c2818';
     context.fillRect(0, GROUND_Y, GAME_WIDTH, GAME_HEIGHT - GROUND_Y);
-    context.fillStyle = '#9bd449';
-    context.fillRect(0, GROUND_Y, GAME_WIDTH, 9);
-    context.fillStyle = '#385d2f';
-    context.fillRect(0, GROUND_Y + 18, GAME_WIDTH, GAME_HEIGHT - GROUND_Y - 18);
+    if (!this.trailGroundSprite.ready) {
+      context.fillStyle = '#e8892e';
+      context.fillRect(0, GROUND_Y, GAME_WIDTH, 10);
+      return;
+    }
 
+    const drawHeight = 200;
+    const drawWidth = drawHeight * (
+      this.trailGroundSprite.naturalWidth / this.trailGroundSprite.naturalHeight
+    );
     const travel = this.state.distance / 0.085;
-    context.fillStyle = 'rgba(221, 199, 115, .42)';
-    for (let index = 0; index < 12; index += 1) {
-      const x = modulo(index * 42 - travel, GAME_WIDTH + 42) - 20;
-      context.fillRect(x, GROUND_Y + 34 + (index % 2) * 17, 20, 4);
+    const firstX = -modulo(travel, drawWidth);
+    for (let x = firstX; x < GAME_WIDTH; x += drawWidth) {
+      context.drawImage(
+        this.trailGroundSprite,
+        x,
+        GROUND_Y - 49,
+        drawWidth,
+        drawHeight,
+      );
     }
   }
 
@@ -464,7 +422,7 @@ export class FlightGame {
         RUN_FRAME_WIDTH,
         RUN_FRAME_HEIGHT,
         hugo.x - 43,
-        GROUND_Y - drawHeight + runFrame.verticalOffset,
+        hugo.y + HUGO_HEIGHT - drawHeight + runFrame.verticalOffset,
         drawWidth,
         drawHeight,
       );
@@ -477,14 +435,27 @@ export class FlightGame {
       const drawHeight = 118;
       const drawWidth = drawHeight * (RUN_FRAME_WIDTH / RUN_FRAME_HEIGHT);
       const drawX = hugo.x - 52;
-      const drawY = hugo.grounded ? GROUND_Y - drawHeight : hugo.y - 57;
+      const drawY = hugo.y + HUGO_HEIGHT - drawHeight;
 
-      if (!hugo.grounded && hugo.thrustIntensity > 0.01) {
-        this.drawJetFlames(context, drawX, drawY, drawWidth, drawHeight, hugo.thrustIntensity);
+      if (
+        !hugo.grounded
+        && hugo.thrustIntensity > 0.01
+        && animatedPose.kind !== 'transition'
+      ) {
+        this.drawJetFlames(
+          context,
+          drawX,
+          drawY,
+          drawWidth,
+          drawHeight,
+          hugo.thrustIntensity,
+          animatedPose.kind,
+          animatedPose.frame.index,
+        );
       }
 
       context.save();
-      if (hugo.thrustIntensity > 0.12) {
+      if (animatedPose.kind !== 'transition' && hugo.thrustIntensity > 0.12) {
         context.shadowColor = JET_FLAME_COLORS.glow;
         context.shadowBlur = 12 * hugo.thrustIntensity;
       }
@@ -510,30 +481,38 @@ export class FlightGame {
     }
   }
 
-  private getAnimatedFlightPose(): { sprite: LoadedSprite; frame: AtlasFrame } | null {
+  private getAnimatedFlightPose(): {
+    sprite: LoadedSprite;
+    frame: AtlasFrame;
+    kind: FlightPoseKind | 'transition';
+  } | null {
     const { hugo } = this.state;
-    if (hugo.grounded && this.transitionCycleSprite.ready) {
+    if (hugo.grounded && this.jumpLandCycleSprite.ready) {
       return {
-        sprite: this.transitionCycleSprite,
+        sprite: this.jumpLandCycleSprite,
         frame: getLandingFrame(hugo.groundedTime),
+        kind: 'transition',
       };
     }
-    if (!hugo.grounded && hugo.airborneTime < TRANSITION_DURATION && this.transitionCycleSprite.ready) {
+    if (!hugo.grounded && hugo.jumpTime < TRANSITION_DURATION && this.jumpLandCycleSprite.ready) {
       return {
-        sprite: this.transitionCycleSprite,
-        frame: getTakeoffFrame(hugo.airborneTime),
+        sprite: this.jumpLandCycleSprite,
+        frame: getTakeoffFrame(hugo.jumpTime),
+        kind: 'transition',
       };
     }
     if (hugo.thrusting && this.poweredCycleSprite.ready) {
       return {
         sprite: this.poweredCycleSprite,
         frame: getFlightLoopFrame(this.state.elapsed),
+        kind: 'powered',
       };
     }
     if (this.glideCycleSprite.ready) {
       return {
         sprite: this.glideCycleSprite,
         frame: getFlightLoopFrame(this.state.elapsed),
+        kind: 'glide',
       };
     }
     return null;
@@ -546,19 +525,18 @@ export class FlightGame {
     drawWidth: number,
     drawHeight: number,
     intensity: number,
+    pose: FlightPoseKind,
+    frameIndex: number,
   ): void {
-    const anchors = [
-      { x: drawX + drawWidth * 0.23, y: drawY + drawHeight * 0.87, phase: 0 },
-      { x: drawX + drawWidth * 0.36, y: drawY + drawHeight * 0.85, phase: 2.3 },
-    ];
+    const anchors = getJetFlameAnchors(pose, frameIndex);
 
-    for (const anchor of anchors) {
-      const flicker = 0.92 + Math.sin(this.state.elapsed * 31 + anchor.phase) * 0.08;
+    for (const [index, anchor] of anchors.entries()) {
+      const flicker = 0.92 + Math.sin(this.state.elapsed * 31 + index * 2.3) * 0.08;
       const flameLength = (12 + intensity * 25) * flicker;
       const flameWidth = 3.8 + intensity * 4.6;
       context.save();
-      context.translate(anchor.x, anchor.y);
-      context.rotate(0.24);
+      context.translate(drawX + drawWidth * anchor.x, drawY + drawHeight * anchor.y);
+      context.rotate(anchor.angle);
       context.globalAlpha = 0.42 + intensity * 0.58;
 
       const glow = context.createRadialGradient(0, 5, 0, 0, 8, flameLength * 0.82);
@@ -608,7 +586,7 @@ export class FlightGame {
     context.fillStyle = '#fffbe0';
     context.textAlign = 'center';
     context.font = '900 19px Inter, sans-serif';
-    context.fillText('PRESS & HOLD TO GLIDE UP', GAME_WIDTH / 2, 191);
+    context.fillText('PRESS & HOLD TO JUMP + FLY', GAME_WIDTH / 2, 191);
     context.fillStyle = '#c9f7ff';
     context.font = '700 11px Inter, sans-serif';
     context.fillText('Release to descend · Space, ↑ or W', GAME_WIDTH / 2, 215);
@@ -630,9 +608,9 @@ export class FlightGame {
     this.assetsStarted = true;
     this.poweredCycleSprite.src = hugoPoweredCycleUrl;
     this.glideCycleSprite.src = hugoGlideCycleUrl;
-    this.transitionCycleSprite.src = hugoTransitionCycleUrl;
+    this.jumpLandCycleSprite.src = hugoJumpLandCycleUrl;
     this.runCycleSprite.src = hugoRunCycleUrl;
-    this.forestBackground.src = forestSeasonUrl;
+    this.trailGroundSprite.src = trailGroundUrl;
   }
 }
 
