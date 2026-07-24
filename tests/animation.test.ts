@@ -3,6 +3,8 @@ import {
   DOUBLE_JUMP_DURATION,
   FLIGHT_FRAME_COUNT,
   LANDING_FRAME_START,
+  RUN_FRAME_HEIGHT,
+  RUN_FRAME_WIDTH,
   WALL_RECOVERY_DURATION,
   getDoubleJumpFrame,
   getDoubleJumpFrameLayout,
@@ -64,12 +66,28 @@ describe('Hugo character animation timing', () => {
           expect(anchor.y).toBeGreaterThan(0.7);
           expect(anchor.y).toBeLessThan(0.95);
           expect(anchor.angle).toBeGreaterThanOrEqual(0.45);
-          expect(anchor.angle).toBeLessThanOrEqual(0.7);
+          expect(anchor.angle).toBeLessThanOrEqual(0.75);
         }
       }
       expect(new Set(frameAnchors.map((anchors) => (
         anchors.map(({ x, y }) => `${x},${y}`).join('|')
-      ))).size).toBeGreaterThan(3);
+      ))).size).toBeGreaterThanOrEqual(3);
+    }
+  });
+
+  it('keeps each exhaust origin on its measured metal heel port', () => {
+    for (const pose of ['powered', 'glide'] as const) {
+      for (let frame = 0; frame < FLIGHT_FRAME_COUNT; frame += 1) {
+        const [rearShoe, frontShoe] = getJetFlameAnchors(pose, frame);
+        expect(rearShoe.x * RUN_FRAME_WIDTH).toBeGreaterThanOrEqual(95);
+        expect(rearShoe.x * RUN_FRAME_WIDTH).toBeLessThanOrEqual(98);
+        expect(rearShoe.y * RUN_FRAME_HEIGHT).toBeGreaterThanOrEqual(284);
+        expect(rearShoe.y * RUN_FRAME_HEIGHT).toBeLessThanOrEqual(291);
+        expect(frontShoe.x * RUN_FRAME_WIDTH).toBeGreaterThanOrEqual(139);
+        expect(frontShoe.x * RUN_FRAME_WIDTH).toBeLessThanOrEqual(143);
+        expect(frontShoe.y * RUN_FRAME_HEIGHT).toBeGreaterThanOrEqual(280);
+        expect(frontShoe.y * RUN_FRAME_HEIGHT).toBeLessThanOrEqual(286);
+      }
     }
   });
 
@@ -98,10 +116,11 @@ describe('Hugo character animation timing', () => {
     expect(getWallRecoveryFrame(WALL_RECOVERY_DURATION).index).toBe(5);
   });
 
-  it('uses a warm scorched-red fire palette without the old cyan flame', () => {
-    expect(JET_FLAME_COLORS.outer).toBe('#e53b18');
-    expect(JET_FLAME_COLORS.tip).toBe('#8f160f');
-    expect(JET_FLAME_COLORS.glow).toContain('207, 39, 17');
-    expect(Object.values(JET_FLAME_COLORS).join(' ')).not.toContain('#58e5ff');
+  it('uses a white-cyan plasma core with a warm exhaust tail', () => {
+    expect(JET_FLAME_COLORS.core).toBe('#f8ffff');
+    expect(JET_FLAME_COLORS.plasma).toBe('#62efff');
+    expect(JET_FLAME_COLORS.outer).toBe('#ff7a18');
+    expect(JET_FLAME_COLORS.tip).toBe('#e82f4f');
+    expect(JET_FLAME_COLORS.glow).toContain('70, 232, 255');
   });
 });

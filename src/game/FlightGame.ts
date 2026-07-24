@@ -63,11 +63,12 @@ interface FlightGameOptions {
 type LoadedSprite = HTMLImageElement & { ready?: boolean };
 
 export const JET_FLAME_COLORS = {
-  core: '#fff1bd',
-  inner: '#ffad16',
-  outer: '#e53b18',
-  tip: '#8f160f',
-  glow: 'rgba(207, 39, 17, .56)',
+  core: '#f8ffff',
+  plasma: '#62efff',
+  inner: '#ffe45e',
+  outer: '#ff7a18',
+  tip: '#e82f4f',
+  glow: 'rgba(70, 232, 255, .72)',
 } as const;
 
 const RUN_DRAW_HEIGHT = 76;
@@ -637,42 +638,106 @@ export class FlightGame {
     const anchors = getJetFlameAnchors(pose, frameIndex);
 
     for (const [index, anchor] of anchors.entries()) {
-      const flicker = 0.92 + Math.sin(this.state.elapsed * 31 + index * 2.3) * 0.08;
-      const flameLength = (12 + intensity * 25) * flicker;
-      const flameWidth = 3.8 + intensity * 4.6;
+      const phase = this.state.elapsed * 34 + frameIndex * 0.91 + index * 2.7;
+      const flicker = 0.92 + Math.sin(phase) * 0.055 + Math.sin(phase * 1.83) * 0.025;
+      const flameLength = (8 + intensity * 23) * flicker;
+      const flameWidth = 2.2 + intensity * 3.1;
+      const tailSway = Math.sin(phase * 0.73) * flameWidth * 0.38;
       context.save();
       context.translate(drawX + drawWidth * anchor.x, drawY + drawHeight * anchor.y);
       context.rotate(anchor.angle);
-      context.globalAlpha = 0.42 + intensity * 0.58;
+      context.globalAlpha = 0.55 + intensity * 0.45;
+      context.globalCompositeOperation = 'lighter';
 
-      const glow = context.createRadialGradient(0, 5, 0, 0, 8, flameLength * 0.82);
+      const glow = context.createRadialGradient(0, 3, 0, 0, flameLength * 0.36, flameLength * 0.74);
       glow.addColorStop(0, JET_FLAME_COLORS.glow);
-      glow.addColorStop(1, 'rgba(63, 224, 255, 0)');
+      glow.addColorStop(0.46, 'rgba(255, 148, 35, .24)');
+      glow.addColorStop(1, 'rgba(70, 232, 255, 0)');
       context.fillStyle = glow;
       context.beginPath();
-      context.ellipse(0, flameLength * 0.45, flameWidth * 2.1, flameLength * 0.72, 0, 0, Math.PI * 2);
+      context.ellipse(
+        tailSway * 0.35,
+        flameLength * 0.4,
+        flameWidth * 1.65,
+        flameLength * 0.62,
+        0,
+        0,
+        Math.PI * 2,
+      );
       context.fill();
+      context.globalCompositeOperation = 'source-over';
 
       const outer = context.createLinearGradient(0, 0, 0, flameLength);
       outer.addColorStop(0, JET_FLAME_COLORS.core);
-      outer.addColorStop(0.24, JET_FLAME_COLORS.inner);
-      outer.addColorStop(0.58, JET_FLAME_COLORS.outer);
+      outer.addColorStop(0.1, JET_FLAME_COLORS.plasma);
+      outer.addColorStop(0.28, JET_FLAME_COLORS.inner);
+      outer.addColorStop(0.62, JET_FLAME_COLORS.outer);
       outer.addColorStop(1, JET_FLAME_COLORS.tip);
       context.fillStyle = outer;
       context.beginPath();
-      context.moveTo(-flameWidth, 0);
-      context.quadraticCurveTo(-flameWidth * 0.84, flameLength * 0.48, 0, flameLength);
-      context.quadraticCurveTo(flameWidth * 0.84, flameLength * 0.48, flameWidth, 0);
+      context.moveTo(-flameWidth * 0.28, 0);
+      context.bezierCurveTo(
+        -flameWidth * 1.08,
+        flameLength * 0.2,
+        tailSway - flameWidth * 0.62,
+        flameLength * 0.68,
+        tailSway,
+        flameLength,
+      );
+      context.bezierCurveTo(
+        tailSway + flameWidth * 0.58,
+        flameLength * 0.64,
+        flameWidth * 1.02,
+        flameLength * 0.2,
+        flameWidth * 0.28,
+        0,
+      );
+      context.closePath();
+      context.fill();
+
+      const coreLength = flameLength * (0.58 + Math.sin(phase * 1.37) * 0.035);
+      const core = context.createLinearGradient(0, 0, 0, coreLength);
+      core.addColorStop(0, JET_FLAME_COLORS.core);
+      core.addColorStop(0.38, JET_FLAME_COLORS.plasma);
+      core.addColorStop(1, 'rgba(255, 228, 94, 0)');
+      context.fillStyle = core;
+      context.beginPath();
+      context.moveTo(-flameWidth * 0.13, 0);
+      context.bezierCurveTo(
+        -flameWidth * 0.42,
+        coreLength * 0.28,
+        tailSway * 0.2 - flameWidth * 0.18,
+        coreLength * 0.7,
+        tailSway * 0.26,
+        coreLength,
+      );
+      context.bezierCurveTo(
+        tailSway * 0.2 + flameWidth * 0.2,
+        coreLength * 0.68,
+        flameWidth * 0.42,
+        coreLength * 0.26,
+        flameWidth * 0.13,
+        0,
+      );
       context.closePath();
       context.fill();
 
       context.fillStyle = JET_FLAME_COLORS.core;
       context.beginPath();
-      context.moveTo(-flameWidth * 0.37, 0);
-      context.quadraticCurveTo(0, flameLength * 0.53, flameWidth * 0.18, flameLength * 0.64);
-      context.quadraticCurveTo(flameWidth * 0.42, flameLength * 0.24, flameWidth * 0.37, 0);
-      context.closePath();
+      context.ellipse(0, flameLength * 0.18, flameWidth * 0.3, flameLength * 0.1, 0, 0, Math.PI * 2);
       context.fill();
+
+      for (let sparkIndex = 0; sparkIndex < 2; sparkIndex += 1) {
+        const sparkPhase = phase + sparkIndex * 2.1;
+        const sparkProgress = 0.7 + sparkIndex * 0.19 + Math.sin(sparkPhase) * 0.035;
+        const sparkX = tailSway * sparkProgress + Math.sin(sparkPhase * 1.41) * flameWidth * 0.68;
+        const sparkY = flameLength * sparkProgress;
+        context.fillStyle = sparkIndex === 0 ? JET_FLAME_COLORS.plasma : JET_FLAME_COLORS.inner;
+        context.globalAlpha = (0.34 + intensity * 0.42) * (1 - sparkIndex * 0.22);
+        context.beginPath();
+        context.arc(sparkX, sparkY, 0.55 + intensity * 0.45, 0, Math.PI * 2);
+        context.fill();
+      }
       context.restore();
     }
   }

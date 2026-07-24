@@ -62,7 +62,7 @@ Current runtime sizes are approximately:
 - six-frame wall-impact/recovery atlas: 100 KB;
 - scrolling trail strip: 64 KB.
 
-The old single flight pose, single-pose run WebP, six-frame transition sheet, and full-screen Forest plate are retired from runtime. The game now has 40 authored character frames. The wall-splat atlas replaces its two camera-facing wobble frames with generated strict side-profile poses. Code-rendered flames remain color- and intensity-adjustable without another texture, and individually tuned shoe-port anchors/angles keep both flames aligned across every powered and glide frame.
+The old single flight pose, single-pose run WebP, six-frame transition sheet, and full-screen Forest plate are retired from runtime. The game now has 40 authored character frames. The wall-splat atlas replaces its two camera-facing wobble frames with generated strict side-profile poses. Code-rendered flames remain color- and intensity-adjustable without another texture. Every powered and glide frame records the two measured metal heel-port coordinates in source-atlas pixels, preventing normalized anchor drift as Hugo moves his feet.
 
 ## Generated and procedural scene art
 

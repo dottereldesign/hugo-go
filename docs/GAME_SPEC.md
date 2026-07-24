@@ -98,7 +98,7 @@ Hugo has six generated full-body animation atlases:
 
 All atlases play at 12 fps. Jumping uses the clean crouch and airborne silhouettes in transition frames 3–4; the two stiffer duplicate stride poses are intentionally skipped. Landing uses frames 5–8 before returning to the run cycle. The authored frames keep Hugo as a complete rendered character so cloth, lighting, hands, and joint occlusion stay coherent; splitting this particular 3D art into separately generated limbs would introduce seams and identity drift.
 
-The two shoe flames are Canvas paths rather than baked pixels. Every powered and glide frame has two independently measured heel-port anchors and down/back angles, so each flame follows its own moving shoe. Their warm gradients, glow, length, opacity, and flicker respond to smoothed thrust intensity. The editable palette is the exported `JET_FLAME_COLORS` object in `src/game/FlightGame.ts`.
+The two shoe flames are Canvas paths rather than baked pixels. Every powered and glide frame has two independently measured source-pixel coordinates on the visible metal heel ports plus its own down/back angle. The tapered exhaust uses a cyan-white plasma core, gold/orange body, red tip, animated curvature, glow, and tiny sparks; length and opacity respond to smoothed thrust intensity. The editable palette is the exported `JET_FLAME_COLORS` object in `src/game/FlightGame.ts`.
 
 The old full-screen Forest image is not loaded. The play corridor uses a clean cyan sky, while a generated transparent ochre/scorched-red New Zealand forestry trail scrolls below it. Obstacles are large red procedural silhouettes with stripe, facet, or panel identities, keeping their art aligned with collision bounds.
 

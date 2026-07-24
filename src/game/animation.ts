@@ -27,22 +27,29 @@ const DOUBLE_JUMP_FRAME_LAYOUTS = [
   { scale: 0.83, verticalOffset: 0.097 },
   { scale: 0.86, verticalOffset: 0.072 },
 ] as const;
+
+const jetAnchor = (sourceX: number, sourceY: number, angle: number) => ({
+  x: sourceX / RUN_FRAME_WIDTH,
+  y: sourceY / RUN_FRAME_HEIGHT,
+  angle,
+});
+
 const JET_FLAME_ANCHORS = {
   powered: [
-    [{ x: 0.229, y: 0.881, angle: 0.58 }, { x: 0.369, y: 0.881, angle: 0.50 }],
-    [{ x: 0.242, y: 0.882, angle: 0.62 }, { x: 0.369, y: 0.883, angle: 0.48 }],
-    [{ x: 0.241, y: 0.871, angle: 0.60 }, { x: 0.379, y: 0.878, angle: 0.46 }],
-    [{ x: 0.239, y: 0.829, angle: 0.68 }, { x: 0.374, y: 0.831, angle: 0.52 }],
-    [{ x: 0.249, y: 0.828, angle: 0.64 }, { x: 0.380, y: 0.824, angle: 0.50 }],
-    [{ x: 0.247, y: 0.815, angle: 0.70 }, { x: 0.375, y: 0.783, angle: 0.45 }],
+    [jetAnchor(95, 286, 0.68), jetAnchor(139, 286, 0.57)],
+    [jetAnchor(96, 286, 0.70), jetAnchor(140, 282, 0.58)],
+    [jetAnchor(97, 284, 0.69), jetAnchor(141, 281, 0.57)],
+    [jetAnchor(98, 291, 0.72), jetAnchor(143, 285, 0.60)],
+    [jetAnchor(98, 289, 0.70), jetAnchor(143, 280, 0.58)],
+    [jetAnchor(98, 286, 0.72), jetAnchor(141, 281, 0.60)],
   ],
   glide: [
-    [{ x: 0.228, y: 0.894, angle: 0.58 }, { x: 0.365, y: 0.895, angle: 0.49 }],
-    [{ x: 0.238, y: 0.892, angle: 0.61 }, { x: 0.370, y: 0.892, angle: 0.48 }],
-    [{ x: 0.239, y: 0.890, angle: 0.59 }, { x: 0.373, y: 0.894, angle: 0.46 }],
-    [{ x: 0.231, y: 0.854, angle: 0.66 }, { x: 0.360, y: 0.846, angle: 0.51 }],
-    [{ x: 0.238, y: 0.845, angle: 0.63 }, { x: 0.368, y: 0.845, angle: 0.49 }],
-    [{ x: 0.236, y: 0.852, angle: 0.69 }, { x: 0.366, y: 0.842, angle: 0.45 }],
+    [jetAnchor(95, 285, 0.66), jetAnchor(141, 282, 0.56)],
+    [jetAnchor(96, 284, 0.68), jetAnchor(142, 282, 0.56)],
+    [jetAnchor(97, 284, 0.67), jetAnchor(142, 283, 0.55)],
+    [jetAnchor(96, 284, 0.70), jetAnchor(142, 282, 0.58)],
+    [jetAnchor(96, 284, 0.69), jetAnchor(142, 282, 0.57)],
+    [jetAnchor(96, 284, 0.70), jetAnchor(142, 282, 0.58)],
   ],
 } as const;
 

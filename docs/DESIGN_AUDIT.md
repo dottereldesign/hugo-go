@@ -10,7 +10,7 @@
 - Ground running now uses eight generated stride phases at 12 fps.
 - Jumping/landing uses eight authored phases, including a toe-contact frame.
 - A rapid second press produces an authored six-frame double-jump corkscrew.
-- Shoe jets visibly fire from per-frame shoe anchors during flight.
+- Shoe jets visibly fire from both measured metal heel ports in every powered/glide frame, using layered plasma rather than flat triangular exhaust.
 - A clean wordmark-blue sky and generated forestry trail replace the full-screen Forest plate.
 - Hugo can land on and run across obstacle tops; frontal impacts use a six-frame wall-splat/recovery sequence and only end the run if he is pushed off-screen.
 - The clear sky keeps hazards and character silhouettes easy to read at speed.
