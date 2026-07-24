@@ -81,10 +81,25 @@ The home profile, missions, resource counters, best-distance footer, and local l
 
 Hugo has two generated poses:
 
-- grounded forward-leaning sprint with arms swept back;
+- an eight-frame grounded forward-leaning sprint cycle with arms swept back;
 - airborne pose with two visible shoe-jet flames.
 
-The runtime scene is drawn procedurally so obstacle artwork and collision bounds stay aligned. It includes a distant volcanic mountain, evergreen forest, pink/red flowering trees and petals, and silver-fern-like plants. These are landscape and botanical cues, not cultural patterns.
+The run atlas plays at 12 fps, completing one stride every two-thirds of a second. Contact, recoil, passing, and airborne poses are mirrored across the left/right steps. Small vertical offsets preserve the generated ground-contact and airborne phases.
+
+The Forest backdrop is a generated 3D-style image with a distant volcanic mountain, rimu-like evergreen trees, sakura blossom, and silver-fern-like plants. Obstacles, coins, ground markings, and weather particles remain procedural so hazard art and collision bounds stay aligned.
+
+## Seasonal cycle
+
+Forest World uses four visual profiles in this order:
+
+1. Spring — fresh color and drifting pink petals.
+2. Summer — richer saturation and warm light motes.
+3. Autumn — warmer hue/sepia grading and falling orange leaves.
+4. Winter — cooler/desaturated grading, snowfall, and a pale ground layer.
+
+Each season owns a 30-second slot. Its first 20 seconds hold steady; its final 10 seconds use smooth-step interpolation into the next profile. The sequence loops from Winter back to Spring after 120 seconds.
+
+Only one 308 KB background texture is held in memory. Canvas filter values, one translucent tint, and at most 24 simple particles create the transitions, avoiding four large decoded images. A logical-resolution offscreen canvas caches the filtered plate; it refreshes only when one of 120 blend steps changes.
 
 ## Cultural and character guardrails
 
@@ -114,5 +129,5 @@ Hugo is 10 years old and has Japanese/New Zealand family heritage.
 - accounts and global leaderboards;
 - monetization;
 - multiplayer;
-- generated animation cycles beyond the two essential poses;
+- authored takeoff, landing, and multi-pose flight transitions beyond the completed eight-frame run cycle;
 - authored audio specifically for shoe jets, coins, and impacts.

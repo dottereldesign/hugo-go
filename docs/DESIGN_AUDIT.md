@@ -7,7 +7,10 @@
 - The first safe seconds visibly establish Hugo’s ground run.
 - One input works across touch, mouse, and keyboard.
 - Ground and flight use distinct generated poses.
+- Ground running now uses eight generated stride phases at 12 fps.
 - Shoe jets visibly fire during flight.
+- A generated Forest plate replaces the simple vector mountain/tree scenery.
+- Four seasons transition without swapping or decoding additional background images.
 - Five unbuilt worlds remain discoverable without looking playable.
 - Distance, coins, XP, best distance, and local top-five runs connect gameplay back to home.
 - Retry is one action and never returns to a selector.
@@ -43,7 +46,7 @@ No Māori motifs or patterns are present.
 - Forest is one endless course rather than a level campaign.
 - Obstacles are procedural Canvas art.
 - The local leaderboard is not global.
-- Run and flight each use one authored pose; motion comes from bob, tilt, parallax, flames, and physics.
+- Flight currently uses one authored pose; takeoff, glide, and landing transition sheets remain optional.
 - Existing home music/UI sounds remain; bespoke gameplay sound design is deferred.
 
 These limits do not block the current playable loop. Optional visual upgrades are recorded separately in `docs/ART_BACKLOG.md`.

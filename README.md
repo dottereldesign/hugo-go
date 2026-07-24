@@ -9,10 +9,12 @@ Pressing **Play** on the home screen opens `#/game` and starts the run immediate
 - Mobile: tap anywhere in the game to boost upward.
 - Desktop: click the game, press Space, press Up Arrow, or press W.
 - Hugo automatically runs on safe ground.
+- Ground running uses an eight-pose generated cycle at 12 fps.
 - Ground is the only landable surface.
 - Obstacles are solid hazards from every direction, including their tops.
 - Collect coins, increase distance, and set a local best.
 - A crash opens an immediate **Fly again** action.
+- Forest World moves through Spring, Summer, Autumn, and Winter at 30-second boundaries, with a gradual ten-second blend before each change.
 
 Forest World is the one playable course. The other five world cards remain on the home screen in a muted, locked **Coming soon** state.
 
@@ -48,9 +50,11 @@ index.html                    home and playable game markup
 src/main.ts                   routing, home controls, progress persistence
 src/game/engine.ts            deterministic physics and collision rules
 src/game/FlightGame.ts        canvas rendering, input, HUD, game lifecycle
+src/game/animation.ts         eight-frame run-cycle timing and atlas coordinates
+src/game/seasons.ts           seasonal timing, filters, blends, and weights
 src/state.ts                  local player state and top-five runs
 src/style.css                 home and portrait-game presentation
-src/assets/game/              compressed runtime Hugo sprites
+src/assets/game/              compressed background, run atlas, and flight sprite
 art/source-images/game/       full generated sources and prompt record
 tests/engine.test.ts          physics/collision unit tests
 tests/e2e/                    desktop and mobile browser tests

@@ -1432,6 +1432,24 @@ body.reduce-motion *, body.reduce-motion *::before, body.reduce-motion *::after 
   transform: translateX(-50%);
 }
 
+.game-season {
+  position: absolute;
+  z-index: 3;
+  top: 100px;
+  left: 50%;
+  padding: 4px 9px;
+  border: 1px solid rgba(255,255,255,.38);
+  border-radius: 999px;
+  background: rgba(255,255,255,.68);
+  color: #245847;
+  font: 900 7px/1 var(--round);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  pointer-events: none;
+  transform: translateX(-50%);
+  backdrop-filter: blur(7px);
+}
+
 .game-culture-note {
   position: absolute;
   z-index: 3;
@@ -1530,6 +1548,7 @@ body.reduce-motion *, body.reduce-motion *::before, body.reduce-motion *::after 
   .game-portrait { border: 0; box-shadow: none; }
   .game-hud { top: 9px; }
   .game-phase { top: 70px; }
+  .game-season { top: 94px; }
 }
 
 @media (max-width: 680px) and (orientation: landscape) {

@@ -8,16 +8,20 @@ Each animation frame:
 
 - advances at most `0.05 s` in the browser controller;
 - moves a small obstacle/coin list;
-- draws procedural scenery, pickups, obstacles, and one Hugo sprite;
+- draws one filtered background texture, pickups, obstacles, one Hugo atlas cell, and at most 24 simple seasonal particles;
 - updates three compact HUD values.
 
 Expired entities are removed and course content is generated only a short distance ahead.
 
 ## Asset budget
 
-The two runtime Hugo WebP sprites are approximately 142 KB combined. Full-resolution generation sources live under `art/` and are not included in the Vite output.
+The flight sprite is about 67 KB, the eight-frame run atlas is about 167 KB, and the Forest background is about 308 KB. Full-resolution generation sources live under `art/` and are not included in the Vite output.
 
-The Forest environment, coins, and hazards do not require bitmap downloads.
+The seasonal system reuses the same background for all four profiles. It does not decode or cross-fade four separate multi-megabyte plates. Filter parameters and particle alpha weights are interpolated numerically.
+
+Gameplay images are not requested on the home route. `FlightGame.start()` begins their lazy load only after Play opens `#/game`, so the new textures do not compete with the existing home illustrations.
+
+Background filtering is cached in a `390 × 704` offscreen canvas. A steady season filters once. During each ten-second blend the cache updates in 120 small transition steps (about 12 times per second), while the regular render loop only copies the cached plate. This avoids applying a full-resolution filter on every 2× mobile frame.
 
 ## Mobile behavior
 

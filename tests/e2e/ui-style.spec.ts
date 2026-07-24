@@ -46,6 +46,26 @@ test('renders the playable portrait canvas as a separate full-screen view', asyn
   expect(canvasBox?.width).toBeLessThan(canvasBox?.height ?? 0);
 });
 
+test('loads generated Forest art and exposes gradual seasonal changes', async ({ page }) => {
+  await page.goto('/#/game');
+  await page.waitForFunction(() => {
+    const resources = performance.getEntriesByType('resource').map((entry) => entry.name);
+    return resources.some((name) => name.includes('forest-season-base'))
+      && resources.some((name) => name.includes('hugo-run-cycle'));
+  });
+  await expect(page.locator('#game-season')).toHaveText('SPRING');
+
+  await page.evaluate(() => {
+    Object.assign(window.__HUGO_GO__.getGameState(), { elapsed: 25 });
+  });
+  await expect(page.locator('#game-season')).toHaveText('SPRING → SUMMER');
+
+  await page.evaluate(() => {
+    Object.assign(window.__HUGO_GO__.getGameState(), { elapsed: 90 });
+  });
+  await expect(page.locator('#game-season')).toHaveText('WINTER');
+});
+
 test('locks mobile gameplay to the viewport with no page scrolling', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/#/game');

@@ -7,8 +7,9 @@ home/
   panels/       feature-card artwork
   worlds/       six home world cards
 game/
+  forest-season-base.webp  generated season-neutral Forest background
   hugo-flight.webp   transparent airborne shoe-jet pose
-  hugo-run.webp      transparent grounded sprint pose
+  hugo-run-cycle.webp  eight transparent run frames in a 4×2 atlas
 ui/
   buttons/      shared interface controls
   frames/       modal framing

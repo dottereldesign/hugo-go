@@ -7,11 +7,31 @@ try {
     deviceScaleFactor: 1,
   });
   await page.goto('http://127.0.0.1:4187/#/game');
-  await page.waitForTimeout(850);
-  await page.locator('#game-canvas').click({ position: { x: 180, y: 470 } });
-  await page.waitForTimeout(260);
+  await page.waitForTimeout(650);
   await page.screenshot({
-    path: 'art/reference/ui/game-mobile.png',
+    path: 'art/reference/ui/game-mobile.jpg',
+    type: 'jpeg',
+    quality: 88,
+    fullPage: false,
+  });
+  await page.evaluate(() => {
+    Object.assign(window.__HUGO_GO__.getGameState(), { elapsed: 60 });
+  });
+  await page.waitForTimeout(100);
+  await page.screenshot({
+    path: 'art/reference/ui/game-season-autumn-mobile.jpg',
+    type: 'jpeg',
+    quality: 88,
+    fullPage: false,
+  });
+  await page.evaluate(() => {
+    Object.assign(window.__HUGO_GO__.getGameState(), { elapsed: 90 });
+  });
+  await page.waitForTimeout(100);
+  await page.screenshot({
+    path: 'art/reference/ui/game-season-winter-mobile.jpg',
+    type: 'jpeg',
+    quality: 88,
     fullPage: false,
   });
 } finally {

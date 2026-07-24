@@ -1,5 +1,7 @@
+import forestSeasonUrl from '../assets/game/forest-season-base.webp';
 import hugoFlightUrl from '../assets/game/hugo-flight.webp';
-import hugoRunUrl from '../assets/game/hugo-run.webp';
+import hugoRunCycleUrl from '../assets/game/hugo-run-cycle.webp';
+import { getRunFrame, RUN_FRAME_HEIGHT, RUN_FRAME_WIDTH } from './animation';
 import {
   GAME_HEIGHT,
   GAME_WIDTH,
@@ -12,6 +14,7 @@ import {
   type FlightGameState,
   type Obstacle,
 } from './engine';
+import { getSeasonVisual, type SeasonId, type SeasonVisual } from './seasons';
 
 export interface RunResult {
   distance: number;
@@ -24,6 +27,7 @@ interface FlightGameElements {
   coins: HTMLElement;
   best: HTMLElement;
   phase: HTMLElement;
+  season: HTMLElement;
   overlay: HTMLElement;
   result: HTMLElement;
   restart: HTMLButtonElement;
@@ -44,8 +48,14 @@ export class FlightGame {
   private running = false;
   private runReported = false;
   private readonly context: CanvasRenderingContext2D;
-  private readonly flightSprite = this.loadSprite(hugoFlightUrl);
-  private readonly runSprite = this.loadSprite(hugoRunUrl);
+  private readonly backgroundBuffer: HTMLCanvasElement;
+  private readonly backgroundContext: CanvasRenderingContext2D;
+  private backgroundCacheKey = '';
+  private assetsStarted = false;
+  private readonly flightSprite = this.createSprite();
+  private readonly runCycleSprite = this.createSprite();
+  private readonly forestBackground = this.createSprite();
+  private seasonLabel = '';
 
   constructor(
     private readonly elements: FlightGameElements,
@@ -54,11 +64,18 @@ export class FlightGame {
     const context = elements.canvas.getContext('2d');
     if (!context) throw new Error('HUGO GO! needs Canvas 2D support.');
     this.context = context;
+    this.backgroundBuffer = document.createElement('canvas');
+    this.backgroundBuffer.width = GAME_WIDTH;
+    this.backgroundBuffer.height = GROUND_Y;
+    const backgroundContext = this.backgroundBuffer.getContext('2d');
+    if (!backgroundContext) throw new Error('HUGO GO! needs offscreen Canvas 2D support.');
+    this.backgroundContext = backgroundContext;
     this.configureCanvas();
     this.bindControls();
   }
 
   start(): void {
+    this.ensureAssets();
     this.state = createFlightGame();
     this.runReported = false;
     this.running = true;
@@ -160,6 +177,11 @@ export class FlightGame {
     this.elements.distance.textContent = `${Math.floor(this.state.distance)} m`;
     this.elements.coins.textContent = String(this.state.runCoins);
     this.elements.best.textContent = `${Math.max(this.options.bestDistance(), Math.floor(this.state.distance))} m`;
+    const season = getSeasonVisual(this.state.elapsed);
+    if (this.seasonLabel !== season.label) {
+      this.seasonLabel = season.label;
+      this.elements.season.textContent = season.label.toUpperCase();
+    }
     if (this.state.phase === 'playing' && this.state.hugo.boostGlow === 0) {
       this.elements.phase.textContent = this.state.hugo.grounded ? 'RUNNING' : 'FLYING';
     }
@@ -167,18 +189,18 @@ export class FlightGame {
 
   private render(): void {
     const context = this.context;
+    const season = getSeasonVisual(this.state.elapsed);
     context.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-    this.drawSky(context);
-    this.drawDistantLandscape(context);
-    this.drawForest(context);
+    this.drawSeasonBackground(context, season);
+    this.drawGround(context);
+    this.drawSeasonAtmosphere(context, season);
     this.drawCoins(context);
     for (const obstacle of this.state.obstacles) this.drawObstacle(context, obstacle);
-    this.drawGround(context);
     this.drawHugo(context);
     this.drawStartHint(context);
   }
 
-  private drawSky(context: CanvasRenderingContext2D): void {
+  private drawSeasonBackground(context: CanvasRenderingContext2D, season: SeasonVisual): void {
     const sky = context.createLinearGradient(0, 0, 0, GROUND_Y);
     sky.addColorStop(0, '#70d8f2');
     sky.addColorStop(0.52, '#bdf2df');
@@ -186,105 +208,105 @@ export class FlightGame {
     context.fillStyle = sky;
     context.fillRect(0, 0, GAME_WIDTH, GROUND_Y);
 
-    context.fillStyle = 'rgba(255, 246, 172, .9)';
-    context.beginPath();
-    context.arc(314, 112, 44, 0, Math.PI * 2);
-    context.fill();
+    if (!this.forestBackground.ready) return;
 
-    const travel = this.state.distance / 0.085;
-    for (let index = 0; index < 11; index += 1) {
-      const x = modulo(index * 83 - travel * 0.14, GAME_WIDTH + 90) - 25;
-      const y = 116 + (index % 4) * 62;
+    const filterStep = Math.round(season.transition * 120);
+    const cacheKey = `${season.current}-${season.next}-${filterStep}`;
+    if (cacheKey !== this.backgroundCacheKey) {
+      this.renderBackgroundBuffer(season);
+      this.backgroundCacheKey = cacheKey;
+    }
+    context.drawImage(this.backgroundBuffer, 0, 0, GAME_WIDTH, GROUND_Y);
+  }
+
+  private renderBackgroundBuffer(season: SeasonVisual): void {
+    const context = this.backgroundContext;
+    const sourceWidth = this.forestBackground.naturalWidth;
+    const sourceHeight = this.forestBackground.naturalHeight;
+    const targetAspect = GAME_WIDTH / GROUND_Y;
+    const sourceAspect = sourceWidth / sourceHeight;
+    let cropWidth = sourceWidth;
+    let cropHeight = sourceHeight;
+    if (sourceAspect > targetAspect) cropWidth = sourceHeight * targetAspect;
+    else cropHeight = sourceWidth / targetAspect;
+    const sourceX = (sourceWidth - cropWidth) / 2;
+    const sourceY = sourceHeight - cropHeight;
+
+    context.clearRect(0, 0, GAME_WIDTH, GROUND_Y);
+    context.imageSmoothingEnabled = true;
+    context.imageSmoothingQuality = 'high';
+    context.filter = season.filter;
+    context.drawImage(
+      this.forestBackground,
+      sourceX,
+      sourceY,
+      cropWidth,
+      cropHeight,
+      0,
+      0,
+      GAME_WIDTH,
+      GROUND_Y,
+    );
+    context.filter = 'none';
+  }
+
+  private drawSeasonAtmosphere(context: CanvasRenderingContext2D, season: SeasonVisual): void {
+    context.fillStyle = season.overlay;
+    context.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+
+    const winterWeight = season.particleWeights.winter;
+    if (winterWeight > 0) {
+      context.fillStyle = `rgba(232, 247, 255, ${(winterWeight * 0.72).toFixed(3)})`;
+      context.fillRect(0, GROUND_Y, GAME_WIDTH, 13);
+      context.fillStyle = `rgba(203, 229, 240, ${(winterWeight * 0.34).toFixed(3)})`;
+      context.fillRect(0, GROUND_Y + 13, GAME_WIDTH, GAME_HEIGHT - GROUND_Y - 13);
+    }
+
+    for (const seasonId of ['spring', 'summer', 'autumn', 'winter'] as const) {
+      const weight = season.particleWeights[seasonId];
+      if (weight > 0.002) this.drawSeasonParticles(context, seasonId, weight);
+    }
+  }
+
+  private drawSeasonParticles(context: CanvasRenderingContext2D, season: SeasonId, weight: number): void {
+    const counts: Record<SeasonId, number> = { spring: 13, summer: 9, autumn: 16, winter: 24 };
+    const speeds: Record<SeasonId, number> = { spring: 18, summer: 7, autumn: 30, winter: 25 };
+    const elapsed = this.state.elapsed;
+    context.save();
+    context.globalAlpha = weight;
+    for (let index = 0; index < counts[season]; index += 1) {
+      const seed = index * 67.31 + (season === 'winter' ? 19 : season === 'autumn' ? 11 : 3);
+      const x = modulo(seed * 5.7 + elapsed * (season === 'summer' ? 3 : -9), GAME_WIDTH + 50) - 25;
+      const y = modulo(seed * 9.1 + elapsed * speeds[season], GROUND_Y - 70) + 70;
       context.save();
       context.translate(x, y);
-      context.rotate((index % 2 ? -1 : 1) * 0.3);
-      context.fillStyle = index % 3 === 0 ? 'rgba(255, 184, 204, .74)' : 'rgba(255, 237, 191, .7)';
-      context.beginPath();
-      context.ellipse(0, 0, 7, 3.5, 0, 0, Math.PI * 2);
-      context.fill();
-      context.restore();
-    }
-  }
-
-  private drawDistantLandscape(context: CanvasRenderingContext2D): void {
-    const travel = this.state.distance / 0.085;
-    const mountainShift = modulo(-travel * 0.06, GAME_WIDTH * 1.8);
-    context.save();
-    context.translate(mountainShift, 0);
-    for (let repeat = -1; repeat < 3; repeat += 1) {
-      const offset = repeat * GAME_WIDTH * 1.8;
-      context.fillStyle = 'rgba(77, 132, 121, .42)';
-      context.beginPath();
-      context.moveTo(offset - 100, 510);
-      context.lineTo(offset + 170, 218);
-      context.lineTo(offset + 432, 510);
-      context.closePath();
-      context.fill();
-      context.fillStyle = 'rgba(244, 250, 227, .72)';
-      context.beginPath();
-      context.moveTo(offset + 118, 274);
-      context.lineTo(offset + 170, 218);
-      context.lineTo(offset + 218, 271);
-      context.lineTo(offset + 190, 262);
-      context.lineTo(offset + 168, 286);
-      context.lineTo(offset + 145, 262);
-      context.closePath();
-      context.fill();
-    }
-    context.restore();
-
-    context.fillStyle = '#4e9672';
-    context.beginPath();
-    context.moveTo(0, 485);
-    for (let x = 0; x <= GAME_WIDTH; x += 28) {
-      context.lineTo(x, 455 - ((x / 28) % 3) * 24);
-    }
-    context.lineTo(GAME_WIDTH, GROUND_Y);
-    context.lineTo(0, GROUND_Y);
-    context.closePath();
-    context.fill();
-  }
-
-  private drawForest(context: CanvasRenderingContext2D): void {
-    const travel = this.state.distance / 0.085;
-    for (let index = 0; index < 9; index += 1) {
-      const x = modulo(index * 69 - travel * 0.42, GAME_WIDTH + 110) - 55;
-      const height = 142 + (index % 3) * 34;
-      context.fillStyle = index % 2 ? '#246c4f' : '#2f7b55';
-      context.fillRect(x + 19, GROUND_Y - height, 14, height);
-      context.fillStyle = index % 3 === 0 ? '#d86062' : '#2b8d5c';
-      for (let tier = 0; tier < 4; tier += 1) {
-        const tierY = GROUND_Y - height + tier * 35;
+      context.rotate(elapsed * 0.7 + seed);
+      if (season === 'spring') {
+        context.fillStyle = index % 3 === 0 ? '#fff0f6' : '#f2a9c6';
         context.beginPath();
-        context.moveTo(x + 26, tierY - 24);
-        context.lineTo(x - 12 - tier * 3, tierY + 38);
-        context.lineTo(x + 64 + tier * 3, tierY + 38);
-        context.closePath();
+        context.ellipse(0, 0, 5.5, 2.7, 0, 0, Math.PI * 2);
+        context.fill();
+      } else if (season === 'summer') {
+        context.fillStyle = '#fff2a1';
+        context.shadowColor = '#fff5b7';
+        context.shadowBlur = 7;
+        context.beginPath();
+        context.arc(0, 0, 1.7 + (index % 2), 0, Math.PI * 2);
+        context.fill();
+      } else if (season === 'autumn') {
+        context.fillStyle = index % 3 === 0 ? '#f6bd3d' : index % 2 === 0 ? '#d9512e' : '#e8872e';
+        context.beginPath();
+        context.ellipse(0, 0, 6, 3.2, 0.4, 0, Math.PI * 2);
+        context.fill();
+      } else {
+        context.fillStyle = 'rgba(255,255,255,.92)';
+        context.beginPath();
+        context.arc(0, 0, 1.8 + (index % 4) * 0.65, 0, Math.PI * 2);
         context.fill();
       }
+      context.restore();
     }
-
-    // Natural silver-fern-like fronds: botanical scenery, never a cultural motif.
-    context.strokeStyle = '#b8e38c';
-    context.lineWidth = 3;
-    for (let index = 0; index < 6; index += 1) {
-      const x = modulo(index * 92 - travel * 0.68, GAME_WIDTH + 90) - 40;
-      const baseY = GROUND_Y - 9;
-      context.beginPath();
-      context.moveTo(x, baseY);
-      context.quadraticCurveTo(x + 18, baseY - 52, x + 47, baseY - 70);
-      context.stroke();
-      for (let leaf = 0; leaf < 6; leaf += 1) {
-        const leafX = x + 9 + leaf * 6;
-        const leafY = baseY - 27 - leaf * 7;
-        context.beginPath();
-        context.moveTo(leafX, leafY);
-        context.lineTo(leafX - 15, leafY - 7);
-        context.moveTo(leafX + 2, leafY - 3);
-        context.lineTo(leafX + 16, leafY - 14);
-        context.stroke();
-      }
-    }
+    context.restore();
   }
 
   private drawGround(context: CanvasRenderingContext2D): void {
@@ -377,20 +399,24 @@ export class FlightGame {
 
   private drawHugo(context: CanvasRenderingContext2D): void {
     const { hugo } = this.state;
-    const bob = hugo.grounded ? Math.sin(this.state.elapsed * 16) * 1.6 : 0;
     context.save();
     if (hugo.boostGlow > 0) {
       context.shadowColor = '#ffe061';
       context.shadowBlur = 20;
     }
 
-    if (hugo.grounded && this.runSprite.ready) {
-      const drawHeight = 102;
-      const drawWidth = drawHeight * (605 / 768);
+    if (hugo.grounded && this.runCycleSprite.ready) {
+      const runFrame = getRunFrame(this.state.elapsed);
+      const drawHeight = 106;
+      const drawWidth = drawHeight * (RUN_FRAME_WIDTH / RUN_FRAME_HEIGHT);
       context.drawImage(
-        this.runSprite,
-        hugo.x - 23,
-        GROUND_Y - drawHeight + bob,
+        this.runCycleSprite,
+        runFrame.sourceX,
+        runFrame.sourceY,
+        RUN_FRAME_WIDTH,
+        RUN_FRAME_HEIGHT,
+        hugo.x - 43,
+        GROUND_Y - drawHeight + runFrame.verticalOffset,
         drawWidth,
         drawHeight,
       );
@@ -435,15 +461,22 @@ export class FlightGame {
     context.restore();
   }
 
-  private loadSprite(url: string): LoadedSprite {
+  private createSprite(): LoadedSprite {
     const image = new Image() as LoadedSprite;
     image.decoding = 'async';
     image.addEventListener('load', () => {
       image.ready = true;
       this.render();
     });
-    image.src = url;
     return image;
+  }
+
+  private ensureAssets(): void {
+    if (this.assetsStarted) return;
+    this.assetsStarted = true;
+    this.flightSprite.src = hugoFlightUrl;
+    this.runCycleSprite.src = hugoRunCycleUrl;
+    this.forestBackground.src = forestSeasonUrl;
   }
 }
 

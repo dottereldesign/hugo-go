@@ -1,53 +1,71 @@
-# Optional art generation backlog
+# Animation and art ledger
 
-No image required for the current Forest game is missing. Hugo’s run and flight poses are generated, processed, and used at runtime. The Forest environment and hazards are intentionally procedural.
+No image required for the current Forest game is missing.
 
-The following assets would improve a later release, but were deferred to keep identity consistency, download size, and collision readability under control.
+## Completed now
 
-## 1. Hugo run cycle
+- One season-neutral illustrated Forest background.
+- Spring, Summer, Autumn, and Winter grading from that single image.
+- Lightweight seasonal petals, light motes, leaves, and snow.
+- Eight-frame Hugo run cycle:
+  1. right contact;
+  2. right recoil/down;
+  3. left-leg passing;
+  4. left-leading airborne/up;
+  5. left contact;
+  6. left recoil/down;
+  7. right-leg passing;
+  8. right-leading airborne/up.
+- One airborne shoe-jet pose.
 
-Create six transparent frames using `hugo-run-magenta.png` as the exact identity reference:
+The run cycle plays at 12 fps and repeats every `0.667 s`. Thirty unique running drawings are unnecessary: they would make the atlas roughly four times heavier while most frames would only interpolate between the eight key poses. The current eight cover every biomechanical phase needed for a smooth loop.
 
-- contact;
-- down;
-- passing;
-- up;
-- opposite contact;
-- opposite passing.
+## Recommended next animation frames
 
-Keep the same forward lean and arms-back silhouette. Shoe jets remain inactive. Every frame needs the same crop, ground line, scale, face, clothing, and lighting.
+These are optional improvements, in priority order.
 
-## 2. Hugo flight reactions
+### 1. Takeoff transition — 2 frames
 
-Create three matching transparent poses from `hugo-flight-magenta.png`:
+- crouched ground compression with thrusters beginning to glow;
+- toe-off with short ignition flames.
 
-- boost anticipation with knees slightly compressed;
-- steady glide with shorter flames;
-- safe landing recovery with no flame.
+### 2. Landing transition — 2 frames
 
-Do not add smoke that obscures the body collision area. Do not create a violent crash pose; a surprised, non-injury stumble is sufficient.
+- descending feet-forward pose with shrinking flames;
+- soft ground recovery pose returning to run contact.
 
-## 3. Forest obstacle set
+### 3. Flight variation — 3 frames
 
-Optional authored obstacle sprites:
+- boost anticipation with knees tucked slightly;
+- full-thrust pose with longer compact flames;
+- steady glide with shorter flames.
+
+### 4. Non-injury game-over reaction — 2 frames
+
+- surprised midair wobble;
+- safe seated/soft tumble result pose.
+
+That is **9 useful future character frames**, not 30 more run frames.
+
+## Optional authored obstacle set
 
 - rimu stump;
 - mossy boulder;
 - fallen log/root cluster;
 - dense flowering bramble.
 
-Each must be side-view, fill a documented rectangular silhouette, have no transparent holes inside the collision body, and use no Māori pattern or motif. Generate on chroma and preserve exact collision inset metadata.
+Every obstacle image must fill a documented rectangular collision silhouette, contain no transparent hole inside its solid body, and use no Māori pattern or motif.
 
-## 4. Effects
+## Optional effects
 
 - compact shoe-jet ignition burst;
 - coin pickup sparkle;
 - new-best celebration;
 - soft landing dust/petals.
 
-Effects should be sprite sheets with consistent frame cells and transparent backgrounds. Avoid large smoke clouds.
+Effects should use small consistent sprite-sheet cells and transparent backgrounds. Avoid large smoke clouds that hide collision space.
 
-## 5. Future world art
+## Future world art
 
 Do not generate Workshop, Word, Number, Space, or Music gameplay art until each course has approved mechanics and collision geometry. Their current home cards are sufficient for **Coming soon**.
 

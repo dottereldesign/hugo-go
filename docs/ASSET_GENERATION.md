@@ -2,15 +2,19 @@
 
 ## Current generated assets
 
-The first playable release requires two original Hugo poses. Both were generated specifically for this project and are stored with their full source images:
+The playable release uses an original Hugo flight pose, an eight-pose run sheet, and one season-neutral Forest background. Full generation and alpha sources are retained:
 
 ```text
 art/source-images/game/hugo-flight-magenta.png
-art/source-images/game/hugo-run-magenta.png
 art/source-images/game/hugo-flight-transparent.png
+art/source-images/game/hugo-run-magenta.png
 art/source-images/game/hugo-run-transparent.png
+art/source-images/game/hugo-run-sheet-magenta.png
+art/source-images/game/hugo-run-sheet-transparent.png
+art/source-images/game/forest-season-source.png
 src/assets/game/hugo-flight.webp
-src/assets/game/hugo-run.webp
+src/assets/game/hugo-run-cycle.webp
+src/assets/game/forest-season-base.webp
 ```
 
 The exact prompts are recorded in `art/source-images/game/PROMPTS.md`.
@@ -29,19 +33,27 @@ The generated poses use a flat magenta background. It is removed with the image-
 
 `scripts/process_game_assets.py` then:
 
-1. finds the non-transparent alpha bounds;
-2. keeps an eight-pixel edge pad;
-3. resizes to a maximum 768px height;
-4. writes high-quality exact-alpha WebP runtime files.
+1. finds four occupied sheet rows and two poses per row;
+2. extracts all eight generated bodies without relying on hard-coded source coordinates;
+3. normalizes them to eight `384 × 320` cells;
+4. writes one `1536 × 640` exact-alpha WebP atlas;
+5. trims and compresses the flight sprite;
+6. compresses the Forest plate to a `1024 × 1536` WebP.
 
-The resulting runtime sprites are roughly 142 KB combined rather than roughly 1.4 MB combined.
+Current runtime sizes are approximately:
 
-## Procedural scene art
+- flight sprite: 67 KB;
+- eight-frame run atlas: 167 KB;
+- Forest background: 308 KB.
 
-Background, ground, coins, particles, and obstacles are currently Canvas drawings. This is deliberate:
+The single-pose run WebP is retired from runtime. The eight-frame atlas costs one request and about 93 KB more, while providing the complete natural stride.
+
+## Generated and procedural scene art
+
+Mountain, forest, tree, blossom, and fern scenery comes from the generated Forest background. Ground, coins, seasonal particles, and obstacles remain Canvas drawings. This is deliberate:
 
 - collision silhouettes remain tied to the same rectangles the player sees;
-- scenery can parallax without extra downloads;
+- one backdrop can be season-graded without four decoded textures;
 - the portrait layout scales cleanly;
 - color and motion can be adjusted without regenerating artwork.
 
