@@ -14,7 +14,6 @@ game/
   hugo-jump-land-cycle.webp  eight jump/landing frames in a 4×2 atlas
   hugo-double-jump-cycle.webp six double-jump frames in a 3×2 atlas
   hugo-wall-recovery-cycle.webp six wall-impact/recovery frames in a 3×2 atlas
-  planets/                    three lightweight rotating/glowing SVG planets
 ui/
   buttons/      shared interface controls
   frames/       modal framing
@@ -27,4 +26,4 @@ Full generated gameplay sources belong in `art/source-images/game/`, not in the 
 python scripts/process_game_assets.py
 ```
 
-The flat blue sky, seasonal particles, giant planets, generated trail, and red obstacle rendering live in `src/game/FlightGame.ts`; deterministic collision bounds and wall recovery live in `src/game/engine.ts`.
+The flat blue sky, seasonal particles, generated trail, and red obstacle rendering live in `src/game/FlightGame.ts`; deterministic collision bounds and wall recovery live in `src/game/engine.ts`.

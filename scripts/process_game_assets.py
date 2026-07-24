@@ -20,6 +20,13 @@ CHARACTER_SHEETS = (
     ("hugo-double-jump-sheet-transparent.png", "hugo-double-jump-cycle.webp", 3, 3, 2),
     ("hugo-wall-recovery-sheet-transparent.png", "hugo-wall-recovery-cycle.webp", 3, 3, 2),
 )
+CHARACTER_POSE_REPLACEMENTS = {
+    "hugo-wall-recovery-sheet-transparent.png": (
+        "hugo-wall-splat-side-profile-transparent.png",
+        (1, 2),
+        (360, 395),
+    ),
+}
 
 
 def process_transparent_asset(source_name: str, output_name: str) -> None:
@@ -102,6 +109,17 @@ def extract_character_poses(
     return poses
 
 
+def resize_to_fit(pose: Image.Image, maximum_size: tuple[int, int]) -> Image.Image:
+    maximum_width, maximum_height = maximum_size
+    scale = min(maximum_width / pose.width, maximum_height / pose.height, 1)
+    if scale == 1:
+        return pose
+    return pose.resize(
+        (round(pose.width * scale), round(pose.height * scale)),
+        Image.Resampling.LANCZOS,
+    )
+
+
 def process_character_sheet(
     source_name: str,
     output_name: str,
@@ -115,6 +133,21 @@ def process_character_sheet(
         expected_source_rows,
         source_name,
     )
+    replacement = CHARACTER_POSE_REPLACEMENTS.get(source_name)
+    if replacement is not None:
+        replacement_name, replacement_indices, maximum_size = replacement
+        replacement_poses = extract_character_poses(
+            Image.open(SOURCE_DIRECTORY / replacement_name).convert("RGBA"),
+            1,
+            replacement_name,
+        )
+        if len(replacement_poses) != len(replacement_indices):
+            raise ValueError(
+                f"Expected {len(replacement_indices)} replacement poses in "
+                f"{replacement_name}, found {len(replacement_poses)}"
+            )
+        for pose_index, replacement_pose in zip(replacement_indices, replacement_poses):
+            poses[pose_index] = resize_to_fit(replacement_pose, maximum_size)
     expected_frame_count = atlas_columns * atlas_rows
     if len(poses) != expected_frame_count:
         raise ValueError(

@@ -9,10 +9,10 @@ Physics and collision are render-rate independent and use fixed `1/120 s` subste
 - advances at most `0.05 s`;
 - moves a short obstacle/coin list;
 - uses one cached sky gradient;
-- draws the scrolling trail, pickups, red obstacles, one Hugo atlas cell, up to 24 seasonal particles, and at most one giant SVG planet;
+- draws the scrolling trail, pickups, red obstacles, one Hugo atlas cell, and up to 24 seasonal particles;
 - writes HUD text only when a displayed value changes.
 
-The animation loop pauses while the document is hidden. Planet glow is authored inside the SVGs, avoiding per-frame Canvas blur filters or offscreen buffers.
+The animation loop pauses while the document is hidden. Character glow is limited to the active jet effect, avoiding full-scene per-frame filters or offscreen buffers.
 
 ## Production audit
 
@@ -30,10 +30,10 @@ The audit serves the production build, opens a `390 × 844` Chromium viewport at
 
 Latest local result on 24 July 2026:
 
-- average frame interval: approximately `20 ms` (about 50 fps);
-- p95 interval: `33.4 ms`;
+- average frame interval: approximately `16.6 ms` (about 60 fps);
+- p95 interval: `16.8 ms`;
 - backing store: `390 × 780`;
-- decoded resources: approximately `2.21 MB` across 30 requests.
+- decoded resources: approximately `2.19 MB` across 27 requests.
 
 This improved the first DPR-3 audit from a `50 ms` p95 at a `585 × 1170` backing store.
 
@@ -46,9 +46,9 @@ Runtime character atlases are approximately:
 - free glide: 119 KB;
 - jump/landing: 140 KB;
 - double jump: 120 KB;
-- wall impact/recovery: 111 KB.
+- wall impact/recovery: 100 KB.
 
-The trail is 64 KB. The three planets are external SVG files between 1.3 and 1.6 KB each; `?no-inline` keeps their markup out of the JavaScript bundle. Full generation sources under `art/` are excluded from production.
+The trail is 64 KB. Full generation sources under `art/` are excluded from production.
 
 Jet fire remains a few Canvas paths/gradients, so its color and intensity do not require another decoded atlas.
 

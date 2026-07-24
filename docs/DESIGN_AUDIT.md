@@ -13,7 +13,7 @@
 - Shoe jets visibly fire from per-frame shoe anchors during flight.
 - A clean wordmark-blue sky and generated forestry trail replace the full-screen Forest plate.
 - Hugo can land on and run across obstacle tops; frontal impacts use a six-frame wall-splat/recovery sequence and only end the run if he is pushed off-screen.
-- Three giant rotating SVG planets provide low-contrast progression landmarks.
+- The clear sky keeps hazards and character silhouettes easy to read at speed.
 - Four seasons transition without swapping or decoding additional background images.
 - Five unbuilt worlds remain discoverable without looking playable.
 - Distance, coins, XP, best distance, and local top-five runs connect gameplay back to home.

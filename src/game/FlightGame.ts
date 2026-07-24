@@ -1,6 +1,3 @@
-import auroraRingUrl from '../assets/game/planets/aurora-ring.svg?no-inline';
-import emberMoonUrl from '../assets/game/planets/ember-moon.svg?no-inline';
-import iceGiantUrl from '../assets/game/planets/ice-giant.svg?no-inline';
 import hugoDoubleJumpCycleUrl from '../assets/game/hugo-double-jump-cycle.webp';
 import hugoGlideCycleUrl from '../assets/game/hugo-glide-cycle.webp';
 import hugoJumpLandCycleUrl from '../assets/game/hugo-jump-land-cycle.webp';
@@ -12,6 +9,7 @@ import {
   DOUBLE_JUMP_DURATION,
   WALL_RECOVERY_DURATION,
   getDoubleJumpFrame,
+  getDoubleJumpFrameLayout,
   getFlightLoopFrame,
   getJetFlameAnchors,
   getLandingFrame,
@@ -70,6 +68,9 @@ export const JET_FLAME_COLORS = {
   glow: 'rgba(207, 39, 17, .56)',
 } as const;
 
+const RUN_DRAW_HEIGHT = 76;
+const AIRBORNE_DRAW_HEIGHT = 84;
+
 export class FlightGame {
   private state = createFlightGame();
   private animationFrame = 0;
@@ -86,9 +87,6 @@ export class FlightGame {
   private readonly wallRecoveryCycleSprite = this.createSprite();
   private readonly runCycleSprite = this.createSprite();
   private readonly trailGroundSprite = this.createSprite();
-  private readonly auroraRingSprite = this.createSprite();
-  private readonly emberMoonSprite = this.createSprite();
-  private readonly iceGiantSprite = this.createSprite();
   private hudDistance = -1;
   private hudCoins = -1;
   private hudBest = -1;
@@ -259,7 +257,6 @@ export class FlightGame {
     const season = getSeasonVisual(this.state.elapsed);
     context.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
     this.drawSky(context);
-    this.drawPlanets(context);
     this.drawGround(context);
     this.drawSeasonAtmosphere(context, season);
     this.drawCoins(context);
@@ -276,36 +273,6 @@ export class FlightGame {
     }
     context.fillStyle = this.skyGradient;
     context.fillRect(0, 0, GAME_WIDTH, GROUND_Y);
-  }
-
-  private drawPlanets(context: CanvasRenderingContext2D): void {
-    const scenes = [
-      { sprite: this.auroraRingSprite, start: 18, end: 190, size: 330, x: 292, y: 218, rate: 0.018 },
-      { sprite: this.emberMoonSprite, start: 170, end: 390, size: 280, x: 82, y: 286, rate: -0.013 },
-      { sprite: this.iceGiantSprite, start: 360, end: 650, size: 350, x: 286, y: 190, rate: 0.010 },
-    ] as const;
-    const distance = this.state.distance;
-
-    for (const scene of scenes) {
-      if (!scene.sprite.ready || distance < scene.start || distance > scene.end) continue;
-      const fadeIn = clamp01((distance - scene.start) / 30);
-      const fadeOut = clamp01((scene.end - distance) / 42);
-      const opacity = Math.min(fadeIn, fadeOut) * 0.34;
-      const parallaxX = scene.x - (distance - scene.start) * 0.31;
-
-      context.save();
-      context.globalAlpha = opacity;
-      context.translate(parallaxX, scene.y);
-      context.rotate(this.state.elapsed * scene.rate);
-      context.drawImage(
-        scene.sprite,
-        -scene.size / 2,
-        -scene.size / 2,
-        scene.size,
-        scene.size,
-      );
-      context.restore();
-    }
   }
 
   private drawSeasonAtmosphere(context: CanvasRenderingContext2D, season: SeasonVisual): void {
@@ -497,8 +464,9 @@ export class FlightGame {
 
     if (hugo.grounded && hugo.groundedTime >= TRANSITION_DURATION && this.runCycleSprite.ready) {
       const runFrame = getRunFrame(this.state.elapsed);
-      const drawHeight = 90;
+      const drawHeight = RUN_DRAW_HEIGHT;
       const drawWidth = drawHeight * (RUN_FRAME_WIDTH / RUN_FRAME_HEIGHT);
+      const drawX = hugo.x + HUGO_WIDTH / 2 - drawWidth / 2;
       context.save();
       context.drawImage(
         this.runCycleSprite,
@@ -506,7 +474,7 @@ export class FlightGame {
         runFrame.sourceY,
         RUN_FRAME_WIDTH,
         RUN_FRAME_HEIGHT,
-        hugo.x - 38,
+        drawX,
         hugo.y + HUGO_HEIGHT - drawHeight + runFrame.verticalOffset,
         drawWidth,
         drawHeight,
@@ -517,10 +485,16 @@ export class FlightGame {
 
     const animatedPose = this.getAnimatedFlightPose();
     if (animatedPose) {
-      const drawHeight = 100;
-      const drawWidth = drawHeight * (RUN_FRAME_WIDTH / RUN_FRAME_HEIGHT);
-      const drawX = hugo.x - 44;
-      const drawY = hugo.y + HUGO_HEIGHT - drawHeight;
+      const baseDrawWidth = AIRBORNE_DRAW_HEIGHT * (RUN_FRAME_WIDTH / RUN_FRAME_HEIGHT);
+      const baseDrawX = hugo.x + HUGO_WIDTH / 2 - baseDrawWidth / 2;
+      const baseDrawY = hugo.y + HUGO_HEIGHT - AIRBORNE_DRAW_HEIGHT;
+      const frameLayout = animatedPose.kind === 'doubleJump'
+        ? getDoubleJumpFrameLayout(animatedPose.frame.index)
+        : { scale: 1, verticalOffset: 0 };
+      const drawHeight = AIRBORNE_DRAW_HEIGHT * frameLayout.scale;
+      const drawWidth = baseDrawWidth * frameLayout.scale;
+      const drawX = baseDrawX + (baseDrawWidth - drawWidth) / 2;
+      const drawY = baseDrawY + AIRBORNE_DRAW_HEIGHT * frameLayout.verticalOffset;
 
       if (
         !hugo.grounded
@@ -775,9 +749,6 @@ export class FlightGame {
     this.wallRecoveryCycleSprite.src = hugoWallRecoveryCycleUrl;
     this.runCycleSprite.src = hugoRunCycleUrl;
     this.trailGroundSprite.src = trailGroundUrl;
-    this.auroraRingSprite.src = auroraRingUrl;
-    this.emberMoonSprite.src = emberMoonUrl;
-    this.iceGiantSprite.src = iceGiantUrl;
   }
 }
 

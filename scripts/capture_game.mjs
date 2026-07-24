@@ -33,27 +33,6 @@ try {
   });
   await page.evaluate(() => {
     const state = window.__HUGO_GO__.getGameState();
-    Object.assign(state, { elapsed: 8, distance: 90 });
-    Object.assign(state.hugo, {
-      grounded: true,
-      y: 654,
-      velocityY: 0,
-      thrust: 0,
-      doubleJumpTime: Number.POSITIVE_INFINITY,
-      recoveryTime: Number.POSITIVE_INFINITY,
-      stuckObstacleId: null,
-    });
-    state.obstacles = [];
-  });
-  await page.waitForTimeout(120);
-  await page.screenshot({
-    path: 'art/reference/ui/game-planet-aurora-mobile.jpg',
-    type: 'jpeg',
-    quality: 90,
-    fullPage: false,
-  });
-  await page.evaluate(() => {
-    const state = window.__HUGO_GO__.getGameState();
     Object.assign(state, { elapsed: 8, distance: 42 });
     state.obstacles = [
       { id: 9101, x: 174, y: 610, width: 92, height: 94, kind: 'log', scored: false },

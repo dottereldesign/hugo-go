@@ -206,3 +206,9 @@ Preserve the same 10-year-old Hugo, natural non-caricatured facial anatomy, hair
 Layout: strict two-column by three-row grid in reading order, one full-body pose per equal cell, consistent camera/scale, generous gutters, nothing cropped or overlapping. The invisible impact wall must not be drawn. Perfectly flat uniform `#FF00FF` background. No flames, exhaust, smoke, sparks, blood, bruises, injury marks, text, labels, borders, logo, watermark, extra person, duplicate limb, or missing limb.
 
 Generated sources: `hugo-wall-recovery-sheet-magenta.png` and `hugo-wall-recovery-sheet-transparent.png`.
+
+The two camera-facing splat/wobble poses were replaced at processing time by
+`hugo-wall-splat-side-profile-magenta.png` and
+`hugo-wall-splat-side-profile-transparent.png`. Those replacement frames preserve Hugo's
+right-facing side profile, puffed cheek, palm-first contact plane, and harmless flattened
+silhouette without looking toward the camera.

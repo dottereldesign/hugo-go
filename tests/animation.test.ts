@@ -5,6 +5,7 @@ import {
   LANDING_FRAME_START,
   WALL_RECOVERY_DURATION,
   getDoubleJumpFrame,
+  getDoubleJumpFrameLayout,
   getFlightLoopFrame,
   getJetFlameAnchors,
   getLandingFrame,
@@ -69,6 +70,14 @@ describe('Hugo character animation timing', () => {
     ));
     expect(frames).toEqual([0, 1, 2, 3, 4, 5]);
     expect(getDoubleJumpFrame(DOUBLE_JUMP_DURATION + 1).index).toBe(5);
+  });
+
+  it('normalizes double-jump frame scale and centers each transition', () => {
+    const layouts = Array.from({ length: 6 }, (_, index) => getDoubleJumpFrameLayout(index));
+    expect(new Set(layouts.map(({ scale }) => scale)).size).toBeGreaterThan(3);
+    expect(layouts.every(({ scale }) => scale >= 0.8 && scale <= 0.93)).toBe(true);
+    expect(layouts.some(({ verticalOffset }) => verticalOffset < 0)).toBe(true);
+    expect(layouts.some(({ verticalOffset }) => verticalOffset > 0.09)).toBe(true);
   });
 
   it('holds the splat wobble and then plays all three recovery poses', () => {

@@ -15,7 +15,7 @@ Pressing **Play** on the home screen opens `#/game` and starts the run immediate
 - Collect coins, increase distance, and set a local best.
 - Failing to recover from a splat opens an immediate **Fly again** action.
 - Forest World moves through Spring, Summer, Autumn, and Winter at 30-second boundaries, with a gradual ten-second blend before each change.
-- Huge, softly glowing planets rotate through the distant sky as the run progresses.
+- The clean sky keeps Hugo and the oversized red obstacles readable at speed.
 
 Forest World is the one playable course. The other five world cards remain on the home screen in a muted, locked **Coming soon** state.
 

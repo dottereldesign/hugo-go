@@ -22,7 +22,6 @@ No character image required for the current Forest controls is missing.
 - Six-frame double-jump sheet: tuck, corkscrew, open, and stabilized flight.
 - Six-frame non-injury wall sheet: approach, splat, wobble, peel, crouch, and upward recovery.
 - Two animated shoe flames drawn in Canvas code, with per-frame shoe-port anchors, an editable scorched-red palette, and thrust-responsive length/glow.
-- Three giant code-authored SVG planets with distance fades, slow rotation, and restrained built-in glow.
 
 The run cycle plays at 12 fps and repeats every `0.667 s`. The two flight loops each repeat every `0.5 s`; the double jump plays at 14 fps and the wall action at 12 fps. Across all six atlases there are **40 authored full-body frames**. More generated in-betweens should be added only when they improve silhouette continuity enough to justify their download/decode cost.
 

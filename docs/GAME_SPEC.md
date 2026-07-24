@@ -100,7 +100,7 @@ All atlases play at 12 fps. Jumping uses the clean crouch and airborne silhouett
 
 The two shoe flames are Canvas paths rather than baked pixels. Every powered and glide frame has two independently measured heel-port anchors and down/back angles, so each flame follows its own moving shoe. Their warm gradients, glow, length, opacity, and flicker respond to smoothed thrust intensity. The editable palette is the exported `JET_FLAME_COLORS` object in `src/game/FlightGame.ts`.
 
-The old full-screen Forest image is not loaded. The play corridor uses the `#26d9ff` blue from the HUGO GO! home wordmark as a clean sky, while a generated transparent ochre/scorched-red New Zealand forestry trail scrolls below it. Three external SVG planets fade in by distance with slow Canvas rotation. Obstacles are large red procedural silhouettes with stripe, facet, or panel identities, keeping their art aligned with collision bounds.
+The old full-screen Forest image is not loaded. The play corridor uses a clean cyan sky, while a generated transparent ochre/scorched-red New Zealand forestry trail scrolls below it. Obstacles are large red procedural silhouettes with stripe, facet, or panel identities, keeping their art aligned with collision bounds.
 
 ## Seasonal cycle
 

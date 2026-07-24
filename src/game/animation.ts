@@ -18,6 +18,14 @@ export type FlightPoseKind = 'powered' | 'glide';
 
 const RUN_FRAME_Y_OFFSETS = [0, 2, -1, -7, 0, 2, -1, -7] as const;
 const TAKEOFF_FRAME_INDICES = [2, 3] as const;
+const DOUBLE_JUMP_FRAME_LAYOUTS = [
+  { scale: 0.91, verticalOffset: 0.025 },
+  { scale: 0.86, verticalOffset: 0.063 },
+  { scale: 0.93, verticalOffset: -0.032 },
+  { scale: 0.80, verticalOffset: 0.113 },
+  { scale: 0.83, verticalOffset: 0.097 },
+  { scale: 0.86, verticalOffset: 0.072 },
+] as const;
 const JET_FLAME_ANCHORS = {
   powered: [
     [{ x: 0.229, y: 0.881, angle: 0.58 }, { x: 0.369, y: 0.881, angle: 0.50 }],
@@ -53,6 +61,11 @@ export interface JetFlameAnchor {
   angle: number;
 }
 
+export interface DoubleJumpFrameLayout {
+  scale: number;
+  verticalOffset: number;
+}
+
 export function getRunFrame(elapsedSeconds: number): RunFrame {
   const safeElapsed = Number.isFinite(elapsedSeconds) ? Math.max(0, elapsedSeconds) : 0;
   const index = Math.floor(safeElapsed * RUN_FRAMES_PER_SECOND) % RUN_FRAME_COUNT;
@@ -86,6 +99,14 @@ export function getDoubleJumpFrame(doubleJumpTime: number): AtlasFrame {
     Math.floor(safeElapsed * DOUBLE_JUMP_FRAMES_PER_SECOND),
   );
   return getFlightAtlasFrame(index);
+}
+
+export function getDoubleJumpFrameLayout(frameIndex: number): DoubleJumpFrameLayout {
+  const safeIndex = Math.max(0, Math.min(
+    DOUBLE_JUMP_FRAME_COUNT - 1,
+    Math.floor(Number.isFinite(frameIndex) ? frameIndex : 0),
+  ));
+  return DOUBLE_JUMP_FRAME_LAYOUTS[safeIndex];
 }
 
 export function getWallStuckFrame(stuckTime: number): AtlasFrame {

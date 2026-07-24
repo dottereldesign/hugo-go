@@ -59,14 +59,14 @@ Current runtime sizes are approximately:
 - six-frame unpowered glide/fall atlas: 119 KB;
 - eight-frame jump/landing atlas: 140 KB;
 - six-frame double-jump atlas: 120 KB;
-- six-frame wall-impact/recovery atlas: 111 KB;
+- six-frame wall-impact/recovery atlas: 100 KB;
 - scrolling trail strip: 64 KB.
 
-The old single flight pose, single-pose run WebP, six-frame transition sheet, and full-screen Forest plate are retired from runtime. The game now has 40 authored character frames. Code-rendered flames remain color- and intensity-adjustable without another texture, and individually tuned shoe-port anchors/angles keep both flames aligned across every powered and glide frame.
+The old single flight pose, single-pose run WebP, six-frame transition sheet, and full-screen Forest plate are retired from runtime. The game now has 40 authored character frames. The wall-splat atlas replaces its two camera-facing wobble frames with generated strict side-profile poses. Code-rendered flames remain color- and intensity-adjustable without another texture, and individually tuned shoe-port anchors/angles keep both flames aligned across every powered and glide frame.
 
 ## Generated and procedural scene art
 
-The sky is a code-rendered `#26d9ff` fill. Generated ochre/scorched-red earth, stones, roots, grass, and fern tips come from the transparent trail strip. Three lightweight, code-authored SVG planets appear by distance. Coins, seasonal particles, and red obstacles remain Canvas drawings. This is deliberate:
+The sky is a code-rendered cyan gradient. Generated ochre/scorched-red earth, stones, roots, grass, and fern tips come from the transparent trail strip. Coins, seasonal particles, and red obstacles remain Canvas drawings. This is deliberate:
 
 - collision silhouettes remain tied to the same rectangles the player sees;
 - the wide trail can scroll without an obvious repeated motif inside one viewport;

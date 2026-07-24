@@ -56,8 +56,7 @@ test('loads the generated character and trail art over a clean blue sky', async 
       && resources.some((name) => name.includes('hugo-glide-cycle'))
       && resources.some((name) => name.includes('hugo-jump-land-cycle'))
       && resources.some((name) => name.includes('hugo-double-jump-cycle'))
-      && resources.some((name) => name.includes('hugo-wall-recovery-cycle'))
-      && resources.some((name) => name.includes('aurora-ring'));
+      && resources.some((name) => name.includes('hugo-wall-recovery-cycle'));
   });
   const skyPixel = await page.locator('#game-canvas').evaluate((canvas) => (
     Array.from((canvas as HTMLCanvasElement).getContext('2d')!.getImageData(10, 10, 1, 1).data)
