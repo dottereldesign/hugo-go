@@ -92,7 +92,7 @@ try {
 
   console.log(JSON.stringify(report, null, 2));
   if (report.p95FrameMs > 34) throw new Error(`p95 frame time ${report.p95FrameMs.toFixed(2)} ms exceeds 34 ms`);
-  if (report.canvasBackingWidth > 390) throw new Error('Mobile canvas exceeded the 1× DPR budget');
+  if (report.canvasBackingWidth !== 780) throw new Error('Mobile Canvas did not use the required 2× backing resolution');
 } finally {
   await browser.close();
   preview.kill();

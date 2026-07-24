@@ -198,7 +198,10 @@ export class FlightGame {
   }
 
   private configureCanvas(): void {
-    const pixelRatio = Math.min(window.devicePixelRatio || 1, 3);
+    const reportedPixelRatio = window.devicePixelRatio || 1;
+    const pixelRatio = window.innerWidth <= 680
+      ? 2
+      : Math.min(reportedPixelRatio, 2);
     this.canvasPixelRatio = pixelRatio;
     this.elements.canvas.width = Math.round(GAME_WIDTH * pixelRatio);
     this.elements.canvas.height = Math.round(GAME_HEIGHT * pixelRatio);

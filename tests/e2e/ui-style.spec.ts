@@ -97,7 +97,7 @@ test('locks mobile gameplay to the viewport with no page scrolling', async ({ pa
   expect(viewport.bodyHeight).toBe(viewport.innerHeight);
   expect(viewport.bodyOverflow).toBe('hidden');
   expect(viewport.touchAction).toBe('none');
-  expect(viewport.canvasWidth).toBeLessThanOrEqual(390);
+  expect(viewport.canvasWidth).toBe(780);
   expect(viewport.canvasBox.left).toBe(0);
   expect(viewport.canvasBox.right).toBe(390);
   expect(viewport.wordmarkColors[0]).not.toBe(viewport.wordmarkColors[1]);
