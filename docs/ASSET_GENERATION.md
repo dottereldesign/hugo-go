@@ -2,7 +2,7 @@
 
 ## Current generated assets
 
-The playable release uses an original Hugo flight pose, an eight-pose run sheet, and one season-neutral Forest background. Full generation and alpha sources are retained:
+The playable release uses four Hugo animation atlases and one season-neutral Forest background. Full generation and alpha sources are retained:
 
 ```text
 art/source-images/game/hugo-flight-magenta.png
@@ -11,9 +11,17 @@ art/source-images/game/hugo-run-magenta.png
 art/source-images/game/hugo-run-transparent.png
 art/source-images/game/hugo-run-sheet-magenta.png
 art/source-images/game/hugo-run-sheet-transparent.png
+art/source-images/game/hugo-powered-sheet-magenta.png
+art/source-images/game/hugo-powered-sheet-transparent.png
+art/source-images/game/hugo-glide-sheet-magenta.png
+art/source-images/game/hugo-glide-sheet-transparent.png
+art/source-images/game/hugo-transition-sheet-magenta.png
+art/source-images/game/hugo-transition-sheet-transparent.png
 art/source-images/game/forest-season-source.png
-src/assets/game/hugo-flight.webp
 src/assets/game/hugo-run-cycle.webp
+src/assets/game/hugo-powered-cycle.webp
+src/assets/game/hugo-glide-cycle.webp
+src/assets/game/hugo-transition-cycle.webp
 src/assets/game/forest-season-base.webp
 ```
 
@@ -33,20 +41,22 @@ The generated poses use a flat magenta background. It is removed with the image-
 
 `scripts/process_game_assets.py` then:
 
-1. finds four occupied sheet rows and two poses per row;
-2. extracts all eight generated bodies without relying on hard-coded source coordinates;
-3. normalizes them to eight `384 × 320` cells;
-4. writes one `1536 × 640` exact-alpha WebP atlas;
-5. trims and compresses the flight sprite;
+1. detects occupied sheet rows and two poses per source row;
+2. extracts each generated full body without hard-coded source coordinates;
+3. normalizes every pose to a `384 × 320` cell;
+4. writes the run sheet as a `1536 × 640` exact-alpha WebP atlas;
+5. writes each six-frame flight/transition sheet as a `1152 × 640` exact-alpha WebP atlas;
 6. compresses the Forest plate to a `1024 × 1536` WebP.
 
 Current runtime sizes are approximately:
 
-- flight sprite: 67 KB;
 - eight-frame run atlas: 167 KB;
+- six-frame powered-glide atlas: 111 KB;
+- six-frame unpowered glide/fall atlas: 119 KB;
+- six-frame takeoff/landing atlas: 107 KB;
 - Forest background: 308 KB.
 
-The single-pose run WebP is retired from runtime. The eight-frame atlas costs one request and about 93 KB more, while providing the complete natural stride.
+The old single flight pose and single-pose run WebP are retired from runtime. The game now has 26 authored character frames, while code-rendered flames remain color- and intensity-adjustable without another texture.
 
 ## Generated and procedural scene art
 

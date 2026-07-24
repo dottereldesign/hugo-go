@@ -31,7 +31,7 @@ Obstacle rectangles receive a subtle warm dashed edge so the hazard boundary is 
 
 ## Game feel
 
-Hugo automatically runs, so an inactive player still sees forward motion. A ground boost is stronger than an air boost, making takeoff feel energetic while repeated air taps remain controllable. Gravity is decisive, and the course speed ramps slowly.
+Hugo automatically runs, so an inactive player still sees forward motion. Holding touch, mouse, or a flight key applies continuous shoe-jet acceleration; releasing hands control back to gravity. The acceleration and capped rise speed make takeoff smooth without converting repeated taps into stronger impulses, and the course speed ramps slowly.
 
 The game borrows the immediate single-action readability associated with Flappy Bird and the energetic forward momentum associated with jetpack runners. Its character, shoe-jet mechanic, Forest presentation, rules, art, and progression are original.
 

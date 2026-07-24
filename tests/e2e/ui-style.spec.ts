@@ -51,7 +51,10 @@ test('loads generated Forest art and exposes gradual seasonal changes', async ({
   await page.waitForFunction(() => {
     const resources = performance.getEntriesByType('resource').map((entry) => entry.name);
     return resources.some((name) => name.includes('forest-season-base'))
-      && resources.some((name) => name.includes('hugo-run-cycle'));
+      && resources.some((name) => name.includes('hugo-run-cycle'))
+      && resources.some((name) => name.includes('hugo-powered-cycle'))
+      && resources.some((name) => name.includes('hugo-glide-cycle'))
+      && resources.some((name) => name.includes('hugo-transition-cycle'));
   });
   await expect(page.locator('#game-season')).toHaveText('SPRING');
 

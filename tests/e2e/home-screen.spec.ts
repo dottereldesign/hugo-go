@@ -10,7 +10,7 @@ test('shows the HUGO GO! home screen with Hugo and all six worlds', async ({ pag
   await expect(page.locator('[data-home-world="forest"]')).toHaveAttribute('aria-pressed', 'true');
   await expect(page.locator('[data-home-world][aria-disabled="true"]')).toHaveCount(5);
   await expect(page.locator('[data-home-world="forest"]')).toContainText('Ready to fly');
-  await expect(page.getByText('Flap. Boost. Go!')).toBeVisible();
+  await expect(page.getByText('Hold. Glide. Go!')).toBeVisible();
 });
 
 test('keeps unfinished worlds muted and locked without opening maps or levels', async ({ page }) => {
@@ -41,13 +41,27 @@ test('Play starts Forest immediately and Back returns home', async ({ page }) =>
   await expect(page.locator('#home-screen')).toHaveClass(/is-open/);
 });
 
-test('clicking the game boosts Hugo upward', async ({ page }) => {
+test('holding the game glides Hugo smoothly upward and release returns gravity', async ({ page }) => {
   await page.goto('/#/game');
+  const canvas = page.locator('#game-canvas');
   const before = await page.evaluate(() => window.__HUGO_GO__.getGameState().hugo.y);
-  await page.locator('#game-canvas').click({ position: { x: 190, y: 420 } });
-  await page.waitForTimeout(120);
-  const after = await page.evaluate(() => window.__HUGO_GO__.getGameState().hugo.y);
-  expect(after).toBeLessThan(before);
+  await canvas.hover({ position: { x: 190, y: 420 } });
+  await page.mouse.down();
+  await page.waitForTimeout(180);
+  const firstHeld = await page.evaluate(() => ({ ...window.__HUGO_GO__.getGameState().hugo }));
+  await page.waitForTimeout(180);
+  const secondHeld = await page.evaluate(() => ({ ...window.__HUGO_GO__.getGameState().hugo }));
+  expect(firstHeld.y).toBeLessThan(before);
+  expect(secondHeld.y).toBeLessThan(firstHeld.y);
+  expect(secondHeld.thrusting).toBe(true);
+  expect(secondHeld.thrustIntensity).toBeGreaterThan(0.9);
+
+  await page.mouse.up();
+  const velocityAtRelease = await page.evaluate(() => window.__HUGO_GO__.getGameState().hugo.velocityY);
+  await page.waitForTimeout(220);
+  const afterRelease = await page.evaluate(() => ({ ...window.__HUGO_GO__.getGameState().hugo }));
+  expect(afterRelease.thrusting).toBe(false);
+  expect(afterRelease.velocityY).toBeGreaterThan(velocityAtRelease);
 });
 
 test('crashing records the run and Fly again restarts without a level screen', async ({ page }) => {

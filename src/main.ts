@@ -242,7 +242,7 @@ class HugoGoApp {
     const copy: Record<string, [string, string, string]> = {
       profile: ['HUGO’S JOURNEY', 'Hugo', 'Flight distance, coins, and personal records are saved on this device.'],
       settings: ['GAME SETTINGS', 'Settings', 'Choose how HUGO GO! feels and sounds on this device.'],
-      missions: ['FLIGHT MISSIONS', 'Missions', 'Run, boost, collect coins, and set a new Forest record.'],
+      missions: ['FLIGHT MISSIONS', 'Missions', 'Run, glide, collect coins, and set a new Forest record.'],
       daily: ['DAILY DROP', 'Daily rewards', 'Daily flight rewards are planned for a future update.'],
       achievements: ['MILESTONES', 'Achievements', 'Your first playable milestones are tied to Forest distance and coins.'],
       collection: ['FLIGHT CREW', 'Collection', 'World discoveries and collectible flight companions will live here.'],

@@ -8,8 +8,10 @@ home/
   worlds/       six home world cards
 game/
   forest-season-base.webp  generated season-neutral Forest background
-  hugo-flight.webp   transparent airborne shoe-jet pose
-  hugo-run-cycle.webp  eight transparent run frames in a 4×2 atlas
+  hugo-run-cycle.webp        eight transparent run frames in a 4×2 atlas
+  hugo-powered-cycle.webp    six powered-glide frames in a 3×2 atlas
+  hugo-glide-cycle.webp      six unpowered glide/fall frames in a 3×2 atlas
+  hugo-transition-cycle.webp six takeoff/landing frames in a 3×2 atlas
 ui/
   buttons/      shared interface controls
   frames/       modal framing

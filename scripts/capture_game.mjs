@@ -14,6 +14,23 @@ try {
     quality: 88,
     fullPage: false,
   });
+  await page.mouse.move(190, 430);
+  await page.mouse.down();
+  await page.waitForTimeout(420);
+  await page.screenshot({
+    path: 'art/reference/ui/game-powered-hold-mobile.jpg',
+    type: 'jpeg',
+    quality: 90,
+    fullPage: false,
+  });
+  await page.mouse.up();
+  await page.waitForTimeout(240);
+  await page.screenshot({
+    path: 'art/reference/ui/game-glide-release-mobile.jpg',
+    type: 'jpeg',
+    quality: 90,
+    fullPage: false,
+  });
   await page.evaluate(() => {
     Object.assign(window.__HUGO_GO__.getGameState(), { elapsed: 60 });
   });

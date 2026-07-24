@@ -16,18 +16,18 @@ The home screen still shows Workshop, Word, Number, Space, and Music so the prod
 
 | Device | Input | Action |
 | --- | --- | --- |
-| Touch | Tap the game | Apply one upward shoe-jet boost |
-| Mouse/trackpad | Primary click in the game | Apply one upward shoe-jet boost |
-| Keyboard | Space, Up Arrow, or W | Apply one upward shoe-jet boost |
+| Touch | Press and hold the game | Apply continuous upward shoe-jet acceleration |
+| Mouse/trackpad | Hold the primary button in the game | Apply continuous upward shoe-jet acceleration |
+| Keyboard | Hold Space, Up Arrow, or W | Apply continuous upward shoe-jet acceleration |
 | Any | Back home | End the active view and return home |
 
-Input is discrete rather than hold-to-fly. Repeated taps/clicks produce repeated impulses.
+Input is press-and-hold rather than repeated impulses. Thrust ramps smoothly while held; releasing immediately returns control to gravity. Repeated `pointerdown` or keyboard-repeat events do not reset or multiply Hugo's velocity.
 
 ## Run rules
 
 1. The game begins in `playing` state with Hugo running on the ground.
 2. The world scrolls automatically and gradually accelerates.
-3. A boost changes Hugo from running to flight.
+3. Holding thrust smoothly changes Hugo from running to powered flight.
 4. Gravity returns Hugo to the ground when the space below him is clear.
 5. Only the fixed ground plane is safe for landing.
 6. Logs, boulders, and stumps are solid hazards on their top, sides, and bottom.
@@ -79,12 +79,16 @@ The home profile, missions, resource counters, best-distance footer, and local l
 
 ## Presentation
 
-Hugo has two generated poses:
+Hugo has four generated full-body animation atlases:
 
 - an eight-frame grounded forward-leaning sprint cycle with arms swept back;
-- airborne pose with two visible shoe-jet flames.
+- a six-frame takeoff/landing transition sheet;
+- a six-frame powered-glide loop with wind-rustled hair and jacket;
+- a six-frame unpowered glide/fall loop with distinct secondary motion.
 
-The run atlas plays at 12 fps, completing one stride every two-thirds of a second. Contact, recoil, passing, and airborne poses are mirrored across the left/right steps. Small vertical offsets preserve the generated ground-contact and airborne phases.
+All atlases play at 12 fps. Takeoff uses transition frames 1–3 and landing uses frames 4–6 before returning to the run cycle. The authored frames keep Hugo as a complete rendered character so cloth, lighting, hands, and joint occlusion stay coherent; splitting this particular 3D art into separately generated limbs would introduce seams and identity drift.
+
+The two shoe flames are Canvas paths rather than baked pixels. Their two-layer gradients, glow, length, opacity, and flicker respond to a smoothed thrust-intensity value. The editable palette is the exported `JET_FLAME_COLORS` object in `src/game/FlightGame.ts`.
 
 The Forest backdrop is a generated 3D-style image with a distant volcanic mountain, rimu-like evergreen trees, sakura blossom, and silver-fern-like plants. Obstacles, coins, ground markings, and weather particles remain procedural so hazard art and collision bounds stay aligned.
 
@@ -129,5 +133,5 @@ Hugo is 10 years old and has Japanese/New Zealand family heritage.
 - accounts and global leaderboards;
 - monetization;
 - multiplayer;
-- authored takeoff, landing, and multi-pose flight transitions beyond the completed eight-frame run cycle;
+- a dedicated non-injury game-over reaction animation;
 - authored audio specifically for shoe jets, coins, and impacts.

@@ -5,10 +5,10 @@ import {
   HUGO_HEIGHT,
   HUGO_WIDTH,
   advanceFlight,
-  boostFlight,
   createFlightGame,
   getHugoHitbox,
   rectanglesOverlap,
+  setFlightThrust,
   sweptRectangleHits,
   type Obstacle,
 } from '../src/game/engine';
@@ -41,14 +41,42 @@ describe('HUGO GO! deterministic flight physics', () => {
     expect(state.obstacles[0].x).toBeGreaterThan(500);
   });
 
-  it('uses one boost action for touch, mouse, and keyboard controls', () => {
+  it('accelerates upward continuously while thrust is held', () => {
     const state = clearCourse();
-    expect(boostFlight(state)).toBe(true);
-    expect(state.hugo.grounded).toBe(false);
-    expect(state.hugo.velocityY).toBeLessThan(0);
+    expect(setFlightThrust(state, true)).toBe(true);
+    expect(state.hugo.grounded).toBe(true);
+    expect(state.hugo.velocityY).toBe(0);
     const startingY = state.hugo.y;
-    advanceFlight(state, 0.1);
+    advanceFlight(state, 0.2);
     expect(state.hugo.y).toBeLessThan(startingY);
+    expect(state.hugo.velocityY).toBeLessThan(0);
+    expect(state.hugo.thrusting).toBe(true);
+    expect(state.hugo.thrustIntensity).toBeGreaterThan(0.9);
+    expect(state.hugo.airborneTime).toBeGreaterThan(0);
+  });
+
+  it('releasing thrust smoothly hands control back to gravity', () => {
+    const state = clearCourse();
+    setFlightThrust(state, true);
+    advanceFlight(state, 0.24);
+    const risingVelocity = state.hugo.velocityY;
+    const releaseY = state.hugo.y;
+    setFlightThrust(state, false);
+    advanceFlight(state, 0.18);
+    expect(state.hugo.velocityY).toBeGreaterThan(risingVelocity);
+    expect(state.hugo.thrustIntensity).toBeLessThan(0.1);
+    advanceFlight(state, 0.25);
+    advanceFlight(state, 0.2);
+    expect(state.hugo.y).toBeGreaterThan(releaseY);
+  });
+
+  it('does not turn repeated press events into velocity impulses', () => {
+    const state = clearCourse();
+    setFlightThrust(state, true);
+    advanceFlight(state, 0.12);
+    const velocityBeforeRepeatedPress = state.hugo.velocityY;
+    setFlightThrust(state, true);
+    expect(state.hugo.velocityY).toBe(velocityBeforeRepeatedPress);
   });
 
   it('lands precisely on clear ground and resumes running', () => {
@@ -112,6 +140,19 @@ describe('HUGO GO! deterministic flight physics', () => {
     expect(state.phase).toBe('gameover');
   });
 
+  it('still collides with a solid obstacle while thrust is held', () => {
+    const state = clearCourse();
+    state.obstacles = [obstacle({
+      x: state.hugo.x + HUGO_WIDTH + 1,
+      y: state.hugo.y - 10,
+      height: HUGO_HEIGHT + 10,
+    })];
+    setFlightThrust(state, true);
+    advanceFlight(state, 0.04);
+    expect(state.phase).toBe('gameover');
+    expect(state.hugo.thrusting).toBe(false);
+  });
+
   it('collects each coin exactly once', () => {
     const state = clearCourse();
     const hitbox = getHugoHitbox(state);
@@ -131,8 +172,8 @@ describe('HUGO GO! deterministic flight physics', () => {
   it('produces the same motion with different render-frame chunking', () => {
     const manyFrames = clearCourse();
     const fewerFrames = clearCourse();
-    boostFlight(manyFrames);
-    boostFlight(fewerFrames);
+    setFlightThrust(manyFrames, true);
+    setFlightThrust(fewerFrames, true);
     for (let index = 0; index < 120; index += 1) advanceFlight(manyFrames, 1 / 120);
     for (let index = 0; index < 12; index += 1) advanceFlight(fewerFrames, 1 / 12);
     expect(fewerFrames.phase).toBe(manyFrames.phase);

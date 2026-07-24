@@ -56,3 +56,64 @@ Preserve the same 10-year-old Hugo face, natural non-caricatured anatomy, hair, 
 Layout: exactly two columns by four rows in reading order, one full-body Hugo per equal cell, identical right-facing profile/camera/scale/horizontal position, soles aligned to a common invisible baseline, generous cell padding, and wide magenta gutters. Flat uniform `#FF00FF` background with no dividers, shadows, gradients, floor, labels, numbers, checkerboard, text, logo, UI, extra person, missing/duplicate limbs, weapon, headband, franchise costume, or magenta on Hugo.
 
 Generated sources: `hugo-run-sheet-magenta.png` and `hugo-run-sheet-transparent.png`.
+
+## Six-frame powered-glide sheet
+
+Use case: identity-preserve game animation asset.
+
+Inputs: `hugo-flight-magenta.png` is the authoritative Hugo identity, outfit, face, materials, and flight-pose reference. `hugo-run-sheet-magenta.png` is the authoritative scale, rendering style, and sprite-sheet layout reference.
+
+Render a production full-body powered-glide animation sheet for a portrait mobile side-scrolling game. Preserve the same Hugo: his exact face, natural round eyes, proportions, black windswept hair, teal jacket with orange trim and silver fern badge, cream shirt, navy shorts over black leggings, and white/teal shoes. Do not redesign or age him.
+
+Create a seamless subtle powered-hover loop, not unrelated poses. Keep torso, head, body angle, both shoes, and the two metal shoe-thruster ports nearly locked to consistent screen coordinates. Animate believable secondary motion: hair tips stream and ripple, the jacket hood and lower hem rustle, sleeves flutter slightly, fabric settles and lifts, hands and knees make tiny stabilizing adjustments, and the body has a very small breathing/hover oscillation. Expression stays cheerful and focused.
+
+Layout: a strict two-column grid with one full-body, right-facing Hugo per cell, uniform cells and equal gutters, the same camera/scale/bounding box, no overlaps, and no cropped hair, fingers, or shoes. Reading order is left-to-right, top-to-bottom. The generator returned six coherent poses, so the accepted production cadence is a two-column by three-row sheet.
+
+Match the supplied polished stylized 3D render and soft studio lighting exactly. Use a perfectly flat uniform `#FF00FF` chroma-key background with no floor, shadows, gradients, texture, reflections, or lighting variation. Never use magenta in Hugo.
+
+Critical constraints: no flame, fire, exhaust, smoke, sparks, glow, or motion trails; both metal thruster ports stay unobstructed for code-drawn fire. No text, numbers, labels, borders, dividers, logos, watermark, extra objects or people, duplicate limbs, or missing fingers.
+
+Generated sources: `hugo-powered-sheet-magenta.png` and `hugo-powered-sheet-transparent.png`.
+
+## Six-frame unpowered glide/fall sheet
+
+Use case: identity-preserve game animation asset.
+
+Inputs: `hugo-flight-magenta.png` is the authoritative identity/outfit/full-body reference. `hugo-powered-sheet-magenta.png` is the authoritative six-frame scale, camera, lighting, gutters, and grid reference.
+
+Render exactly six sequential frames of the identical Hugo gliding toward screen-right after his shoe jets are released. Preserve his exact face, natural round eyes, age, proportions, hairstyle, teal jacket with orange trim and silver fern badge, cream shirt, navy shorts over black leggings, and white/teal shoes.
+
+Create one seamless free-glide loop. Compared with the powered pose, tilt him only slightly more nose-down and let the bent legs trail a little. Keep the head, torso, body angle, and both shoes stable enough to avoid sprite jitter. Animate hair tips rippling backward, the jacket hood and lower hem fluttering in a gentle repeating wave, sleeves breathing, tiny hand/knee balance adjustments, and only a few pixels of settling. Expression stays cheerful, calm, and focused. Frame six loops smoothly to frame one.
+
+Layout: strict two-column by three-row grid, exactly six full-body right-facing frames, uniform cells and equal gutters, same camera/scale/bounding box as the powered sheet, no overlaps, nothing cropped, in reading order.
+
+Match the polished stylized 3D render exactly. Use a perfectly flat uniform `#FF00FF` background across all gutters with no floor, shadows, gradients, texture, reflections, or lighting variation.
+
+Critical constraints: no flame, fire, exhaust, smoke, sparks, glow, or motion trails. Keep both thruster ports visible. No text, numbers, labels, borders, dividers, logos, watermark, extra objects or people, duplicate limbs, or missing fingers.
+
+Generated sources: `hugo-glide-sheet-magenta.png` and `hugo-glide-sheet-transparent.png`.
+
+## Six-frame takeoff/landing transition sheet
+
+Use case: identity-preserve game animation asset.
+
+Inputs: `hugo-run-sheet-magenta.png` is the authoritative run cycle and running pose. `hugo-powered-sheet-magenta.png` is the authoritative flight pose, identity, scale, materials, lighting, and six-frame layout.
+
+Render exactly six ordered transition poses of the identical Hugo facing and travelling screen-right:
+
+1. final forward-leaning run stride, feet close to ground, arms swept behind;
+2. smooth crouched lift-off, knees compressing and jacket beginning to rise;
+3. newly airborne, legs folding into the powered-flight pose, hair and jacket catching wind;
+4. descending approach from flight, legs extending carefully toward ground;
+5. soft two-foot landing compression, knees bent and torso forward, arms behind for balance;
+6. recovery into the forward-leaning run stance, ready to connect to the run sheet.
+
+These are consecutive in-betweens rather than unrelated poses. Hair and jacket progressively rustle. Preserve the exact face, natural round eyes, age, proportions, hair, jacket, badges, shirt, shorts, leggings, and shoes.
+
+Layout: strict two-column by three-row grid, exactly six full-body right-facing frames, uniform cells and equal gutters, same camera/scale/bounding box as the powered sheet, no overlaps and nothing cropped.
+
+Match the supplied polished stylized 3D game render exactly. Use a perfectly flat uniform `#FF00FF` chroma-key background with no floor, cast shadows, gradients, texture, reflections, or lighting variation.
+
+Critical constraints: no flame, fire, exhaust, smoke, sparks, glow, or motion trails. Keep shoe thruster ports visible where possible. No text, numbers, labels, borders, dividers, arrows, logos, watermark, extra objects or people, duplicate limbs, or missing fingers.
+
+Generated sources: `hugo-transition-sheet-magenta.png` and `hugo-transition-sheet-transparent.png`.

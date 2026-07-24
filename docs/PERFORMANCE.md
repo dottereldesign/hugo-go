@@ -15,7 +15,9 @@ Expired entities are removed and course content is generated only a short distan
 
 ## Asset budget
 
-The flight sprite is about 67 KB, the eight-frame run atlas is about 167 KB, and the Forest background is about 308 KB. Full-resolution generation sources live under `art/` and are not included in the Vite output.
+The eight-frame run atlas is about 167 KB. The powered, glide/fall, and transition atlases are approximately 111 KB, 119 KB, and 107 KB. The Forest background is about 308 KB. Full-resolution generation sources live under `art/` and are not included in the Vite output.
+
+Jet fire is drawn from a handful of Canvas paths and gradients. No flame texture or particle atlas is decoded, and color/intensity changes do not require new artwork.
 
 The seasonal system reuses the same background for all four profiles. It does not decode or cross-fade four separate multi-megabyte plates. Filter parameters and particle alpha weights are interpolated numerically.
 

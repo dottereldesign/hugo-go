@@ -6,8 +6,8 @@ Pressing **Play** on the home screen opens `#/game` and starts the run immediate
 
 ## Play
 
-- Mobile: tap anywhere in the game to boost upward.
-- Desktop: click the game, press Space, press Up Arrow, or press W.
+- Mobile: press and hold anywhere in the game to glide upward; release to descend.
+- Desktop: hold the primary mouse button, Space, Up Arrow, or W; release to descend.
 - Hugo automatically runs on safe ground.
 - Ground running uses an eight-pose generated cycle at 12 fps.
 - Ground is the only landable surface.
@@ -41,7 +41,7 @@ npm run test:e2e
 npm run build
 ```
 
-The tests cover deterministic physics, boost behavior, safe ground landing, forbidden obstacle landing, edge contact, positive-gap near misses, swept collision/tunnelling, coin collection, persistence, direct Play-to-game navigation, retry, and mobile no-scroll behavior.
+The tests cover deterministic held-thrust physics, smooth release to gravity, safe ground landing, forbidden obstacle landing, edge contact, positive-gap near misses, swept collision/tunnelling, coin collection, animation timing, persistence, direct Play-to-game navigation, retry, and mobile no-scroll behavior.
 
 ## Project map
 

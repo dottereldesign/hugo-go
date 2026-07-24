@@ -1,6 +1,6 @@
 # Animation and art ledger
 
-No image required for the current Forest game is missing.
+No character image required for the current Forest controls is missing.
 
 ## Completed now
 
@@ -16,36 +16,23 @@ No image required for the current Forest game is missing.
   6. left recoil/down;
   7. right-leg passing;
   8. right-leading airborne/up.
-- One airborne shoe-jet pose.
+- Six-frame powered-glide loop with stable shoe anchors, wind-rustled hair, and jacket flutter.
+- Six-frame unpowered glide/fall loop with calmer secondary motion.
+- Six-frame transition sheet: three takeoff poses followed by three landing poses.
+- Two animated shoe flames drawn in Canvas code, with an editable color palette and thrust-responsive length/glow.
 
-The run cycle plays at 12 fps and repeats every `0.667 s`. Thirty unique running drawings are unnecessary: they would make the atlas roughly four times heavier while most frames would only interpolate between the eight key poses. The current eight cover every biomechanical phase needed for a smooth loop.
+The run cycle plays at 12 fps and repeats every `0.667 s`. The two flight loops each repeat every `0.5 s`. Across run, powered glide, free glide, and transition there are **26 authored full-body frames**. More generated in-betweens would add download/decode cost and are less reliable than the deterministic 12 fps timing plus the acceleration and thrust-intensity interpolation already performed every simulation/render frame.
 
-## Recommended next animation frames
+Full-body normalized cells are intentional. Separately generated heads, arms, jacket panels, and legs would be useful for a purpose-built 2D skeletal rig, but this established stylized 3D render contains overlapping cloth, hands, hair, soft lighting, and self-shadowing. Cutting it apart would create seams and inconsistent occlusion. If a future art direction changes to rigged 2D, author layered source parts together from one turnaround rather than slicing these rendered poses.
 
-These are optional improvements, in priority order.
+## Optional future character sheet
 
-### 1. Takeoff transition — 2 frames
+The only useful missing character sheet is a six-frame, non-injury game-over reaction:
 
-- crouched ground compression with thrusters beginning to glow;
-- toe-off with short ignition flames.
+- three surprised aerial wobble frames;
+- three safe recovery/result poses.
 
-### 2. Landing transition — 2 frames
-
-- descending feet-forward pose with shrinking flames;
-- soft ground recovery pose returning to run contact.
-
-### 3. Flight variation — 3 frames
-
-- boost anticipation with knees tucked slightly;
-- full-thrust pose with longer compact flames;
-- steady glide with shorter flames.
-
-### 4. Non-injury game-over reaction — 2 frames
-
-- surprised midair wobble;
-- safe seated/soft tumble result pose.
-
-That is **9 useful future character frames**, not 30 more run frames.
+It is not required yet because collision currently freezes immediately under the game-over overlay. Generate it when the game-over state is given a short reaction timeline.
 
 ## Optional authored obstacle set
 
@@ -58,7 +45,6 @@ Every obstacle image must fill a documented rectangular collision silhouette, co
 
 ## Optional effects
 
-- compact shoe-jet ignition burst;
 - coin pickup sparkle;
 - new-best celebration;
 - soft landing dust/petals.

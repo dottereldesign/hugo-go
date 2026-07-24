@@ -6,10 +6,11 @@ export const HUGO_WIDTH = 38;
 export const HUGO_HEIGHT = 58;
 export const FIXED_STEP = 1 / 120;
 
-const GRAVITY = 1_080;
+const GRAVITY = 1_000;
+const JET_ACCELERATION = 1_950;
+const MAX_RISE_SPEED = -310;
 const MAX_FALL_SPEED = 570;
-const GROUND_BOOST_SPEED = -430;
-const AIR_BOOST_SPEED = -345;
+const THRUST_RESPONSE_PER_SECOND = 6;
 const BASE_WORLD_SPEED = 142;
 const MAX_WORLD_SPEED = 202;
 const SPEED_RAMP_PER_SECOND = 0.72;
@@ -31,7 +32,10 @@ export interface HugoState {
   y: number;
   velocityY: number;
   grounded: boolean;
-  boostGlow: number;
+  thrusting: boolean;
+  thrustIntensity: number;
+  airborneTime: number;
+  groundedTime: number;
 }
 
 export interface Obstacle extends Rect {
@@ -72,7 +76,10 @@ export function createFlightGame(randomSeed = 0x48_55_47_4f): FlightGameState {
       y: GROUND_Y - HUGO_HEIGHT,
       velocityY: 0,
       grounded: true,
-      boostGlow: 0,
+      thrusting: false,
+      thrustIntensity: 0,
+      airborneTime: 0,
+      groundedTime: 1,
     },
     obstacles: [],
     coins: [],
@@ -86,11 +93,9 @@ export function createFlightGame(randomSeed = 0x48_55_47_4f): FlightGameState {
   return state;
 }
 
-export function boostFlight(state: FlightGameState): boolean {
+export function setFlightThrust(state: FlightGameState, thrusting: boolean): boolean {
   if (state.phase !== 'playing') return false;
-  state.hugo.velocityY = state.hugo.grounded ? GROUND_BOOST_SPEED : AIR_BOOST_SPEED;
-  state.hugo.grounded = false;
-  state.hugo.boostGlow = 0.16;
+  state.hugo.thrusting = thrusting;
   return true;
 }
 
@@ -164,17 +169,27 @@ export function circleTouchesRectangle(coin: Pick<Coin, 'x' | 'y' | 'radius'>, r
 
 function advanceFixedStep(state: FlightGameState, elapsedSeconds: number): void {
   const previousHugo = getHugoHitbox(state);
+  const wasGrounded = state.hugo.grounded;
   const worldMovement = state.speed * elapsedSeconds;
 
   state.elapsed += elapsedSeconds;
   state.speed = Math.min(MAX_WORLD_SPEED, BASE_WORLD_SPEED + state.elapsed * SPEED_RAMP_PER_SECOND);
   state.distance += worldMovement * METRES_PER_PIXEL;
-  state.hugo.boostGlow = Math.max(0, state.hugo.boostGlow - elapsedSeconds);
+  state.hugo.thrustIntensity = moveTowards(
+    state.hugo.thrustIntensity,
+    state.hugo.thrusting ? 1 : 0,
+    THRUST_RESPONSE_PER_SECOND * elapsedSeconds,
+  );
 
   for (const obstacle of state.obstacles) obstacle.x -= worldMovement;
   for (const coin of state.coins) coin.x -= worldMovement;
 
-  state.hugo.velocityY = Math.min(MAX_FALL_SPEED, state.hugo.velocityY + GRAVITY * elapsedSeconds);
+  const jetAcceleration = state.hugo.thrusting ? JET_ACCELERATION : 0;
+  state.hugo.velocityY = clamp(
+    state.hugo.velocityY + (GRAVITY - jetAcceleration) * elapsedSeconds,
+    MAX_RISE_SPEED,
+    MAX_FALL_SPEED,
+  );
   state.hugo.y += state.hugo.velocityY * elapsedSeconds;
   state.hugo.grounded = false;
 
@@ -192,6 +207,7 @@ function advanceFixedStep(state: FlightGameState, elapsedSeconds: number): void 
       || rectanglesOverlap(currentHugo, obstacle)
     ) {
       state.phase = 'gameover';
+      state.hugo.thrusting = false;
       return;
     }
   }
@@ -200,6 +216,14 @@ function advanceFixedStep(state: FlightGameState, elapsedSeconds: number): void 
     state.hugo.y = GROUND_Y - HUGO_HEIGHT;
     state.hugo.velocityY = 0;
     state.hugo.grounded = true;
+  }
+
+  if (state.hugo.grounded) {
+    state.hugo.airborneTime = 0;
+    state.hugo.groundedTime = wasGrounded ? state.hugo.groundedTime + elapsedSeconds : 0;
+  } else {
+    state.hugo.airborneTime = wasGrounded ? elapsedSeconds : state.hugo.airborneTime + elapsedSeconds;
+    state.hugo.groundedTime = 0;
   }
 
   const landedHugo = getHugoHitbox(state);
@@ -282,4 +306,9 @@ function randomBetween(state: FlightGameState, minimum: number, maximum: number)
 
 function clamp(value: number, minimum: number, maximum: number): number {
   return Math.max(minimum, Math.min(maximum, value));
+}
+
+function moveTowards(value: number, target: number, maximumDelta: number): number {
+  if (value < target) return Math.min(target, value + maximumDelta);
+  return Math.max(target, value - maximumDelta);
 }
