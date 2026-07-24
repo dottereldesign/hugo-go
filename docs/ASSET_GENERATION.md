@@ -1,59 +1,66 @@
-# HUGO GO! art pipeline
+# Gameplay asset generation and processing
 
-## Current runtime artwork
+## Current generated assets
 
-The live application uses:
-
-```text
-src/assets/home/background/   illustrated home and placeholder backdrop
-src/assets/home/icons/        profile and quick-action art
-src/assets/home/panels/       feature-card art
-src/assets/home/worlds/       the six retained learning-world cards
-src/assets/ui/                shared modal controls and textures
-public/assets/                static store badges
-public/audio/                 music and interface sounds
-```
-
-Source-quality images and prompt records live under `art/` and are not bundled unless imported.
-
-## Home-screen rules
-
-- HUGO GO! lettering remains editable HTML/CSS, not raster text.
-- Generated images should not contain logos, interface labels, or watermarks.
-- Preserve the existing deep navy, cyan, yellow, green, and purple palette.
-- Keep character and world subjects readable at small mobile sizes.
-- Export runtime images as WebP when transparency and quality allow.
-
-Rebuild processed home assets with:
+The first playable release requires two original Hugo poses. Both were generated specifically for this project and are stored with their full source images:
 
 ```text
-python scripts/process_home_assets.py
+art/source-images/game/hugo-flight-magenta.png
+art/source-images/game/hugo-run-magenta.png
+art/source-images/game/hugo-flight-transparent.png
+art/source-images/game/hugo-run-transparent.png
+src/assets/game/hugo-flight.webp
+src/assets/game/hugo-run.webp
 ```
 
-## Future flight assets
+The exact prompts are recorded in `art/source-images/game/PROMPTS.md`.
 
-The playable game will need a new, focused asset set:
+## Processing pipeline
+
+The generated poses use a flat magenta background. It is removed with the image-generation skill’s chroma-key helper using:
 
 ```text
-src/assets/flight/hugo/        flap, glide, boost, hit, and celebration states
-src/assets/flight/obstacles/   readable world-specific hazards
-src/assets/flight/pickups/     boost, score, and discovery items
-src/assets/flight/effects/     restrained boost and collision effects
-src/assets/flight/backgrounds/ parallax layers by world
+--auto-key border
+--soft-matte
+--transparent-threshold 12
+--opaque-threshold 220
+--despill
 ```
 
-Author the first world before creating a full content library. Every obstacle must have a clean collision silhouette and remain legible against its background.
+`scripts/process_game_assets.py` then:
 
-## Prompt guidance
+1. finds the non-transparent alpha bounds;
+2. keeps an eight-pixel edge pad;
+3. resizes to a maximum 768px height;
+4. writes high-quality exact-alpha WebP runtime files.
 
-Future prompts should describe:
+The resulting runtime sprites are roughly 142 KB combined rather than roughly 1.4 MB combined.
 
-- a cheerful original flight hero named Hugo;
-- chunky mobile-game forms;
-- strong silhouettes;
-- side-view readability;
-- consistent camera and lighting;
-- transparent backgrounds for gameplay sprites;
-- no text, logos, UI, or watermarks.
+## Procedural scene art
 
-Keep prompt records beside source art so results can be reproduced.
+Background, ground, coins, particles, and obstacles are currently Canvas drawings. This is deliberate:
+
+- collision silhouettes remain tied to the same rectangles the player sees;
+- scenery can parallax without extra downloads;
+- the portrait layout scales cleanly;
+- color and motion can be adjusted without regenerating artwork.
+
+Do not replace an obstacle with art whose visible silhouette is smaller than its collision bounds. If authored obstacle art is added, record per-sprite collision insets and test every edge.
+
+## Character direction
+
+Hugo should stay consistent with the current source:
+
+- 10-year-old Japanese/New Zealand boy;
+- natural, non-caricatured facial features;
+- chunky wind-swept dark hair that keys cleanly;
+- teal flight jacket, cream shirt, navy shorts/leggings;
+- white and teal sneakers with compact heel/sole jets;
+- subtle silver fern leaf badge and red circular badge;
+- no ethnic stereotype, exaggerated eye treatment, costume shorthand, weapon, or franchise-specific design.
+
+## Cultural guardrails
+
+New Zealand and Japanese nature cues are welcome. Do not generate or introduce Māori patterns or motifs. Avoid a generic “Asian” visual category; prompts should describe Hugo as the same specific child and preserve his established identity.
+
+Optional future generation is specified in `docs/ART_BACKLOG.md`. No required playable asset is missing from the current Forest release.

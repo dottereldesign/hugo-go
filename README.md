@@ -1,90 +1,65 @@
 # HUGO GO!
 
-HUGO GO! is a browser game in development: a fast, friendly flight game inspired by the immediate one-button rhythm of Flappy Bird and the momentum, boosts, pickups, and obstacle variety of Jetpack-style runners.
+HUGO GO! is a portrait browser game about Hugo, a 10-year-old Japanese/New Zealand boy who runs through Forest World and flies over obstacles using two tiny shoe jets.
 
-The polished home screen is the current product surface. It introduces Hugo, preserves six imaginative learning worlds, and hands Play off to a separate placeholder game page while the flight mechanics are built.
+Pressing **Play** on the home screen opens `#/game` and starts the run immediately. There is no map, level selector, loadout, tower system, or pre-run menu.
 
-## Current experience
+## Play
 
-- Full-screen animated HUGO GO! home screen.
-- Hugo as the player identity.
-- Six selectable world themes: Forest, Workshop, Word, Number, Space, and Music.
-- Responsive desktop and mobile layouts.
-- Local world selection and accessibility preferences.
-- Optional music and interface sound packs.
-- A dedicated `#/game` page reached directly from Play.
-- No maps, level selector, combat board, or legacy strategy-game flow.
+- Mobile: tap anywhere in the game to boost upward.
+- Desktop: click the game, press Space, press Up Arrow, or press W.
+- Hugo automatically runs on safe ground.
+- Ground is the only landable surface.
+- Obstacles are solid hazards from every direction, including their tops.
+- Collect coins, increase distance, and set a local best.
+- A crash opens an immediate **Fly again** action.
 
-The game page currently communicates the intended direction without pretending the flight game is already complete.
+Forest World is the one playable course. The other five world cards remain on the home screen in a muted, locked **Coming soon** state.
 
-## Product direction
+## Progress
 
-The first playable version should focus on one clear loop:
+Runs are stored locally under `hugo-go-player-v1`. A completed run updates:
 
-1. Hugo begins moving forward automatically.
-2. The player taps or presses to flap upward.
-3. A held input activates a limited jetpack boost.
-4. Hugo passes through gaps, avoids obstacles, and collects useful items.
-5. Distance and clean passes build the score.
-6. A collision ends the run and offers a quick retry.
+- total coins;
+- XP and player level;
+- flight power;
+- best distance;
+- total run count;
+- the five best local Forest runs.
 
-Worlds are visual and learning themes for future courses, not map packs. Each world may change scenery, obstacle behavior, pickups, audio, and lightweight learning moments without changing the core flight controls.
-
-See [docs/GAME_SPEC.md](docs/GAME_SPEC.md) for the detailed product specification.
+There is no account or online/global leaderboard yet.
 
 ## Development
 
-Requirements:
-
-- Node.js 20+
-- npm
-
-Install and run:
-
 ```bash
-npm ci
+npm install
 npm run dev
-```
-
-Open the local URL shown by Vite.
-
-Windows note for this machine: its user-level npm configuration currently reports `script-shell=/bin/bash`, which is not present. Either remove that stale setting with `npm config delete script-shell`, or use a command-scoped override in PowerShell:
-
-```powershell
-$env:npm_config_script_shell='cmd.exe'
-npm ci
-npm test
-npm run build
-```
-
-## Verification
-
-```bash
 npm test
 npm run test:e2e
 npm run build
 ```
 
-- Vitest checks audio URL resolution and local player-state behavior.
-- Playwright checks branding, world selection, the Play handoff, responsive navigation, artwork, and the placeholder game page.
-- The production build is emitted to `dist/`.
+The tests cover deterministic physics, boost behavior, safe ground landing, forbidden obstacle landing, edge contact, positive-gap near misses, swept collision/tunnelling, coin collection, persistence, direct Play-to-game navigation, retry, and mobile no-scroll behavior.
 
-## Static hosting
-
-The Vite base is `./`, so the app works from a nested GitHub Pages path such as `username.github.io/hugo-go/`. The included GitHub Actions workflow tests, builds, and deploys `dist/` after updates to `main`.
-
-## Code map
+## Project map
 
 ```text
-index.html            home screen, flight placeholder, and shared overlays
-src/main.ts           navigation and home-screen interaction controller
-src/state.ts          small local player/settings state
-src/worlds.ts         the six retained world themes
-src/audio.ts          music and interface sounds
-src/homeAssets.ts     fingerprinted home and world artwork
-src/style.css         home presentation and placeholder game-page styling
-tests/                unit and browser-level regression checks
-docs/                 product, design, performance, and art guidance
+index.html                    home and playable game markup
+src/main.ts                   routing, home controls, progress persistence
+src/game/engine.ts            deterministic physics and collision rules
+src/game/FlightGame.ts        canvas rendering, input, HUD, game lifecycle
+src/state.ts                  local player state and top-five runs
+src/style.css                 home and portrait-game presentation
+src/assets/game/              compressed runtime Hugo sprites
+art/source-images/game/       full generated sources and prompt record
+tests/engine.test.ts          physics/collision unit tests
+tests/e2e/                    desktop and mobile browser tests
+docs/GAME_SPEC.md             implemented game contract
+docs/ART_BACKLOG.md           optional future visual assets
 ```
 
-The playable flight engine does not exist yet. It should be introduced as a focused module behind `#/game`, without reconnecting the removed strategy-game systems.
+## Creative direction
+
+Hugo is presented as an individual child with natural facial features, never through racial caricature or exaggerated ethnic markers. Forest World combines New Zealand and Japanese nature cues such as silver-fern-like plants, rimu/sakura naming, petals, evergreen forest, and a distant volcanic mountain.
+
+Do not add Māori patterns or motifs. Do not use stereotyped eye treatment, costumes, accents, or other shorthand to signal Hugo’s heritage.

@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-test('loads all home artwork and keeps the selected world visible', async ({ page }) => {
+test('loads all home artwork and visually mutes unfinished worlds', async ({ page }) => {
   await page.goto('/');
   await page.waitForFunction(() => document.fonts.status === 'loaded');
 
@@ -11,12 +11,15 @@ test('loads all home artwork and keeps the selected world visible', async ({ pag
   ));
   expect(brokenImages).toBe(0);
 
-  await page.locator('[data-home-world="word"]').click();
-  const selectedStyle = await page.locator('[data-home-world="word"]').evaluate((element) => getComputedStyle(element).boxShadow);
-  expect(selectedStyle).not.toBe('none');
+  const worldStyles = await page.locator('[data-home-world="word"]').evaluate((element) => ({
+    opacity: Number(getComputedStyle(element).opacity),
+    filter: getComputedStyle(element).filter,
+  }));
+  expect(worldStyles.opacity).toBeLessThan(0.6);
+  expect(worldStyles.filter).not.toBe('none');
 });
 
-test('renders the placeholder game page as a separate full-screen view', async ({ page }) => {
+test('renders the playable portrait canvas as a separate full-screen view', async ({ page }) => {
   await page.goto('/#/game');
   await expect(page.locator('#game-screen')).toBeVisible();
   await expect(page.locator('#home-screen')).not.toHaveClass(/is-open/);
@@ -27,10 +30,36 @@ test('renders the placeholder game page as a separate full-screen view', async (
       width: rect.width,
       height: rect.height,
       backgroundImage: getComputedStyle(element).backgroundImage,
+      scrollHeight: element.scrollHeight,
     };
   });
 
   expect(layout.width).toBeGreaterThanOrEqual(1000);
   expect(layout.height).toBeGreaterThanOrEqual(700);
-  expect(layout.backgroundImage).toContain('learning-fortress');
+  expect(layout.scrollHeight).toBe(layout.height);
+  expect(layout.backgroundImage).toContain('radial-gradient');
+
+  const canvas = page.locator('#game-canvas');
+  await expect(canvas).toBeVisible();
+  const canvasBox = await canvas.boundingBox();
+  expect(canvasBox?.height).toBeGreaterThan(600);
+  expect(canvasBox?.width).toBeLessThan(canvasBox?.height ?? 0);
+});
+
+test('locks mobile gameplay to the viewport with no page scrolling', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/#/game');
+  await page.locator('#game-canvas').click({ position: { x: 180, y: 430 } });
+
+  const viewport = await page.evaluate(() => ({
+    innerHeight: window.innerHeight,
+    rootHeight: document.documentElement.scrollHeight,
+    bodyHeight: document.body.scrollHeight,
+    bodyOverflow: getComputedStyle(document.body).overflow,
+    touchAction: getComputedStyle(document.querySelector('#game-canvas')!).touchAction,
+  }));
+  expect(viewport.rootHeight).toBe(viewport.innerHeight);
+  expect(viewport.bodyHeight).toBe(viewport.innerHeight);
+  expect(viewport.bodyOverflow).toBe('hidden');
+  expect(viewport.touchAction).toBe('none');
 });

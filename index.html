@@ -2,10 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta
       name="description"
-      content="HUGO GO! — flap, boost, and fly through six imaginative learning worlds."
+      content="HUGO GO! — run, boost, and fly through the playable Forest World."
     />
     <meta name="theme-color" content="#779f37" />
     <link rel="icon" href="./favicon.webp" type="image/webp" sizes="64x64" />
@@ -54,12 +54,12 @@
         </main>
 
         <section class="home-world-grid" id="home-world-grid" aria-label="Learning worlds">
-          <button class="home-world home-world--forest" type="button" data-home-world="forest"><img data-menu-art="forest" alt="" loading="lazy" decoding="async" /><span><strong>Forest World</strong><small>Ecosystems &amp; nature</small><b>Flight world</b></span></button>
-          <button class="home-world home-world--workshop" type="button" data-home-world="workshop"><img data-menu-art="workshop" alt="" loading="lazy" decoding="async" /><span><strong>Workshop World</strong><small>Machines &amp; cause-effect</small><b>Flight world</b></span></button>
-          <button class="home-world home-world--word" type="button" data-home-world="word"><img data-menu-art="word" alt="" loading="lazy" decoding="async" /><span><strong>Word World</strong><small>Literacy &amp; language</small><b>Flight world</b></span></button>
-          <button class="home-world home-world--number" type="button" data-home-world="number"><img data-menu-art="number" alt="" loading="lazy" decoding="async" /><span><strong>Number World</strong><small>Patterns, counting &amp; logic</small><b>Flight world</b></span></button>
-          <button class="home-world home-world--space" type="button" data-home-world="space"><img data-menu-art="space" alt="" loading="lazy" decoding="async" /><span><strong>Space World</strong><small>Planets, gravity &amp; science</small><b>Flight world</b></span></button>
-          <button class="home-world home-world--music" type="button" data-home-world="music"><img data-menu-art="music" alt="" loading="lazy" decoding="async" /><span><strong>Music World</strong><small>Rhythm &amp; sequencing</small><b>Flight world</b></span></button>
+          <button class="home-world home-world--forest" type="button" data-home-world="forest"><img data-menu-art="forest" alt="" loading="lazy" decoding="async" /><span><strong>Forest World</strong><small>Rimu &amp; Sakura Run</small><b>Ready to fly</b></span></button>
+          <button class="home-world home-world--workshop is-coming-soon" type="button" data-home-world="workshop" aria-disabled="true"><img data-menu-art="workshop" alt="" loading="lazy" decoding="async" /><span><strong>Workshop World</strong><small>Machines &amp; cause-effect</small><b>Coming soon</b></span></button>
+          <button class="home-world home-world--word is-coming-soon" type="button" data-home-world="word" aria-disabled="true"><img data-menu-art="word" alt="" loading="lazy" decoding="async" /><span><strong>Word World</strong><small>Literacy &amp; language</small><b>Coming soon</b></span></button>
+          <button class="home-world home-world--number is-coming-soon" type="button" data-home-world="number" aria-disabled="true"><img data-menu-art="number" alt="" loading="lazy" decoding="async" /><span><strong>Number World</strong><small>Patterns, counting &amp; logic</small><b>Coming soon</b></span></button>
+          <button class="home-world home-world--space is-coming-soon" type="button" data-home-world="space" aria-disabled="true"><img data-menu-art="space" alt="" loading="lazy" decoding="async" /><span><strong>Space World</strong><small>Planets, gravity &amp; science</small><b>Coming soon</b></span></button>
+          <button class="home-world home-world--music is-coming-soon" type="button" data-home-world="music" aria-disabled="true"><img data-menu-art="music" alt="" loading="lazy" decoding="async" /><span><strong>Music World</strong><small>Rhythm &amp; sequencing</small><b>Coming soon</b></span></button>
         </section>
 
         <footer class="home-footer" id="home-footer">
@@ -125,18 +125,38 @@
         <strong>HUGO GO!</strong>
         <span id="game-world-label">Forest World</span>
       </header>
-      <main class="game-placeholder">
-        <span class="game-placeholder-kicker">THE NEXT ADVENTURE</span>
-        <h1 id="game-page-title"><span>HUGO</span><span>GO!</span></h1>
-        <p>A fast, joyful Flappy Bird meets Jetpack-style flight game is being built here.</p>
-        <section class="game-placeholder-card">
-          <i data-lucide="sparkles" aria-hidden="true"></i>
-          <div>
-            <strong>Flight course coming next</strong>
-            <span>Tap to flap, hold to boost, dodge obstacles, and chase a new best distance.</span>
+      <main class="game-shell" id="game-shell">
+        <h1 class="visually-hidden" id="game-page-title">HUGO GO! Forest flight game</h1>
+        <section class="game-portrait" aria-describedby="game-controls-help">
+          <canvas
+            class="game-canvas"
+            id="game-canvas"
+            width="390"
+            height="780"
+            role="img"
+            aria-label="Hugo running and flying through Forest World"
+          ></canvas>
+          <div class="game-hud" aria-label="Current run">
+            <div><small>Distance</small><strong id="game-distance">0 m</strong></div>
+            <div><small>Coins</small><strong><span aria-hidden="true">●</span> <em id="game-run-coins">0</em></strong></div>
+            <div><small>Best</small><strong id="game-best">0 m</strong></div>
+          </div>
+          <div class="game-phase" id="game-phase">RUNNING</div>
+          <p class="game-controls-help" id="game-controls-help">Tap or click anywhere in the game to boost. On a keyboard, use Space, Up Arrow, or W.</p>
+          <section class="game-over" id="game-over-overlay" aria-labelledby="game-over-title" hidden>
+            <span>FOREST RUN COMPLETE</span>
+            <h2 id="game-over-title">Nice flying!</h2>
+            <strong id="game-over-result">0 m · 0 coins</strong>
+            <p>Obstacles cannot be landed on. Time each shoe-jet boost and fly cleanly over them.</p>
+            <button id="game-restart-button" type="button">Fly again</button>
+            <button class="game-over-home" id="game-over-home" type="button">Back home</button>
+          </section>
+          <div class="visually-hidden" id="game-announcer" aria-live="polite" aria-atomic="true"></div>
+          <div class="game-culture-note" aria-hidden="true">
+            <span>RIMU &amp; SAKURA RUN</span>
+            <small>A forest inspired by Hugo’s two homes</small>
           </div>
         </section>
-        <button class="game-placeholder-home" id="game-placeholder-home" type="button">Return to home screen</button>
       </main>
     </section>
 

@@ -12,7 +12,9 @@ import './style.css';
 import { AudioEngine, UI_SOUND_PACKS, isUiSoundPack, type UiSound } from './audio';
 import { HOME_PANEL_ART, HOME_WORLD_ART } from './homeAssets';
 import { refreshIcons } from './icons';
-import { createDefaultPlayerState, loadPlayerState, savePlayerState, type PlayerState } from './state';
+import { FlightGame, type RunResult } from './game/FlightGame';
+import type { FlightGameState } from './game/engine';
+import { createDefaultPlayerState, loadPlayerState, recordRun, savePlayerState, type PlayerState } from './state';
 import { getWorld, type WorldId } from './worlds';
 
 type IntroVariant = 'smash' | 'magic';
@@ -39,8 +41,23 @@ class HugoGoApp {
   private readonly homePanelModal = this.element('home-panel-modal');
   private readonly homePanelContent = this.element('home-panel-content');
   private readonly toastRegion = this.element('toast-region');
+  private readonly flightGame: FlightGame;
 
   constructor() {
+    this.flightGame = new FlightGame({
+      canvas: this.element('game-canvas') as HTMLCanvasElement,
+      distance: this.element('game-distance'),
+      coins: this.element('game-run-coins'),
+      best: this.element('game-best'),
+      phase: this.element('game-phase'),
+      overlay: this.element('game-over-overlay'),
+      result: this.element('game-over-result'),
+      restart: this.button('game-restart-button'),
+      announcer: this.element('game-announcer'),
+    }, {
+      bestDistance: () => this.state.bestDistance,
+      onRunComplete: (result) => this.completeRun(result),
+    });
     this.compactHomeSections = this.prepareCompactHomeLayout();
     this.audio.configure(this.state.settings);
     this.applySettings();
@@ -53,6 +70,7 @@ class HugoGoApp {
   }
 
   showHome(updateRoute = true): void {
+    this.flightGame.stop();
     this.gameScreen.hidden = true;
     this.homeScreen.classList.add('is-open');
     document.body.classList.remove('game-page-open');
@@ -63,19 +81,24 @@ class HugoGoApp {
   }
 
   showGame(updateRoute = true): void {
+    this.state.selectedWorld = 'forest';
     this.homeScreen.classList.remove('is-open');
     this.gameScreen.hidden = false;
     document.body.classList.add('game-page-open');
     this.setCompactMenuOpen(false);
     this.setMobileResourcesExpanded(false);
-    this.element('game-world-label').textContent = getWorld(this.state.selectedWorld).name;
+    this.element('game-world-label').textContent = getWorld('forest').name;
     if (updateRoute) this.pushRoute('#/game');
     document.title = 'HUGO GO! — Game';
-    this.button('game-back-button').focus();
+    this.flightGame.start();
   }
 
   getSelectedWorld(): WorldId {
     return this.state.selectedWorld;
+  }
+
+  getGameState(): Readonly<FlightGameState> {
+    return this.flightGame.getState();
   }
 
   closeTopLayer(): boolean {
@@ -101,7 +124,7 @@ class HugoGoApp {
   private bindControls(): void {
     this.button('home-play-button').addEventListener('click', () => this.showGame());
     this.button('game-back-button').addEventListener('click', () => this.showHome());
-    this.button('game-placeholder-home').addEventListener('click', () => this.showHome());
+    this.button('game-over-home').addEventListener('click', () => this.showHome());
 
     const introButton = this.button('home-intro-next');
     introButton.addEventListener('click', () => this.playHomeIntro(this.introVariant === 'smash' ? 'magic' : 'smash'));
@@ -167,7 +190,7 @@ class HugoGoApp {
       if (button.matches('.home-world')) sound = 'card';
       else if (button.matches('.home-play')) sound = 'confirm';
       else if (button.matches('#sound-button, #home-sound-button, [data-toggle-sound], [data-toggle-motion]')) sound = 'toggle';
-      else if (button.matches('.modal-close, .game-back-button, .game-placeholder-home')) sound = 'back';
+      else if (button.matches('.modal-close, .game-back-button, .game-over-home')) sound = 'back';
       else if (button.matches('[data-home-panel]')) sound = 'open';
       this.audio.playUi(sound);
     }, { capture: true });
@@ -178,11 +201,15 @@ class HugoGoApp {
   }
 
   private selectWorld(worldId: WorldId): void {
-    this.state.selectedWorld = worldId;
+    if (worldId !== 'forest') {
+      const world = getWorld(worldId);
+      this.showStatus(`${world.name} is coming soon. Forest World is ready to play now.`);
+      return;
+    }
+    this.state.selectedWorld = 'forest';
     this.persist();
     this.renderWorldSelection();
-    const world = getWorld(worldId);
-    this.showStatus(`${world.name} selected. Its ${world.subject.toLowerCase()} flight course is coming soon.`);
+    this.showStatus('Forest World is ready. Press Play to start running immediately.');
   }
 
   private render(): void {
@@ -203,22 +230,22 @@ class HugoGoApp {
 
   private renderWorldSelection(): void {
     this.homeScreen.querySelectorAll<HTMLButtonElement>('[data-home-world]').forEach((button) => {
-      const selected = button.dataset.homeWorld === this.state.selectedWorld;
+      const selected = button.dataset.homeWorld === 'forest';
       button.classList.toggle('is-selected', selected);
       button.setAttribute('aria-pressed', String(selected));
     });
-    this.element('game-world-label').textContent = getWorld(this.state.selectedWorld).name;
+    this.element('game-world-label').textContent = getWorld('forest').name;
   }
 
   private openHomePanel(panel: string): void {
     const copy: Record<string, [string, string, string]> = {
-      profile: ['HUGO’S JOURNEY', 'Hugo', 'Your future flight progress will be saved on this device.'],
+      profile: ['HUGO’S JOURNEY', 'Hugo', 'Flight distance, coins, and personal records are saved on this device.'],
       settings: ['GAME SETTINGS', 'Settings', 'Choose how HUGO GO! feels and sounds on this device.'],
-      missions: ['FLIGHT MISSIONS', 'Missions', 'Flight missions will arrive with the playable game.'],
+      missions: ['FLIGHT MISSIONS', 'Missions', 'Run, boost, collect coins, and set a new Forest record.'],
       daily: ['DAILY DROP', 'Daily rewards', 'Daily flight rewards are planned for a future update.'],
-      achievements: ['MILESTONES', 'Achievements', 'Distance, close-call, and world achievements are coming with gameplay.'],
+      achievements: ['MILESTONES', 'Achievements', 'Your first playable milestones are tied to Forest distance and coins.'],
       collection: ['FLIGHT CREW', 'Collection', 'World discoveries and collectible flight companions will live here.'],
-      leaderboard: ['LOCAL RECORDS', 'Leaderboards', 'Best-distance records will appear after the flight game is ready.'],
+      leaderboard: ['LOCAL RECORDS', 'Leaderboards', 'Your five best Forest runs on this device.'],
     };
     const text = copy[panel] ?? copy.profile;
     this.element('home-panel-eyebrow').textContent = text[0];
@@ -249,13 +276,30 @@ class HugoGoApp {
         <div class="progress-summary">
           <div><small>Player</small><strong>Hugo</strong></div>
           <div><small>Level</small><strong>${this.state.level}</strong></div>
-          <div><small>World</small><strong>${getWorld(this.state.selectedWorld).name.replace(' World', '')}</strong></div>
+          <div><small>Runs</small><strong>${this.state.totalRuns}</strong></div>
           <div><small>Best</small><strong>${this.state.bestDistance ? `${this.state.bestDistance} m` : '—'}</strong></div>
         </div>
-        <div class="empty-progress"><strong>Ready for takeoff</strong><p>The home screen is ready. Flight progress begins when the first playable course lands.</p></div>
+        <div class="empty-progress"><strong>Forest World is open</strong><p>Press Play to start instantly. Run on safe ground, then use Hugo’s shoe jets to fly over every obstacle.</p></div>
       `;
     }
-    return '<div class="empty-progress"><strong>Coming with the flight game</strong><p>This part of HUGO GO! will activate once the first playable course is ready.</p></div>';
+    if (panel === 'leaderboard') {
+      if (this.state.topRuns.length === 0) {
+        return '<div class="empty-progress"><strong>No Forest runs yet</strong><p>Press Play and your best five distances will appear here.</p></div>';
+      }
+      return `<ol class="local-leaderboard">${this.state.topRuns.map((run, index) => `
+        <li><b>#${index + 1}</b><strong>${run.distance} m</strong><span>${run.coins} coin${run.coins === 1 ? '' : 's'}</span></li>
+      `).join('')}</ol>`;
+    }
+    if (panel === 'missions') {
+      return `
+        <div class="mission-list">
+          <div><strong>First flight</strong><span>${this.state.totalRuns > 0 ? 'Complete' : 'Play one Forest run'}</span></div>
+          <div><strong>Coin trail</strong><span>${this.state.coins >= 10 ? 'Complete' : `${this.state.coins}/10 coins`}</span></div>
+          <div><strong>Forest flyer</strong><span>${Math.min(this.state.bestDistance, 250)}/250 m</span></div>
+        </div>
+      `;
+    }
+    return '<div class="empty-progress"><strong>Coming soon</strong><p>This feature will open in a later HUGO GO! update.</p></div>';
   }
 
   private handlePanelAction(event: Event): void {
@@ -427,6 +471,14 @@ class HugoGoApp {
     window.setTimeout(() => toast.remove(), 2_700);
   }
 
+  private completeRun(result: RunResult): void {
+    const previousBest = this.state.bestDistance;
+    this.state = recordRun(this.state, result);
+    this.persist();
+    this.render();
+    if (result.distance > previousBest) this.toast(`New Forest record: ${result.distance} m!`, 'success');
+  }
+
   private persist(): void {
     savePlayerState(this.state);
   }
@@ -455,6 +507,7 @@ declare global {
       showHome: () => void;
       showGame: () => void;
       getSelectedWorld: () => WorldId;
+      getGameState: () => Readonly<FlightGameState>;
     };
   }
 }
@@ -464,4 +517,5 @@ window.__HUGO_GO__ = {
   showHome: () => app.showHome(),
   showGame: () => app.showGame(),
   getSelectedWorld: () => app.getSelectedWorld(),
+  getGameState: () => app.getGameState(),
 };

@@ -1,35 +1,39 @@
-# HUGO GO! performance guide
+# Performance notes
 
-## Current target
+## Current runtime
 
-The current build is primarily an animated HTML/CSS home screen plus a lightweight game placeholder. It should:
+The game uses one `390 × 780` logical Canvas and caps device pixel ratio at `2`. Physics and collision are independent of render rate and run in fixed `1/120 s` substeps.
 
-- remain responsive during the entrance sequence;
-- avoid loading music before the player interacts;
-- lazy-load noncritical home artwork where practical;
-- avoid errors when switching between `#/home` and `#/game`;
-- build cleanly for GitHub Pages.
+Each animation frame:
 
-Use browser performance tools when the experience feels slow. Chrome DevTools Performance and the browser task manager are more useful than adding a permanent profiler to the current placeholder.
+- advances at most `0.05 s` in the browser controller;
+- moves a small obstacle/coin list;
+- draws procedural scenery, pickups, obstacles, and one Hugo sprite;
+- updates three compact HUD values.
 
-## Future flight-game budget
+Expired entities are removed and course content is generated only a short distance ahead.
 
-The flight engine should target:
+## Asset budget
 
-- 60 frames per second during a run;
-- one Canvas sized to a deliberate pixel budget;
-- fixed-step or otherwise deterministic physics;
-- pooled obstacles and pickups;
-- no DOM updates every simulation tick;
-- bounded particles and audio voices;
-- pause when the tab is hidden;
-- responsive scaling without changing physics.
+The two runtime Hugo WebP sprites are approximately 142 KB combined. Full-resolution generation sources live under `art/` and are not included in the Vite output.
 
-HUD values such as distance and boost energy can update at a lower cadence than the visual scene.
+The Forest environment, coins, and hazards do not require bitmap downloads.
 
-## Verification
+## Mobile behavior
 
-Current automated checks:
+- gameplay is fixed to `100dvh`;
+- page overflow is hidden;
+- Canvas touch action is disabled;
+- overscroll is contained;
+- the board uses a fixed portrait aspect ratio;
+- safe-area insets are included;
+- the render backing store never exceeds 2× logical resolution.
+
+The browser tests assert that a 390×844 game view has equal viewport/document height and `overflow: hidden`.
+
+## Regression checks
+
+Before deployment:
 
 ```bash
 npm test
@@ -37,13 +41,10 @@ npm run test:e2e
 npm run build
 ```
 
-When the flight engine arrives, add a deterministic browser performance test that measures:
+Review the production build for:
 
-- frame-time distribution;
-- active obstacle and pickup counts;
-- Canvas backing resolution;
-- allocations during a representative run;
-- page errors;
-- behavior after pause, restart, and tab visibility changes.
-
-Do not add hardware-specific FPS gates until the structural budgets are stable.
+- unexpectedly large new runtime images;
+- long main-thread frames while many obstacles are visible;
+- touch input causing page movement;
+- a changed canvas aspect ratio;
+- HUD or overlay DOM triggering layout outside the fixed game view.

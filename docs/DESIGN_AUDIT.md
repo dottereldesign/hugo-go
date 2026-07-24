@@ -1,68 +1,49 @@
-# HUGO GO! design direction
+# Design audit
 
-This document records the product reset and the design boundaries for the next playable build.
+## What now works
 
-## What stays
+- Home keeps its polished HUGO GO! presentation.
+- Play starts Forest immediately with no level or map screen.
+- The first safe seconds visibly establish Hugo’s ground run.
+- One input works across touch, mouse, and keyboard.
+- Ground and flight use distinct generated poses.
+- Shoe jets visibly fire during flight.
+- Five unbuilt worlds remain discoverable without looking playable.
+- Distance, coins, XP, best distance, and local top-five runs connect gameplay back to home.
+- Retry is one action and never returns to a selector.
+- Mobile portrait play has no document scroll.
 
-- The existing full-screen home presentation.
-- Hugo’s profile area and illustrated avatar.
-- The HUGO GO! two-line title treatment.
-- Six world cards and their visual identities.
-- Responsive navigation, settings, music, and interface sounds.
-- The bright, chunky, premium mobile-game art direction.
+## Readability choices
 
-## What changes
+The game area is narrower than a desktop window because the target experience is portrait. Desktop side space is intentionally quiet and dark. The playable canvas contains:
 
-The project is now a side-scrolling flight game. The old strategy-game structure is not part of the product:
+- three compact HUD values;
+- one temporary control hint;
+- a clear ground line;
+- strong obstacle outlines;
+- coins above the obstacle route;
+- a restrained bottom-right setting label.
 
-- no map or stage selector;
-- no placement grid;
-- no roster or upgrade shop;
-- no timed enemy groups;
-- no battlefield economy;
-- no armor or damage table.
+Obstacle rectangles receive a subtle warm dashed edge so the hazard boundary is visible even when the internal rock/wood texture is irregular.
 
-Play has one job: open the flight game.
+## Game feel
 
-## Reference qualities
+Hugo automatically runs, so an inactive player still sees forward motion. A ground boost is stronger than an air boost, making takeoff feel energetic while repeated air taps remain controllable. Gravity is decisive, and the course speed ramps slowly.
 
-The desired feel combines two proven qualities:
+The game borrows the immediate single-action readability associated with Flappy Bird and the energetic forward momentum associated with jetpack runners. Its character, shoe-jet mechanic, Forest presentation, rules, art, and progression are original.
 
-- Flappy Bird: one immediately legible action, strong gravity, narrow decisions, fast restarts, and distance mastery.
-- Jetpack-style runners: forward momentum, a held lift option, pickups, varied hazards, and expressive audiovisual rewards.
+## Respectful representation
 
-HUGO GO! should not clone either game’s content. It should use original rules, world themes, obstacle art, progression, and character presentation.
+The generated Hugo art uses the same individual face in both poses. Heritage is not conveyed through distorted facial anatomy. New Zealand/Japanese cues stay in contemporary badges, plants, petals, evergreen forest, and volcanic geography.
 
-## Interaction principles
+No Māori motifs or patterns are present.
 
-1. A first-time player should move Hugo successfully within five seconds.
-2. Every failure should be visually explainable.
-3. Restart should take one obvious action and very little time.
-4. Early gaps teach rhythm before speed increases.
-5. Boost is a tactical resource, not a replacement for flapping.
-6. Touch response takes priority over complex button combinations.
-7. World themes change flavor and challenge, not the basic control model.
+## Known intentional limits
 
-## Home-screen relationship
+- Forest is one endless course rather than a level campaign.
+- Obstacles are procedural Canvas art.
+- The local leaderboard is not global.
+- Run and flight each use one authored pose; motion comes from bob, tilt, parallax, flames, and physics.
+- Existing home music/UI sounds remain; bespoke gameplay sound design is deferred.
 
-The home screen is intentionally more decorative than the flight view. It sells the world and gives the player a place to select a theme. The gameplay view must reduce visual noise and protect:
-
-- Hugo’s silhouette;
-- obstacle edges;
-- safe openings;
-- boost energy;
-- current distance;
-- pause and restart controls.
-
-## Next design questions
-
-The first prototype should answer:
-
-- Does flap alone feel satisfying?
-- Does boost add recovery and mastery without removing risk?
-- What is the fairest collision shape around Hugo?
-- How quickly should obstacle spacing tighten?
-- Should boost recharge continuously, through pickups, or both?
-- Which single world best proves the art and obstacle pipeline?
-
-Those answers should come from a playable vertical slice before deeper progression or content work.
+These limits do not block the current playable loop. Optional visual upgrades are recorded separately in `docs/ART_BACKLOG.md`.

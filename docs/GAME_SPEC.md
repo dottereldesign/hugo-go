@@ -1,183 +1,118 @@
-# HUGO GO! — game specification
+# HUGO GO! implemented game specification
 
-## 1. Vision
+## Product shape
 
-HUGO GO! is a cheerful, single-player browser flight game starring Hugo. Its core is easy to understand immediately: keep Hugo airborne, move through openings, use a jetpack at the right moment, collect rewards, and travel as far as possible.
+HUGO GO! is a single-input, portrait-first endless runner/flight game. Hugo begins every run automatically on the Forest World ground. The player decides when to fire the two shoe jets and move upward.
 
-The interaction should feel as readable as Flappy Bird and as energetic as a lightweight Jetpack-style runner. Inspiration describes the control qualities only; characters, worlds, artwork, rules, and implementation remain original.
+Home **Play** goes directly to `#/game` and starts a fresh run. There is no level selection or intermediate screen.
 
-## 2. Current product state
+## Current course
 
-The home screen is complete enough to preserve:
+**Forest World — Rimu & Sakura Run** is the only playable course.
 
-- HUGO GO! title treatment;
-- Hugo’s profile and resource bar;
-- animated Play call to action;
-- quick activities, feature panels, and footer navigation;
-- six illustrated worlds;
-- desktop and compact mobile layouts;
-- optional music and interface sounds.
+The home screen still shows Workshop, Word, Number, Space, and Music so the product can grow later. Those cards are visually muted, expose `aria-disabled="true"`, say **Coming soon**, and cannot replace Forest as the active course.
 
-Play opens `#/game`. That page is intentionally a placeholder until the flight engine exists. It must never fall through to an old or unrelated game.
+## Controls
 
-## 3. Player promise
+| Device | Input | Action |
+| --- | --- | --- |
+| Touch | Tap the game | Apply one upward shoe-jet boost |
+| Mouse/trackpad | Primary click in the game | Apply one upward shoe-jet boost |
+| Keyboard | Space, Up Arrow, or W | Apply one upward shoe-jet boost |
+| Any | Back home | End the active view and return home |
 
-> Help Hugo flap, boost, and glide through surprising worlds. Learn their rhythm, squeeze through obstacles, and keep going.
+Input is discrete rather than hold-to-fly. Repeated taps/clicks produce repeated impulses.
 
-The game should be:
+## Run rules
 
-- instantly understandable;
-- satisfying in sessions under two minutes;
-- friendly enough for children but responsive enough for skilled replay;
-- readable on phones, tablets, and desktop browsers;
-- playful rather than punishing;
-- expandable across six distinctive worlds.
+1. The game begins in `playing` state with Hugo running on the ground.
+2. The world scrolls automatically and gradually accelerates.
+3. A boost changes Hugo from running to flight.
+4. Gravity returns Hugo to the ground when the space below him is clear.
+5. Only the fixed ground plane is safe for landing.
+6. Logs, boulders, and stumps are solid hazards on their top, sides, and bottom.
+7. Touching a hazard ends the run. The engine never snaps Hugo onto a hazard.
+8. Coins are collected once and removed.
+9. A crash freezes the run, saves its result, and shows **Fly again**.
 
-## 4. Core run
+The opening obstacle is placed far enough away for the player to see the running state and learn the control.
 
-1. The player selects a world on the home screen.
-2. Play opens the flight page.
-3. Hugo begins moving horizontally at a steady base speed.
-4. Tap, click, or press Space to flap upward.
-5. Hold the boost input to spend jetpack energy for controlled lift.
-6. Pass obstacles, collect items, and build distance.
-7. Difficulty rises gradually through speed, spacing, and moving hazards.
-8. A collision or leaving the safe flight area ends the run.
-9. The result shows distance, pickups, and a clear Retry button.
+## Physics and collision contract
 
-There is no map select, chapter grid, placement phase, combat roster, or wave system.
+The logical canvas is `390 × 780` with ground at `y = 704`. Hugo uses a deliberately readable body hitbox separate from decorative hair, hands, and flame edges.
 
-## 5. Controls
+Simulation is split into fixed `1/120 s` substeps. The public advance function caps a single browser-frame contribution and subdivides it, so slow frames do not create large collision jumps.
 
-| Input | Action |
-|---|---|
-| Tap / click / Space | Flap |
-| Hold pointer / Space | Jetpack boost while energy remains |
-| Release | Fall and preserve boost energy |
-| Escape | Pause or return from overlays |
+Obstacle detection combines:
 
-Touch must be the primary design constraint. Keyboard and mouse mirror it.
+- inclusive axis-aligned overlap, where exact edge contact counts;
+- swept rectangle collision using relative world motion;
+- collision checks before any ground snap;
+- fixed-step integration for vertical falls and horizontal scrolling.
 
-## 6. Flight model
+This makes these outcomes explicit:
 
-The first prototype needs a small, tunable set of values:
+- a measurable positive gap is safe;
+- exact edge contact is a collision;
+- fast travel through a thin hazard is detected;
+- a fall toward an obstacle top is a collision, never a landing;
+- clear-ground descent lands exactly on the ground plane;
+- a coin can increment the run total only once.
 
-- forward speed;
-- gravity;
-- flap impulse;
-- maximum vertical speed;
-- boost lift;
-- boost capacity and recovery;
-- collision radius;
-- obstacle gap and spacing;
-- difficulty ramp.
+See `tests/engine.test.ts` for executable examples.
 
-Physics should be deterministic enough for automated tests. Controls should favor forgiveness: input buffering, a short collision grace edge, and restrained camera movement are preferable to artificial difficulty.
+## Scoring and persistence
 
-## 7. Scoring
+Distance is derived from world travel. A run result contains whole metres and collected coins.
 
-The main score is best distance. Supporting run metrics may include:
+`recordRun` updates:
 
-- obstacle gates cleared;
-- pickups collected;
-- close calls;
-- time airborne;
-- clean-flight streak;
-- world discoveries.
+- coins;
+- XP (`distance + coins × 20`);
+- level (`floor(total XP / 1000) + 1`);
+- flight power;
+- best distance;
+- total run count;
+- top five runs, sorted by distance then coins.
 
-Local bests can use browser storage. Accounts, online leaderboards, and monetization are future product decisions, not current dependencies.
+The home profile, missions, resource counters, best-distance footer, and local leaderboard use this state. Storage is device-local; no online identity is implied.
 
-## 8. Worlds
+## Presentation
 
-Worlds are themes for flight courses, not collections of maps or levels.
+Hugo has two generated poses:
 
-| World | Theme | Possible flight character |
-|---|---|---|
-| Forest | Ecosystems and nature | Branch tunnels, pollen currents, drifting seeds |
-| Workshop | Machines and cause-effect | Pistons, belts, fans, magnetic gates |
-| Word | Literacy and language | Letter trails, storybook arches, punctuation bursts |
-| Number | Patterns, counting, and logic | Sequences, repeating gates, geometric motion |
-| Space | Planets, gravity, and science | Low gravity, orbiting hazards, comet pickups |
-| Music | Rhythm and sequencing | Beat-timed gates, sound pulses, tempo changes |
+- grounded forward-leaning sprint with arms swept back;
+- airborne pose with two visible shoe-jet flames.
 
-The first playable course should use one world only. Additional worlds should reuse the same stable flight engine and add data-driven presentation or obstacle behaviors.
+The runtime scene is drawn procedurally so obstacle artwork and collision bounds stay aligned. It includes a distant volcanic mountain, evergreen forest, pink/red flowering trees and petals, and silver-fern-like plants. These are landscape and botanical cues, not cultural patterns.
 
-## 9. Home-to-game contract
+## Cultural and character guardrails
 
-- The home screen owns profile, settings, world selection, and Play.
-- Selecting a world updates local state but does not open a secondary selector.
-- Play opens the game page with the selected world visible.
-- Back returns to the home screen without losing the selection.
-- Browser Back and Forward follow the same `#/home` and `#/game` states.
+Hugo is 10 years old and has Japanese/New Zealand family heritage.
 
-## 10. Visual direction
+- Use natural, individual facial anatomy.
+- Do not use exaggerated eye shapes or visual shorthand for ethnicity.
+- Do not turn heritage into a costume.
+- Do not add Māori patterns or motifs.
+- Japanese and New Zealand nature, food, language, geography, family life, and ordinary contemporary details can inform future worlds when handled specifically and respectfully.
 
-Keep the existing home screen’s polished, colorful, toy-like presentation. The future game should inherit:
+## Mobile and accessibility
 
-- deep navy framing;
-- luminous cyan, yellow, green, and purple accents;
-- large rounded controls;
-- readable silhouettes;
-- short responsive motion;
-- illustrated world-specific backgrounds;
-- Hugo’s adventurous goggles-and-flight identity.
+- Gameplay is designed for portrait orientation.
+- The page and game canvas use `touch-action: none`.
+- The game view is fixed to `100dvh` with hidden overflow and no document scrolling.
+- Safe-area insets are respected by the game header and controls.
+- Landscape phones receive a portrait-play message.
+- HUD values are HTML text.
+- Run start and game-over results are announced through an ARIA live region.
+- Keyboard control is supported.
 
-The flight view should remain less visually busy than the home screen so obstacles and Hugo are always readable.
+## Out of scope for this release
 
-## 11. Audio
-
-The current soundtrack and interface sounds remain. Gameplay will need:
-
-- flap;
-- jetpack start and loop;
-- pickup;
-- gate clear;
-- close call;
-- collision;
-- result;
-- new-best celebration.
-
-Audio must remain optional and unlock only after user interaction.
-
-## 12. Accessibility
-
-- All menus use semantic controls and visible focus styles.
-- Core play must not depend on color alone.
-- Reduced motion affects decorative animation, not gameplay timing.
-- Important audio feedback also needs visual feedback.
-- Touch targets should remain at least 44 CSS pixels.
-- The game should support pause and restart without precise pointer movement.
-
-## 13. Technical direction
-
-The home experience is a TypeScript/Vite application. The flight game should be added behind a small interface:
-
-```ts
-interface FlightRun {
-  start(worldId: WorldId): void;
-  flap(): void;
-  setBoosting(active: boolean): void;
-  pause(): void;
-  restart(): void;
-  destroy(): void;
-}
-```
-
-A Canvas renderer is appropriate for the future flight scene, while menus and results should remain accessible HTML.
-
-## 14. First playable milestone
-
-The first milestone is complete when:
-
-- Hugo can flap and fall;
-- holding boost spends and restores energy predictably;
-- obstacles spawn and scroll;
-- collision ends the run;
-- distance increments;
-- Retry works;
-- desktop and touch inputs match;
-- the selected home world reaches the run;
-- unit tests cover physics and scoring;
-- a browser test completes a deterministic short run.
-
-Everything else is secondary until this loop feels good.
+- additional playable worlds;
+- multiple levels or maps;
+- accounts and global leaderboards;
+- monetization;
+- multiplayer;
+- generated animation cycles beyond the two essential poses;
+- authored audio specifically for shoe jets, coins, and impacts.
