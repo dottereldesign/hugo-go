@@ -8,7 +8,7 @@ home/
   worlds/       six home world cards
 game/
   trail-ground.webp          generated transparent scrolling forestry trail
-  hugo-run-cycle.webp        eight transparent run frames in a 4×2 atlas
+  hugo-run-60-cycle.webp     60 transparent run frames in a 10×6 atlas
   hugo-powered-cycle.webp    six powered-glide frames in a 3×2 atlas
   hugo-glide-cycle.webp      six unpowered glide/fall frames in a 3×2 atlas
   hugo-jump-land-cycle.webp  eight jump/landing frames in a 4×2 atlas

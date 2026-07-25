@@ -4,12 +4,14 @@ import hugoGlideCycleUrl from '../assets/game/hugo-glide-cycle.webp';
 import hugoGrindCycleUrl from '../assets/game/hugo-grind-cycle.webp';
 import hugoJumpLandCycleUrl from '../assets/game/hugo-jump-land-cycle.webp';
 import hugoPoweredCycleUrl from '../assets/game/hugo-powered-cycle.webp';
-import hugoRunCycleUrl from '../assets/game/hugo-run-cycle.webp';
+import hugoRunCycleUrl from '../assets/game/hugo-run-60-cycle.webp';
 import hugoWallRecoveryCycleUrl from '../assets/game/hugo-wall-recovery-cycle.webp';
 import jetFlameCycleUrl from '../assets/game/jet-flame-cycle.webp';
 import trailGroundUrl from '../assets/game/trail-ground.webp';
 import {
   DOUBLE_JUMP_DURATION,
+  CHARACTER_FRAME_HEIGHT,
+  CHARACTER_FRAME_WIDTH,
   GRIND_FRAME_HEIGHT,
   GRIND_FRAME_WIDTH,
   JET_FLAME_FRAME_HEIGHT,
@@ -552,7 +554,8 @@ export class FlightGame {
 
     const animatedPose = this.getAnimatedFlightPose();
     if (animatedPose) {
-      const baseDrawWidth = AIRBORNE_DRAW_HEIGHT * (RUN_FRAME_WIDTH / RUN_FRAME_HEIGHT);
+      const baseDrawWidth = AIRBORNE_DRAW_HEIGHT
+        * (CHARACTER_FRAME_WIDTH / CHARACTER_FRAME_HEIGHT);
       const baseDrawX = hugo.x + HUGO_WIDTH / 2 - baseDrawWidth / 2;
       const baseDrawY = hugo.y + HUGO_HEIGHT - AIRBORNE_DRAW_HEIGHT;
       const frameLayout = animatedPose.kind === 'doubleJump'
@@ -600,8 +603,8 @@ export class FlightGame {
         animatedPose.sprite,
         animatedPose.frame.sourceX,
         animatedPose.frame.sourceY,
-        RUN_FRAME_WIDTH,
-        RUN_FRAME_HEIGHT,
+        CHARACTER_FRAME_WIDTH,
+        CHARACTER_FRAME_HEIGHT,
         drawX,
         drawY,
         drawWidth,

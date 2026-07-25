@@ -9,7 +9,7 @@ Pressing **Play** on the home screen opens `#/game` and starts the run immediate
 - Mobile: press and hold anywhere in the game to jump, then fly upward; release to descend.
 - Desktop: hold the primary mouse button, Space, Up Arrow, or W to jump/fly; release to descend.
 - Hugo automatically runs on the ground and on obstacle tops.
-- Ground running uses an eight-pose generated cycle at 12 fps.
+- Ground running uses 60 authored full-body poses at 60 fps in a seamless one-second loop.
 - Occasional two-post drooping wires can be landed on from above. Hugo automatically
   grinds their curved cable with a 30-frame side-profile cycle; press again to jump off.
 - A quick second press after takeoff triggers one stronger animated double jump.
@@ -47,7 +47,7 @@ npm run build
 The tests cover deterministic held-thrust physics, double jumps, smooth release to gravity,
 ground and obstacle-top landing, swept drooping-wire entry, curve following, grind exits
 and jumps, wall splats and recovery, pushed-off loss, obstacle spacing, coin collection,
-all 30 sequential grind and flame frames, animation timing, persistence, direct
+all 60 sequential run frames, all 30 sequential grind and flame frames, animation timing, persistence, direct
 Play-to-game navigation, retry, and mobile no-scroll behavior.
 
 ## Project map

@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import {
   DOUBLE_JUMP_DURATION,
+  CHARACTER_FRAME_HEIGHT,
+  CHARACTER_FRAME_WIDTH,
   FLIGHT_FRAME_COUNT,
   GRIND_FRAME_COUNT,
   GRIND_FRAME_HEIGHT,
@@ -9,8 +11,6 @@ import {
   JET_FLAME_FRAME_HEIGHT,
   JET_FLAME_FRAME_WIDTH,
   LANDING_FRAME_START,
-  RUN_FRAME_HEIGHT,
-  RUN_FRAME_WIDTH,
   WALL_RECOVERY_DURATION,
   getDoubleJumpFrame,
   getDoubleJumpFrameLayout,
@@ -86,14 +86,14 @@ describe('Hugo character animation timing', () => {
     for (const pose of ['powered', 'glide'] as const) {
       for (let frame = 0; frame < FLIGHT_FRAME_COUNT; frame += 1) {
         const [rearShoe, frontShoe] = getJetFlameAnchors(pose, frame);
-        expect(rearShoe.x * RUN_FRAME_WIDTH).toBeGreaterThanOrEqual(95);
-        expect(rearShoe.x * RUN_FRAME_WIDTH).toBeLessThanOrEqual(98);
-        expect(rearShoe.y * RUN_FRAME_HEIGHT).toBeGreaterThanOrEqual(284);
-        expect(rearShoe.y * RUN_FRAME_HEIGHT).toBeLessThanOrEqual(291);
-        expect(frontShoe.x * RUN_FRAME_WIDTH).toBeGreaterThanOrEqual(139);
-        expect(frontShoe.x * RUN_FRAME_WIDTH).toBeLessThanOrEqual(143);
-        expect(frontShoe.y * RUN_FRAME_HEIGHT).toBeGreaterThanOrEqual(280);
-        expect(frontShoe.y * RUN_FRAME_HEIGHT).toBeLessThanOrEqual(286);
+        expect(rearShoe.x * CHARACTER_FRAME_WIDTH).toBeGreaterThanOrEqual(95);
+        expect(rearShoe.x * CHARACTER_FRAME_WIDTH).toBeLessThanOrEqual(98);
+        expect(rearShoe.y * CHARACTER_FRAME_HEIGHT).toBeGreaterThanOrEqual(284);
+        expect(rearShoe.y * CHARACTER_FRAME_HEIGHT).toBeLessThanOrEqual(291);
+        expect(frontShoe.x * CHARACTER_FRAME_WIDTH).toBeGreaterThanOrEqual(139);
+        expect(frontShoe.x * CHARACTER_FRAME_WIDTH).toBeLessThanOrEqual(143);
+        expect(frontShoe.y * CHARACTER_FRAME_HEIGHT).toBeGreaterThanOrEqual(280);
+        expect(frontShoe.y * CHARACTER_FRAME_HEIGHT).toBeLessThanOrEqual(286);
       }
     }
   });

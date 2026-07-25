@@ -8,6 +8,18 @@ and one transparent forestry-trail strip. Full generation and alpha sources are 
 ```text
 art/source-images/game/hugo-run-sheet-magenta.png
 art/source-images/game/hugo-run-sheet-transparent.png
+art/source-images/game/hugo-run-60-frames-01-10-magenta.png
+art/source-images/game/hugo-run-60-frames-01-10-transparent.png
+art/source-images/game/hugo-run-60-frames-11-20-magenta.png
+art/source-images/game/hugo-run-60-frames-11-20-transparent.png
+art/source-images/game/hugo-run-60-frames-21-30-magenta.png
+art/source-images/game/hugo-run-60-frames-21-30-transparent.png
+art/source-images/game/hugo-run-60-frames-31-40-magenta.png
+art/source-images/game/hugo-run-60-frames-31-40-transparent.png
+art/source-images/game/hugo-run-60-frames-41-50-magenta.png
+art/source-images/game/hugo-run-60-frames-41-50-transparent.png
+art/source-images/game/hugo-run-60-frames-51-60-magenta.png
+art/source-images/game/hugo-run-60-frames-51-60-transparent.png
 art/source-images/game/hugo-powered-sheet-magenta.png
 art/source-images/game/hugo-powered-sheet-transparent.png
 art/source-images/game/hugo-glide-sheet-magenta.png
@@ -34,7 +46,7 @@ art/source-images/game/jet-flame-frames-21-30-green.png
 art/source-images/game/jet-flame-frames-21-30-transparent.png
 art/source-images/game/trail-ground-magenta.png
 art/source-images/game/trail-ground-transparent.png
-src/assets/game/hugo-run-cycle.webp
+src/assets/game/hugo-run-60-cycle.webp
 src/assets/game/hugo-powered-cycle.webp
 src/assets/game/hugo-glide-cycle.webp
 src/assets/game/hugo-freefall-cycle.webp
@@ -62,10 +74,12 @@ The generated poses use a flat magenta background. It is removed with the image-
 
 `scripts/process_game_assets.py` then:
 
-1. detects occupied sheet rows and two poses per source row;
+1. detects occupied legacy-sheet rows and two poses per source row;
 2. extracts each generated full body without hard-coded source coordinates;
-3. normalizes every pose to a `384 × 320` cell;
-4. writes the run sheet as a `1536 × 640` exact-alpha WebP atlas;
+3. extracts six strict `5 × 2` run sheets, verifies 60 complete, distinct, stable-scale
+   poses and every adjacent sheet/loop seam, normalizes them to `192 × 168` cells, and
+   writes a `1920 × 1008` exact-alpha WebP atlas;
+4. normalizes the other character poses to a `384 × 320` cell;
 5. writes each six-frame flight sheet as a `1152 × 640` exact-alpha WebP atlas;
 6. writes the eight-frame jump/landing sheet as a `1536 × 640` exact-alpha WebP atlas;
 7. crops and compresses the transparent trail to a `1024 × 200` exact-alpha WebP;
@@ -78,7 +92,7 @@ The generated poses use a flat magenta background. It is removed with the image-
 
 Current runtime sizes are approximately:
 
-- eight-frame run atlas: 167 KB;
+- 60-frame run atlas: 541 KB;
 - six-frame powered-glide atlas: 111 KB;
 - six-frame unpowered glide/fall atlas: 119 KB;
 - six-frame freefall atlas: 118 KB;
@@ -90,11 +104,13 @@ Current runtime sizes are approximately:
 - scrolling trail strip: 64 KB.
 
 The old single flight pose, single-pose run WebP, six-frame transition sheet, and full-screen
-Forest plate are retired from runtime. The game now has 76 authored character frames
+Forest plate are retired from runtime. The game now has 128 authored character frames
 plus 30 authored jet-flame frames. The wall-splat atlas replaces its two camera-facing
 wobble frames with generated strict side-profile poses. The grind atlas uses 30 authored
 side-profile in-betweens at 30 fps, with one shoe leading and one trailing; both outer
-sole edges share the normalized contact baseline. Runtime rendering rotates that baseline
+sole edges share the normalized contact baseline. The run atlas plays one distinct pose
+per browser frame at 60 fps, with two code-normalized seven-pixel stride arcs that meet
+the ground without a seam hitch. Runtime rendering rotates the grind baseline
 to the quadratic cable tangent. Every powered and glide frame records the two measured
 metal heel-port coordinates in source-atlas pixels, preventing normalized anchor drift as
 Hugo moves his feet. The same flame atlas is reused by both shoes with a 13-frame offset,

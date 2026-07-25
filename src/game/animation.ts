@@ -1,7 +1,10 @@
-export const RUN_FRAME_WIDTH = 384;
-export const RUN_FRAME_HEIGHT = 320;
-export const RUN_FRAME_COUNT = 8;
-export const RUN_FRAMES_PER_SECOND = 12;
+export const CHARACTER_FRAME_WIDTH = 384;
+export const CHARACTER_FRAME_HEIGHT = 320;
+export const RUN_FRAME_WIDTH = 192;
+export const RUN_FRAME_HEIGHT = 168;
+export const RUN_FRAME_COUNT = 60;
+export const RUN_FRAMES_PER_SECOND = 60;
+export const RUN_ATLAS_COLUMNS = 10;
 export const FLIGHT_FRAME_COUNT = 6;
 export const FLIGHT_FRAMES_PER_SECOND = 12;
 export const FREEFALL_FRAMES_PER_SECOND = 10;
@@ -27,7 +30,6 @@ export const GRIND_FRAME_HEIGHT = 196;
 export const GRIND_ATLAS_COLUMNS = 5;
 export type FlightPoseKind = 'powered' | 'glide';
 
-const RUN_FRAME_Y_OFFSETS = [0, 2, -1, -7, 0, 2, -1, -7] as const;
 const TAKEOFF_FRAME_INDICES = [2, 3] as const;
 const DOUBLE_JUMP_FRAME_LAYOUTS = [
   { scale: 0.91, verticalOffset: 0.025 },
@@ -39,8 +41,8 @@ const DOUBLE_JUMP_FRAME_LAYOUTS = [
 ] as const;
 
 const jetAnchor = (sourceX: number, sourceY: number, angle: number) => ({
-  x: sourceX / RUN_FRAME_WIDTH,
-  y: sourceY / RUN_FRAME_HEIGHT,
+  x: sourceX / CHARACTER_FRAME_WIDTH,
+  y: sourceY / CHARACTER_FRAME_HEIGHT,
   angle,
 });
 
@@ -87,11 +89,13 @@ export interface DoubleJumpFrameLayout {
 export function getRunFrame(elapsedSeconds: number): RunFrame {
   const safeElapsed = Number.isFinite(elapsedSeconds) ? Math.max(0, elapsedSeconds) : 0;
   const index = Math.floor(safeElapsed * RUN_FRAMES_PER_SECOND) % RUN_FRAME_COUNT;
+  const stridePhase = index / (RUN_FRAME_COUNT / 2);
+  const strideLift = Math.round(7 * Math.sin(stridePhase * Math.PI) ** 2);
   return {
     index,
-    sourceX: (index % 4) * RUN_FRAME_WIDTH,
-    sourceY: Math.floor(index / 4) * RUN_FRAME_HEIGHT,
-    verticalOffset: RUN_FRAME_Y_OFFSETS[index],
+    sourceX: (index % RUN_ATLAS_COLUMNS) * RUN_FRAME_WIDTH,
+    sourceY: Math.floor(index / RUN_ATLAS_COLUMNS) * RUN_FRAME_HEIGHT,
+    verticalOffset: strideLift === 0 ? 0 : -strideLift,
   };
 }
 
@@ -195,15 +199,15 @@ function getTimedFrame(elapsedSeconds: number, firstFrame: number, endFrame: num
 function getFlightAtlasFrame(index: number): AtlasFrame {
   return {
     index,
-    sourceX: (index % 3) * RUN_FRAME_WIDTH,
-    sourceY: Math.floor(index / 3) * RUN_FRAME_HEIGHT,
+    sourceX: (index % 3) * CHARACTER_FRAME_WIDTH,
+    sourceY: Math.floor(index / 3) * CHARACTER_FRAME_HEIGHT,
   };
 }
 
 function getTransitionAtlasFrame(index: number): AtlasFrame {
   return {
     index,
-    sourceX: (index % 4) * RUN_FRAME_WIDTH,
-    sourceY: Math.floor(index / 4) * RUN_FRAME_HEIGHT,
+    sourceX: (index % 4) * CHARACTER_FRAME_WIDTH,
+    sourceY: Math.floor(index / 4) * CHARACTER_FRAME_HEIGHT,
   };
 }

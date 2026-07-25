@@ -101,7 +101,8 @@ The home profile, missions, resource counters, best-distance footer, and local l
 
 Hugo has eight generated full-body animation atlases:
 
-- an eight-frame grounded forward-leaning sprint cycle with arms swept back;
+- a 60-frame grounded forward-leaning sprint cycle with arms swept back, wind-following
+  hair and jacket, and two smooth stride arcs;
 - an eight-frame jump/landing sheet with push-off, airborne, falling, toe-contact, compression, and recovery poses;
 - a six-frame powered-glide loop with wind-rustled hair and jacket;
 - a six-frame unpowered glide loop with distinct secondary motion;
@@ -111,8 +112,9 @@ Hugo has eight generated full-body animation atlases:
 - a 30-frame right-facing grind loop with one shoe leading, one trailing, and the outer
   side edges of both soles aligned to the cable contact line.
 
-The run, flight, transition, and wall atlases play at their specified 10–14 fps cadences;
-the grind atlas plays all 30 authored frames at 30 fps. Jumping uses the clean crouch and
+The run atlas plays all 60 authored poses at 60 fps in a seamless one-second loop. Flight,
+transition, and wall atlases play at their specified 10–14 fps cadences; the grind atlas
+plays all 30 authored frames at 30 fps. Jumping uses the clean crouch and
 airborne silhouettes in transition frames 3–4; the two stiffer duplicate stride poses are
 intentionally skipped. Landing uses frames 5–8 before returning to the run cycle. The
 authored frames keep Hugo as a complete rendered character so cloth, lighting, hands,

@@ -435,3 +435,116 @@ gradient, glow, floor, vignette, or shadow.
 
 Generated sources: `hugo-grind-frames-21-30-magenta.png` and
 `hugo-grind-frames-21-30-transparent.png`.
+
+## 60-frame arms-back run cycle
+
+Built-in image generation was used in reference-image mode. Each prompt used the
+immediately preceding generated sheet plus `hugo-run-sheet-magenta.png`; the closing
+sheet also used frames 01–10 to control the loop seam. The successful final prompts were:
+
+### Frames 01–10
+
+Create frames 01–10 of a seamless 60-frame running animation for the existing Hugo Go game hero, matching the supplied character sheets exactly.
+
+Preserve Hugo’s established face, natural round brown eyes, warm medium skin, black windswept hair, teal hooded jacket with orange trim, cream shirt, navy shorts over black leggings, white-and-teal chunky sneakers, proportions, lighting, and polished stylized 3D family-game art. Keep a clear right-facing side profile and identical camera and scale in every cell.
+
+Keep the existing cool anime-inspired arms-back sprint from the reference sheet: Hugo leans forward, looks ahead, and keeps both arms swept behind rather than pumping them like a normal jog. This is the start of a two-step run cycle. Frame 01 begins with the forward shoe contacting the invisible ground and the rear leg extended. Frames 02–06 absorb the step smoothly. Frames 07–10 push into the next airborne phase while the rear leg folds forward. Use tiny sequential differences between every adjacent frame. Hair, hood, jacket hem, sleeves, shorts, and hands move gradually in the wind.
+
+Use the same invisible horizontal ground baseline in every cell. A contacting shoe meets it exactly; a lifted shoe remains visibly above it. Draw no ground and no shadow. Keep full-body placement and scale stable with generous padding.
+
+Exactly 10 equal cells in a strict 5-column by 2-row grid, read left-to-right across the top and then the bottom. One complete full-body Hugo in every cell. No grid lines, text, numbers, labels, borders, or cropping.
+
+Perfectly flat uniform solid #FF00FF magenta background edge to edge, with no gradient, texture, glow, floor, shadow, reflection, or spill.
+
+No flames, smoke, sparks, trails, props, headband, weapons, rollerblades, extra clothing, text, or scenery. Avoid extra limbs, fused legs, deformed shoes, identity drift, camera drift, repeated poses, or cell crossings.
+
+Frame 10 continues immediately into frame 11 and does not close the loop.
+
+### Frames 11–20
+
+Create frames 11–20 of the exact same seamless 60-frame Hugo Go running loop. The supplied new 10-frame sheet is the immediate motion reference; the original run sheet is the identity and art-style reference.
+
+Match Hugo exactly: same face, hair, teal jacket with orange trim, cream shirt, navy shorts, black leggings, white-and-teal sneakers, proportions, right-facing side-profile camera, scale, lighting, polished stylized 3D family-game art, magenta background, and arms swept back.
+
+Continue directly from frame 10 with tiny sequential in-betweens. Frames 11–14 complete the push into the first airborne stride. Frames 15–17 smoothly swing the opposite knee and shoe forward under the body. Frames 18–20 extend that shoe toward the next ground contact while the other leg trails. Maintain the same strong forward lean and both arms behind; do not switch to a conventional arm-pumping jog. Hair tips, hood, jacket opening and hem, sleeves, shorts, and hands follow through continuously in the wind.
+
+Use the same invisible horizontal ground baseline. Shoes touch it only during contact; lifted shoes stay above it. No visible ground or shadow. Keep full-body placement and size stable.
+
+Exactly 10 equal cells in a strict 5-column by 2-row grid, top row then bottom row in reading order. One complete full-body Hugo per cell, generous equal padding, nothing cropped. No grid, text, labels, numbers, borders, or separators.
+
+Flat uniform #FF00FF magenta background edge to edge; no gradient, texture, floor, shadow, glow, reflection, or spill. No flames, smoke, sparks, trails, props, weapons, headband, extra clothing, text, or scenery. Avoid identity drift, extra limbs, fused legs, deformed shoes, camera/scale drift, duplicates, and cell crossings.
+
+Frame 20 continues into frame 21 and does not loop.
+
+### Frames 21–30
+
+Create frames 21–30 of the same seamless 60-frame Hugo Go arms-back sprint. The new supplied sheet is the immediately preceding motion reference; the original sheet fixes identity and art style.
+
+Match Hugo’s face, hair, teal/orange jacket, cream shirt, navy shorts, black leggings, exact sneakers, right-facing side profile, forward lean, arms swept behind, proportions, camera, scale, lighting, polished stylized 3D rendering, and magenta background exactly.
+
+Continue directly from frame 20 in tiny sequential steps. Frames 21–24 bring the forward shoe into a clean opposite-foot ground contact and begin absorbing the step. Frames 25–28 lower the body slightly as that leg accepts weight while the trailing leg starts recovering. Frames 29–30 begin pushing backward toward the second airborne stride. Both arms stay naturally behind with only subtle shoulder, sleeve, hand, and finger follow-through. Hair, hood, open jacket, shorts, and trim flutter continuously without redesign.
+
+Maintain one invisible horizontal ground baseline. A contacting sole meets it exactly and lifted shoes remain above it. Draw no ground or cast shadow. Stable full-body placement, camera, and scale.
+
+Exactly 10 equal cells in a strict 5-column by 2-row grid in reading order. One complete Hugo per cell, equal generous padding, no cropping. No grid, numbers, text, labels, borders, or separators.
+
+Uniform flat #FF00FF magenta edge-to-edge with no texture, gradient, glow, floor, reflection, shadow, or spill. No flames, smoke, sparks, trails, props, headband, weapons, extra clothing, or scenery. Avoid extra limbs, fused legs, shoe/face drift, camera drift, repeated frames, or cell crossings.
+
+Frame 30 is the midpoint opposite-foot state and must continue into frame 31; it must not return to frame 01.
+
+### Frames 31–40
+
+Create frames 31–40 of the same seamless 60-frame Hugo Go arms-back sprint. The supplied newest sheet is the immediately preceding motion reference; the older reference fixes Hugo's established identity and art style.
+
+Match Hugo exactly: same face, warm medium skin, natural round brown eyes, black windswept hair, teal hooded jacket with orange trim, cream shirt, navy shorts over black leggings, white-and-teal chunky sneakers, polished stylized 3D family-game rendering, right-facing side-profile camera, scale, lighting, forward lean, and both arms swept behind.
+
+Continue directly from frame 30 with tiny sequential differences. Frames 31–34 complete the opposite-foot push backward. Frames 35–38 rise into the second airborne stride as the trailing leg folds and begins swinging forward. Frames 39–40 carry that knee smoothly beneath the body. Keep the arms-back silhouette; do not turn it into a conventional arm-pumping jog. Hair tips, hood, jacket opening and hem, sleeves, shorts, hands, and fingers follow through continuously in the wind.
+
+Use one identical invisible horizontal ground baseline. A contacting sole meets it; lifted shoes remain visibly above it. Draw no ground or shadow. Keep the whole body centered consistently with stable size and generous padding.
+
+Exactly 10 equal cells in a strict 5-column by 2-row grid, read left-to-right across the top row and then the bottom. One complete full-body Hugo in each cell. No grid lines, text, labels, numbers, borders, separators, or cropping.
+
+Perfectly flat uniform solid #FF00FF magenta background edge to edge, with no gradient, texture, glow, floor, shadow, reflection, or spill.
+
+No flames, smoke, sparks, trails, props, headband, weapons, rollerblades, extra clothing, text, or scenery. Avoid extra limbs, fused legs, deformed shoes, identity drift, camera drift, repeated poses, and cell crossings.
+
+Frame 40 continues immediately into frame 41 and does not close the loop.
+
+### Frames 41–50
+
+Create frames 41–50 of the same seamless 60-frame Hugo Go arms-back sprint. The supplied newest sheet is the immediate motion reference; the original run sheet fixes Hugo's identity and established game-art style.
+
+Match Hugo exactly: same face, warm medium skin, natural round brown eyes, black windswept hair, teal hooded jacket with orange trim, cream shirt, navy shorts over black leggings, white-and-teal chunky sneakers, polished stylized 3D family-game rendering, right-facing side-profile camera, scale, lighting, forward lean, and both arms swept behind.
+
+Continue immediately after frame 40 using very small pose changes. Frames 41–44 bring the folded forward leg smoothly through beneath the body during the second airborne stride. Frames 45–47 are the high-flight portion of the stride. Frames 48–50 gradually extend that shoe forward and downward toward the next contact while the other leg trails behind. Preserve the cool arms-back sprint; no normal alternating arm pump. Hair tips, hood, jacket opening and hem, sleeves, shorts, hands, and fingers move in continuous wind-driven follow-through.
+
+Maintain one identical invisible horizontal ground baseline. A contacting sole touches it exactly; all airborne shoes remain above it. No visible ground or shadow. Stable full-body size, placement, and camera with generous padding.
+
+Exactly 10 equal cells in a strict 5-column by 2-row grid, read left-to-right across the top row, then the bottom. One complete full-body Hugo per cell. No grid lines, text, labels, numbers, borders, separators, or cropping.
+
+Perfectly flat uniform solid #FF00FF magenta background edge to edge, without gradient, texture, glow, floor, shadow, reflection, or spill.
+
+No flames, smoke, sparks, trails, props, headband, weapons, rollerblades, extra clothing, text, or scenery. Avoid extra limbs, fused legs, malformed shoes, identity drift, camera drift, repeated poses, and cell crossings.
+
+Frame 50 continues immediately into frame 51 and does not close the loop.
+
+### Frames 51–60
+
+Create frames 51–60, the closing section of the same seamless 60-frame Hugo Go arms-back sprint. The newest supplied sheet is frames 41–50 and must flow directly into this sheet. The supplied opening sheet is frames 01–10 and frame 60 must be the immediate predecessor of frame 01, not a duplicate. The original sheet fixes Hugo's established identity and art style.
+
+Match Hugo exactly: same face, warm medium skin, natural round brown eyes, black windswept hair, teal hooded jacket with orange trim, cream shirt, navy shorts over black leggings, white-and-teal chunky sneakers, polished stylized 3D family-game rendering, right-facing side-profile camera, scale, lighting, forward lean, and both arms swept behind.
+
+Continue directly after frame 50 with tiny sequential pose changes. Frames 51–54 extend the forward shoe down toward the invisible baseline while the trailing leg lengthens behind. Frames 55–57 approach the original lead-foot contact. Frames 58–60 begin the first instant of contact and compression so frame 60 flows naturally into supplied frame 01. Do not copy frame 01 into frame 60; leave one small motion step between them. Preserve the cool arms-back sprint rather than a normal alternating arm pump. Hair tips, hood, jacket opening and hem, sleeves, shorts, hands, and fingers settle continuously toward their frame-01 positions.
+
+Use the same invisible horizontal ground baseline as the sequence. Contacting soles meet it exactly and lifted shoes remain above it. No visible ground or shadow. Keep full-body position, camera, and scale stable with generous equal padding.
+
+Exactly 10 equal cells in a strict 5-column by 2-row grid, read left-to-right across the top row and then the bottom. One complete full-body Hugo per cell. No grid lines, text, labels, numbers, borders, separators, or cropping.
+
+Perfectly flat uniform solid #FF00FF magenta background edge to edge, with no gradient, texture, glow, floor, shadow, reflection, or spill.
+
+No flames, smoke, sparks, trails, props, headband, weapons, rollerblades, extra clothing, text, or scenery. Avoid extra limbs, fused legs, deformed shoes, identity drift, camera drift, repeated poses, and cell crossings.
+
+Frame 60 and frame 01 must be adjacent distinct poses in one seamless loop.
+
+Generated sources: `hugo-run-60-frames-01-10-magenta.png` through
+`hugo-run-60-frames-51-60-magenta.png`, with matching `-transparent.png` sources.

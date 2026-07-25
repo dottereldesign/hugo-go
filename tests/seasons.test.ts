@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import { getRunFrame, RUN_FRAME_COUNT, RUN_FRAMES_PER_SECOND } from '../src/game/animation';
+import {
+  getRunFrame,
+  RUN_ATLAS_COLUMNS,
+  RUN_FRAME_COUNT,
+  RUN_FRAME_HEIGHT,
+  RUN_FRAME_WIDTH,
+  RUN_FRAMES_PER_SECOND,
+} from '../src/game/animation';
 import {
   getSeasonVisual,
   SEASON_DURATION_SECONDS,
@@ -45,12 +52,27 @@ describe('Forest seasonal presentation', () => {
 });
 
 describe('Hugo run-cycle timing', () => {
-  it('uses all eight generated poses at twelve frames per second', () => {
+  it('uses all 60 authored poses at 60 frames per second', () => {
     const indices = Array.from(
       { length: RUN_FRAME_COUNT },
       (_, index) => getRunFrame(index / RUN_FRAMES_PER_SECOND).index,
     );
-    expect(indices).toEqual([0, 1, 2, 3, 4, 5, 6, 7]);
+    expect(indices).toEqual(Array.from({ length: 60 }, (_, index) => index));
+    expect(new Set(indices).size).toBe(60);
+  });
+
+  it('maps each authored pose to one unique cell in the 10 by 6 atlas', () => {
+    const frames = Array.from(
+      { length: RUN_FRAME_COUNT },
+      (_, index) => getRunFrame(index / RUN_FRAMES_PER_SECOND),
+    );
+    expect(new Set(frames.map(({ sourceX, sourceY }) => `${sourceX},${sourceY}`)).size).toBe(60);
+    expect(frames.every(({ sourceX }) => sourceX % RUN_FRAME_WIDTH === 0)).toBe(true);
+    expect(frames.every(({ sourceY }) => sourceY % RUN_FRAME_HEIGHT === 0)).toBe(true);
+    expect(Math.max(...frames.map(({ sourceX }) => sourceX))).toBe(
+      (RUN_ATLAS_COLUMNS - 1) * RUN_FRAME_WIDTH,
+    );
+    expect(Math.max(...frames.map(({ sourceY }) => sourceY))).toBe(5 * RUN_FRAME_HEIGHT);
   });
 
   it('loops seamlessly after one complete stride', () => {
@@ -60,9 +82,18 @@ describe('Hugo run-cycle timing', () => {
     expect(getRunFrame(Number.NaN).index).toBe(0);
   });
 
-  it('raises airborne stride frames above contact frames', () => {
-    expect(getRunFrame(3 / RUN_FRAMES_PER_SECOND).verticalOffset).toBeLessThan(0);
-    expect(getRunFrame(7 / RUN_FRAMES_PER_SECOND).verticalOffset).toBeLessThan(0);
+  it('uses two smooth airborne arcs without a seam hitch', () => {
+    const offsets = Array.from(
+      { length: RUN_FRAME_COUNT + 1 },
+      (_, index) => getRunFrame(index / RUN_FRAMES_PER_SECOND).verticalOffset,
+    );
     expect(getRunFrame(0).verticalOffset).toBe(0);
+    expect(getRunFrame(15 / RUN_FRAMES_PER_SECOND).verticalOffset).toBe(-7);
+    expect(getRunFrame(30 / RUN_FRAMES_PER_SECOND).verticalOffset).toBe(0);
+    expect(getRunFrame(45 / RUN_FRAMES_PER_SECOND).verticalOffset).toBe(-7);
+    expect(offsets.at(-1)).toBe(0);
+    expect(offsets.slice(1).every((offset, index) => (
+      Math.abs(offset - offsets[index]) <= 1
+    ))).toBe(true);
   });
 });

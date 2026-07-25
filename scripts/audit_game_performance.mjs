@@ -22,7 +22,10 @@ async function waitForPreview() {
   throw new Error('Vite preview did not start for the performance audit.');
 }
 
-const browser = await chromium.launch({ headless: true });
+const browser = await chromium.launch({
+  headless: true,
+  args: ['--disable-gpu'],
+});
 try {
   await waitForPreview();
   const page = await browser.newPage({
@@ -52,11 +55,70 @@ try {
   const canvas = page.locator('#game-canvas');
   const bounds = await canvas.boundingBox();
   if (!bounds) throw new Error('Game canvas was not visible during the performance audit.');
-  await page.mouse.move(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2);
-  await page.mouse.down();
-  await page.waitForTimeout(280);
-  await page.mouse.up();
-  await page.waitForTimeout(500);
+
+  const warmRenderer = async () => {
+    await page.evaluate(async () => {
+      let frames = 0;
+      await new Promise((resolve) => {
+        const warm = () => {
+          frames += 1;
+          if (frames >= 120) resolve();
+          else requestAnimationFrame(warm);
+        };
+        requestAnimationFrame(warm);
+      });
+    });
+  };
+  const sampleRenderer = async () => page.evaluate(async () => {
+    window.__HUGO_GO_LONG_TASKS__.length = 0;
+    const intervals = [];
+    let previous = performance.now();
+    await new Promise((resolve) => {
+      const sample = (time) => {
+        intervals.push(time - previous);
+        previous = time;
+        if (intervals.length >= 180) resolve();
+        else requestAnimationFrame(sample);
+      };
+      requestAnimationFrame(sample);
+    });
+    const sorted = [...intervals].sort((a, b) => a - b);
+    return {
+      averageFrameMs: intervals.reduce((sum, value) => sum + value, 0) / intervals.length,
+      p95FrameMs: sorted[Math.floor(sorted.length * 0.95)],
+      maximumFrameMs: Math.max(...intervals),
+      longTasks: [...window.__HUGO_GO_LONG_TASKS__],
+    };
+  });
+
+  await page.evaluate(() => {
+    const state = window.__HUGO_GO__.getGameState();
+    state.obstacles = [{
+      id: 9_000,
+      kind: 'log',
+      x: 5_000,
+      y: 620,
+      width: 100,
+      height: 84,
+    }];
+    state.coins = [];
+    Object.assign(state.hugo, {
+      y: 654,
+      velocityY: 0,
+      grounded: true,
+      groundedTime: 1,
+      thrusting: false,
+      thrustIntensity: 0,
+      jumpAvailable: true,
+      doubleJumpAvailable: false,
+      doubleJumpTime: Number.POSITIVE_INFINITY,
+      surfaceId: null,
+      grindTime: Number.POSITIVE_INFINITY,
+    });
+  });
+  await warmRenderer();
+  const run = await sampleRenderer();
+
   await page.evaluate(() => {
     const state = window.__HUGO_GO__.getGameState();
     const wire = {
@@ -86,41 +148,13 @@ try {
       grindTime: 0,
     });
   });
-  await page.evaluate(async () => {
-    let frames = 0;
-    await new Promise((resolve) => {
-      const warmGrindRenderer = () => {
-        frames += 1;
-        if (frames >= 120) resolve();
-        else requestAnimationFrame(warmGrindRenderer);
-      };
-      requestAnimationFrame(warmGrindRenderer);
-    });
-  });
-  await page.evaluate(() => {
-    window.__HUGO_GO_LONG_TASKS__.length = 0;
-  });
+  await warmRenderer();
+  const grind = await sampleRenderer();
 
-  const report = await page.evaluate(async () => {
-    const intervals = [];
-    let previous = performance.now();
-    await new Promise((resolve) => {
-      const sample = (time) => {
-        intervals.push(time - previous);
-        previous = time;
-        if (intervals.length >= 180) resolve();
-        else requestAnimationFrame(sample);
-      };
-      requestAnimationFrame(sample);
-    });
-    const sorted = [...intervals].sort((a, b) => a - b);
+  const report = await page.evaluate(() => {
     const resources = performance.getEntriesByType('resource');
     const canvasElement = document.querySelector('#game-canvas');
     return {
-      averageFrameMs: intervals.reduce((sum, value) => sum + value, 0) / intervals.length,
-      p95FrameMs: sorted[Math.floor(sorted.length * 0.95)],
-      maximumFrameMs: Math.max(...intervals),
-      longTasks: window.__HUGO_GO_LONG_TASKS__,
       transferredBytes: resources.reduce((sum, entry) => sum + (entry.transferSize || 0), 0),
       decodedResourceBytes: resources.reduce((sum, entry) => sum + (entry.decodedBodySize || 0), 0),
       resourceCount: resources.length,
@@ -129,9 +163,14 @@ try {
       viewport: { width: innerWidth, height: innerHeight, devicePixelRatio },
     };
   });
+  report.run = run;
+  report.grind = grind;
 
   console.log(JSON.stringify(report, null, 2));
-  if (report.p95FrameMs > 34) throw new Error(`p95 frame time ${report.p95FrameMs.toFixed(2)} ms exceeds 34 ms`);
+  const slowestP95 = Math.max(run.p95FrameMs, grind.p95FrameMs);
+  if (slowestP95 > 34) {
+    throw new Error(`p95 frame time ${slowestP95.toFixed(2)} ms exceeds 34 ms`);
+  }
   if (report.canvasBackingWidth !== 780) throw new Error('Mobile Canvas did not use the required 2× backing resolution');
 } finally {
   await browser.close();

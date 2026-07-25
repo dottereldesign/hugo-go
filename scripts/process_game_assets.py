@@ -13,7 +13,6 @@ MAX_HEIGHT = 768
 PADDING = 8
 FRAME_SIZE = (384, 320)
 CHARACTER_SHEETS = (
-    ("hugo-run-sheet-transparent.png", "hugo-run-cycle.webp", 4, 4, 2),
     ("hugo-powered-sheet-transparent.png", "hugo-powered-cycle.webp", 3, 3, 2),
     ("hugo-glide-sheet-transparent.png", "hugo-glide-cycle.webp", 3, 3, 2),
     ("hugo-freefall-sheet-transparent.png", "hugo-freefall-cycle.webp", 3, 3, 2),
@@ -21,6 +20,15 @@ CHARACTER_SHEETS = (
     ("hugo-double-jump-sheet-transparent.png", "hugo-double-jump-cycle.webp", 3, 3, 2),
     ("hugo-wall-recovery-sheet-transparent.png", "hugo-wall-recovery-cycle.webp", 3, 3, 2),
 )
+RUN_SOURCE_SHEETS = tuple(
+    f"hugo-run-60-frames-{first:02d}-{first + 9:02d}-transparent.png"
+    for first in range(1, 60, 10)
+)
+RUN_SOURCE_COLUMNS = 5
+RUN_SOURCE_ROWS = 2
+RUN_FRAME_SIZE = (192, 168)
+RUN_ATLAS_COLUMNS = 10
+RUN_ATLAS_ROWS = 6
 CHARACTER_POSE_REPLACEMENTS = {
     "hugo-wall-recovery-sheet-transparent.png": (
         "hugo-wall-splat-side-profile-transparent.png",
@@ -206,6 +214,101 @@ def process_character_sheet(
     )
 
 
+def process_run_60_sheets() -> None:
+    poses: list[Image.Image] = []
+    for source_name in RUN_SOURCE_SHEETS:
+        sheet = Image.open(SOURCE_DIRECTORY / source_name).convert("RGBA")
+        for row in range(RUN_SOURCE_ROWS):
+            for column in range(RUN_SOURCE_COLUMNS):
+                left = round(column * sheet.width / RUN_SOURCE_COLUMNS)
+                top = round(row * sheet.height / RUN_SOURCE_ROWS)
+                right = round((column + 1) * sheet.width / RUN_SOURCE_COLUMNS)
+                bottom = round((row + 1) * sheet.height / RUN_SOURCE_ROWS)
+                cell = sheet.crop((left, top, right, bottom))
+                bounds = cell.getchannel("A").getbbox()
+                if bounds is None:
+                    raise ValueError(
+                        f"{source_name} row {row + 1}, column {column + 1} has no Hugo pose"
+                    )
+                pose = cell.crop(bounds)
+                if pose.width < cell.width * 0.65 or pose.height < cell.height * 0.62:
+                    raise ValueError(
+                        f"{source_name} row {row + 1}, column {column + 1} "
+                        "does not contain a complete full-body running pose"
+                    )
+                poses.append(pose)
+
+    expected_count = RUN_ATLAS_COLUMNS * RUN_ATLAS_ROWS
+    if len(poses) != expected_count:
+        raise ValueError(f"Expected {expected_count} run poses, found {len(poses)}")
+
+    widths = [pose.width for pose in poses]
+    heights = [pose.height for pose in poses]
+    if max(widths) / min(widths) > 1.2 or max(heights) / min(heights) > 1.2:
+        raise ValueError("Generated run poses vary too much in scale for a stable animation")
+
+    frame_width, frame_height = RUN_FRAME_SIZE
+    scale = min((frame_width - 12) / max(widths), (frame_height - 12) / max(heights))
+    atlas = Image.new(
+        "RGBA",
+        (
+            frame_width * RUN_ATLAS_COLUMNS,
+            frame_height * RUN_ATLAS_ROWS,
+        ),
+        (0, 0, 0, 0),
+    )
+    normalized_frames: list[Image.Image] = []
+    for index, pose in enumerate(poses):
+        resized = pose.resize(
+            (round(pose.width * scale), round(pose.height * scale)),
+            Image.Resampling.LANCZOS,
+        )
+        frame = Image.new("RGBA", RUN_FRAME_SIZE, (0, 0, 0, 0))
+        frame.alpha_composite(
+            resized,
+            ((frame_width - resized.width) // 2, frame_height - resized.height - 4),
+        )
+        normalized_frames.append(frame)
+        atlas.alpha_composite(
+            frame,
+            (
+                (index % RUN_ATLAS_COLUMNS) * frame_width,
+                (index // RUN_ATLAS_COLUMNS) * frame_height,
+            ),
+        )
+
+    if len({frame.tobytes() for frame in normalized_frames}) != expected_count:
+        raise ValueError("Every 60 fps run-animation frame must be visually distinct")
+
+    adjacent_deltas = []
+    for index, frame in enumerate(normalized_frames):
+        following_frame = normalized_frames[(index + 1) % expected_count]
+        difference = ImageChops.difference(frame, following_frame)
+        adjacent_deltas.append(sum(ImageStat.Stat(difference).mean) / 4)
+    if min(adjacent_deltas) < 0.5 or max(adjacent_deltas) > 45:
+        raise ValueError(
+            "Run frames must change visibly without an abrupt sheet or loop seam"
+        )
+    seam_indices = (9, 19, 29, 39, 49, 59)
+    sheet_seams = [adjacent_deltas[index] for index in seam_indices]
+    non_seams = [
+        delta for index, delta in enumerate(adjacent_deltas) if index not in seam_indices
+    ]
+    if max(sheet_seams) > max(non_seams):
+        raise ValueError(
+            "A generated run sheet boundary changes more abruptly than the in-sheet frames"
+        )
+
+    output = OUTPUT_DIRECTORY / "hugo-run-60-cycle.webp"
+    atlas.save(output, "WEBP", quality=94, method=6, exact=True)
+    print(
+        f"Wrote {output.relative_to(ROOT)} "
+        f"({expected_count} frames, {atlas.width}x{atlas.height}; "
+        f"adjacent delta {min(adjacent_deltas):.2f}-{max(adjacent_deltas):.2f}; "
+        f"sheet seams {', '.join(f'{delta:.2f}' for delta in sheet_seams)})"
+    )
+
+
 def process_trail_ground() -> None:
     source = SOURCE_DIRECTORY / "trail-ground-transparent.png"
     output = OUTPUT_DIRECTORY / "trail-ground.webp"
@@ -383,6 +486,7 @@ if __name__ == "__main__":
         process_transparent_asset(source_asset, output_asset)
     for sheet in CHARACTER_SHEETS:
         process_character_sheet(*sheet)
+    process_run_60_sheets()
     process_trail_ground()
     process_jet_flame_sheets()
     process_grind_sheets()

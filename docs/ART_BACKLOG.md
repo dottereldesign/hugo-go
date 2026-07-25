@@ -9,15 +9,9 @@ No character image required for the current Forest controls is missing.
 - Lightweight seasonal petals, light motes, leaves, and snow.
 - Procedural two-post drooping grind wire whose visible quadratic cable is also its
   collision and character-tangent curve.
-- Eight-frame Hugo run cycle:
-  1. right contact;
-  2. right recoil/down;
-  3. left-leg passing;
-  4. left-leading airborne/up;
-  5. left contact;
-  6. left recoil/down;
-  7. right-leg passing;
-  8. right-leading airborne/up.
+- Sixty-frame Hugo run cycle: a complete right-facing arms-back sprint with two foot
+  contacts, compression, passing, push-off, and airborne arcs, plus sequential hair,
+  hood, jacket, sleeve, shorts, hand, and shoe follow-through.
 - Six-frame powered-glide loop with stable shoe anchors, wind-rustled hair, and jacket flutter.
 - Six-frame unpowered glide/fall loop with calmer secondary motion.
 - Eight-frame jump/landing sheet: push-off, rise, airborne, fall, toe-contact, compression, and run recovery.
@@ -28,10 +22,10 @@ No character image required for the current Forest controls is missing.
   hair motion at 30 fps.
 - One generated 30-frame shoe-jet flame loop played at 30 fps, reused across two measured per-frame metal heel-port anchors with a 13-frame offset and thrust-responsive length/opacity/glow.
 
-The run cycle plays at 12 fps and repeats every `0.667 s`. The flight loops repeat every
+The run cycle plays all 60 poses at 60 fps and repeats every `1 s`. The flight loops repeat every
 `0.5–0.6 s`; the double jump plays at 14 fps, the wall action at 12 fps, and both the
 grind and jet flame complete their 30-frame loops every second. Across the character
-atlases there are **76 authored full-body frames**, plus **30 authored flame frames**.
+atlases there are **128 authored full-body frames**, plus **30 authored flame frames**.
 More generated in-betweens should be added only when they improve silhouette continuity
 enough to justify their download/decode cost.
 

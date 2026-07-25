@@ -25,20 +25,25 @@ npm run audit:performance
 ```
 
 The audit serves the production build, opens a `390 × 844` Chromium viewport at simulated
-DPR 3, starts a powered jump, then forces and warms the 30 fps cable-grind path before
-sampling 180 settled animation frames. The checked mobile budget is:
+DPR 3, then separately forces, warms, and samples the 60 fps ground-run path and the
+30 fps cable-grind path for 180 settled frames each. Headless Chromium uses software
+rasterization so unrelated desktop GPU contention does not distort this render-loop
+regression check. The checked mobile budget is:
 
 - backing store exactly `780 × 1560`;
 - p95 frame interval no slower than `34 ms` in the constrained headless runner.
 
 Latest local result on 25 July 2026:
 
-- average frame interval: approximately `16.76 ms` (about 60 fps);
-- p95 interval: `16.8 ms`;
-- maximum interval: `33.4 ms`;
+- 60-frame run average: approximately `16.66 ms` (about 60 fps);
+- 60-frame run p95: `16.8 ms`;
+- 60-frame run maximum: `33.3 ms`;
+- 30-frame grind average: approximately `17.04 ms`;
+- 30-frame grind p95: `16.8 ms`;
+- 30-frame grind maximum: `33.4 ms`;
 - backing store: `780 × 1560`;
-- decoded resources: approximately `2.79 MB` across 29 requests;
-- long tasks during the settled sample: `0`.
+- decoded resources: approximately `3.05 MB` across 23 requests;
+- long tasks during both settled samples: `0`.
 
 The 2× cap is a deliberate quality/performance balance: it doubles Hugo's physical render height compared with the former 1× mobile path while avoiding the 2.25× pixel-count increase from 2× to 3×. A controlled 3× comparison regressed the same audit to a `50 ms` p95 with repeated long tasks, so 3× is not used on phones.
 
@@ -46,7 +51,7 @@ The 2× cap is a deliberate quality/performance balance: it doubles Hugo's physi
 
 Runtime character atlases are approximately:
 
-- run: 167 KB;
+- 60-frame run: 541 KB;
 - powered glide: 111 KB;
 - free glide: 119 KB;
 - freefall: 118 KB;
@@ -54,7 +59,11 @@ Runtime character atlases are approximately:
 - double jump: 120 KB;
 - wall impact/recovery: 100 KB.
 
-The 30-frame side-profile grind atlas is 366 KB, the 30-frame jet-flame atlas is
+The run atlas is packed into a `1920 × 1008` texture using 60 `192 × 168` cells.
+That gives the stable 2× Canvas enough physical source pixels for crisp rendering while
+using about 7.7 MB of decoded RGBA memory instead of roughly 29.5 MB at the other
+character atlases' `384 × 320` cell size. The 30-frame side-profile grind atlas is
+366 KB, the 30-frame jet-flame atlas is
 approximately 132 KB, and the trail is 64 KB. The grind atlas is packed into a near-square
 `1120 × 1176` texture using `224 × 196` cells: enough source resolution for the stable
 2× Canvas while avoiding the first draft’s overly wide texture. Images request async

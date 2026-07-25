@@ -81,7 +81,7 @@ test('loads the generated character and trail art over a clean blue sky', async 
   await page.waitForFunction(() => {
     const resources = performance.getEntriesByType('resource').map((entry) => entry.name);
     return resources.some((name) => name.includes('trail-ground'))
-      && resources.some((name) => name.includes('hugo-run-cycle'))
+      && resources.some((name) => name.includes('hugo-run-60-cycle'))
       && resources.some((name) => name.includes('hugo-powered-cycle'))
       && resources.some((name) => name.includes('hugo-glide-cycle'))
       && resources.some((name) => name.includes('hugo-freefall-cycle'))
@@ -90,17 +90,23 @@ test('loads the generated character and trail art over a clean blue sky', async 
       && resources.some((name) => name.includes('hugo-wall-recovery-cycle'))
       && resources.some((name) => name.includes('jet-flame-cycle'));
   });
-  const flameAtlas = await page.evaluate(async () => {
-    const source = performance.getEntriesByType('resource')
-      .map((entry) => entry.name)
-      .find((name) => name.includes('jet-flame-cycle') && !name.includes('?import'));
-    if (!source) throw new Error('Jet-flame atlas did not load.');
-    const image = new Image();
-    image.src = source;
-    await image.decode();
-    return { width: image.naturalWidth, height: image.naturalHeight };
+  const atlasSizes = await page.evaluate(async () => {
+    const resources = performance.getEntriesByType('resource').map((entry) => entry.name);
+    const readSize = async (assetName: string) => {
+      const source = resources.find((name) => name.includes(assetName) && !name.includes('?import'));
+      if (!source) throw new Error(`${assetName} atlas did not load.`);
+      const image = new Image();
+      image.src = source;
+      await image.decode();
+      return { width: image.naturalWidth, height: image.naturalHeight };
+    };
+    return {
+      run: await readSize('hugo-run-60-cycle'),
+      flame: await readSize('jet-flame-cycle'),
+    };
   });
-  expect(flameAtlas).toEqual({ width: 960, height: 480 });
+  expect(atlasSizes.run).toEqual({ width: 1920, height: 1008 });
+  expect(atlasSizes.flame).toEqual({ width: 960, height: 480 });
   const skyPixel = await page.locator('#game-canvas').evaluate((canvas) => (
     Array.from((canvas as HTMLCanvasElement).getContext('2d')!.getImageData(10, 10, 1, 1).data)
   ));
