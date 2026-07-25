@@ -31,7 +31,7 @@ npm run audit:performance
 ```
 
 The audit serves the production build, opens a `390 × 844` Chromium viewport at simulated
-DPR 3, then separately forces, warms, and samples the 60 fps ground-run path and the
+DPR 3, then separately forces, warms, and samples the 30 fps ground-run animation path and the
 30 fps cable-grind path for 180 settled frames each. Headless Chromium uses software
 rasterization so unrelated desktop GPU contention does not distort this render-loop
 regression check. The checked mobile budget is:

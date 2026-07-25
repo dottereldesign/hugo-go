@@ -52,13 +52,14 @@ describe('Forest seasonal presentation', () => {
 });
 
 describe('Hugo run-cycle timing', () => {
-  it('uses all 60 authored poses at 60 frames per second', () => {
+  it('uses all 60 authored poses at a natural 30 frames per second', () => {
     const indices = Array.from(
       { length: RUN_FRAME_COUNT },
       (_, index) => getRunFrame(index / RUN_FRAMES_PER_SECOND).index,
     );
     expect(indices).toEqual(Array.from({ length: 60 }, (_, index) => index));
     expect(new Set(indices).size).toBe(60);
+    expect(RUN_FRAMES_PER_SECOND).toBe(30);
   });
 
   it('maps each authored pose to one unique cell in the 10 by 6 atlas', () => {
@@ -75,8 +76,9 @@ describe('Hugo run-cycle timing', () => {
     expect(Math.max(...frames.map(({ sourceY }) => sourceY))).toBe(5 * RUN_FRAME_HEIGHT);
   });
 
-  it('loops seamlessly after one complete stride', () => {
+  it('loops seamlessly after one complete two-second stride', () => {
     const loopDuration = RUN_FRAME_COUNT / RUN_FRAMES_PER_SECOND;
+    expect(loopDuration).toBe(2);
     expect(getRunFrame(0).index).toBe(0);
     expect(getRunFrame(loopDuration).index).toBe(0);
     expect(getRunFrame(Number.NaN).index).toBe(0);

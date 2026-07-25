@@ -9,7 +9,8 @@ Pressing **Play** on the home screen opens `#/game` and starts the run immediate
 - Mobile: press and hold anywhere in the game to jump, then fly upward; release to descend.
 - Desktop: hold the primary mouse button, Space, Up Arrow, or W to jump/fly; release to descend.
 - Hugo automatically runs on the ground and on obstacle tops.
-- Ground running uses 60 authored full-body poses at 60 fps in a seamless one-second loop.
+- Ground running uses all 60 authored full-body poses at 30 fps in a smoother two-second loop.
+- Settings includes a fullscreen Animation Sandbox at `#/sandbox` for reviewing every live character and shoe-fire animation.
 - Occasional two-post drooping wires can be landed on from above. Hugo automatically
   grinds their curved cable with a 30-frame side-profile cycle; press again to jump off.
 - A quick second press after takeoff triggers one stronger animated double jump.

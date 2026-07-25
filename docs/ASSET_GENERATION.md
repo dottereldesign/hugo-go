@@ -109,7 +109,7 @@ plus 30 authored jet-flame frames. The wall-splat atlas replaces its two camera-
 wobble frames with generated strict side-profile poses. The grind atlas uses 30 authored
 side-profile in-betweens at 30 fps, with one shoe leading and one trailing; both outer
 sole edges share the normalized contact baseline. The run atlas plays one distinct pose
-per browser frame at 60 fps, with two code-normalized seven-pixel stride arcs that meet
+at 30 authored poses per second, with two code-normalized seven-pixel stride arcs that meet
 the ground without a seam hitch. Runtime rendering rotates the grind baseline
 to the quadratic cable tangent. Every powered and glide frame records the two measured
 metal heel-port coordinates in source-atlas pixels, preventing normalized anchor drift as

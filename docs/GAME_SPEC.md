@@ -112,7 +112,7 @@ Hugo has eight generated full-body animation atlases:
 - a 30-frame right-facing grind loop with one shoe leading, one trailing, and the outer
   side edges of both soles aligned to the cable contact line.
 
-The run atlas plays all 60 authored poses at 60 fps in a seamless one-second loop. Flight,
+The run atlas plays all 60 authored poses at 30 fps in a seamless two-second loop. Flight,
 transition, and wall atlases play at their specified 10–14 fps cadences; the grind atlas
 plays all 30 authored frames at 30 fps. Jumping uses the clean crouch and
 airborne silhouettes in transition frames 3–4; the two stiffer duplicate stride poses are

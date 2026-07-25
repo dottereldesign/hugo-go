@@ -7,7 +7,7 @@
 - The first safe seconds visibly establish Hugo’s ground run.
 - One input works across touch, mouse, and keyboard.
 - Ground and flight use distinct generated poses.
-- Ground running now uses 60 generated full-body poses at 60 fps, including continuous
+- Ground running now uses 60 generated full-body poses at 30 fps over a two-second loop, including continuous
   arms-back sprint, shoe, hair, hood, and jacket motion.
 - Jumping/landing uses eight authored phases, including a toe-contact frame.
 - A rapid second press produces an authored six-frame double-jump corkscrew.

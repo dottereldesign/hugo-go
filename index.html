@@ -159,6 +159,60 @@
       </main>
     </section>
 
+    <section class="sandbox-screen" id="sandbox-screen" aria-labelledby="sandbox-title" hidden>
+      <header class="sandbox-header">
+        <button class="game-back-button sandbox-back-button" id="sandbox-back-button" type="button" aria-label="Back home">
+          <i data-lucide="arrow-left" aria-hidden="true"></i><span>Home</span>
+        </button>
+        <div class="sandbox-heading">
+          <span>ANIMATION LAB</span>
+          <h1 id="sandbox-title">Hugo Sandbox</h1>
+          <p>Every production animation, looping live.</p>
+        </div>
+        <span class="sandbox-live"><i data-lucide="activity" aria-hidden="true"></i> Live previews</span>
+      </header>
+      <main class="sandbox-scroll">
+        <div class="sandbox-grid" aria-label="Hugo character animation previews">
+          <article class="sandbox-card sandbox-card--wide" data-sandbox-card="run">
+            <header><div><span>GROUND</span><h2>Running</h2></div><small>60 poses · 30 fps · 2 second loop</small></header>
+            <canvas class="sandbox-canvas sandbox-canvas--wide" data-sandbox-animation="run" width="1000" height="260" role="img" aria-label="Hugo's running animation"></canvas>
+          </article>
+          <article class="sandbox-card" data-sandbox-card="jump">
+            <header><div><span>AIR</span><h2>Jump &amp; land</h2></div><small>Takeoff to touchdown</small></header>
+            <canvas class="sandbox-canvas" data-sandbox-animation="jump" width="600" height="340" role="img" aria-label="Hugo's normal jump and landing animation"></canvas>
+          </article>
+          <article class="sandbox-card" data-sandbox-card="double-jump">
+            <header><div><span>AIR</span><h2>Double jump</h2></div><small>Second-press flip</small></header>
+            <canvas class="sandbox-canvas" data-sandbox-animation="double-jump" width="600" height="340" role="img" aria-label="Hugo's double jump animation"></canvas>
+          </article>
+          <article class="sandbox-card" data-sandbox-card="freefall">
+            <header><div><span>AIR</span><h2>Freefall</h2></div><small>Jets released</small></header>
+            <canvas class="sandbox-canvas" data-sandbox-animation="freefall" width="600" height="340" role="img" aria-label="Hugo's freefall animation"></canvas>
+          </article>
+          <article class="sandbox-card" data-sandbox-card="powered">
+            <header><div><span>FLIGHT</span><h2>Powered flight</h2></div><small>Pose + shoe flames</small></header>
+            <canvas class="sandbox-canvas" data-sandbox-animation="powered" width="600" height="340" role="img" aria-label="Hugo's powered flight animation with shoe jets"></canvas>
+          </article>
+          <article class="sandbox-card" data-sandbox-card="glide">
+            <header><div><span>FLIGHT</span><h2>Gliding</h2></div><small>Forward coast</small></header>
+            <canvas class="sandbox-canvas" data-sandbox-animation="glide" width="600" height="340" role="img" aria-label="Hugo's gliding animation"></canvas>
+          </article>
+          <article class="sandbox-card" data-sandbox-card="grind">
+            <header><div><span>WIRE</span><h2>Grinding</h2></div><small>Side-on shoe grind</small></header>
+            <canvas class="sandbox-canvas" data-sandbox-animation="grind" width="600" height="340" role="img" aria-label="Hugo's wire grinding animation"></canvas>
+          </article>
+          <article class="sandbox-card" data-sandbox-card="wall">
+            <header><div><span>IMPACT</span><h2>Wall recovery</h2></div><small>Splat, wobble, escape</small></header>
+            <canvas class="sandbox-canvas" data-sandbox-animation="wall" width="600" height="340" role="img" aria-label="Hugo's wall impact and recovery animation"></canvas>
+          </article>
+          <article class="sandbox-card" data-sandbox-card="flame">
+            <header><div><span>FX</span><h2>Shoe-fire cycle</h2></div><small>30 distinct flame frames</small></header>
+            <canvas class="sandbox-canvas" data-sandbox-animation="flame" width="600" height="340" role="img" aria-label="Hugo's animated shoe jet flames"></canvas>
+          </article>
+        </div>
+      </main>
+    </section>
+
     <audio id="background-music" src="./audio/hugo-go-magical-loop.ogg" preload="none" loop></audio>
     <button class="global-audio-toggle" id="sound-button" type="button" aria-label="Enable sound" aria-pressed="false" title="Enable sound">
       <i data-lucide="volume-x" aria-hidden="true"></i>

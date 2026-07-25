@@ -22,7 +22,7 @@ No character image required for the current Forest controls is missing.
   hair motion at 30 fps.
 - One generated 30-frame shoe-jet flame loop played at 30 fps, reused across two measured per-frame metal heel-port anchors with a 13-frame offset and thrust-responsive length/opacity/glow.
 
-The run cycle plays all 60 poses at 60 fps and repeats every `1 s`. The flight loops repeat every
+The run cycle plays all 60 poses at 30 fps and repeats every `2 s`. The flight loops repeat every
 `0.5–0.6 s`; the double jump plays at 14 fps, the wall action at 12 fps, and both the
 grind and jet flame complete their 30-frame loops every second. Across the character
 atlases there are **128 authored full-body frames**, plus **30 authored flame frames**.
