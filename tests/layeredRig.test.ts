@@ -3,6 +3,7 @@ import {
   RIGGED_JUMP_FRAME_COUNT,
   RIGGED_RUN_FRAME_COUNT,
   HEAD_TURN_FRAME_COUNT,
+  HEAD_TURN_V3_FRAME_COUNT,
   WALK_V4_FRAME_COUNT,
   WALK_V5_FRAME_COUNT,
   WALK_V6_FRAME_COUNT,
@@ -11,6 +12,7 @@ import {
   getDebugJumpPose,
   getDebugRunPose,
   getHeadTurnPose,
+  getHeadTurnV3Pose,
   getRiggedJumpPose,
   getRiggedRunPose,
   getWalkV4Pose,
@@ -170,6 +172,23 @@ describe('deterministic layered Hugo rig', () => {
     expect(back.yaw).toBeCloseTo(Math.PI, 8);
     expect(lastUniqueView.yaw).toBeCloseTo(17 * Math.PI / 12, 8);
     expect(getHeadTurnPose(HEAD_TURN_FRAME_COUNT)).toEqual(rightProfile);
+  });
+
+  it('adds a registered half-angle between every V2 head view', () => {
+    const rightProfile = getHeadTurnV3Pose(0);
+    const firstHalfAngle = getHeadTurnV3Pose(1);
+    const front = getHeadTurnV3Pose(12);
+    const leftProfile = getHeadTurnV3Pose(24);
+    const back = getHeadTurnV3Pose(36);
+    const finalHalfAngle = getHeadTurnV3Pose(47);
+
+    expect(HEAD_TURN_V3_FRAME_COUNT).toBe(48);
+    expect(firstHalfAngle.yaw - rightProfile.yaw).toBeCloseTo(Math.PI / 24);
+    expect(front.yaw).toBeCloseTo(0);
+    expect(leftProfile.yaw).toBeCloseTo(Math.PI / 2);
+    expect(back.yaw).toBeCloseTo(Math.PI);
+    expect(finalHalfAngle.progress).toBeCloseTo(47 / 48);
+    expect(getHeadTurnV3Pose(HEAD_TURN_V3_FRAME_COUNT)).toEqual(rightProfile);
   });
 
   it('alternates planted and swinging feet through a natural walking gait', () => {

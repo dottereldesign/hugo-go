@@ -95,6 +95,13 @@ art/source-images/game/hugo-head-turn-source.png
 art/source-images/game/hugo-head-turn-source-transparent.png
 src/assets/game/hugo-head-turn-cycle.png
 src/assets/game/hugo-head-turn-stabilized-cycle.png
+art/source-images/game/hugo-head-turn-v3-inbetweens-magenta.png
+art/source-images/game/hugo-head-turn-v3-inbetweens-transparent.png
+art/source-images/game/hugo-head-turn-v3-rear-right-bridge-magenta.png
+art/source-images/game/hugo-head-turn-v3-rear-right-bridge-transparent.png
+art/source-images/game/hugo-head-turn-v3-eye-reveal-bridge-magenta.png
+art/source-images/game/hugo-head-turn-v3-eye-reveal-bridge-transparent.png
+src/assets/game/hugo-head-turn-v3/frame-01.png … frame-59.png
 ```
 
 The generated source visually resembles a `6 x 4` atlas, but its complete head
@@ -112,6 +119,23 @@ unsafe gutters, and a mismatched seam bookend.
 
 The Sandbox plays the 24 unique frames. Head-turn previews default to `0.40x`,
 which displays the authored 30 fps sequence at 12 fps over two seconds.
+
+`scripts/build_head_turn_v3_frames.py` builds the V3 painted rotation without
+creating a runtime atlas. It:
+
+1. extracts and registers the 24 generated half-angle candidates;
+2. interleaves them with the approved V2 views;
+3. keeps the verified sequence through frame 45;
+4. replaces the faulty final three-frame face reveal with an eight-view
+   rear-right bridge and a six-view eye-reveal bridge;
+5. writes 59 individually addressable `320 x 320` transparent PNG files; and
+6. rejects empty frames, height or centre drift and unsafe alpha gutters.
+
+Each PNG contains one complete connected head silhouette, normalized to 240
+pixels high. The Vite runtime imports the files by their zero-padded names and
+lazy-loads them only when the V3 painted card approaches the viewport. The
+generated contact sheets remain source/audit material under `art/`; no sheet
+is sliced by the browser.
 
 ## Processing pipeline
 
@@ -159,6 +183,7 @@ Current runtime sizes are approximately:
 - Walking V5 side-profile torso: 752 KB;
 - legacy 24-view grid-sliced head-turn review atlas: 1,716 KB;
 - stabilized 24-view head-turn atlas plus seam bookend: 1,884 KB;
+- 59 individually registered V3 head-turn PNGs: 4,269 KB, lazy-loaded;
 - scrolling trail strip: 64 KB.
 
 The old single flight pose, single-pose run WebP, six-frame transition sheet, and full-screen

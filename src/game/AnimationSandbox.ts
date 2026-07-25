@@ -48,6 +48,7 @@ import {
   RIGGED_JUMP_FRAME_COUNT,
   RIGGED_RUN_FRAME_COUNT,
   HEAD_TURN_FRAME_COUNT,
+  HEAD_TURN_V3_FRAME_COUNT,
   WALK_V4_FRAME_COUNT,
   WALK_V5_FRAME_COUNT,
   WALK_V6_FRAME_COUNT,
@@ -57,6 +58,7 @@ import {
   getDebugJumpPose,
   getDebugRunPose,
   getHeadTurnPose,
+  getHeadTurnV3Pose,
   getRiggedJumpPose,
   getRiggedRunPose,
   getWalkV4Pose,
@@ -73,7 +75,18 @@ import {
   type WalkV6Pose,
 } from './layeredRig';
 
-type AnimationKind = 'run' | 'jump' | 'rig-run-v2' | 'rig-jump-v2' | 'rig-run-debug' | 'rig-jump-debug' | 'walk-v4-debug' | 'walk-v4-painted' | 'walk-v5-debug' | 'walk-v5-painted' | 'walk-v6-debug' | 'walk-v6-painted' | 'head-turn-debug' | 'head-turn-painted' | 'head-turn-fixed-debug' | 'head-turn-fixed-painted' | 'double-jump' | 'double-jump-v2' | 'freefall' | 'freefall-v2' | 'powered' | 'glide' | 'grind' | 'wall' | 'flame';
+const HEAD_TURN_V3_FRAME_URLS = Object.entries(
+  import.meta.glob('../assets/game/hugo-head-turn-v3/frame-*.png', {
+    eager: true,
+    query: '?url',
+    import: 'default',
+  }),
+)
+  .sort(([left], [right]) => left.localeCompare(right))
+  .map(([, url]) => url as string);
+const HEAD_TURN_V3_ART_FRAME_COUNT = HEAD_TURN_V3_FRAME_URLS.length;
+
+type AnimationKind = 'run' | 'jump' | 'rig-run-v2' | 'rig-jump-v2' | 'rig-run-debug' | 'rig-jump-debug' | 'walk-v4-debug' | 'walk-v4-painted' | 'walk-v5-debug' | 'walk-v5-painted' | 'walk-v6-debug' | 'walk-v6-painted' | 'head-turn-debug' | 'head-turn-painted' | 'head-turn-fixed-debug' | 'head-turn-fixed-painted' | 'head-turn-v3-debug' | 'head-turn-v3-painted' | 'double-jump' | 'double-jump-v2' | 'freefall' | 'freefall-v2' | 'powered' | 'glide' | 'grind' | 'wall' | 'flame';
 type LoadedSprite = HTMLImageElement & { ready?: boolean };
 type AnatomySprite = 'parts' | 'legs' | 'torso';
 
@@ -99,6 +112,10 @@ interface Preview {
   looping: boolean;
   editing: boolean;
   activeFrames: boolean[];
+  dragging: boolean;
+  dragPointerId: number | null;
+  dragStartX: number;
+  dragStartFrame: number;
 }
 
 interface DrawRect {
@@ -183,6 +200,29 @@ interface AnatomyPart {
   colour: string;
 }
 
+interface HeadTurnLandmark {
+  id: string;
+  label: string;
+  shortLabel: string;
+  description: string;
+  point: { x: number; y: number; z: number };
+  colour: string;
+}
+
+const HEAD_TURN_LANDMARKS: HeadTurnLandmark[] = [
+  { id: 'crown', label: 'Crown', shortLabel: 'CROWN', description: 'Top-of-head height anchor', point: { x: 0, y: -72, z: 0 }, colour: '#ffd661' },
+  { id: 'hairline', label: 'Hairline', shortLabel: 'HAIRLINE', description: 'Front hair and forehead anchor', point: { x: 0, y: -43, z: 39 }, colour: '#70f0b1' },
+  { id: 'left-eye', label: 'Left eye', shortLabel: 'LEFT EYE', description: 'Hugo’s anatomical left eye', point: { x: -17, y: -14, z: 42 }, colour: '#5ce9ff' },
+  { id: 'right-eye', label: 'Right eye', shortLabel: 'RIGHT EYE', description: 'Hugo’s anatomical right eye', point: { x: 17, y: -14, z: 42 }, colour: '#5ce9ff' },
+  { id: 'left-ear', label: 'Left ear', shortLabel: 'LEFT EAR', description: 'Left-side skull anchor', point: { x: -43, y: -5, z: -1 }, colour: '#9a8bff' },
+  { id: 'right-ear', label: 'Right ear', shortLabel: 'RIGHT EAR', description: 'Right-side skull anchor', point: { x: 43, y: -5, z: -1 }, colour: '#9a8bff' },
+  { id: 'nose', label: 'Nose', shortLabel: 'NOSE', description: 'Furthest-forward facial anchor', point: { x: 0, y: 1, z: 61 }, colour: '#ff8e6e' },
+  { id: 'left-mouth', label: 'Left mouth corner', shortLabel: 'LEFT MOUTH', description: 'Left end of the mouth line', point: { x: -11, y: 24, z: 46 }, colour: '#ff8e6e' },
+  { id: 'right-mouth', label: 'Right mouth corner', shortLabel: 'RIGHT MOUTH', description: 'Right end of the mouth line', point: { x: 11, y: 24, z: 46 }, colour: '#ff8e6e' },
+  { id: 'chin', label: 'Chin', shortLabel: 'CHIN', description: 'Lower face and jaw-height anchor', point: { x: 0, y: 61, z: 29 }, colour: '#ffd661' },
+  { id: 'nape', label: 'Nape', shortLabel: 'NAPE', description: 'Back-of-neck rotation anchor', point: { x: 0, y: 52, z: -35 }, colour: '#70f0b1' },
+];
+
 const WALK_V6_ANATOMY: AnatomyPart[] = [
   { id: 'head', label: 'Head', sockets: 'neck → crown', sprite: 'parts', part: 1, columns: 4, rows: 4, crop: { x: 0.12, y: 0.06, width: 0.78, height: 0.91 }, start: { x: 0.57, y: 0.93 }, end: { x: 0.52, y: 0.12 }, colour: '#70f0b1' },
   { id: 'torso', label: 'Torso', sockets: 'hips → neck', sprite: 'torso', part: 0, columns: 1, rows: 1, crop: { x: 0.28, y: 0.06, width: 0.4, height: 0.84 }, start: { x: 0.5, y: 0.742 }, end: { x: 0.48, y: 0.092 }, colour: '#ffd661' },
@@ -217,6 +257,11 @@ const ANIMATION_CONFIG: Record<AnimationKind, { frameCount: number; duration: nu
   'head-turn-painted': { frameCount: HEAD_TURN_FRAME_COUNT, duration: 0.8 },
   'head-turn-fixed-debug': { frameCount: HEAD_TURN_FRAME_COUNT, duration: 0.8 },
   'head-turn-fixed-painted': { frameCount: HEAD_TURN_FRAME_COUNT, duration: 0.8 },
+  'head-turn-v3-debug': { frameCount: HEAD_TURN_V3_FRAME_COUNT, duration: 0.8 },
+  'head-turn-v3-painted': {
+    frameCount: HEAD_TURN_V3_ART_FRAME_COUNT,
+    duration: HEAD_TURN_V3_ART_FRAME_COUNT / 60,
+  },
   'double-jump': { frameCount: 6, duration: 2 },
   'double-jump-v2': { frameCount: 16, duration: DOUBLE_JUMP_V2_DURATION },
   freefall: { frameCount: 6, duration: 0.6 },
@@ -243,6 +288,7 @@ export class AnimationSandbox {
     walkLegs: this.createSprite(),
     walkV5Torso: this.createSprite(),
     headTurnStabilized: this.createSprite(),
+    headTurnV3: HEAD_TURN_V3_FRAME_URLS.map(() => this.createSprite()),
     doubleJump: this.createSprite(),
     doubleJumpV2: this.createSprite(),
     freefall: this.createSprite(),
@@ -254,6 +300,7 @@ export class AnimationSandbox {
     flame: this.createSprite(),
   };
   private assetsStarted = false;
+  private headTurnV3AssetsStarted = false;
   private running = false;
   private animationFrame = 0;
   private previousTime = 0;
@@ -262,6 +309,7 @@ export class AnimationSandbox {
   private readonly anatomyContext: CanvasRenderingContext2D | null;
   private activeAnatomyPart = 'all';
   private anatomyDirty = true;
+  private activeHeadLandmark = 'all';
 
   constructor(private readonly root: HTMLElement) {
     this.anatomyCanvas = root.querySelector<HTMLCanvasElement>('[data-rig-anatomy-canvas]');
@@ -296,9 +344,18 @@ export class AnimationSandbox {
         looping: true,
         editing: false,
         activeFrames: this.loadActiveFrames(kind, ANIMATION_CONFIG[kind].frameCount),
+        dragging: false,
+        dragPointerId: null,
+        dragStartX: 0,
+        dragStartFrame: 0,
       };
     });
-    for (const preview of this.previews) this.syncControls(preview);
+    for (const preview of this.previews) {
+      this.syncControls(preview);
+      if (preview.kind === 'head-turn-v3-debug' || preview.kind === 'head-turn-v3-painted') {
+        this.setupHeadTurnScrubbing(preview);
+      }
+    }
     this.visibilityObserver = typeof IntersectionObserver === 'undefined'
       ? null
       : new IntersectionObserver(
@@ -308,6 +365,9 @@ export class AnimationSandbox {
             if (!preview) continue;
             preview.visible = entry.isIntersecting;
             if (preview.visible) {
+              if (preview.kind === 'head-turn-v3-painted') {
+                this.ensureHeadTurnV3Assets();
+              }
               this.syncControls(preview);
               this.drawPreview(preview, preview.elapsed, preview.currentFrame);
             }
@@ -321,7 +381,11 @@ export class AnimationSandbox {
     this.root.addEventListener('click', (event) => this.handleAnatomySelection(event));
     this.root.addEventListener('pointerover', (event) => this.handleAnatomyHover(event));
     this.root.addEventListener('focusin', (event) => this.handleAnatomyHover(event));
+    this.root.addEventListener('click', (event) => this.handleHeadLandmarkSelection(event));
+    this.root.addEventListener('pointerover', (event) => this.handleHeadLandmarkSelection(event));
+    this.root.addEventListener('focusin', (event) => this.handleHeadLandmarkSelection(event));
     this.syncAnatomyControls();
+    this.syncHeadLandmarkControls();
   }
 
   start(): void {
@@ -422,6 +486,12 @@ export class AnimationSandbox {
         break;
       case 'head-turn-fixed-painted':
         this.drawHeadTurnFixedPainted(preview, forcedFrame);
+        break;
+      case 'head-turn-v3-debug':
+        this.drawHeadTurnV3Debug(preview, forcedFrame);
+        break;
+      case 'head-turn-v3-painted':
+        this.drawHeadTurnV3Painted(preview, forcedFrame);
         break;
       case 'double-jump':
         this.drawDoubleJump(preview, elapsed, forcedFrame);
@@ -887,9 +957,13 @@ export class AnimationSandbox {
     this.markFrame(preview, frame);
   }
 
-  private drawHeadTurnDebug(preview: Preview, forcedFrame: number | null): void {
+  private drawHeadTurnDebug(
+    preview: Preview,
+    forcedFrame: number | null,
+    labelled = false,
+  ): void {
     const frame = forcedFrame ?? 0;
-    const pose = getHeadTurnPose(frame);
+    const pose = labelled ? getHeadTurnV3Pose(frame) : getHeadTurnPose(frame);
     const { context, canvas } = preview;
     const center = { x: canvas.width / 2, y: canvas.height * 0.54 };
     const cosine = Math.cos(pose.yaw);
@@ -900,20 +974,6 @@ export class AnimationSandbox {
       y: center.y + point.y,
       depth: point.x * sine + point.z * cosine,
     });
-    const landmarks = [
-      { name: 'CROWN', point: { x: 0, y: -72, z: 0 }, colour: '#ffd661' },
-      { name: 'HAIRLINE', point: { x: 0, y: -43, z: 39 }, colour: '#70f0b1' },
-      { name: 'L EYE', point: { x: -17, y: -14, z: 42 }, colour: '#5ce9ff' },
-      { name: 'R EYE', point: { x: 17, y: -14, z: 42 }, colour: '#5ce9ff' },
-      { name: 'L EAR', point: { x: -43, y: -5, z: -1 }, colour: '#9a8bff' },
-      { name: 'R EAR', point: { x: 43, y: -5, z: -1 }, colour: '#9a8bff' },
-      { name: 'NOSE', point: { x: 0, y: 1, z: 61 }, colour: '#ff8e6e' },
-      { name: 'L MOUTH', point: { x: -11, y: 24, z: 46 }, colour: '#ff8e6e' },
-      { name: 'R MOUTH', point: { x: 11, y: 24, z: 46 }, colour: '#ff8e6e' },
-      { name: 'CHIN', point: { x: 0, y: 61, z: 29 }, colour: '#ffd661' },
-      { name: 'NAPE', point: { x: 0, y: 52, z: -35 }, colour: '#70f0b1' },
-    ];
-
     context.save();
     context.strokeStyle = 'rgba(6, 49, 84, .2)';
     context.lineWidth = 1;
@@ -949,16 +1009,32 @@ export class AnimationSandbox {
     context.stroke();
     context.restore();
 
-    const projected = landmarks.map((landmark) => ({
+    const projected = HEAD_TURN_LANDMARKS.map((landmark) => ({
       ...landmark,
       screen: project(landmark.point),
     })).sort((a, b) => a.screen.depth - b.screen.depth);
     for (const landmark of projected) {
-      const visible = landmark.screen.depth > -8 || landmark.name === 'CROWN' || landmark.name === 'NAPE';
+      const visible = landmark.screen.depth > -8 || landmark.id === 'crown' || landmark.id === 'nape';
+      const selected = !labelled
+        || this.activeHeadLandmark === 'all'
+        || this.activeHeadLandmark === landmark.id;
       context.save();
-      context.globalAlpha = visible ? 1 : 0.18;
+      context.globalAlpha = selected ? (visible ? 1 : 0.25) : 0.08;
       if (!visible) context.setLineDash([3, 4]);
-      this.drawDebugJoint(context, landmark.screen, landmark.colour, visible ? 4 : 3);
+      this.drawDebugJoint(
+        context,
+        landmark.screen,
+        landmark.colour,
+        selected && this.activeHeadLandmark === landmark.id ? 7 : visible ? 4 : 3,
+      );
+      if (selected && this.activeHeadLandmark === landmark.id) {
+        context.strokeStyle = landmark.colour;
+        context.lineWidth = 2;
+        context.setLineDash([]);
+        context.beginPath();
+        context.arc(landmark.screen.x, landmark.screen.y, 12, 0, Math.PI * 2);
+        context.stroke();
+      }
       context.restore();
     }
 
@@ -992,8 +1068,46 @@ export class AnimationSandbox {
     context.fill();
     context.restore();
 
-    this.drawWalkLabel(context, 'HEAD TURN · 3D LANDMARKS', 'HEAD ONLY · FIXED PIVOT · 15° STEPS');
-    this.drawHeadTurnReadout(context, canvas, frame, pose.yaw);
+    const activeLandmark = labelled
+      ? HEAD_TURN_LANDMARKS.find(({ id }) => id === this.activeHeadLandmark)
+      : undefined;
+    if (activeLandmark) {
+      const projectedLandmark = projected.find(({ id }) => id === activeLandmark.id);
+      if (projectedLandmark) {
+        const boxX = 15;
+        const boxY = 73;
+        context.save();
+        context.strokeStyle = activeLandmark.colour;
+        context.lineWidth = 2;
+        context.beginPath();
+        context.moveTo(projectedLandmark.screen.x, projectedLandmark.screen.y);
+        context.lineTo(210, boxY + 22);
+        context.stroke();
+        context.fillStyle = 'rgba(4, 27, 55, .9)';
+        context.fillRect(boxX, boxY, 198, 46);
+        context.fillStyle = activeLandmark.colour;
+        context.font = '800 11px "IBM Plex Mono", monospace';
+        context.fillText(activeLandmark.label.toUpperCase(), boxX + 12, boxY + 18);
+        context.fillStyle = '#b9d6e8';
+        context.font = '600 9px "IBM Plex Mono", monospace';
+        context.fillText(activeLandmark.description.toUpperCase(), boxX + 12, boxY + 35);
+        context.restore();
+      }
+    }
+
+    preview.canvas.dataset.activeHeadLandmark = labelled ? this.activeHeadLandmark : 'none';
+    this.drawWalkLabel(
+      context,
+      labelled ? 'HEAD TURN V3 · LABELLED RIG' : 'HEAD TURN · 3D LANDMARKS',
+      labelled ? '48 STEPS · HOVER OR SELECT A LANDMARK' : 'HEAD ONLY · FIXED PIVOT · 15° STEPS',
+    );
+    this.drawHeadTurnReadout(
+      context,
+      canvas,
+      frame,
+      pose.yaw,
+      labelled ? HEAD_TURN_V3_FRAME_COUNT : HEAD_TURN_FRAME_COUNT,
+    );
     this.markFrame(preview, frame);
   }
 
@@ -1004,12 +1118,54 @@ export class AnimationSandbox {
     this.drawWalkLabel(context, 'HEAD TURN V2 · REGISTRATION', 'FIXED CENTRE · FIXED HEIGHT · SAFE GUTTER');
   }
 
+  private drawHeadTurnV3Debug(preview: Preview, forcedFrame: number | null): void {
+    this.drawHeadTurnDebug(preview, forcedFrame, true);
+    const { context, canvas } = preview;
+    this.drawHeadRegistrationGuide(context, canvas.width / 2, canvas.height * 0.54);
+  }
+
   private drawHeadTurnPainted(preview: Preview, forcedFrame: number | null): void {
     this.drawRegisteredHeadTurn(preview, forcedFrame, false);
   }
 
   private drawHeadTurnFixedPainted(preview: Preview, forcedFrame: number | null): void {
     this.drawRegisteredHeadTurn(preview, forcedFrame, true);
+  }
+
+  private drawHeadTurnV3Painted(preview: Preview, forcedFrame: number | null): void {
+    const frame = forcedFrame ?? 0;
+    const angleDegrees = frame <= 44
+      ? frame * 7.5
+      : 330 + (frame - 44) * 2;
+    const yaw = -Math.PI / 2 + angleDegrees * Math.PI / 180;
+    const { context, canvas } = preview;
+    const sprite = this.sprites.headTurnV3[frame];
+    const drawSize = 304;
+    const drawX = (canvas.width - drawSize) / 2;
+    const drawY = (canvas.height - drawSize) / 2 + 4;
+
+    context.save();
+    context.imageSmoothingEnabled = true;
+    context.imageSmoothingQuality = 'high';
+    if (sprite?.ready) {
+      context.drawImage(sprite, drawX, drawY, drawSize, drawSize);
+    }
+    context.restore();
+    this.drawHeadRegistrationGuide(context, canvas.width / 2, canvas.height / 2 + 4);
+    this.drawWalkLabel(
+      context,
+      'HEAD TURN V3 · 59 INDIVIDUAL FILES',
+      '14 EXTRA VIEWS REPAIR THE REAR-RIGHT TURN',
+    );
+    this.drawHeadTurnReadout(
+      context,
+      canvas,
+      frame,
+      yaw,
+      HEAD_TURN_V3_ART_FRAME_COUNT,
+      angleDegrees,
+    );
+    this.markFrame(preview, frame);
   }
 
   private drawRegisteredHeadTurn(
@@ -1097,21 +1253,24 @@ export class AnimationSandbox {
     canvas: HTMLCanvasElement,
     frame: number,
     yaw: number,
+    frameCount = HEAD_TURN_FRAME_COUNT,
+    degreesOverride?: number,
   ): void {
-    const degrees = frame * 15;
-    const label = frame === 0
+    const degrees = degreesOverride ?? frame * 360 / frameCount;
+    const atAngle = (target: number): boolean => Math.abs(degrees - target) < 0.01;
+    const label = atAngle(0)
       ? 'RIGHT PROFILE'
-      : frame === 6
+      : atAngle(90)
         ? 'FRONT'
-        : frame === 12
+        : atAngle(180)
           ? 'LEFT PROFILE'
-          : frame === 18
+          : atAngle(270)
             ? 'BACK'
-            : frame < 6
+            : degrees < 90
               ? 'RIGHT → FRONT'
-              : frame < 12
+              : degrees < 180
                 ? 'FRONT → LEFT'
-                : frame < 18
+                : degrees < 270
                   ? 'LEFT → BACK'
                   : 'BACK → RIGHT';
     context.save();
@@ -1122,7 +1281,7 @@ export class AnimationSandbox {
     context.textAlign = 'right';
     context.fillText(label, canvas.width - 27, canvas.height - 34);
     context.fillStyle = '#ffd661';
-    context.fillText(`${degrees}° · YAW ${yaw.toFixed(2)}`, canvas.width - 27, canvas.height - 21);
+    context.fillText(`${degrees.toFixed(degrees % 1 === 0 ? 0 : 1)}° · YAW ${yaw.toFixed(2)}`, canvas.width - 27, canvas.height - 21);
     context.restore();
   }
 
@@ -2543,6 +2702,82 @@ export class AnimationSandbox {
     });
   }
 
+  private handleHeadLandmarkSelection(event: Event): void {
+    const button = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-head-landmark]');
+    if (!button) return;
+    this.setActiveHeadLandmark(button.dataset.headLandmark ?? 'all');
+  }
+
+  private setActiveHeadLandmark(landmarkId: string): void {
+    if (
+      landmarkId !== 'all'
+      && !HEAD_TURN_LANDMARKS.some(({ id }) => id === landmarkId)
+    ) return;
+    this.activeHeadLandmark = landmarkId;
+    this.syncHeadLandmarkControls();
+    const preview = this.previews.find(({ kind }) => kind === 'head-turn-v3-debug');
+    if (preview) this.drawPreview(preview, preview.elapsed, preview.currentFrame);
+  }
+
+  private syncHeadLandmarkControls(): void {
+    this.root.querySelectorAll<HTMLButtonElement>('[data-head-landmark]').forEach((button) => {
+      const selected = button.dataset.headLandmark === this.activeHeadLandmark;
+      button.classList.toggle('is-active', selected);
+      button.setAttribute('aria-pressed', String(selected));
+    });
+  }
+
+  private setupHeadTurnScrubbing(preview: Preview): void {
+    const { canvas } = preview;
+    canvas.classList.add('sandbox-canvas--scrubbable');
+    canvas.dataset.scrubbable = 'true';
+    const finishDrag = (event: PointerEvent): void => {
+      if (!preview.dragging || preview.dragPointerId !== event.pointerId) return;
+      preview.dragging = false;
+      preview.dragPointerId = null;
+      canvas.classList.remove('is-dragging');
+      canvas.dataset.scrubbing = 'false';
+      if (canvas.hasPointerCapture(event.pointerId)) {
+        canvas.releasePointerCapture(event.pointerId);
+      }
+    };
+
+    canvas.addEventListener('pointerdown', (event) => {
+      if (!event.isPrimary || (event.pointerType === 'mouse' && event.button !== 0)) return;
+      event.preventDefault();
+      preview.dragging = true;
+      preview.dragPointerId = event.pointerId;
+      preview.dragStartX = event.clientX;
+      preview.dragStartFrame = preview.currentFrame;
+      preview.playing = false;
+      preview.frameAccumulator = 0;
+      canvas.classList.add('is-dragging');
+      canvas.dataset.scrubbing = 'true';
+      canvas.setPointerCapture(event.pointerId);
+      this.syncControls(preview);
+    });
+    canvas.addEventListener('pointermove', (event) => {
+      if (!preview.dragging || preview.dragPointerId !== event.pointerId) return;
+      event.preventDefault();
+      const frameWidth = Math.max(
+        5,
+        canvas.getBoundingClientRect().width / ANIMATION_CONFIG[preview.kind].frameCount,
+      );
+      const offset = Math.round((event.clientX - preview.dragStartX) / frameWidth);
+      const requestedFrame = preview.dragStartFrame + offset;
+      if (requestedFrame !== preview.currentFrame) this.selectFrame(preview, requestedFrame);
+    });
+    canvas.addEventListener('pointerup', finishDrag);
+    canvas.addEventListener('pointercancel', finishDrag);
+    canvas.addEventListener('lostpointercapture', (event) => {
+      if (!preview.dragging || preview.dragPointerId !== event.pointerId) return;
+      preview.dragging = false;
+      preview.dragPointerId = null;
+      canvas.classList.remove('is-dragging');
+      canvas.dataset.scrubbing = 'false';
+    });
+  }
+
   private selectFrame(preview: Preview, requestedFrame: number): void {
     const { frameCount } = ANIMATION_CONFIG[preview.kind];
     const frame = preview.looping
@@ -2844,6 +3079,7 @@ export class AnimationSandbox {
     this.sprites.walkLegs.src = hugoWalkV4LegsUrl;
     this.sprites.walkV5Torso.src = hugoWalkV5TorsoUrl;
     this.sprites.headTurnStabilized.src = hugoHeadTurnStabilizedCycleUrl;
+    if (typeof IntersectionObserver === 'undefined') this.ensureHeadTurnV3Assets();
     this.sprites.doubleJump.src = hugoDoubleJumpCycleUrl;
     this.sprites.doubleJumpV2.src = hugoDoubleJumpV2CycleUrl;
     this.sprites.freefall.src = hugoFreefallCycleUrl;
@@ -2853,5 +3089,13 @@ export class AnimationSandbox {
     this.sprites.grind.src = hugoGrindCycleUrl;
     this.sprites.wall.src = hugoWallRecoveryCycleUrl;
     this.sprites.flame.src = jetFlameCycleUrl;
+  }
+
+  private ensureHeadTurnV3Assets(): void {
+    if (this.headTurnV3AssetsStarted) return;
+    this.headTurnV3AssetsStarted = true;
+    this.sprites.headTurnV3.forEach((sprite, index) => {
+      sprite.src = HEAD_TURN_V3_FRAME_URLS[index];
+    });
   }
 }

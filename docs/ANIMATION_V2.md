@@ -296,8 +296,8 @@ Recommended refinements after V6 review:
 ## Head Turn V2: isolated and registered rotation
 
 The Head Turn cards test whether Hugo's approved head can be treated as a
-genuinely three-dimensional asset without attaching it to a body. All four
-cards use the same 24 unique 15-degree views. Frames 1, 7, 13 and 19 are the
+genuinely three-dimensional asset without attaching it to a body. The four
+V1/V2 cards use the same 24 unique 15-degree views. Frames 1, 7, 13 and 19 are the
 right profile, front, left profile and back cardinal views.
 
 The generated V1 source contains 24 valid disconnected head silhouettes, but
@@ -336,6 +336,47 @@ timeline without repainting until they approach the viewport.
 This remains an identity and volume experiment, not a gameplay animation. No
 torso, shoulders or limbs appear; the small neck base belongs to the head
 registration silhouette.
+
+## Head Turn V3: labelled geometry and repaired rear-right arc
+
+V3 adds a new two-card row beneath V2:
+
+- the geometry card uses 48 deterministic 7.5-degree steps. Its 11
+  plain-language landmarks are Crown, Hairline, Left/Right eye, Left/Right
+  ear, Nose, Left/Right mouth corner, Chin and Nape. Hovering, focusing or
+  clicking a label isolates that node, enlarges it and draws a leader line to
+  its current projected location;
+- the painted card uses **59 separate `320 x 320` transparent PNG files**.
+  Runtime does not slice a sprite sheet. Each file is registered to the same
+  240-pixel source height and centre; and
+- holding the primary pointer and dragging horizontally pauses either V3 card
+  and scrubs its rotation in either direction. Releasing leaves the chosen
+  frame paused for inspection.
+
+The first 48-view V3 draft exposed a genuine source failure near the loop
+ending. Its last three images alternated rear three-quarter, face-heavy
+three-quarter, profile and face-heavy three-quarter. More playback frames did
+not solve that discontinuity.
+
+The accepted painted sequence therefore keeps verified frames 1–45 and
+replaces the faulty tail with two dedicated generated bridges:
+
+1. eight ordered views turn from the rear-right three-quarter endpoint toward
+   the opening right profile without revealing most of the face early; and
+2. six additional micro-views slow the eye/eyelash reveal inside the largest
+   remaining gap.
+
+That produces 59 unique runtime files. At the default `0.40x` setting the
+painted card displays 24 frames per second over approximately 2.46 seconds.
+Frames 1–45 retain their real 7.5-degree positions through 330 degrees. The
+14 repaired tail views use denser 2-degree positions from 332 through 358
+degrees, and the on-canvas yaw readout follows that non-uniform angle map.
+The geometry card remains a mathematically even 48-step, two-second reference,
+so the artwork's denser problem quadrant can be compared against ideal yaw.
+
+The individual PNGs lazy-load only when the V3 painted card approaches the
+viewport. This preserves responsive Sandbox entry while retaining direct
+per-frame inspection and file-level replacement.
 
 ## Reusable atlas prompt
 

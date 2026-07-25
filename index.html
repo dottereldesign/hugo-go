@@ -539,6 +539,40 @@
               <canvas class="sandbox-canvas" data-sandbox-animation="head-turn-fixed-painted" width="600" height="340" role="img" aria-label="Stabilized generated Hugo head turn with all 24 isolated heads sharing one registration point and scale"></canvas>
               <p class="sandbox-rig-caption">24 complete connected silhouettes · identical 240 px source height · common centre · 40 px transparent top and bottom gutters · exact seam bookend</p>
             </article>
+
+            <article class="sandbox-card sandbox-card--v2 sandbox-card--debug sandbox-card--head-v3" data-sandbox-card="head-turn-v3-debug">
+              <header>
+                <div><span>HEAD TURN V3 · LABELLED GEOMETRY</span><h2>360° Head Turn V3 — Explained landmarks</h2></div>
+                <small data-sandbox-metrics>48 frames · 2.00 s total · 24 FPS</small>
+              </header>
+              <canvas class="sandbox-canvas" data-sandbox-animation="head-turn-v3-debug" width="600" height="340" role="img" aria-label="Forty-eight-step head rotation geometry with interactive labelled facial and skull landmarks"></canvas>
+              <p class="sandbox-drag-hint"><span aria-hidden="true">↔</span> Hold and drag left or right to rotate manually</p>
+              <div class="sandbox-head-landmarks" data-head-landmark-controls aria-label="Head landmark labels">
+                <button class="is-active" type="button" data-head-landmark="all" aria-pressed="true"><i aria-hidden="true"></i><span><b>All nodes</b><small>Complete head rig</small></span></button>
+                <button type="button" data-head-landmark="crown" aria-pressed="false" style="--landmark-colour:#ffd661"><i aria-hidden="true"></i><span><b>Crown</b><small>Top-of-head height anchor</small></span></button>
+                <button type="button" data-head-landmark="hairline" aria-pressed="false" style="--landmark-colour:#70f0b1"><i aria-hidden="true"></i><span><b>Hairline</b><small>Front hair and forehead</small></span></button>
+                <button type="button" data-head-landmark="left-eye" aria-pressed="false" style="--landmark-colour:#5ce9ff"><i aria-hidden="true"></i><span><b>Left eye</b><small>Hugo’s anatomical left</small></span></button>
+                <button type="button" data-head-landmark="right-eye" aria-pressed="false" style="--landmark-colour:#5ce9ff"><i aria-hidden="true"></i><span><b>Right eye</b><small>Hugo’s anatomical right</small></span></button>
+                <button type="button" data-head-landmark="left-ear" aria-pressed="false" style="--landmark-colour:#9a8bff"><i aria-hidden="true"></i><span><b>Left ear</b><small>Left-side skull anchor</small></span></button>
+                <button type="button" data-head-landmark="right-ear" aria-pressed="false" style="--landmark-colour:#9a8bff"><i aria-hidden="true"></i><span><b>Right ear</b><small>Right-side skull anchor</small></span></button>
+                <button type="button" data-head-landmark="nose" aria-pressed="false" style="--landmark-colour:#ff8e6e"><i aria-hidden="true"></i><span><b>Nose</b><small>Forward facial anchor</small></span></button>
+                <button type="button" data-head-landmark="left-mouth" aria-pressed="false" style="--landmark-colour:#ff8e6e"><i aria-hidden="true"></i><span><b>Left mouth corner</b><small>Left end of mouth line</small></span></button>
+                <button type="button" data-head-landmark="right-mouth" aria-pressed="false" style="--landmark-colour:#ff8e6e"><i aria-hidden="true"></i><span><b>Right mouth corner</b><small>Right end of mouth line</small></span></button>
+                <button type="button" data-head-landmark="chin" aria-pressed="false" style="--landmark-colour:#ffd661"><i aria-hidden="true"></i><span><b>Chin</b><small>Lower jaw-height anchor</small></span></button>
+                <button type="button" data-head-landmark="nape" aria-pressed="false" style="--landmark-colour:#70f0b1"><i aria-hidden="true"></i><span><b>Nape</b><small>Back-of-neck anchor</small></span></button>
+              </div>
+              <p class="sandbox-rig-caption">Hover, focus, or click any plain-language label to isolate its node and draw a leader line to its exact rotating position</p>
+            </article>
+
+            <article class="sandbox-card sandbox-card--v2 sandbox-card--painted sandbox-card--head-v3" data-sandbox-card="head-turn-v3-painted">
+              <header>
+                <div><span>HEAD TURN V3 · INDIVIDUAL ART</span><h2>360° Head Turn V3 — 59 smooth views</h2></div>
+                <small data-sandbox-metrics>59 frames · 2.46 s total · 24 FPS</small>
+              </header>
+              <canvas class="sandbox-canvas" data-sandbox-animation="head-turn-v3-painted" width="600" height="340" role="img" aria-label="Fifty-nine individually cut-out and registered Hugo head images rotating smoothly through 360 degrees"></canvas>
+              <p class="sandbox-drag-hint"><span aria-hidden="true">↔</span> Hold and drag left or right to rotate manually</p>
+              <p class="sandbox-rig-caption">59 separate transparent PNGs · 14 dedicated bridge views repair the rear-right face reveal · no runtime sheet slicing</p>
+            </article>
           </div>
 
           <aside class="sandbox-v2-next">

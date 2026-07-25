@@ -2406,6 +2406,113 @@ body.sandbox-page-open {
   box-shadow: 0 24px 52px rgba(0, 4, 22, .3), 0 0 40px rgba(255, 192, 61, .1);
 }
 
+.sandbox-canvas--scrubbable {
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.sandbox-canvas--scrubbable.is-dragging {
+  cursor: grabbing;
+}
+
+.sandbox-drag-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0;
+  padding: 9px 14px;
+  border-top: 1px solid rgba(113, 225, 255, .18);
+  border-bottom: 1px solid rgba(113, 225, 255, .12);
+  color: #dffaff;
+  background: rgba(8, 35, 66, .86);
+  font: 800 .68rem/1.3 'IBM Plex Mono', monospace;
+  text-transform: uppercase;
+}
+
+.sandbox-drag-hint span {
+  color: #ffd661;
+  font-size: 1.08rem;
+}
+
+.sandbox-head-landmarks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+  padding: 13px;
+  border-top: 1px solid rgba(113, 225, 255, .14);
+  background: rgba(4, 23, 49, .64);
+}
+
+.sandbox-head-landmarks button {
+  --landmark-colour: #dffaff;
+  display: grid;
+  grid-template-columns: 11px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 8px 9px;
+  border: 1px solid rgba(130, 222, 255, .15);
+  border-radius: 9px;
+  color: #e9faff;
+  background: rgba(12, 46, 78, .64);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 120ms ease, background 120ms ease, transform 120ms ease;
+}
+
+.sandbox-head-landmarks button:hover,
+.sandbox-head-landmarks button:focus-visible,
+.sandbox-head-landmarks button.is-active {
+  border-color: var(--landmark-colour);
+  background: rgba(32, 84, 113, .8);
+  transform: translateY(-1px);
+}
+
+.sandbox-head-landmarks button:focus-visible {
+  outline: 3px solid #ffd661;
+  outline-offset: 2px;
+}
+
+.sandbox-head-landmarks i {
+  width: 9px;
+  height: 9px;
+  border: 2px solid var(--landmark-colour);
+  border-radius: 50%;
+  box-shadow: 0 0 8px color-mix(in srgb, var(--landmark-colour) 58%, transparent);
+}
+
+.sandbox-head-landmarks button:first-child i {
+  background: conic-gradient(#ffd661, #70f0b1, #5ce9ff, #9a8bff, #ff8e6e, #ffd661);
+}
+
+.sandbox-head-landmarks span {
+  display: grid;
+  min-width: 0;
+  gap: 2px;
+}
+
+.sandbox-head-landmarks b,
+.sandbox-head-landmarks small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sandbox-head-landmarks b {
+  font: 800 .67rem/1.2 Inter, sans-serif;
+}
+
+.sandbox-head-landmarks small {
+  color: #8caac1;
+  font: 600 .56rem/1.2 'IBM Plex Mono', monospace;
+}
+
+.sandbox-head-landmarks button.is-active small {
+  color: #c6ebf7;
+}
+
 .sandbox-rig-caption {
   margin: 0;
   padding: 11px 16px;
