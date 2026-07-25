@@ -153,6 +153,14 @@ add generated in-between frames: one deterministic 36-frame skeleton drives
 both the debug and painted previews. The interactive Sandbox limb sheet records
 the public part IDs and source socket paths used to register those images.
 
+Walking V6 also adds no generated bitmap. It divides each accepted forearm
+source into separately registered forearm and hand crops, moves both shoe ankle
+anchors into the visible openings, and uses code-driven shoulder, elbow, wrist,
+hand, hip, knee, ankle, heel, and toe joints. The public asset names are
+left/right (`left-hand`, `right-shoe`, and so on); render-order terminology is
+kept internal. Fixed left/right elbow bend branches prevent the limb art from
+changing direction as a wrist crosses its shoulder.
+
 ## Generated and procedural scene art
 
 The sky is a code-rendered cyan gradient. Generated ochre/scorched-red earth, stones,

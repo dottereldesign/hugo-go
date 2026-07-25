@@ -12,8 +12,8 @@ test.describe('Animation Sandbox', () => {
     await expect(page.locator('#sandbox-screen')).toBeVisible();
     await expect(page.locator('#home-screen')).not.toHaveClass(/is-open/);
     await expect(page.locator('#game-screen')).toBeHidden();
-    await expect(page.locator('[data-sandbox-card]')).toHaveCount(19);
-    await expect(page.locator('[data-sandbox-animation]')).toHaveCount(19);
+    await expect(page.locator('[data-sandbox-card]')).toHaveCount(21);
+    await expect(page.locator('[data-sandbox-animation]')).toHaveCount(21);
     await expect(page.getByRole('heading', { name: 'Animation V2 Framework' })).toBeVisible();
     await expect(page.getByText('Mandatory looping-sheet bookend')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'The 12 animation principles, translated for HUGO GO!' })).toBeVisible();
@@ -28,10 +28,13 @@ test.describe('Animation Sandbox', () => {
     await expect(page.locator('[data-sandbox-card="walk-v4-painted"] button[data-frame]')).toHaveCount(36);
     await expect(page.locator('[data-sandbox-card="walk-v5-debug"] button[data-frame]')).toHaveCount(36);
     await expect(page.locator('[data-sandbox-card="walk-v5-painted"] button[data-frame]')).toHaveCount(36);
+    await expect(page.locator('[data-sandbox-card="walk-v6-debug"] button[data-frame]')).toHaveCount(36);
+    await expect(page.locator('[data-sandbox-card="walk-v6-painted"] button[data-frame]')).toHaveCount(36);
     await expect(page.getByRole('heading', { name: 'Why the first two layered rigs fail' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'What changed for Walking V4' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'What V5 fixes from the V4 review' })).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Walking V5 part names and socket paths' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Plain-language part names and joint paths' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Why the added joints matter' })).toBeVisible();
     const expectedMetrics: Record<string, string> = {
       run: '60 frames · 2.00 s total · 30 FPS',
       jump: '8 frames · 2.40 s total · 3.33 FPS',
@@ -52,6 +55,8 @@ test.describe('Animation Sandbox', () => {
       'walk-v4-painted': '36 frames · 1.20 s total · 30 FPS',
       'walk-v5-debug': '36 frames · 1.20 s total · 30 FPS',
       'walk-v5-painted': '36 frames · 1.20 s total · 30 FPS',
+      'walk-v6-debug': '36 frames · 1.20 s total · 30 FPS',
+      'walk-v6-painted': '36 frames · 1.20 s total · 30 FPS',
     };
     for (const [animation, metrics] of Object.entries(expectedMetrics)) {
       await expect(page.locator(`[data-sandbox-card="${animation}"] [data-sandbox-metrics]`)).toHaveText(metrics);
@@ -83,6 +88,10 @@ test.describe('Animation Sandbox', () => {
     const walkV5PaintedWidth = await page.locator('[data-sandbox-card="walk-v5-painted"]').evaluate((element) => element.getBoundingClientRect().width);
     expect(Math.abs(walkV5DebugWidth - jumpWidth)).toBeLessThan(2);
     expect(Math.abs(walkV5PaintedWidth - jumpWidth)).toBeLessThan(2);
+    const walkV6DebugWidth = await page.locator('[data-sandbox-card="walk-v6-debug"]').evaluate((element) => element.getBoundingClientRect().width);
+    const walkV6PaintedWidth = await page.locator('[data-sandbox-card="walk-v6-painted"]').evaluate((element) => element.getBoundingClientRect().width);
+    expect(Math.abs(walkV6DebugWidth - jumpWidth)).toBeLessThan(2);
+    expect(Math.abs(walkV6PaintedWidth - jumpWidth)).toBeLessThan(2);
     await expect.poll(async () => page.evaluate(() => (
       performance.getEntriesByType('resource').some((entry) => entry.name.includes('hugo-layered-rig-parts'))
     ))).toBe(true);
@@ -94,10 +103,14 @@ test.describe('Animation Sandbox', () => {
     ))).toBe(true);
 
     const anatomyCanvas = page.locator('[data-rig-anatomy-canvas]');
-    const upperArmLabel = page.locator('button[data-rig-part="near-upper-arm"]');
+    const upperArmLabel = page.locator('button[data-rig-part="left-upper-arm"]');
     await upperArmLabel.click();
     await expect(upperArmLabel).toHaveAttribute('aria-pressed', 'true');
-    await expect(anatomyCanvas).toHaveAttribute('data-active-rig-part', 'near-upper-arm');
+    await expect(anatomyCanvas).toHaveAttribute('data-active-rig-part', 'left-upper-arm');
+    await expect(page.locator('button[data-rig-part="left-hand"]')).toBeVisible();
+    await expect(page.locator('button[data-rig-part="right-hand"]')).toBeVisible();
+    await expect(page.getByText('Head artwork', { exact: true })).toHaveCount(0);
+    await expect(page.locator('.sandbox-anatomy-labels').getByText(/Near|Far/)).toHaveCount(0);
 
     await page.getByRole('button', { name: 'Back home' }).click();
     await expect(page).toHaveURL(/#\/home$/);

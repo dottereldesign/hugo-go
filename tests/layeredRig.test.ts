@@ -4,12 +4,16 @@ import {
   RIGGED_RUN_FRAME_COUNT,
   WALK_V4_FRAME_COUNT,
   WALK_V5_FRAME_COUNT,
+  WALK_V6_FRAME_COUNT,
+  WALK_V6_LEFT_ARM_BEND,
+  WALK_V6_RIGHT_ARM_BEND,
   getDebugJumpPose,
   getDebugRunPose,
   getRiggedJumpPose,
   getRiggedRunPose,
   getWalkV4Pose,
   getWalkV5Pose,
+  getWalkV6Pose,
   rigEndpoint,
   solveTwoBoneChain,
 } from '../src/game/layeredRig';
@@ -113,6 +117,42 @@ describe('deterministic layered Hugo rig', () => {
     expect(reverse.nearHandOffset.x).toBeGreaterThan(0);
     expect(reverse.farHandOffset.x).toBeLessThan(0);
     expect(Math.abs(forward.torsoAngle)).toBeLessThan(0.06);
+  });
+
+  it('returns Walking V6 to the identical pose after its 36-frame cycle', () => {
+    expect(getWalkV6Pose(WALK_V6_FRAME_COUNT)).toEqual(getWalkV6Pose(0));
+  });
+
+  it('keeps left and right V6 elbows on fixed bend branches for the whole loop', () => {
+    const root = { x: 0, y: 0 };
+    let previousLeftElbow: { x: number; y: number } | null = null;
+    let previousRightElbow: { x: number; y: number } | null = null;
+
+    for (let frame = 0; frame <= WALK_V6_FRAME_COUNT; frame += 1) {
+      const pose = getWalkV6Pose(frame);
+      const left = solveTwoBoneChain(root, pose.leftWristOffset, 34, 30, WALK_V6_LEFT_ARM_BEND);
+      const right = solveTwoBoneChain(root, pose.rightWristOffset, 34, 30, WALK_V6_RIGHT_ARM_BEND);
+      const leftSide = pose.leftWristOffset.x * left.joint.y - pose.leftWristOffset.y * left.joint.x;
+      const rightSide = pose.rightWristOffset.x * right.joint.y - pose.rightWristOffset.y * right.joint.x;
+
+      expect(leftSide).toBeLessThan(0);
+      expect(rightSide).toBeGreaterThan(0);
+      if (previousLeftElbow && previousRightElbow) {
+        expect(Math.hypot(left.joint.x - previousLeftElbow.x, left.joint.y - previousLeftElbow.y)).toBeLessThan(5);
+        expect(Math.hypot(right.joint.x - previousRightElbow.x, right.joint.y - previousRightElbow.y)).toBeLessThan(5);
+      }
+      previousLeftElbow = left.joint;
+      previousRightElbow = right.joint;
+    }
+  });
+
+  it('gives Walking V6 independent hands after its wrist joints', () => {
+    const pose = getWalkV6Pose(9);
+
+    expect(pose.leftWristOffset.y).toBeGreaterThan(55);
+    expect(pose.rightWristOffset.y).toBeGreaterThan(55);
+    expect(pose.leftHandAngle).not.toBe(pose.rightHandAngle);
+    expect(pose.leftFoot.grounded).not.toBe(pose.rightFoot.grounded);
   });
 
   it('alternates planted and swinging feet through a natural walking gait', () => {

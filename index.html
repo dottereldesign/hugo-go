@@ -445,34 +445,69 @@
 
             <section class="sandbox-anatomy" aria-labelledby="rig-anatomy-title">
               <header>
-                <span>INTERACTIVE LIMB SHEET</span>
-                <h3 id="rig-anatomy-title">Walking V5 part names and socket paths</h3>
-                <p>Hover, focus, or click a label to isolate its exact source art and nodes. Use these IDs when describing future fixes—for example, “lengthen <code>near-upper-arm</code> between the near shoulder and near elbow.”</p>
+                <span>INTERACTIVE V6 LIMB SHEET</span>
+                <h3 id="rig-anatomy-title">Plain-language part names and joint paths</h3>
+                <p>Hover, focus, or click a label to isolate its exact art and joints. Left parts are the brighter front layer; right parts are the darker back layer. Use these names when describing fixes—for example, “lengthen the <code>left-upper-arm</code> between the left shoulder and elbow.”</p>
               </header>
               <div class="sandbox-anatomy-layout">
-                <canvas id="walk-v5-anatomy-canvas" class="sandbox-anatomy-canvas" data-rig-anatomy-canvas width="900" height="720" role="img" aria-label="Exploded Walking V5 character part sheet with named socket paths"></canvas>
-                <div class="sandbox-anatomy-labels" role="group" aria-label="Walking V5 anatomy highlights">
-                  <button type="button" data-rig-part="all" aria-controls="walk-v5-anatomy-canvas"><b>All parts</b><span>Complete exploded sheet</span></button>
-                  <button type="button" data-rig-part="head" aria-controls="walk-v5-anatomy-canvas"><b>Head artwork</b><span><code>head</code> · neck → crown</span></button>
-                  <button type="button" data-rig-part="torso" aria-controls="walk-v5-anatomy-canvas"><b>Side torso + pelvis</b><span><code>torso</code> · pelvis → neck</span></button>
-                  <button type="button" data-rig-part="near-upper-arm" aria-controls="walk-v5-anatomy-canvas"><b>Near upper arm</b><span><code>near-upper-arm</code> · shoulder → elbow</span></button>
-                  <button type="button" data-rig-part="near-forearm" aria-controls="walk-v5-anatomy-canvas"><b>Near forearm + hand</b><span><code>near-forearm</code> · elbow → hand</span></button>
-                  <button type="button" data-rig-part="far-upper-arm" aria-controls="walk-v5-anatomy-canvas"><b>Far upper arm</b><span><code>far-upper-arm</code> · shoulder → elbow</span></button>
-                  <button type="button" data-rig-part="far-forearm" aria-controls="walk-v5-anatomy-canvas"><b>Far forearm + hand</b><span><code>far-forearm</code> · elbow → hand</span></button>
-                  <button type="button" data-rig-part="near-thigh" aria-controls="walk-v5-anatomy-canvas"><b>Near thigh</b><span><code>near-thigh</code> · hip → knee</span></button>
-                  <button type="button" data-rig-part="near-shin" aria-controls="walk-v5-anatomy-canvas"><b>Near shin</b><span><code>near-shin</code> · knee → ankle</span></button>
-                  <button type="button" data-rig-part="near-shoe" aria-controls="walk-v5-anatomy-canvas"><b>Near shoe</b><span><code>near-shoe</code> · ankle → toe</span></button>
-                  <button type="button" data-rig-part="far-thigh" aria-controls="walk-v5-anatomy-canvas"><b>Far thigh</b><span><code>far-thigh</code> · hip → knee</span></button>
-                  <button type="button" data-rig-part="far-shin" aria-controls="walk-v5-anatomy-canvas"><b>Far shin</b><span><code>far-shin</code> · knee → ankle</span></button>
-                  <button type="button" data-rig-part="far-shoe" aria-controls="walk-v5-anatomy-canvas"><b>Far shoe</b><span><code>far-shoe</code> · ankle → toe</span></button>
+                <canvas id="walk-v6-anatomy-canvas" class="sandbox-anatomy-canvas" data-rig-anatomy-canvas width="900" height="840" role="img" aria-label="Exploded Walking V6 character part sheet with plain-language names and joint paths"></canvas>
+                <div class="sandbox-anatomy-labels" role="group" aria-label="Walking V6 anatomy highlights">
+                  <button type="button" data-rig-part="all" aria-controls="walk-v6-anatomy-canvas"><b>All parts</b><span>Complete exploded sheet</span></button>
+                  <button type="button" data-rig-part="head" aria-controls="walk-v6-anatomy-canvas"><b>Head</b><span><code>head</code> · neck → crown</span></button>
+                  <button type="button" data-rig-part="torso" aria-controls="walk-v6-anatomy-canvas"><b>Torso</b><span><code>torso</code> · hips → neck</span></button>
+                  <button type="button" data-rig-part="left-upper-arm" aria-controls="walk-v6-anatomy-canvas"><b>Left upper arm</b><span><code>left-upper-arm</code> · shoulder → elbow</span></button>
+                  <button type="button" data-rig-part="left-forearm" aria-controls="walk-v6-anatomy-canvas"><b>Left forearm</b><span><code>left-forearm</code> · elbow → wrist</span></button>
+                  <button type="button" data-rig-part="left-hand" aria-controls="walk-v6-anatomy-canvas"><b>Left hand</b><span><code>left-hand</code> · wrist → fingertips</span></button>
+                  <button type="button" data-rig-part="right-upper-arm" aria-controls="walk-v6-anatomy-canvas"><b>Right upper arm</b><span><code>right-upper-arm</code> · shoulder → elbow</span></button>
+                  <button type="button" data-rig-part="right-forearm" aria-controls="walk-v6-anatomy-canvas"><b>Right forearm</b><span><code>right-forearm</code> · elbow → wrist</span></button>
+                  <button type="button" data-rig-part="right-hand" aria-controls="walk-v6-anatomy-canvas"><b>Right hand</b><span><code>right-hand</code> · wrist → fingertips</span></button>
+                  <button type="button" data-rig-part="left-thigh" aria-controls="walk-v6-anatomy-canvas"><b>Left thigh</b><span><code>left-thigh</code> · hip → knee</span></button>
+                  <button type="button" data-rig-part="left-shin" aria-controls="walk-v6-anatomy-canvas"><b>Left shin</b><span><code>left-shin</code> · knee → ankle</span></button>
+                  <button type="button" data-rig-part="left-shoe" aria-controls="walk-v6-anatomy-canvas"><b>Left shoe</b><span><code>left-shoe</code> · ankle → toe</span></button>
+                  <button type="button" data-rig-part="right-thigh" aria-controls="walk-v6-anatomy-canvas"><b>Right thigh</b><span><code>right-thigh</code> · hip → knee</span></button>
+                  <button type="button" data-rig-part="right-shin" aria-controls="walk-v6-anatomy-canvas"><b>Right shin</b><span><code>right-shin</code> · knee → ankle</span></button>
+                  <button type="button" data-rig-part="right-shoe" aria-controls="walk-v6-anatomy-canvas"><b>Right shoe</b><span><code>right-shoe</code> · ankle → toe</span></button>
                 </div>
               </div>
             </section>
+
+            <article class="sandbox-card sandbox-card--v2 sandbox-card--debug" data-sandbox-card="walk-v6-debug">
+              <header>
+                <div><span>WALKING V6 · JOINT TRUTH</span><h2>Confident Walk V6 — Stable skeleton</h2></div>
+                <small data-sandbox-metrics>36 frames · 1.20 s total · 30 FPS</small>
+              </header>
+              <canvas class="sandbox-canvas" data-sandbox-animation="walk-v6-debug" width="600" height="340" role="img" aria-label="Walking V6 geometry with stable left and right elbows, wrists, hands, knees, ankles, heels, and toes"></canvas>
+              <p class="sandbox-rig-caption">Fixed left/right elbow branches · separate wrist and hand bones · knees stay connected through the full stride</p>
+            </article>
+
+            <article class="sandbox-card sandbox-card--v2 sandbox-card--painted" data-sandbox-card="walk-v6-painted">
+              <header>
+                <div><span>WALKING V6 · PAINTED RIG</span><h2>Confident Walk V6 — Modular skin</h2></div>
+                <small data-sandbox-metrics>36 frames · 1.20 s total · 30 FPS</small>
+              </header>
+              <canvas class="sandbox-canvas" data-sandbox-animation="walk-v6-painted" width="600" height="340" role="img" aria-label="Walking V6 painted rig using separately registered upper arms, forearms, hands, thighs, shins, and corrected shoes"></canvas>
+              <p class="sandbox-rig-caption">Same V6 joints as the left card · hands are independent parts · each ankle now sits in the shoe opening instead of on its heel</p>
+            </article>
+
+            <aside class="sandbox-walk-v5-notes" aria-labelledby="walk-v6-notes-title">
+              <div>
+                <span>V6 RIG CONTRACT</span>
+                <h3 id="walk-v6-notes-title">Why the added joints matter</h3>
+                <p>Elbows and knees are essential: without them each limb behaves like one stiff plank. Wrists are also explicit so hands can overlap, point, relax, or grip without rotating the entire forearm.</p>
+              </div>
+              <dl>
+                <div><dt>Stable sides</dt><dd>Left and right are permanent identities. Their elbow bend directions never change when a wrist passes its shoulder, removing the V5 arm flip.</dd></div>
+                <div><dt>Separate hands</dt><dd>Each hand owns a wrist-to-fingertips segment and can receive future pose variants without replacing the forearm.</dd></div>
+                <div><dt>Correct shoe anchor</dt><dd>The ankle socket is inside the dip where the lower leg enters each shoe. Heel, sole and toe remain independent contact guides.</dd></div>
+                <div><dt>Review colours</dt><dd>Left is cyan and uses the brighter front-layer art. Right is violet and uses the darker back-layer art; those names remain fixed in every frame.</dd></div>
+              </dl>
+              <strong>V6 rule: once a limb is named left or right, its skeleton, art, bend direction, and render layer must keep that identity for the entire loop.</strong>
+            </aside>
           </div>
 
           <aside class="sandbox-v2-next">
             <strong>New production gate: geometry before artwork</strong>
-            <p>The two V3 cards attach only Hugo's approved head. Cyan near-side limbs, violet far-side limbs and the amber body are both the visible rig and its exact hit geometry. Knees and elbows are solved from connected two-bone chains; feet follow explicit contact and swing paths. Once those paths are approved, painted pieces can be registered to these fixed sockets without changing the motion.</p>
+            <p>The rig cards attach Hugo's approved head to fixed geometry. Cyan left limbs, violet right limbs, and the amber body are both the visible rig and its exact hit geometry. Knees and elbows are solved from connected two-bone chains; wrists own separate hands; feet follow explicit ankle, heel, and toe paths. Once those paths are approved, painted pieces can be registered to these fixed joints without changing the motion.</p>
           </aside>
 
           <p class="sandbox-v2-sources">Framework references: <a href="https://books.disney.com/book-author/ollie-johnston/" target="_blank" rel="noreferrer">Thomas &amp; Johnston, <em>The Illusion of Life</em></a> · <a href="https://dl.acm.org/doi/10.1145/37402.37407" target="_blank" rel="noreferrer">Lasseter, <em>Principles of Traditional Animation Applied to 3D Computer Animation</em></a>.</p>

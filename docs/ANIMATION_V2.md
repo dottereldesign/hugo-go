@@ -246,24 +246,48 @@ registration contract:
   and toe contact nodes. Ground solving includes 19 pixels of sole depth, so
   the skeleton ankle is not mistaken for the bottom of the shoe.
 
-The Sandbox's interactive limb sheet is the naming contract for future review.
-It exposes these IDs:
+## Walking V6: permanent sides and articulated hands
+
+Walking V6 keeps the 36-frame, 1.2-second gait and makes the rig contract
+unambiguous:
+
+- public names use `left` and `right`, never the render-order terms `near` and
+  `far`;
+- each arm has shoulder, elbow, wrist and hand-end joints. The hand is its own
+  wrist-to-fingertips part rather than being baked into the forearm;
+- each leg has hip, knee and ankle joints, followed by separate heel and toe
+  contacts;
+- left and right elbows use permanent inverse-kinematics bend branches. A hand
+  passing across its shoulder can no longer make the elbow flip to the other
+  side; and
+- the ankle pivot is registered in the shoe opening where the shin enters it,
+  rather than on the rear collar or heel.
+
+Elbows and knees are required for natural flexion: omitting either turns the
+whole limb into a stiff plank. Wrists are separate because hand pose and
+overlap should not rotate or replace the forearm. The bright front-layer art is
+named left; the darker rear-layer art is named right. Those identities,
+colours, bend branches and render layers stay fixed for every frame.
+
+The Sandbox's interactive V6 limb sheet is the naming contract for future
+review. It exposes these plain-language IDs:
 
 - `head`, `torso`;
-- `near-upper-arm`, `near-forearm`, `far-upper-arm`, `far-forearm`;
-- `near-thigh`, `near-shin`, `near-shoe`; and
-- `far-thigh`, `far-shin`, `far-shoe`.
+- `left-upper-arm`, `left-forearm`, `left-hand`;
+- `right-upper-arm`, `right-forearm`, `right-hand`;
+- `left-thigh`, `left-shin`, `left-shoe`; and
+- `right-thigh`, `right-shin`, `right-shoe`.
 
-Hovering, focusing, or clicking a label isolates the exact source image and its
-socket path. Requests should name the part and both relevant sockets, such as:
-“move the `near-shoe` ankle pivot toward the heel while preserving the toe
-contact.”
+Hovering, focusing, or clicking a label isolates the exact source image and
+joint path. Requests should name the part and both relevant joints, such as:
+“move the `left-shoe` ankle socket deeper into the opening while preserving
+its heel and toe contacts.”
 
-Recommended V6 refinements:
+Recommended refinements after V6 review:
 
 1. generate small knee and elbow overlap caps that conceal texture seams
-   without moving sockets;
-2. author two relaxed-hand variants for forward and backward arm swing;
+   without moving joints;
+2. author relaxed-hand variants for forward and backward arm swing;
 3. move source rectangles and anchors into validated asset metadata;
 4. add delayed hair and jacket-hem bones only after the base gait is approved;
 5. match the cycle's visual ground speed to gameplay metres per second before
