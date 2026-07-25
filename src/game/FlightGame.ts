@@ -104,6 +104,11 @@ export class FlightGame {
   private activePointerId: number | null = null;
   private readonly thrustKeys = new Set<string>();
   private canvasPixelRatio = 1;
+  private canvasBleedX = 0;
+  private canvasBleedY = 0;
+  private canvasViewportWidth = GAME_WIDTH;
+  private canvasViewportHeight = GAME_HEIGHT;
+  private canvasResizeObserver: ResizeObserver | null = null;
 
   constructor(
     private readonly elements: FlightGameElements,
@@ -114,9 +119,14 @@ export class FlightGame {
     this.context = context;
     this.configureCanvas();
     this.bindControls();
+    if ('ResizeObserver' in window) {
+      this.canvasResizeObserver = new ResizeObserver(() => this.configureCanvas());
+      this.canvasResizeObserver.observe(elements.canvas);
+    }
   }
 
   start(): void {
+    this.configureCanvas();
     this.ensureAssets();
     this.clearThrustInputs();
     this.state = createFlightGame();
@@ -189,6 +199,7 @@ export class FlightGame {
     });
     window.addEventListener('blur', () => this.clearThrustInputs());
     window.addEventListener('resize', () => this.configureCanvas());
+    window.visualViewport?.addEventListener('resize', () => this.configureCanvas());
   }
 
   private syncThrustInput(): void {
@@ -206,13 +217,47 @@ export class FlightGame {
   }
 
   private configureCanvas(): void {
-    // A stable 2× backing store keeps Hugo sharp on DPR-1 desktop displays
-    // without the performance cost of rendering the whole game at 3×.
+    // Keep the 390×780 playfield uniformly scaled. If a phone's safe areas leave a
+    // wider or taller viewport, render extra scene around it instead of stretching
+    // the game or exposing page-coloured gutters.
     const pixelRatio = 2;
+    const bounds = this.elements.canvas.getBoundingClientRect();
+    const cssWidth = bounds.width > 0 ? bounds.width : GAME_WIDTH;
+    const cssHeight = bounds.height > 0 ? bounds.height : GAME_HEIGHT;
+    const cssAspect = cssWidth / cssHeight;
+    const gameAspect = GAME_WIDTH / GAME_HEIGHT;
+    const viewportWidth = cssAspect >= gameAspect
+      ? GAME_HEIGHT * cssAspect
+      : GAME_WIDTH;
+    const viewportHeight = cssAspect >= gameAspect
+      ? GAME_HEIGHT
+      : GAME_WIDTH / cssAspect;
+    // Even dimensions keep the centered core translation on whole backing pixels,
+    // preventing a half-pixel blur at devices whose ideal bleed width is fractional.
+    const backingWidth = Math.round(viewportWidth * pixelRatio / 2) * 2;
+    const backingHeight = Math.round(viewportHeight * pixelRatio / 2) * 2;
+
     this.canvasPixelRatio = pixelRatio;
-    this.elements.canvas.width = Math.round(GAME_WIDTH * pixelRatio);
-    this.elements.canvas.height = Math.round(GAME_HEIGHT * pixelRatio);
-    this.context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+    this.canvasViewportWidth = backingWidth / pixelRatio;
+    this.canvasViewportHeight = backingHeight / pixelRatio;
+    this.canvasBleedX = (this.canvasViewportWidth - GAME_WIDTH) / 2;
+    this.canvasBleedY = (this.canvasViewportHeight - GAME_HEIGHT) / 2;
+    if (
+      this.elements.canvas.width !== backingWidth
+      || this.elements.canvas.height !== backingHeight
+    ) {
+      this.elements.canvas.width = backingWidth;
+      this.elements.canvas.height = backingHeight;
+      this.skyGradient = null;
+    }
+    this.context.setTransform(
+      pixelRatio,
+      0,
+      0,
+      pixelRatio,
+      this.canvasBleedX * pixelRatio,
+      this.canvasBleedY * pixelRatio,
+    );
     this.context.imageSmoothingEnabled = true;
     this.context.imageSmoothingQuality = 'high';
     this.render();
@@ -269,7 +314,12 @@ export class FlightGame {
   private render(): void {
     const context = this.context;
     const season = getSeasonVisual(this.state.elapsed);
-    context.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+    context.clearRect(
+      -this.canvasBleedX,
+      -this.canvasBleedY,
+      this.canvasViewportWidth,
+      this.canvasViewportHeight,
+    );
     this.drawSky(context);
     this.drawGround(context);
     this.drawSeasonAtmosphere(context, season);
@@ -285,29 +335,49 @@ export class FlightGame {
       this.skyGradient.addColorStop(1, '#31e1ff');
     }
     context.fillStyle = this.skyGradient;
-    context.fillRect(0, 0, GAME_WIDTH, GROUND_Y);
+    context.fillRect(
+      -this.canvasBleedX,
+      -this.canvasBleedY,
+      this.canvasViewportWidth,
+      GROUND_Y + this.canvasBleedY,
+    );
   }
 
   private drawSeasonAtmosphere(context: CanvasRenderingContext2D, season: SeasonVisual): void {
     context.fillStyle = season.overlay;
-    context.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+    context.fillRect(
+      -this.canvasBleedX,
+      -this.canvasBleedY,
+      this.canvasViewportWidth,
+      this.canvasViewportHeight,
+    );
 
     const winterWeight = season.particleWeights.winter;
     if (winterWeight > 0) {
       context.fillStyle = `rgba(232, 247, 255, ${(winterWeight * 0.72).toFixed(3)})`;
-      context.fillRect(0, GROUND_Y, GAME_WIDTH, 13);
+      context.fillRect(-this.canvasBleedX, GROUND_Y, this.canvasViewportWidth, 13);
       context.fillStyle = `rgba(203, 229, 240, ${(winterWeight * 0.34).toFixed(3)})`;
-      context.fillRect(0, GROUND_Y + 13, GAME_WIDTH, GAME_HEIGHT - GROUND_Y - 13);
+      context.fillRect(
+        -this.canvasBleedX,
+        GROUND_Y + 13,
+        this.canvasViewportWidth,
+        GAME_HEIGHT + this.canvasBleedY - GROUND_Y - 13,
+      );
     }
 
   }
 
   private drawGround(context: CanvasRenderingContext2D): void {
     context.fillStyle = '#7c2818';
-    context.fillRect(0, GROUND_Y, GAME_WIDTH, GAME_HEIGHT - GROUND_Y);
+    context.fillRect(
+      -this.canvasBleedX,
+      GROUND_Y,
+      this.canvasViewportWidth,
+      GAME_HEIGHT + this.canvasBleedY - GROUND_Y,
+    );
     if (!this.trailGroundSprite.ready) {
       context.fillStyle = '#e8892e';
-      context.fillRect(0, GROUND_Y, GAME_WIDTH, 10);
+      context.fillRect(-this.canvasBleedX, GROUND_Y, this.canvasViewportWidth, 10);
       return;
     }
 
@@ -316,8 +386,9 @@ export class FlightGame {
       this.trailGroundSprite.naturalWidth / this.trailGroundSprite.naturalHeight
     );
     const travel = this.state.distance / 0.085;
-    const firstX = -modulo(travel, drawWidth);
-    for (let x = firstX; x < GAME_WIDTH; x += drawWidth) {
+    const firstX = -this.canvasBleedX - modulo(travel + this.canvasBleedX, drawWidth);
+    const rightEdge = GAME_WIDTH + this.canvasBleedX;
+    for (let x = firstX; x < rightEdge; x += drawWidth) {
       context.drawImage(
         this.trailGroundSprite,
         x,

@@ -46,9 +46,13 @@ test('renders the playable portrait canvas as a separate full-screen view', asyn
   expect(canvasBox?.width).toBeLessThan(canvasBox?.height ?? 0);
 });
 
-test('preserves the native game aspect ratio and sharp backing store at every screen size', async ({ page }) => {
+test('preserves uniform game scale and a sharp 2x backing store at every screen size', async ({ page }) => {
   const viewports = [
+    { width: 320, height: 568 },
+    { width: 375, height: 667 },
     { width: 390, height: 844 },
+    { width: 414, height: 896 },
+    { width: 430, height: 932 },
     { width: 600, height: 1024 },
     { width: 820, height: 1180 },
     { width: 1440, height: 900 },
@@ -64,16 +68,72 @@ test('preserves the native game aspect ratio and sharp backing store at every sc
       return {
         cssWidth: rect.width,
         cssHeight: rect.height,
+        left: rect.left,
+        right: rect.right,
         backingWidth: htmlCanvas.width,
         backingHeight: htmlCanvas.height,
       };
     });
 
-    expect(canvas.cssWidth / canvas.cssHeight).toBeCloseTo(390 / 780, 3);
-    expect(canvas.backingWidth).toBe(780);
-    expect(canvas.backingHeight).toBe(1560);
-    expect(canvas.backingWidth / canvas.backingHeight).toBe(390 / 780);
+    const xScale = canvas.cssWidth / canvas.backingWidth;
+    const yScale = canvas.cssHeight / canvas.backingHeight;
+    expect(Math.abs(xScale - yScale) / Math.max(xScale, yScale)).toBeLessThan(0.0015);
+    expect(Math.min(canvas.backingWidth / 390, canvas.backingHeight / 780)).toBeCloseTo(2, 3);
+    if (viewport.width <= 680) {
+      expect(canvas.left).toBe(0);
+      expect(canvas.right).toBe(viewport.width);
+    } else {
+      expect(canvas.backingWidth).toBe(780);
+      expect(canvas.backingHeight).toBe(1560);
+      expect(canvas.cssWidth / canvas.cssHeight).toBeCloseTo(390 / 780, 3);
+    }
   }
+});
+
+test('bleeds the scene to iPhone 11 edges when safe areas shorten the play region', async ({ page }) => {
+  await page.setViewportSize({ width: 414, height: 896 });
+  await page.goto('/#/game');
+  await page.evaluate(() => {
+    const root = document.documentElement;
+    root.style.setProperty('--safe-top', '44px');
+    root.style.setProperty('--safe-right', '0px');
+    root.style.setProperty('--safe-bottom', '34px');
+    root.style.setProperty('--safe-left', '0px');
+  });
+  await page.waitForFunction(() => (
+    (document.querySelector('#game-canvas') as HTMLCanvasElement).width > 780
+  ));
+
+  const layout = await page.locator('#game-canvas').evaluate((element) => {
+    const canvas = element as HTMLCanvasElement;
+    const rect = canvas.getBoundingClientRect();
+    const context = canvas.getContext('2d')!;
+    const sampleY = Math.round(canvas.height * 0.5);
+    const leftPixel = Array.from(context.getImageData(0, sampleY, 1, 1).data);
+    const rightPixel = Array.from(context.getImageData(canvas.width - 1, sampleY, 1, 1).data);
+    return {
+      rect: rect.toJSON(),
+      backingWidth: canvas.width,
+      backingHeight: canvas.height,
+      xScale: rect.width / canvas.width,
+      yScale: rect.height / canvas.height,
+      leftPixel,
+      rightPixel,
+    };
+  });
+
+  expect(layout.rect.left).toBe(0);
+  expect(layout.rect.right).toBe(414);
+  // Integer backing-store pixels can differ by less than one physical pixel.
+  expect(layout.xScale).toBeCloseTo(layout.yScale, 3);
+  expect(layout.backingWidth).toBeGreaterThan(780);
+  expect(layout.backingHeight).toBe(1560);
+  expect(layout.backingWidth % 2).toBe(0);
+  expect(layout.backingHeight % 2).toBe(0);
+  expect(layout.leftPixel[3]).toBe(255);
+  expect(layout.rightPixel[3]).toBe(255);
+  expect(layout.leftPixel[2]).toBeGreaterThan(200);
+  expect(layout.rightPixel[2]).toBeGreaterThan(200);
 });
 
 test('loads the generated character and trail art over a clean blue sky', async ({ page }) => {
@@ -145,7 +205,7 @@ test('locks mobile gameplay to the viewport with no page scrolling', async ({ pa
   expect(viewport.bodyHeight).toBe(viewport.innerHeight);
   expect(viewport.bodyOverflow).toBe('hidden');
   expect(viewport.touchAction).toBe('none');
-  expect(viewport.canvasWidth).toBe(780);
+  expect(viewport.canvasWidth).toBeGreaterThanOrEqual(780);
   expect(viewport.canvasBox.left).toBe(0);
   expect(viewport.canvasBox.right).toBe(390);
   expect(viewport.wordmarkColors[0]).not.toBe(viewport.wordmarkColors[1]);

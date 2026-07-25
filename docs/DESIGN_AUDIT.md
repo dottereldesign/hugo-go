@@ -20,6 +20,8 @@
 - Distance, coins, XP, best distance, and local top-five runs connect gameplay back to home.
 - Retry is one action and never returns to a selector.
 - Mobile portrait play has no document scroll.
+- Phone gameplay bleeds generated sky and ground to every physical edge, including when
+  iOS notch padding changes the available aspect ratio; the core world is never stretched.
 
 ## Readability choices
 

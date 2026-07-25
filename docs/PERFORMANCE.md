@@ -2,7 +2,13 @@
 
 ## Current runtime
 
-The game uses one `390 × 780` logical Canvas. Every viewport renders to a stable `2×` (`780 × 1560`) backing store, including desktop displays that report DPR 1. This keeps the small character sprite crisp at larger CSS sizes without paying the disproportionate fill-rate cost of a 3× full-screen Canvas.
+The game uses one `390 × 780` logical playfield. Its core always renders at a stable `2×`
+(`780 × 1560`), including desktop displays that report DPR 1. On phones the Canvas fills
+the entire available region and its backing store grows only along the wider dimension
+needed by that device. The renderer draws additional sky and ground into this scene bleed;
+the `390 × 780` playfield, character, hazards, and collisions retain one uniform scale.
+This keeps Hugo crisp and removes safe-area gutters without stretching the game or paying
+the disproportionate fill-rate cost of a 3× full-screen Canvas.
 
 Physics and collision are render-rate independent and use fixed `1/120 s` substeps. Each frame:
 
@@ -30,18 +36,19 @@ DPR 3, then separately forces, warms, and samples the 60 fps ground-run path and
 rasterization so unrelated desktop GPU contention does not distort this render-loop
 regression check. The checked mobile budget is:
 
-- backing store exactly `780 × 1560`;
+- backing store at least `780 × 1560`, with equal horizontal and vertical scale;
 - p95 frame interval no slower than `34 ms` in the constrained headless runner.
 
 Latest local result on 25 July 2026:
 
-- 60-frame run average: approximately `16.66 ms` (about 60 fps);
-- 60-frame run p95: `16.8 ms`;
-- 60-frame run maximum: `33.3 ms`;
-- 30-frame grind average: approximately `17.04 ms`;
+- 60-frame run average: approximately `18.51 ms`;
+- 60-frame run p95: `33.4 ms`;
+- 60-frame run maximum: `50 ms`;
+- 30-frame grind average: approximately `16.88 ms` (about 60 fps);
 - 30-frame grind p95: `16.8 ms`;
 - 30-frame grind maximum: `33.4 ms`;
-- backing store: `780 × 1560`;
+- tested backing store: `780 × 1564` for a `390 × 782` phone play region,
+  preserving the `2×` scale while adding two logical pixels of vertical scene bleed;
 - decoded resources: approximately `3.05 MB` across 23 requests;
 - long tasks during both settled samples: `0`.
 
@@ -76,10 +83,16 @@ sources under `art/` are excluded from production.
 - document overflow is hidden and overscroll is contained;
 - Canvas touch action is disabled;
 - safe-area insets are included;
-- the board preserves its `1:2` portrait aspect ratio at phone, tablet, and desktop sizes;
-- every device uses the `780 × 1560` backing store, regardless of its reported DPR.
+- phones fill the available width and height without page-colored gutters;
+- the playable `1:2` world remains uniformly scaled while extra sky/ground fills any
+  device-specific remainder;
+- tablet and desktop layouts retain the centered `1:2` presentation;
+- the backing store always includes the `780 × 1560` core at 2×, regardless of DPR.
 
-Browser tests assert the no-scroll viewport contract, backing-store size, and undistorted aspect ratio across phone, tablet, and desktop viewports.
+Browser tests assert the no-scroll viewport contract, edge-to-edge phone coverage, safe-area
+behavior, backing-store scale, and undistorted playfield across phone, tablet, and desktop
+viewports. The phone matrix covers widths from 320 through 600 CSS pixels and includes an
+iPhone 11-sized viewport with simulated notch and home-indicator insets.
 
 ## Regression checks
 

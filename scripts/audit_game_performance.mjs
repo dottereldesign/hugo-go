@@ -154,12 +154,15 @@ try {
   const report = await page.evaluate(() => {
     const resources = performance.getEntriesByType('resource');
     const canvasElement = document.querySelector('#game-canvas');
+    const canvasBounds = canvasElement.getBoundingClientRect();
     return {
       transferredBytes: resources.reduce((sum, entry) => sum + (entry.transferSize || 0), 0),
       decodedResourceBytes: resources.reduce((sum, entry) => sum + (entry.decodedBodySize || 0), 0),
       resourceCount: resources.length,
       canvasBackingWidth: canvasElement.width,
       canvasBackingHeight: canvasElement.height,
+      canvasCssWidth: canvasBounds.width,
+      canvasCssHeight: canvasBounds.height,
       viewport: { width: innerWidth, height: innerHeight, devicePixelRatio },
     };
   });
@@ -171,7 +174,14 @@ try {
   if (slowestP95 > 34) {
     throw new Error(`p95 frame time ${slowestP95.toFixed(2)} ms exceeds 34 ms`);
   }
-  if (report.canvasBackingWidth !== 780) throw new Error('Mobile Canvas did not use the required 2× backing resolution');
+  if (report.canvasBackingWidth < 780 || report.canvasBackingHeight < 1560) {
+    throw new Error('Mobile Canvas did not preserve the required 2× core backing resolution');
+  }
+  const canvasScaleX = report.canvasCssWidth / report.canvasBackingWidth;
+  const canvasScaleY = report.canvasCssHeight / report.canvasBackingHeight;
+  if (Math.abs(canvasScaleX - canvasScaleY) > 0.001) {
+    throw new Error('Mobile Canvas backing store would stretch the logical playfield');
+  }
 } finally {
   await browser.close();
   preview.kill();
