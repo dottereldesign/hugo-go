@@ -4,6 +4,7 @@ import hugoFreefallCycleUrl from '../assets/game/hugo-freefall-cycle.webp';
 import hugoFreefallV2CycleUrl from '../assets/game/hugo-freefall-v2-cycle.png';
 import hugoGlideCycleUrl from '../assets/game/hugo-glide-cycle.webp';
 import hugoGrindCycleUrl from '../assets/game/hugo-grind-cycle.webp';
+import hugoHeadTurnCycleUrl from '../assets/game/hugo-head-turn-cycle.png';
 import hugoJumpLandCycleUrl from '../assets/game/hugo-jump-land-cycle.webp';
 import hugoLayeredRigPartsUrl from '../assets/game/hugo-layered-rig-parts.png';
 import hugoPoweredCycleUrl from '../assets/game/hugo-powered-cycle.webp';
@@ -46,6 +47,7 @@ import {
   RIG_PART_COLUMNS,
   RIGGED_JUMP_FRAME_COUNT,
   RIGGED_RUN_FRAME_COUNT,
+  HEAD_TURN_FRAME_COUNT,
   WALK_V4_FRAME_COUNT,
   WALK_V5_FRAME_COUNT,
   WALK_V6_FRAME_COUNT,
@@ -54,6 +56,7 @@ import {
   RigPart,
   getDebugJumpPose,
   getDebugRunPose,
+  getHeadTurnPose,
   getRiggedJumpPose,
   getRiggedRunPose,
   getWalkV4Pose,
@@ -70,7 +73,7 @@ import {
   type WalkV6Pose,
 } from './layeredRig';
 
-type AnimationKind = 'run' | 'jump' | 'rig-run-v2' | 'rig-jump-v2' | 'rig-run-debug' | 'rig-jump-debug' | 'walk-v4-debug' | 'walk-v4-painted' | 'walk-v5-debug' | 'walk-v5-painted' | 'walk-v6-debug' | 'walk-v6-painted' | 'double-jump' | 'double-jump-v2' | 'freefall' | 'freefall-v2' | 'powered' | 'glide' | 'grind' | 'wall' | 'flame';
+type AnimationKind = 'run' | 'jump' | 'rig-run-v2' | 'rig-jump-v2' | 'rig-run-debug' | 'rig-jump-debug' | 'walk-v4-debug' | 'walk-v4-painted' | 'walk-v5-debug' | 'walk-v5-painted' | 'walk-v6-debug' | 'walk-v6-painted' | 'head-turn-debug' | 'head-turn-painted' | 'double-jump' | 'double-jump-v2' | 'freefall' | 'freefall-v2' | 'powered' | 'glide' | 'grind' | 'wall' | 'flame';
 type LoadedSprite = HTMLImageElement & { ready?: boolean };
 type AnatomySprite = 'parts' | 'legs' | 'torso';
 
@@ -205,6 +208,8 @@ const ANIMATION_CONFIG: Record<AnimationKind, { frameCount: number; duration: nu
   'walk-v5-painted': { frameCount: WALK_V5_FRAME_COUNT, duration: 1.2 },
   'walk-v6-debug': { frameCount: WALK_V6_FRAME_COUNT, duration: 1.2 },
   'walk-v6-painted': { frameCount: WALK_V6_FRAME_COUNT, duration: 1.2 },
+  'head-turn-debug': { frameCount: HEAD_TURN_FRAME_COUNT, duration: 0.8 },
+  'head-turn-painted': { frameCount: HEAD_TURN_FRAME_COUNT, duration: 0.8 },
   'double-jump': { frameCount: 6, duration: 2 },
   'double-jump-v2': { frameCount: 16, duration: DOUBLE_JUMP_V2_DURATION },
   freefall: { frameCount: 6, duration: 0.6 },
@@ -225,6 +230,7 @@ export class AnimationSandbox {
     walkParts: this.createSprite(),
     walkLegs: this.createSprite(),
     walkV5Torso: this.createSprite(),
+    headTurn: this.createSprite(),
     doubleJump: this.createSprite(),
     doubleJumpV2: this.createSprite(),
     freefall: this.createSprite(),
@@ -366,6 +372,12 @@ export class AnimationSandbox {
         break;
       case 'walk-v6-painted':
         this.drawWalkingV6Painted(preview, forcedFrame);
+        break;
+      case 'head-turn-debug':
+        this.drawHeadTurnDebug(preview, forcedFrame);
+        break;
+      case 'head-turn-painted':
+        this.drawHeadTurnPainted(preview, forcedFrame);
         break;
       case 'double-jump':
         this.drawDoubleJump(preview, elapsed, forcedFrame);
@@ -829,6 +841,190 @@ export class AnimationSandbox {
     this.drawWalkLabel(context, 'PAINTED V6 · MODULAR HANDS', 'ELBOW · WRIST · KNEE · ANKLE SOCKETS');
     context.restore();
     this.markFrame(preview, frame);
+  }
+
+  private drawHeadTurnDebug(preview: Preview, forcedFrame: number | null): void {
+    const frame = forcedFrame ?? 0;
+    const pose = getHeadTurnPose(frame);
+    const { context, canvas } = preview;
+    const center = { x: canvas.width / 2, y: canvas.height * 0.54 };
+    const cosine = Math.cos(pose.yaw);
+    const sine = Math.sin(pose.yaw);
+    const shellWidth = 47 + Math.abs(cosine) * 8;
+    const project = (point: { x: number; y: number; z: number }): RigPoint & { depth: number } => ({
+      x: center.x + point.x * cosine - point.z * sine,
+      y: center.y + point.y,
+      depth: point.x * sine + point.z * cosine,
+    });
+    const landmarks = [
+      { name: 'CROWN', point: { x: 0, y: -72, z: 0 }, colour: '#ffd661' },
+      { name: 'HAIRLINE', point: { x: 0, y: -43, z: 39 }, colour: '#70f0b1' },
+      { name: 'L EYE', point: { x: -17, y: -14, z: 42 }, colour: '#5ce9ff' },
+      { name: 'R EYE', point: { x: 17, y: -14, z: 42 }, colour: '#5ce9ff' },
+      { name: 'L EAR', point: { x: -43, y: -5, z: -1 }, colour: '#9a8bff' },
+      { name: 'R EAR', point: { x: 43, y: -5, z: -1 }, colour: '#9a8bff' },
+      { name: 'NOSE', point: { x: 0, y: 1, z: 61 }, colour: '#ff8e6e' },
+      { name: 'L MOUTH', point: { x: -11, y: 24, z: 46 }, colour: '#ff8e6e' },
+      { name: 'R MOUTH', point: { x: 11, y: 24, z: 46 }, colour: '#ff8e6e' },
+      { name: 'CHIN', point: { x: 0, y: 61, z: 29 }, colour: '#ffd661' },
+      { name: 'NAPE', point: { x: 0, y: 52, z: -35 }, colour: '#70f0b1' },
+    ];
+
+    context.save();
+    context.strokeStyle = 'rgba(6, 49, 84, .2)';
+    context.lineWidth = 1;
+    for (let x = 0; x <= canvas.width; x += 24) {
+      context.beginPath();
+      context.moveTo(x, 0);
+      context.lineTo(x, canvas.height);
+      context.stroke();
+    }
+    for (let y = 0; y <= canvas.height; y += 24) {
+      context.beginPath();
+      context.moveTo(0, y);
+      context.lineTo(canvas.width, y);
+      context.stroke();
+    }
+
+    context.translate(center.x, center.y);
+    context.fillStyle = 'rgba(7, 31, 66, .14)';
+    context.strokeStyle = '#dffaff';
+    context.lineWidth = 2.5;
+    context.beginPath();
+    context.ellipse(0, 0, shellWidth, 73, 0, 0, Math.PI * 2);
+    context.fill();
+    context.stroke();
+    context.strokeStyle = 'rgba(223, 250, 255, .42)';
+    context.lineWidth = 1.5;
+    context.setLineDash([6, 5]);
+    context.beginPath();
+    context.ellipse(0, -10, shellWidth, 31, 0, 0, Math.PI * 2);
+    context.stroke();
+    context.beginPath();
+    context.ellipse(0, 8, Math.max(6, Math.abs(cosine) * shellWidth), 72, 0, 0, Math.PI * 2);
+    context.stroke();
+    context.restore();
+
+    const projected = landmarks.map((landmark) => ({
+      ...landmark,
+      screen: project(landmark.point),
+    })).sort((a, b) => a.screen.depth - b.screen.depth);
+    for (const landmark of projected) {
+      const visible = landmark.screen.depth > -8 || landmark.name === 'CROWN' || landmark.name === 'NAPE';
+      context.save();
+      context.globalAlpha = visible ? 1 : 0.18;
+      if (!visible) context.setLineDash([3, 4]);
+      this.drawDebugJoint(context, landmark.screen, landmark.colour, visible ? 4 : 3);
+      context.restore();
+    }
+
+    const hairline = project({ x: 0, y: -43, z: 39 });
+    const nose = project({ x: 0, y: 1, z: 61 });
+    const chin = project({ x: 0, y: 61, z: 29 });
+    const faceVisible = Math.cos(pose.yaw) > -0.2;
+    context.save();
+    context.globalAlpha = faceVisible ? 0.9 : 0.18;
+    context.strokeStyle = '#70f0b1';
+    context.lineWidth = 2;
+    if (!faceVisible) context.setLineDash([4, 5]);
+    context.beginPath();
+    context.moveTo(hairline.x, hairline.y);
+    context.quadraticCurveTo(nose.x, nose.y - 18, nose.x, nose.y);
+    context.quadraticCurveTo(nose.x - sine * 8, chin.y - 15, chin.x, chin.y);
+    context.stroke();
+    context.restore();
+
+    context.save();
+    context.translate(center.x, center.y + 97);
+    context.strokeStyle = 'rgba(223, 250, 255, .48)';
+    context.lineWidth = 2;
+    context.beginPath();
+    context.ellipse(0, 0, 86, 16, 0, 0, Math.PI * 2);
+    context.stroke();
+    const orbitX = -Math.sin(pose.yaw) * 86;
+    context.fillStyle = '#ffd661';
+    context.beginPath();
+    context.arc(orbitX, 0, 5, 0, Math.PI * 2);
+    context.fill();
+    context.restore();
+
+    this.drawWalkLabel(context, 'HEAD TURN · 3D LANDMARKS', 'HEAD ONLY · FIXED PIVOT · 15° STEPS');
+    this.drawHeadTurnReadout(context, canvas, frame, pose.yaw);
+    this.markFrame(preview, frame);
+  }
+
+  private drawHeadTurnPainted(preview: Preview, forcedFrame: number | null): void {
+    const frame = forcedFrame ?? 0;
+    const pose = getHeadTurnPose(frame);
+    const { context, canvas } = preview;
+    const cellSize = 256;
+    const sourceX = frame % 5 * cellSize;
+    const sourceY = Math.floor(frame / 5) * cellSize;
+    const drawSize = 292;
+    const drawX = (canvas.width - drawSize) / 2;
+    const drawY = (canvas.height - drawSize) / 2 + 5;
+
+    context.save();
+    context.strokeStyle = 'rgba(7, 45, 79, .16)';
+    context.lineWidth = 1;
+    context.setLineDash([5, 7]);
+    context.beginPath();
+    context.ellipse(canvas.width / 2, canvas.height * 0.55, 112, 26, 0, 0, Math.PI * 2);
+    context.stroke();
+    context.imageSmoothingEnabled = true;
+    context.imageSmoothingQuality = 'high';
+    if (this.sprites.headTurn.ready) {
+      context.drawImage(
+        this.sprites.headTurn,
+        sourceX,
+        sourceY,
+        cellSize,
+        cellSize,
+        drawX,
+        drawY,
+        drawSize,
+        drawSize,
+      );
+    }
+    context.restore();
+
+    this.drawWalkLabel(context, 'HEAD TURN · GENERATED 360°', '24 VIEWS · IDENTITY LOCK · HEAD ONLY');
+    this.drawHeadTurnReadout(context, canvas, frame, pose.yaw);
+    this.markFrame(preview, frame);
+  }
+
+  private drawHeadTurnReadout(
+    context: CanvasRenderingContext2D,
+    canvas: HTMLCanvasElement,
+    frame: number,
+    yaw: number,
+  ): void {
+    const degrees = frame * 15;
+    const label = frame === 0
+      ? 'RIGHT PROFILE'
+      : frame === 6
+        ? 'FRONT'
+        : frame === 12
+          ? 'LEFT PROFILE'
+          : frame === 18
+            ? 'BACK'
+            : frame < 6
+              ? 'RIGHT → FRONT'
+              : frame < 12
+                ? 'FRONT → LEFT'
+                : frame < 18
+                  ? 'LEFT → BACK'
+                  : 'BACK → RIGHT';
+    context.save();
+    context.fillStyle = 'rgba(4, 27, 55, .78)';
+    context.fillRect(canvas.width - 184, canvas.height - 49, 169, 34);
+    context.fillStyle = '#dffaff';
+    context.font = '700 10px "IBM Plex Mono", monospace';
+    context.textAlign = 'right';
+    context.fillText(label, canvas.width - 27, canvas.height - 34);
+    context.fillStyle = '#ffd661';
+    context.fillText(`${degrees}° · YAW ${yaw.toFixed(2)}`, canvas.width - 27, canvas.height - 21);
+    context.restore();
   }
 
   private buildWalkingV6Rig(
@@ -2459,6 +2655,7 @@ export class AnimationSandbox {
     this.sprites.walkParts.src = hugoWalkV4PartsUrl;
     this.sprites.walkLegs.src = hugoWalkV4LegsUrl;
     this.sprites.walkV5Torso.src = hugoWalkV5TorsoUrl;
+    this.sprites.headTurn.src = hugoHeadTurnCycleUrl;
     this.sprites.doubleJump.src = hugoDoubleJumpCycleUrl;
     this.sprites.doubleJumpV2.src = hugoDoubleJumpV2CycleUrl;
     this.sprites.freefall.src = hugoFreefallCycleUrl;

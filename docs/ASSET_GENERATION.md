@@ -87,6 +87,21 @@ Each normalized cell is `320 × 320`. The same torso, head, hair, hood, limb
 segments, shoes, and jacket tails are assembled by deterministic canvas
 transforms for both Running V2 and Normal Jump V2.
 
+The head-only 360-degree experiment adds one generated review source and one
+processed Sandbox atlas:
+
+```text
+art/source-images/game/hugo-head-turn-source.png
+src/assets/game/hugo-head-turn-cycle.png
+```
+
+The accepted source is a strict `6 x 4` atlas. Chroma removal uses the same
+soft-matte/despill settings documented below. Its 24 unique `256 x 256` views
+are packed into a `5 x 5`, `1280 x 1280` exact-alpha PNG, followed by a 25th
+seam-validation cell that is a deterministic pixel copy of the first. The two
+Sandbox cards play only the 24 evenly spaced views for `0.8` seconds at 30 fps;
+the stored bookend proves the loop seam without adding a repeated-frame pause.
+
 ## Processing pipeline
 
 The generated poses use a flat magenta background. It is removed with the image-generation skill’s chroma-key helper using:
@@ -131,6 +146,7 @@ Current runtime sizes are approximately:
 - Walking V4 modular-parts atlas: 692 KB;
 - Walking V4 corrective straight-leg atlas: 481 KB;
 - Walking V5 side-profile torso: 752 KB;
+- 24-view head-turn review atlas plus seam bookend: 1,716 KB;
 - scrolling trail strip: 64 KB.
 
 The old single flight pose, single-pose run WebP, six-frame transition sheet, and full-screen

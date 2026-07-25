@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   RIGGED_JUMP_FRAME_COUNT,
   RIGGED_RUN_FRAME_COUNT,
+  HEAD_TURN_FRAME_COUNT,
   WALK_V4_FRAME_COUNT,
   WALK_V5_FRAME_COUNT,
   WALK_V6_FRAME_COUNT,
@@ -9,6 +10,7 @@ import {
   WALK_V6_RIGHT_ARM_BEND,
   getDebugJumpPose,
   getDebugRunPose,
+  getHeadTurnPose,
   getRiggedJumpPose,
   getRiggedRunPose,
   getWalkV4Pose,
@@ -153,6 +155,21 @@ describe('deterministic layered Hugo rig', () => {
     expect(pose.rightWristOffset.y).toBeGreaterThan(55);
     expect(pose.leftHandAngle).not.toBe(pose.rightHandAngle);
     expect(pose.leftFoot.grounded).not.toBe(pose.rightFoot.grounded);
+  });
+
+  it('rotates the head through 24 even views and loops to its opening profile', () => {
+    const rightProfile = getHeadTurnPose(0);
+    const front = getHeadTurnPose(6);
+    const leftProfile = getHeadTurnPose(12);
+    const back = getHeadTurnPose(18);
+    const lastUniqueView = getHeadTurnPose(23);
+
+    expect(rightProfile.yaw).toBeCloseTo(-Math.PI / 2, 8);
+    expect(front.yaw).toBeCloseTo(0, 8);
+    expect(leftProfile.yaw).toBeCloseTo(Math.PI / 2, 8);
+    expect(back.yaw).toBeCloseTo(Math.PI, 8);
+    expect(lastUniqueView.yaw).toBeCloseTo(17 * Math.PI / 12, 8);
+    expect(getHeadTurnPose(HEAD_TURN_FRAME_COUNT)).toEqual(rightProfile);
   });
 
   it('alternates planted and swinging feet through a natural walking gait', () => {

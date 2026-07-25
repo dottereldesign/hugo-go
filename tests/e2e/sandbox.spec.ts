@@ -12,8 +12,8 @@ test.describe('Animation Sandbox', () => {
     await expect(page.locator('#sandbox-screen')).toBeVisible();
     await expect(page.locator('#home-screen')).not.toHaveClass(/is-open/);
     await expect(page.locator('#game-screen')).toBeHidden();
-    await expect(page.locator('[data-sandbox-card]')).toHaveCount(21);
-    await expect(page.locator('[data-sandbox-animation]')).toHaveCount(21);
+    await expect(page.locator('[data-sandbox-card]')).toHaveCount(23);
+    await expect(page.locator('[data-sandbox-animation]')).toHaveCount(23);
     await expect(page.getByRole('heading', { name: 'Animation V2 Framework' })).toBeVisible();
     await expect(page.getByText('Mandatory looping-sheet bookend')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'The 12 animation principles, translated for HUGO GO!' })).toBeVisible();
@@ -30,6 +30,8 @@ test.describe('Animation Sandbox', () => {
     await expect(page.locator('[data-sandbox-card="walk-v5-painted"] button[data-frame]')).toHaveCount(36);
     await expect(page.locator('[data-sandbox-card="walk-v6-debug"] button[data-frame]')).toHaveCount(36);
     await expect(page.locator('[data-sandbox-card="walk-v6-painted"] button[data-frame]')).toHaveCount(36);
+    await expect(page.locator('[data-sandbox-card="head-turn-debug"] button[data-frame]')).toHaveCount(24);
+    await expect(page.locator('[data-sandbox-card="head-turn-painted"] button[data-frame]')).toHaveCount(24);
     await expect(page.getByRole('heading', { name: 'Why the first two layered rigs fail' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'What changed for Walking V4' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'What V5 fixes from the V4 review' })).toBeVisible();
@@ -57,6 +59,8 @@ test.describe('Animation Sandbox', () => {
       'walk-v5-painted': '36 frames · 1.20 s total · 30 FPS',
       'walk-v6-debug': '36 frames · 1.20 s total · 30 FPS',
       'walk-v6-painted': '36 frames · 1.20 s total · 30 FPS',
+      'head-turn-debug': '24 frames · 0.80 s total · 30 FPS',
+      'head-turn-painted': '24 frames · 0.80 s total · 30 FPS',
     };
     for (const [animation, metrics] of Object.entries(expectedMetrics)) {
       await expect(page.locator(`[data-sandbox-card="${animation}"] [data-sandbox-metrics]`)).toHaveText(metrics);
@@ -92,6 +96,10 @@ test.describe('Animation Sandbox', () => {
     const walkV6PaintedWidth = await page.locator('[data-sandbox-card="walk-v6-painted"]').evaluate((element) => element.getBoundingClientRect().width);
     expect(Math.abs(walkV6DebugWidth - jumpWidth)).toBeLessThan(2);
     expect(Math.abs(walkV6PaintedWidth - jumpWidth)).toBeLessThan(2);
+    const headTurnDebugWidth = await page.locator('[data-sandbox-card="head-turn-debug"]').evaluate((element) => element.getBoundingClientRect().width);
+    const headTurnPaintedWidth = await page.locator('[data-sandbox-card="head-turn-painted"]').evaluate((element) => element.getBoundingClientRect().width);
+    expect(Math.abs(headTurnDebugWidth - jumpWidth)).toBeLessThan(2);
+    expect(Math.abs(headTurnPaintedWidth - jumpWidth)).toBeLessThan(2);
     await expect.poll(async () => page.evaluate(() => (
       performance.getEntriesByType('resource').some((entry) => entry.name.includes('hugo-layered-rig-parts'))
     ))).toBe(true);
@@ -101,6 +109,20 @@ test.describe('Animation Sandbox', () => {
     await expect.poll(async () => page.evaluate(() => (
       performance.getEntriesByType('resource').some((entry) => entry.name.includes('hugo-walk-v5-torso'))
     ))).toBe(true);
+    await expect.poll(async () => page.evaluate(() => (
+      performance.getEntriesByType('resource').some((entry) => entry.name.includes('hugo-head-turn-cycle'))
+    ))).toBe(true);
+    const headTurnAtlasSize = await page.evaluate(async () => {
+      const source = performance.getEntriesByType('resource')
+        .map((entry) => entry.name)
+        .find((name) => name.includes('hugo-head-turn-cycle') && !name.includes('?import'));
+      if (!source) throw new Error('Head-turn atlas did not load.');
+      const image = new Image();
+      image.src = source;
+      await image.decode();
+      return { width: image.naturalWidth, height: image.naturalHeight };
+    });
+    expect(headTurnAtlasSize).toEqual({ width: 1280, height: 1280 });
 
     const anatomyCanvas = page.locator('[data-rig-anatomy-canvas]');
     const upperArmLabel = page.locator('button[data-rig-part="left-upper-arm"]');

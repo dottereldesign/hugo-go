@@ -12,6 +12,8 @@ export const WALK_V6_FRAME_COUNT = 36;
 export const WALK_V6_FRAMES_PER_SECOND = 30;
 export const WALK_V6_LEFT_ARM_BEND: 1 | -1 = -1;
 export const WALK_V6_RIGHT_ARM_BEND: 1 | -1 = 1;
+export const HEAD_TURN_FRAME_COUNT = 24;
+export const HEAD_TURN_FRAMES_PER_SECOND = 30;
 
 export const RigPart = {
   torso: 0,
@@ -100,6 +102,11 @@ export interface WalkV6Pose {
   rightWristOffset: RigPoint;
   leftHandAngle: number;
   rightHandAngle: number;
+}
+
+export interface HeadTurnPose {
+  yaw: number;
+  progress: number;
 }
 
 export function getRiggedRunPose(frameIndex: number): LayeredRigPose {
@@ -326,6 +333,14 @@ export function getWalkV6Pose(frameIndex: number): WalkV6Pose {
     },
     leftHandAngle: Math.PI / 2 + Math.sin(phase) * 0.07,
     rightHandAngle: Math.PI / 2 - Math.sin(phase) * 0.07,
+  };
+}
+
+export function getHeadTurnPose(frameIndex: number): HeadTurnPose {
+  const progress = normalizedFrame(frameIndex, HEAD_TURN_FRAME_COUNT);
+  return {
+    yaw: -Math.PI / 2 + progress * Math.PI * 2,
+    progress,
   };
 }
 

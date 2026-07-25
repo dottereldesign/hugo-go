@@ -713,3 +713,67 @@ source point `(620, 930)` to the rig hip, collar source point `(603, 115)` to
 the neck, and derives the shoulder from the visible armhole. The open jacket
 edge is therefore evaluated as part of the intended side silhouette rather
 than silently replaced.
+
+## Head Turn V1 — 24-view 360-degree identity atlas
+
+Generated with the built-in image-generation tool in image-generation mode.
+The approved head cell in `src/assets/game/hugo-layered-rig-parts.png` was
+supplied as the only identity and rendering reference.
+
+### Primary prompt
+
+```text
+Use case: stylized-concept
+Asset type: production game-character head turntable sprite atlas
+
+Create exactly 24 sequential views of Hugo's HEAD ONLY completing one smooth
+360-degree horizontal yaw rotation. Preserve the supplied approved Hugo head
+exactly: the same friendly 10-year-old Japanese/New Zealand boy, natural round
+eyes, face proportions, skin tone, chunky wind-swept dark brown hair, teal
+jacket collar at the neck edge, polished stylized 3D game rendering, lighting
+and scale. Do not redesign, age, caricature or stereotype him.
+
+Use a strict 6 columns by 4 rows atlas, read left-to-right then top-to-bottom.
+Each equal cell is one evenly spaced 15-degree turntable view. Start at exact
+screen-right profile, rotate through front, screen-left profile and back, and
+return toward the opening right profile. Keep one fixed skull centre, head
+size, eye line, camera height, crop and lighting across every cell. Adjacent
+views must make small consistent angular changes; hair volume, ears, nose,
+jaw, eyes and face contour must rotate with coherent three-dimensional volume.
+
+HEAD ONLY: no torso, shoulders, arms, hands or body. A tiny collar edge may
+remain only where it is inseparable from the approved neck silhouette. One
+head per cell, centred with generous padding; nothing crosses a cell boundary.
+Perfectly flat uniform #ff00ff magenta background edge-to-edge, with no
+shadow, gradient, floor, grid, border, label, number, text or watermark.
+Avoid repeated angles, skipped quadrants, mirrored facial details, changing
+hair, face drift, scale drift, camera drift, extra features, clipping and
+motion blur.
+```
+
+### Corrective angle-map prompt
+
+```text
+Rebuild this as an exact 24-view turntable rather than an approximate pose
+sheet. Keep the same Hugo identity, head-only crop, scale, lighting, strict
+6-by-4 grid and flat #ff00ff background. Every cell must advance exactly
+15 degrees around the same vertical axis:
+
+row 1: 0, 15, 30, 45, 60, 75 degrees;
+row 2: 90, 105, 120, 135, 150, 165 degrees;
+row 3: 180, 195, 210, 225, 240, 255 degrees;
+row 4: 270, 285, 300, 315, 330, 345 degrees.
+
+The cardinal views must be unambiguous: cell 1 exact right profile, cell 7
+exact front, cell 13 exact left profile, cell 19 exact back. Continue through
+the final quadrant toward the opening right profile without repeating or
+stalling at the back. Preserve coherent 3D skull, hair, ears, eyes, nose, jaw
+and face volume. No body, shoulders or extra objects.
+```
+
+Accepted source: `art/source-images/game/hugo-head-turn-source.png`.
+Processed exact-alpha atlas: `src/assets/game/hugo-head-turn-cycle.png`.
+The matte was removed with the standard soft-matte/despill helper. For a
+deterministically verified loop, the 24 unique views are repacked into the
+first 24 cells of a `5 x 5` atlas and cell 25 is an exact pixel copy of cell 1.
+Runtime playback omits the duplicate bookend.

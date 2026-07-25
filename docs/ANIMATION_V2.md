@@ -293,6 +293,27 @@ Recommended refinements after V6 review:
 5. match the cycle's visual ground speed to gameplay metres per second before
    promoting it outside the Sandbox.
 
+## Head Turn V1: 360-degree identity test
+
+The paired Head Turn cards test whether Hugo's approved head can be treated as
+a genuinely three-dimensional asset without attaching it to a body. Both cards
+use the same 24-frame, `0.8`-second yaw path at 30 fps:
+
+- the left card projects a fixed skull, face contour, centre line and named
+  landmarks through a full turn. Its eye, ear, nose, mouth, chin, crown,
+  hairline and nape nodes change depth and visibility but never change identity;
+- the right card plays 24 unique generated views. Frames 1, 7, 13 and 19 are
+  the right profile, front, left profile and back cardinal views; and
+- the processed `5 x 5` exact-alpha atlas has `256 x 256` cells and stores a
+  25th seam-validation cell that is pixel-identical to frame 1. Playback omits
+  that duplicate, preserving 24 even 15-degree steps with no repeated pause.
+
+This is an identity and volume experiment, not a gameplay animation. No torso,
+shoulders or limbs appear in either card; the small neck base belongs to the
+head registration silhouette. A future production head rig should use the same
+landmark contract to register hair, eyes, ears, nose and jaw consistently
+before any facial performance is added.
+
 ## Reusable atlas prompt
 
 ```text
