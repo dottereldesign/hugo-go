@@ -20,7 +20,7 @@ test('keeps unfinished worlds muted and locked without opening maps or levels', 
   await expect(page.locator('[data-home-world="space"]')).toHaveAttribute('aria-disabled', 'true');
   await expect(page.locator('[data-home-world="forest"]')).toHaveAttribute('aria-pressed', 'true');
   await expect(page.locator('#game-screen')).toBeHidden();
-  await expect(page.locator('text=/map|level select/i')).toHaveCount(0);
+  await expect(page.locator('#home-screen.is-open').locator('text=/map|level select/i')).toHaveCount(0);
 });
 
 test('Play starts Forest immediately and Back returns home', async ({ page }) => {

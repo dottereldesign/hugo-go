@@ -222,6 +222,42 @@
             <p>For every looping animation, generated frame 1 and the generated final frame must be pixel-identical. The motion must arrive cleanly back at that exact opening pose. Keep the matching final frame as the seam-validation bookend, then omit that duplicate endpoint from discrete runtime playback so frame 1 is not held twice.</p>
           </aside>
 
+          <section class="sandbox-motion-language" aria-labelledby="sandbox-motion-language-title">
+            <header>
+              <span>FOUNDATIONAL MOTION LANGUAGE</span>
+              <h3 id="sandbox-motion-language-title">The 12 animation principles, translated for HUGO GO!</h3>
+              <p>Frank Thomas and Ollie Johnston codified these principles from Disney studio practice. We use them as craft tools, then adapt them to a responsive sprite game where silhouette, collision readability, and transition speed matter.</p>
+            </header>
+            <div class="sandbox-motion-principles">
+              <article><b>01</b><h4>Squash &amp; stretch</h4><p>Compress before takeoff or on impact; stretch through acceleration while preserving Hugo's apparent volume. Keep the gameplay hitbox independent from the artwork.</p></article>
+              <article><b>02</b><h4>Anticipation</h4><p>Use a small crouch, tuck, eye-line, or counter-move to prepare the player for a jump. It must communicate quickly enough to preserve responsive controls.</p></article>
+              <article><b>03</b><h4>Staging</h4><p>Make one action unmistakable at phone size. Protect Hugo's silhouette from scenery, particles, flames, and poses that merge hands, feet, or face.</p></article>
+              <article><b>04</b><h4>Pose to pose + straight ahead</h4><p>Lock gameplay contacts and extremes pose-to-pose. Animate hair, jacket hems, and fire more freely between them for organic secondary motion.</p></article>
+              <article><b>05</b><h4>Follow-through &amp; overlap</h4><p>Hips and torso lead. Hair, jacket, arms, and shoes arrive and settle on slightly different frames so Hugo never stops as one rigid shape.</p></article>
+              <article><b>06</b><h4>Slow in &amp; slow out</h4><p>Spacing starts tiny, grows consistently into speed, then shrinks toward a stop. Do not confuse an even 30 fps clock with evenly spaced drawings.</p></article>
+              <article><b>07</b><h4>Arcs</h4><p>Plot the paths of Hugo's head, hips, wrists, knees, ankles, and shoe heels. Curves should be smooth unless a deliberate collision redirects them.</p></article>
+              <article><b>08</b><h4>Secondary action</h4><p>Wind in the jacket, hair lag, facial focus, and shoe fire support the jump's main idea. If a secondary action steals the silhouette, reduce it.</p></article>
+              <article><b>09</b><h4>Timing</h4><p>Set action duration before frame count. A fast move may need a large positional gap; deleting an in-between can add energy instead of harming smoothness.</p></article>
+              <article><b>10</b><h4>Exaggeration</h4><p>Push the tuck, forward tilt, hang time, recoil, or glide opening beyond literal physics—then keep that visual physics consistent across the game.</p></article>
+              <article><b>11</b><h4>Solid posing</h4><p>Maintain anatomy, perspective, balance, weight, volume, and outfit construction in every drawing. No changing shoe size, limb length, or camera angle.</p></article>
+              <article><b>12</b><h4>Appeal</h4><p>Every pose should feel clear, confident, and unmistakably Hugo. Cool attitude never outranks readable action, friendly expression, or a strong silhouette.</p></article>
+            </div>
+          </section>
+
+          <section class="sandbox-spacing-lab" aria-labelledby="sandbox-spacing-title">
+            <header>
+              <span>TIMING + SPACING LAB</span>
+              <h3 id="sandbox-spacing-title">Smooth does not mean evenly spaced</h3>
+              <p>Timing is the action's duration. Spacing is the distance between poses. Review both at speed and frame-by-frame.</p>
+            </header>
+            <div>
+              <article><b>Ease</b><code>•• · • — • —— • ——— • —— • — • · ••</code><p>Small moves at the ends, increasingly wider moves through the middle. Spacing must not accidentally shrink while the action is still accelerating.</p></article>
+              <article><b>Fast action</b><code>•• · • —— • ——————— • —— • · ••</code><p>A purposeful large gap can read as speed when the entry and exit poses are clear. Test deleting weak in-betweens if a jump or spin feels sluggish.</p></article>
+              <article><b>Impact</b><code>anticipate → SNAP → recoil</code><p>Do not ease through contact. Transfer energy sharply, then show squash, recoil, follow-through, and any displaced object reacting according to its weight.</p></article>
+              <article><b>Settle</b><code>overshoot ↔ smaller ↔ tiny → rest</code><p>After a stop, allow diminishing reversals: torso first, then jacket and hair. A clean settle feels physical without turning into a wobble loop.</p></article>
+            </div>
+          </section>
+
           <div class="sandbox-v2-principles">
             <article>
               <b>01</b>
@@ -231,7 +267,7 @@
             <article>
               <b>02</b>
               <h3>Plan the motion arc</h3>
-              <p>Define contact, extreme, passing, recoil, and loop-seam poses before making in-betweens. For running, both legs and both arms must complete opposite arcs; no limb may remain frozen while its partner moves.</p>
+              <p>Define anticipation, contact, extreme, passing, impact, recoil, settle, and loop-seam poses before making in-betweens. Plot both timing and spacing; both legs and both arms must complete their intended arcs.</p>
             </article>
             <article>
               <b>03</b>
@@ -246,7 +282,7 @@
             <article>
               <b>05</b>
               <h3>Reject continuity failures</h3>
-              <p>Inspect neighboring frames for limb count, foot paths, hand arcs, face drift, clothing changes, scale jumps, frozen anatomy, duplicate poses, edge halos, and a visible loop hitch. A single failed gate sends the sequence back.</p>
+              <p>Inspect limb count, arcs, spacing direction, weight, silhouette, face and clothing drift, scale jumps, frozen anatomy, edge halos, and loop hitches. A/B test frame removals: an unnecessary in-between is also a failure.</p>
             </article>
             <article>
               <b>06</b>
@@ -280,11 +316,21 @@
               <canvas class="sandbox-canvas" data-sandbox-animation="freefall-v2" width="600" height="340" role="img" aria-label="Hugo's 24-frame Freefall V2 wingsuit-style animation"></canvas>
             </article>
 
-            <aside class="sandbox-v2-next">
-              <strong>Recommended production upgrade</strong>
-              <p>Keep transparent character sheets as the review and export format, but build future motion from a layered Hugo rig: head and hair, jacket and torso, upper/lower arms, hands, thighs, calves, and shoes. AI should help create identity-locked textures and key poses; deterministic rig interpolation should create the in-betweens. That prevents missing limbs, frozen legs, costume drift, and random changes between frames.</p>
-            </aside>
+            <article class="sandbox-card sandbox-card--v2" data-sandbox-card="double-jump-v2">
+              <header>
+                <div><span>V2 PROTOTYPE</span><h2>Double Jump V2 — Corkscrew release</h2></div>
+                <small data-sandbox-metrics>16 frames · 0.53 s total · 30 FPS</small>
+              </header>
+              <canvas class="sandbox-canvas" data-sandbox-animation="double-jump-v2" width="600" height="340" role="img" aria-label="Hugo's 16-frame Double Jump V2 animation"></canvas>
+            </article>
           </div>
+
+          <aside class="sandbox-v2-next">
+            <strong>Recommended production upgrade</strong>
+            <p>Keep transparent character sheets as the review and export format, but build future motion from a layered Hugo rig: head and hair, jacket and torso, upper/lower arms, hands, thighs, calves, and shoes. AI should help create identity-locked textures and key poses; deterministic rig interpolation should create the in-betweens. That prevents missing limbs, frozen legs, costume drift, and random changes between frames.</p>
+          </aside>
+
+          <p class="sandbox-v2-sources">Framework references: <a href="https://books.disney.com/book-author/ollie-johnston/" target="_blank" rel="noreferrer">Thomas &amp; Johnston, <em>The Illusion of Life</em></a> · <a href="https://dl.acm.org/doi/10.1145/37402.37407" target="_blank" rel="noreferrer">Lasseter, <em>Principles of Traditional Animation Applied to 3D Computer Animation</em></a>.</p>
         </section>
       </main>
     </section>

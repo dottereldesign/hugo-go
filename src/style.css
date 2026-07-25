@@ -2076,7 +2076,9 @@ body.sandbox-page-open {
 }
 
 .sandbox-v2-heading > span,
-.sandbox-v2-spec span {
+.sandbox-v2-spec span,
+.sandbox-motion-language > header > span,
+.sandbox-spacing-lab > header > span {
   color: #ffcf5a;
   font: 700 .7rem/1.2 'IBM Plex Mono', monospace;
   letter-spacing: .17em;
@@ -2119,6 +2121,101 @@ body.sandbox-page-open {
   color: #d5deeb;
   font-size: .83rem;
   line-height: 1.55;
+}
+
+.sandbox-motion-language,
+.sandbox-spacing-lab {
+  display: grid;
+  gap: 16px;
+  padding: 24px;
+  border: 1px solid rgba(114, 211, 248, .18);
+  border-radius: 22px;
+  background: linear-gradient(145deg, rgba(13, 41, 78, .8), rgba(5, 21, 48, .88));
+}
+
+.sandbox-motion-language > header,
+.sandbox-spacing-lab > header {
+  max-width: 900px;
+}
+
+.sandbox-motion-language h3,
+.sandbox-spacing-lab h3 {
+  margin: 5px 0 8px;
+  color: #fff;
+  font: 800 clamp(1.08rem, 2vw, 1.35rem)/1.2 Inter, sans-serif;
+}
+
+.sandbox-motion-language > header p,
+.sandbox-spacing-lab > header p {
+  margin: 0;
+  color: #aebed2;
+  font-size: .86rem;
+  line-height: 1.58;
+}
+
+.sandbox-motion-principles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.sandbox-motion-principles article,
+.sandbox-spacing-lab article {
+  position: relative;
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid rgba(126, 226, 255, .13);
+  border-radius: 14px;
+  background: rgba(8, 29, 61, .68);
+}
+
+.sandbox-motion-principles b {
+  float: right;
+  margin-left: 9px;
+  color: rgba(126, 226, 255, .3);
+  font: 800 .76rem/1.2 'IBM Plex Mono', monospace;
+}
+
+.sandbox-motion-principles h4 {
+  margin: 0 0 7px;
+  color: #ecfbff;
+  font: 800 .88rem/1.25 Inter, sans-serif;
+}
+
+.sandbox-motion-principles p,
+.sandbox-spacing-lab article p {
+  margin: 0;
+  color: #96abc5;
+  font-size: .76rem;
+  line-height: 1.52;
+}
+
+.sandbox-spacing-lab {
+  border-color: rgba(255, 207, 90, .24);
+  background: linear-gradient(135deg, rgba(91, 57, 19, .2), rgba(7, 26, 57, .88));
+}
+
+.sandbox-spacing-lab > div {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.sandbox-spacing-lab article b {
+  display: block;
+  margin-bottom: 7px;
+  color: #ffda73;
+  font: 800 .78rem/1.2 'IBM Plex Mono', monospace;
+  text-transform: uppercase;
+}
+
+.sandbox-spacing-lab code {
+  display: block;
+  margin-bottom: 9px;
+  overflow: hidden;
+  color: #8deeff;
+  font: 700 clamp(.68rem, 1.4vw, .82rem)/1.4 'IBM Plex Mono', monospace;
+  white-space: nowrap;
 }
 
 .sandbox-v2-principles {
@@ -2239,6 +2336,18 @@ body.sandbox-page-open {
   text-transform: uppercase;
 }
 
+.sandbox-v2-sources {
+  margin: -5px 2px 0;
+  color: #748aa7;
+  font-size: .72rem;
+  line-height: 1.5;
+}
+
+.sandbox-v2-sources a {
+  color: #8fdff2;
+  text-underline-offset: 3px;
+}
+
 .setting-row--sandbox {
   border-color: rgba(77, 210, 239, .34);
   background: linear-gradient(105deg, rgba(39, 195, 229, .12), rgba(126, 88, 255, .1));
@@ -2338,6 +2447,16 @@ body.sandbox-page-open {
   }
 
   .sandbox-v2-principles {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sandbox-motion-language,
+  .sandbox-spacing-lab {
+    padding: 17px;
+  }
+
+  .sandbox-motion-principles,
+  .sandbox-spacing-lab > div {
     grid-template-columns: minmax(0, 1fr);
   }
 

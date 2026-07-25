@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import {
   DOUBLE_JUMP_DURATION,
+  DOUBLE_JUMP_V2_DURATION,
+  DOUBLE_JUMP_V2_FRAME_COUNT,
+  DOUBLE_JUMP_V2_FRAME_HEIGHT,
+  DOUBLE_JUMP_V2_FRAME_WIDTH,
   CHARACTER_FRAME_HEIGHT,
   CHARACTER_FRAME_WIDTH,
   FLIGHT_FRAME_COUNT,
@@ -17,6 +21,7 @@ import {
   WALL_RECOVERY_DURATION,
   getDoubleJumpFrame,
   getDoubleJumpFrameLayout,
+  getDoubleJumpV2Frame,
   getFlightLoopFrame,
   getFreefallLoopFrame,
   getFreefallV2LoopFrame,
@@ -129,6 +134,19 @@ describe('Hugo character animation timing', () => {
     expect(layouts.every(({ scale }) => scale >= 0.8 && scale <= 0.93)).toBe(true);
     expect(layouts.some(({ verticalOffset }) => verticalOffset < 0)).toBe(true);
     expect(layouts.some(({ verticalOffset }) => verticalOffset > 0.09)).toBe(true);
+  });
+
+  it('plays all 16 Double Jump V2 poses at 30 fps with unique atlas cells', () => {
+    const frames = Array.from({ length: DOUBLE_JUMP_V2_FRAME_COUNT }, (_, index) => (
+      getDoubleJumpV2Frame(index / 30)
+    ));
+    expect(frames.map(({ index }) => index)).toEqual(
+      Array.from({ length: 16 }, (_, index) => index),
+    );
+    expect(getDoubleJumpV2Frame(DOUBLE_JUMP_V2_DURATION + 1).index).toBe(15);
+    expect(new Set(frames.map(({ sourceX, sourceY }) => `${sourceX},${sourceY}`)).size).toBe(16);
+    expect(frames.every(({ sourceX }) => sourceX % DOUBLE_JUMP_V2_FRAME_WIDTH === 0)).toBe(true);
+    expect(frames.every(({ sourceY }) => sourceY % DOUBLE_JUMP_V2_FRAME_HEIGHT === 0)).toBe(true);
   });
 
   it('holds the splat wobble and then plays all three recovery poses', () => {

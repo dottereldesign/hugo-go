@@ -1,4 +1,5 @@
 import hugoDoubleJumpCycleUrl from '../assets/game/hugo-double-jump-cycle.webp';
+import hugoDoubleJumpV2CycleUrl from '../assets/game/hugo-double-jump-v2-cycle.png';
 import hugoFreefallCycleUrl from '../assets/game/hugo-freefall-cycle.webp';
 import hugoFreefallV2CycleUrl from '../assets/game/hugo-freefall-v2-cycle.png';
 import hugoGlideCycleUrl from '../assets/game/hugo-glide-cycle.webp';
@@ -12,6 +13,9 @@ import {
   CHARACTER_FRAME_HEIGHT,
   CHARACTER_FRAME_WIDTH,
   DOUBLE_JUMP_DURATION,
+  DOUBLE_JUMP_V2_DURATION,
+  DOUBLE_JUMP_V2_FRAME_HEIGHT,
+  DOUBLE_JUMP_V2_FRAME_WIDTH,
   FREEFALL_V2_FRAME_HEIGHT,
   FREEFALL_V2_FRAME_WIDTH,
   GRIND_FRAME_HEIGHT,
@@ -22,6 +26,7 @@ import {
   RUN_FRAME_WIDTH,
   getDoubleJumpFrame,
   getDoubleJumpFrameLayout,
+  getDoubleJumpV2Frame,
   getFlightLoopFrame,
   getFreefallLoopFrame,
   getFreefallV2LoopFrame,
@@ -33,7 +38,7 @@ import {
   type FlightPoseKind,
 } from './animation';
 
-type AnimationKind = 'run' | 'jump' | 'double-jump' | 'freefall' | 'freefall-v2' | 'powered' | 'glide' | 'grind' | 'wall' | 'flame';
+type AnimationKind = 'run' | 'jump' | 'double-jump' | 'double-jump-v2' | 'freefall' | 'freefall-v2' | 'powered' | 'glide' | 'grind' | 'wall' | 'flame';
 type LoadedSprite = HTMLImageElement & { ready?: boolean };
 
 interface Preview {
@@ -66,6 +71,7 @@ const ANIMATION_CONFIG: Record<AnimationKind, { frameCount: number; duration: nu
   run: { frameCount: 60, duration: 2 },
   jump: { frameCount: 8, duration: 2.4 },
   'double-jump': { frameCount: 6, duration: 2 },
+  'double-jump-v2': { frameCount: 16, duration: DOUBLE_JUMP_V2_DURATION },
   freefall: { frameCount: 6, duration: 0.6 },
   'freefall-v2': { frameCount: 24, duration: 0.8 },
   powered: { frameCount: 6, duration: 0.5 },
@@ -81,6 +87,7 @@ export class AnimationSandbox {
     run: this.createSprite(),
     jump: this.createSprite(),
     doubleJump: this.createSprite(),
+    doubleJumpV2: this.createSprite(),
     freefall: this.createSprite(),
     freefallV2: this.createSprite(),
     powered: this.createSprite(),
@@ -164,6 +171,9 @@ export class AnimationSandbox {
       case 'double-jump':
         this.drawDoubleJump(preview, elapsed, forcedFrame);
         break;
+      case 'double-jump-v2':
+        this.drawDoubleJumpV2(preview, elapsed, forcedFrame);
+        break;
       case 'freefall':
         this.drawFreefall(preview, elapsed, forcedFrame);
         break;
@@ -235,6 +245,27 @@ export class AnimationSandbox {
       preview.canvas.width / 2,
       preview.canvas.height - height + layout.verticalOffset * 180,
       198 * layout.scale,
+    );
+    this.markFrame(preview, frame.index);
+  }
+
+  private drawDoubleJumpV2(preview: Preview, elapsed: number, forcedFrame: number | null): void {
+    const frameTime = forcedFrame === null
+      ? elapsed % DOUBLE_JUMP_V2_DURATION
+      : forcedFrame / 30;
+    const frame = getDoubleJumpV2Frame(frameTime);
+    const progress = frame.index / 15;
+    const anticipation = progress < 0.25 ? Math.sin(progress / 0.25 * Math.PI) * 10 : 0;
+    const impulseArc = Math.sin(Math.max(0, (progress - 0.2) / 0.8) * Math.PI) * preview.canvas.height * 0.17;
+    this.drawAtlas(
+      preview.context,
+      this.sprites.doubleJumpV2,
+      frame,
+      DOUBLE_JUMP_V2_FRAME_WIDTH,
+      DOUBLE_JUMP_V2_FRAME_HEIGHT,
+      preview.canvas.width / 2,
+      preview.canvas.height * 0.79 + anticipation - impulseArc,
+      222,
     );
     this.markFrame(preview, frame.index);
   }
@@ -639,6 +670,7 @@ export class AnimationSandbox {
     this.sprites.run.src = hugoRunCycleUrl;
     this.sprites.jump.src = hugoJumpLandCycleUrl;
     this.sprites.doubleJump.src = hugoDoubleJumpCycleUrl;
+    this.sprites.doubleJumpV2.src = hugoDoubleJumpV2CycleUrl;
     this.sprites.freefall.src = hugoFreefallCycleUrl;
     this.sprites.freefallV2.src = hugoFreefallV2CycleUrl;
     this.sprites.powered.src = hugoPoweredCycleUrl;

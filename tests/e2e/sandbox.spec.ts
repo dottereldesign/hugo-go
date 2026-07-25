@@ -10,11 +10,14 @@ test.describe('Animation Sandbox', () => {
     await expect(page.locator('#sandbox-screen')).toBeVisible();
     await expect(page.locator('#home-screen')).not.toHaveClass(/is-open/);
     await expect(page.locator('#game-screen')).toBeHidden();
-    await expect(page.locator('[data-sandbox-card]')).toHaveCount(10);
-    await expect(page.locator('[data-sandbox-animation]')).toHaveCount(10);
+    await expect(page.locator('[data-sandbox-card]')).toHaveCount(11);
+    await expect(page.locator('[data-sandbox-animation]')).toHaveCount(11);
     await expect(page.getByRole('heading', { name: 'Animation V2 Framework' })).toBeVisible();
     await expect(page.getByText('Mandatory looping-sheet bookend')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'The 12 animation principles, translated for HUGO GO!' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Smooth does not mean evenly spaced' })).toBeVisible();
     await expect(page.locator('[data-sandbox-card="freefall-v2"] button[data-frame]')).toHaveCount(24);
+    await expect(page.locator('[data-sandbox-card="double-jump-v2"] button[data-frame]')).toHaveCount(16);
     const expectedMetrics: Record<string, string> = {
       run: '60 frames · 2.00 s total · 30 FPS',
       jump: '8 frames · 2.40 s total · 3.33 FPS',
@@ -26,6 +29,7 @@ test.describe('Animation Sandbox', () => {
       wall: '6 frames · 2.80 s total · 2.14 FPS',
       flame: '30 frames · 1.00 s total · 30 FPS',
       'freefall-v2': '24 frames · 0.80 s total · 30 FPS',
+      'double-jump-v2': '16 frames · 0.53 s total · 30 FPS',
     };
     for (const [animation, metrics] of Object.entries(expectedMetrics)) {
       await expect(page.locator(`[data-sandbox-card="${animation}"] [data-sandbox-metrics]`)).toHaveText(metrics);
@@ -41,6 +45,8 @@ test.describe('Animation Sandbox', () => {
     expect(Math.abs(runWidth - jumpWidth)).toBeLessThan(2);
     const freefallV2Width = await page.locator('[data-sandbox-card="freefall-v2"]').evaluate((element) => element.getBoundingClientRect().width);
     expect(Math.abs(freefallV2Width - jumpWidth)).toBeLessThan(2);
+    const doubleJumpV2Width = await page.locator('[data-sandbox-card="double-jump-v2"]').evaluate((element) => element.getBoundingClientRect().width);
+    expect(Math.abs(doubleJumpV2Width - jumpWidth)).toBeLessThan(2);
 
     await page.getByRole('button', { name: 'Back home' }).click();
     await expect(page).toHaveURL(/#\/home$/);

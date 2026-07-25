@@ -20,6 +20,12 @@ export const TRANSITION_DURATION = TAKEOFF_FRAME_COUNT / FLIGHT_FRAMES_PER_SECON
 export const DOUBLE_JUMP_FRAME_COUNT = 6;
 export const DOUBLE_JUMP_FRAMES_PER_SECOND = 14;
 export const DOUBLE_JUMP_DURATION = DOUBLE_JUMP_FRAME_COUNT / DOUBLE_JUMP_FRAMES_PER_SECOND;
+export const DOUBLE_JUMP_V2_FRAME_COUNT = 16;
+export const DOUBLE_JUMP_V2_FRAMES_PER_SECOND = 30;
+export const DOUBLE_JUMP_V2_FRAME_WIDTH = 384;
+export const DOUBLE_JUMP_V2_FRAME_HEIGHT = 320;
+export const DOUBLE_JUMP_V2_ATLAS_COLUMNS = 4;
+export const DOUBLE_JUMP_V2_DURATION = DOUBLE_JUMP_V2_FRAME_COUNT / DOUBLE_JUMP_V2_FRAMES_PER_SECOND;
 export const WALL_RECOVERY_FRAME_COUNT = 6;
 export const WALL_RECOVERY_FRAMES_PER_SECOND = 12;
 export const WALL_RECOVERY_DURATION = 3 / WALL_RECOVERY_FRAMES_PER_SECOND;
@@ -150,6 +156,19 @@ export function getDoubleJumpFrameLayout(frameIndex: number): DoubleJumpFrameLay
     Math.floor(Number.isFinite(frameIndex) ? frameIndex : 0),
   ));
   return DOUBLE_JUMP_FRAME_LAYOUTS[safeIndex];
+}
+
+export function getDoubleJumpV2Frame(elapsedSeconds: number): AtlasFrame {
+  const safeElapsed = Number.isFinite(elapsedSeconds) ? Math.max(0, elapsedSeconds) : 0;
+  const index = Math.min(
+    DOUBLE_JUMP_V2_FRAME_COUNT - 1,
+    Math.floor(safeElapsed * DOUBLE_JUMP_V2_FRAMES_PER_SECOND),
+  );
+  return {
+    index,
+    sourceX: index % DOUBLE_JUMP_V2_ATLAS_COLUMNS * DOUBLE_JUMP_V2_FRAME_WIDTH,
+    sourceY: Math.floor(index / DOUBLE_JUMP_V2_ATLAS_COLUMNS) * DOUBLE_JUMP_V2_FRAME_HEIGHT,
+  };
 }
 
 export function getWallStuckFrame(stuckTime: number): AtlasFrame {

@@ -548,3 +548,43 @@ Frame 60 and frame 01 must be adjacent distinct poses in one seamless loop.
 
 Generated sources: `hugo-run-60-frames-01-10-magenta.png` through
 `hugo-run-60-frames-51-60-magenta.png`, with matching `-transparent.png` sources.
+
+## Double Jump V2 — 16-frame timing-and-spacing prototype
+
+Reference: `src/assets/game/hugo-double-jump-cycle.webp`
+
+```text
+Use case: stylized-concept. Asset type: production game character sprite atlas
+on removable chroma key. Preserve the exact Hugo identity, face, age,
+proportions, outfit, teal-blue jacket with orange trim, dark shorts/leggings,
+white-and-teal shoes, side-profile camera, polished 3D animated-film game-art
+style, and right-facing direction from the reference.
+
+Create exactly 16 sequential full-body frames of one non-looping DOUBLE JUMP
+V2, arranged in a strict equal-cell 4 columns x 4 rows atlas, read
+left-to-right then top-to-bottom. Each cell contains exactly one Hugo with
+generous safe padding and no body part crossing a cell boundary.
+
+Motion design: frames 1-3 are airborne anticipation with progressively deeper
+compact tuck and tiny spacing; frame 4 is the strongest compression; frame 5
+is an explosive upward second-jump impulse with controlled
+squash-to-stretch; frames 6-9 accelerate through one fast stylish
+corkscrew/tuck, with noticeably wider pose spacing at peak speed rather than
+sluggish extra in-betweens; frames 10-13 decelerate and open into a readable
+forward-flight silhouette; frames 14-16 ease into a stable glide-ready pose.
+Maintain smooth arcs for head, hips, hands, knees, ankles, and shoes. Hair and
+jacket lag behind the torso and then settle at slightly different times.
+Preserve believable volume during squash and stretch. Strong readable
+silhouettes at mobile size. No flames; effects are separate.
+
+Lock camera, character scale, registration, lighting, anatomy, costume, and
+rendering across every cell. Flat pure #ff00ff magenta background only,
+perfectly uniform with no shadow, gradient, floor, grid, labels, text,
+reflection, glow, or texture. Avoid missing, extra, or merged limbs, duplicate
+poses, frozen limbs, anatomy drift, face drift, scale drift, costume drift,
+clipping, blur, motion blur, text, or watermark.
+```
+
+Generated source: `hugo-double-jump-v2-sheet-magenta.png`, with
+`hugo-double-jump-v2-sheet-transparent.png` as the chroma-removed source and
+`src/assets/game/hugo-double-jump-v2-cycle.png` as the normalized runtime atlas.
