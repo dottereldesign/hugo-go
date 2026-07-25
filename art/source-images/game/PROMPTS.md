@@ -617,3 +617,95 @@ costume drift, blur, clipping, or watermark.
 Use a perfectly flat uniform #ff00ff magenta background edge-to-edge for
 removal, with no gradient, texture, lighting variation, shadow, or spill.
 ```
+
+## Walking V4 — geometry-fitted generated parts
+
+References: `src/assets/game/hugo-layered-rig-parts.png` and
+`src/assets/game/hugo-run-60-cycle.webp`
+
+### Primary 4 × 4 parts atlas
+
+```text
+Use case: stylized-concept
+Asset type: production 2D game character modular-parts atlas for a
+deterministic skeletal walk rig
+
+Create a strict 4 columns by 4 rows atlas of reusable side-profile Hugo body
+parts for a confident upright walking animation. Preserve the same friendly
+10-year-old Japanese/New Zealand boy hero, right-facing profile, turquoise
+quilted jacket with orange trim, cream shirt, dark navy clothing and
+white/turquoise trainers from the references.
+
+Atlas order: torso plus pelvis; complete head, hair and neck; near upper arm;
+near forearm plus relaxed hand; far upper arm; far forearm plus relaxed hand;
+near thigh; near shin; near shoe; far thigh; far shin; far shoe; rear jacket
+hem; front jacket hem; two empty cells.
+
+Every cell is equal with one isolated part and generous padding. Arm and leg
+segments must be straight horizontal socket-to-socket components, with
+proximal joint at 25% width and distal joint at 75% width on the centerline.
+Near/far equivalents must have identical silhouette length and thickness.
+Torso is upright with hip at 50% width/80% height and neck at 54% width/20%
+height. Shoes face right with visible ankle, heel and toe silhouette.
+
+Perfectly flat uniform #ff00ff chroma background only; no shadows, gradients,
+floor, grid, labels, text or watermark. Avoid full assembled characters,
+duplicate/extra parts, bent segments, foreshortening, perspective drift,
+mismatched lengths, clipping, motion blur and cell crossings.
+```
+
+Generated sources: `hugo-walk-v4-parts-magenta.png` and
+`src/assets/game/hugo-walk-v4-parts.png`.
+
+The head, torso, sleeves, hands and shoes were accepted. The four pre-bent leg
+cells were rejected because their knee shape would fight the code skeleton.
+
+### Corrective straight-leg atlas
+
+```text
+Use case: stylized-concept
+Asset type: corrective production atlas for a deterministic 2D skeletal rig
+
+Create exactly four disassembled straight trouser-covered components in a
+strict 2 by 2 atlas: near thigh, near shin/calf, darker far thigh and darker
+far shin/calf. Each component runs perfectly horizontally left-to-right.
+Proximal socket is at 22% cell width and distal socket at 78%, on the same
+centerline. Near/far equivalents have identical length and thickness; thighs
+are slightly thicker than shins.
+
+These are rigid paper-doll components, not whole legs and not poses. No foot,
+shoe, pelvis, skin, hand or torso. Perfectly flat uniform #ff00ff background;
+no shadows, gradient, floor, grid, label, text or watermark. Avoid bent knees,
+L shapes, connected thigh-and-shin pieces, vertical or diagonal parts,
+foreshortening, perspective drift and extra objects.
+```
+
+Generated sources: `hugo-walk-v4-legs-magenta.png` and
+`src/assets/game/hugo-walk-v4-legs.png`.
+
+### Side-profile torso experiment
+
+```text
+Use case: stylized-concept
+Asset type: corrective single body component for a deterministic 2D skeletal
+character rig
+
+Create one isolated torso-plus-pelvis component for Hugo in exact right-facing
+side profile and a confident upright walking posture. Preserve the turquoise
+quilted jacket, orange trim, cream shirt edge and dark navy waist/shorts.
+Chest subtly proud, shoulders relaxed and spine tall. No head, arms, hands,
+thighs, lower legs or shoes. Keep hip and neck sockets on one mostly vertical
+mechanical axis.
+
+Perfectly flat uniform #ff00ff background; no shadow, gradient, floor, grid,
+text or watermark. Avoid front view, assembled person, extra openings, wide
+spread shoulders, bent body, foreshortening and cropped edges.
+```
+
+Generated experiment:
+`hugo-walk-v4-torso-magenta.png` and
+`hugo-walk-v4-torso-transparent.png`.
+
+This experiment was visually tested and rejected for runtime use: its
+oversized arm opening and separated open-jacket edge read less naturally than
+the accepted torso from the primary atlas.

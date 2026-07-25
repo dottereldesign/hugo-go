@@ -10,8 +10,8 @@ test.describe('Animation Sandbox', () => {
     await expect(page.locator('#sandbox-screen')).toBeVisible();
     await expect(page.locator('#home-screen')).not.toHaveClass(/is-open/);
     await expect(page.locator('#game-screen')).toBeHidden();
-    await expect(page.locator('[data-sandbox-card]')).toHaveCount(15);
-    await expect(page.locator('[data-sandbox-animation]')).toHaveCount(15);
+    await expect(page.locator('[data-sandbox-card]')).toHaveCount(17);
+    await expect(page.locator('[data-sandbox-animation]')).toHaveCount(17);
     await expect(page.getByRole('heading', { name: 'Animation V2 Framework' })).toBeVisible();
     await expect(page.getByText('Mandatory looping-sheet bookend')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'The 12 animation principles, translated for HUGO GO!' })).toBeVisible();
@@ -22,7 +22,10 @@ test.describe('Animation Sandbox', () => {
     await expect(page.locator('[data-sandbox-card="rig-jump-v2"] button[data-frame]')).toHaveCount(36);
     await expect(page.locator('[data-sandbox-card="rig-run-debug"] button[data-frame]')).toHaveCount(30);
     await expect(page.locator('[data-sandbox-card="rig-jump-debug"] button[data-frame]')).toHaveCount(36);
+    await expect(page.locator('[data-sandbox-card="walk-v4-debug"] button[data-frame]')).toHaveCount(36);
+    await expect(page.locator('[data-sandbox-card="walk-v4-painted"] button[data-frame]')).toHaveCount(36);
     await expect(page.getByRole('heading', { name: 'Why the first two layered rigs fail' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'What changed for Walking V4' })).toBeVisible();
     const expectedMetrics: Record<string, string> = {
       run: '60 frames · 2.00 s total · 30 FPS',
       jump: '8 frames · 2.40 s total · 3.33 FPS',
@@ -39,6 +42,8 @@ test.describe('Animation Sandbox', () => {
       'rig-jump-v2': '36 frames · 1.20 s total · 30 FPS',
       'rig-run-debug': '30 frames · 1.00 s total · 30 FPS',
       'rig-jump-debug': '36 frames · 1.20 s total · 30 FPS',
+      'walk-v4-debug': '36 frames · 1.20 s total · 30 FPS',
+      'walk-v4-painted': '36 frames · 1.20 s total · 30 FPS',
     };
     for (const [animation, metrics] of Object.entries(expectedMetrics)) {
       await expect(page.locator(`[data-sandbox-card="${animation}"] [data-sandbox-metrics]`)).toHaveText(metrics);
@@ -62,8 +67,15 @@ test.describe('Animation Sandbox', () => {
     const debugJumpWidth = await page.locator('[data-sandbox-card="rig-jump-debug"]').evaluate((element) => element.getBoundingClientRect().width);
     expect(Math.abs(debugRunWidth - jumpWidth)).toBeLessThan(2);
     expect(Math.abs(debugJumpWidth - jumpWidth)).toBeLessThan(2);
+    const walkDebugWidth = await page.locator('[data-sandbox-card="walk-v4-debug"]').evaluate((element) => element.getBoundingClientRect().width);
+    const walkPaintedWidth = await page.locator('[data-sandbox-card="walk-v4-painted"]').evaluate((element) => element.getBoundingClientRect().width);
+    expect(Math.abs(walkDebugWidth - jumpWidth)).toBeLessThan(2);
+    expect(Math.abs(walkPaintedWidth - jumpWidth)).toBeLessThan(2);
     await expect.poll(async () => page.evaluate(() => (
       performance.getEntriesByType('resource').some((entry) => entry.name.includes('hugo-layered-rig-parts'))
+    ))).toBe(true);
+    await expect.poll(async () => page.evaluate(() => (
+      performance.getEntriesByType('resource').some((entry) => entry.name.includes('hugo-walk-v4-parts'))
     ))).toBe(true);
 
     await page.getByRole('button', { name: 'Back home' }).click();

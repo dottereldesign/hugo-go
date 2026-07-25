@@ -2323,6 +2323,12 @@ body.sandbox-page-open {
   box-shadow: 0 24px 52px rgba(0, 4, 22, .3), 0 0 38px rgba(91, 233, 205, .09);
 }
 
+.sandbox-card--painted {
+  border-color: rgba(255, 206, 83, .52);
+  background: linear-gradient(145deg, rgba(50, 53, 74, .97), rgba(12, 34, 61, .97));
+  box-shadow: 0 24px 52px rgba(0, 4, 22, .3), 0 0 40px rgba(255, 192, 61, .1);
+}
+
 .sandbox-rig-caption {
   margin: 0;
   padding: 11px 16px;
@@ -2404,6 +2410,75 @@ body.sandbox-page-open {
   padding-top: 15px;
   border-top: 1px solid rgba(255, 135, 145, .2);
   color: #ffd3d6;
+  font: 800 .76rem/1.5 'IBM Plex Mono', monospace;
+  text-transform: uppercase;
+}
+
+.sandbox-walk-v4-notes {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(220px, .65fr) minmax(0, 1.35fr);
+  gap: 22px 30px;
+  padding: 24px;
+  border: 1px solid rgba(109, 239, 191, .32);
+  border-left: 5px solid #70f0b1;
+  border-radius: 0 18px 18px 0;
+  background: linear-gradient(120deg, rgba(27, 105, 82, .2), rgba(9, 30, 60, .86));
+}
+
+.sandbox-walk-v4-notes > div > span {
+  color: #70f0b1;
+  font: 800 .7rem/1.2 'IBM Plex Mono', monospace;
+  letter-spacing: .16em;
+}
+
+.sandbox-walk-v4-notes h3 {
+  margin: 6px 0 9px;
+  color: #fff;
+  font: 800 1.22rem/1.18 Inter, sans-serif;
+}
+
+.sandbox-walk-v4-notes p {
+  margin: 0;
+  color: #b9c7da;
+  font-size: .82rem;
+  line-height: 1.58;
+}
+
+.sandbox-walk-v4-notes dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 18px;
+  margin: 0;
+}
+
+.sandbox-walk-v4-notes dl div {
+  min-width: 0;
+  padding: 12px 13px;
+  border: 1px solid rgba(112, 240, 177, .14);
+  border-radius: 12px;
+  background: rgba(5, 24, 51, .48);
+}
+
+.sandbox-walk-v4-notes dt {
+  margin-bottom: 5px;
+  color: #dffcf0;
+  font: 800 .74rem/1.2 'IBM Plex Mono', monospace;
+  text-transform: uppercase;
+}
+
+.sandbox-walk-v4-notes dd {
+  margin: 0;
+  color: #9fb4ca;
+  font-size: .75rem;
+  line-height: 1.48;
+}
+
+.sandbox-walk-v4-notes > strong {
+  grid-column: 1 / -1;
+  padding-top: 15px;
+  border-top: 1px solid rgba(112, 240, 177, .18);
+  color: #baf8d8;
   font: 800 .76rem/1.5 'IBM Plex Mono', monospace;
   text-transform: uppercase;
 }
@@ -2578,11 +2653,14 @@ body.sandbox-page-open {
   }
 
   .sandbox-rig-review,
-  .sandbox-rig-review ol {
+  .sandbox-rig-review ol,
+  .sandbox-walk-v4-notes,
+  .sandbox-walk-v4-notes dl {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .sandbox-rig-review {
+  .sandbox-rig-review,
+  .sandbox-walk-v4-notes {
     gap: 18px;
     padding: 18px;
   }

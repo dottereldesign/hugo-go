@@ -194,6 +194,50 @@ cannot conceal a detached joint or disagree with the underlying rig. Painted
 limbs may be attached only after the head, hip, hand and foot paths read
 correctly at speed, at the extreme frames and through the loop seam.
 
+## Walking V4: geometry, then skin
+
+Walking V4 is the first side-by-side proof of the production workflow. Both
+Sandbox cards evaluate the same 36-frame, 1.2-second pose function:
+
+- the left card renders Hugo's head plus bones, hit rectangles and contact
+  nodes;
+- the right card renders generated clothing and body-part textures on those
+  exact coordinates;
+- neither card has its own timing, foot targets, joint angles or body path.
+
+The walk uses a tall, slightly chest-proud hero posture with a stable eye-line
+and relaxed opposing arm swing. Each foot spends 62% of the cycle in stance and
+38% in swing. The stance path includes heel strike, flat support and toe-off;
+the swing path lifts the ankle before easing into the next contact.
+
+V4 adds explicit pelvis, lower-spine, chest, neck, ankle, heel and toe nodes.
+The extra torso nodes make posture reviewable instead of hiding the body line
+inside one rectangle. Heel and toe nodes make it possible to reject foot
+sliding or a shoe that rolls through the floor.
+
+Generated assets:
+
+- `hugo-walk-v4-parts.png`: head, torso, near/far sleeves and hands, shoes and
+  optional clothing pieces on a keyed 4-by-4 source atlas;
+- `hugo-walk-v4-legs.png`: a corrective 2-by-2 atlas of straight near/far
+  thighs and shins.
+
+The first generated atlas's leg cells were rejected because they contained
+pre-bent whole legs. A supplemental torso was also generated and tested, but
+its oversized arm opening and separated open-jacket silhouette read worse on
+the rig, so it remains a documented source experiment rather than runtime art.
+The accepted torso comes from the primary V4 parts atlas.
+
+Recommended V5 refinements:
+
+1. generate small knee and elbow overlap caps that conceal texture seams
+   without moving sockets;
+2. author two relaxed-hand variants for forward and backward arm swing;
+3. store source and destination pivots in asset metadata rather than code;
+4. add delayed hair and jacket-hem bones only after the base gait is approved;
+5. match the cycle's visual ground speed to gameplay metres per second before
+   promoting it outside the Sandbox.
+
 ## Reusable atlas prompt
 
 ```text

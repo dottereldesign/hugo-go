@@ -376,6 +376,39 @@
               <canvas class="sandbox-canvas" data-sandbox-animation="rig-jump-debug" width="600" height="340" role="img" aria-label="Hugo head attached to a connected jumping skeleton with visible limb hitboxes"></canvas>
               <p class="sandbox-rig-caption">Anticipation · takeoff · tucked apex · landing compression · every joint remains connected</p>
             </article>
+
+            <article class="sandbox-card sandbox-card--v2 sandbox-card--debug" data-sandbox-card="walk-v4-debug">
+              <header>
+                <div><span>WALKING V4 · GEOMETRY</span><h2>Confident Walk V4 — Head + sockets</h2></div>
+                <small data-sandbox-metrics>36 frames · 1.20 s total · 30 FPS</small>
+              </header>
+              <canvas class="sandbox-canvas" data-sandbox-animation="walk-v4-debug" width="600" height="340" role="img" aria-label="Hugo head attached to the Walking V4 skeleton with spine, limb and foot-contact nodes"></canvas>
+              <p class="sandbox-rig-caption">Tall hero posture · relaxed opposing arm swing · pelvis, spine, chest, neck, heel and toe nodes</p>
+            </article>
+
+            <article class="sandbox-card sandbox-card--v2 sandbox-card--painted" data-sandbox-card="walk-v4-painted">
+              <header>
+                <div><span>WALKING V4 · GENERATED ART</span><h2>Confident Walk V4 — Painted rig</h2></div>
+                <small data-sandbox-metrics>36 frames · 1.20 s total · 30 FPS</small>
+              </header>
+              <canvas class="sandbox-canvas" data-sandbox-animation="walk-v4-painted" width="600" height="340" role="img" aria-label="Generated Hugo body parts attached to the exact Walking V4 skeleton"></canvas>
+              <p class="sandbox-rig-caption">Same bones and contacts as the left card · generated parts are textures fitted to approved sockets</p>
+            </article>
+
+            <aside class="sandbox-walk-v4-notes" aria-labelledby="walk-v4-notes-title">
+              <div>
+                <span>V4 BUILD NOTES</span>
+                <h3 id="walk-v4-notes-title">What changed for Walking V4</h3>
+                <p>The left card is the source of truth. The right card does not own animation—it only skins the identical joint coordinates.</p>
+              </div>
+              <dl>
+                <div><dt>Posture</dt><dd>Upright spine, gently proud chest, level eye-line and relaxed shoulders; confidence comes from carriage rather than a forced swagger.</dd></div>
+                <div><dt>Gait</dt><dd>36 runtime frames over 1.20 seconds. Each foot uses a 62% planted stance and 38% lifted swing with opposing natural arm motion.</dd></div>
+                <div><dt>Added nodes</dt><dd>Pelvis, lower spine, chest and neck control the body line. Each foot now exposes ankle, heel and toe so heel-strike, flat support and toe-off can be judged.</dd></div>
+                <div><dt>Art gate</dt><dd>The first generated leg cells were rejected because they contained pre-bent whole legs, so V4 replaces them with straight socket-to-socket pieces. A separate side-torso experiment was also tested and rejected when its open-jacket silhouette read worse in motion.</dd></div>
+              </dl>
+              <strong>Best next upgrade: add small knee/elbow overlap caps and two relaxed-hand variants, then bind jacket hems and hair to delayed secondary bones after the base walk is approved.</strong>
+            </aside>
           </div>
 
           <aside class="sandbox-v2-next">

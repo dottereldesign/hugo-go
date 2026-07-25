@@ -8,6 +8,8 @@ import hugoJumpLandCycleUrl from '../assets/game/hugo-jump-land-cycle.webp';
 import hugoLayeredRigPartsUrl from '../assets/game/hugo-layered-rig-parts.png';
 import hugoPoweredCycleUrl from '../assets/game/hugo-powered-cycle.webp';
 import hugoRunCycleUrl from '../assets/game/hugo-run-60-cycle.webp';
+import hugoWalkV4LegsUrl from '../assets/game/hugo-walk-v4-legs.png';
+import hugoWalkV4PartsUrl from '../assets/game/hugo-walk-v4-parts.png';
 import hugoWallRecoveryCycleUrl from '../assets/game/hugo-wall-recovery-cycle.webp';
 import jetFlameCycleUrl from '../assets/game/jet-flame-cycle.webp';
 import {
@@ -43,20 +45,24 @@ import {
   RIG_PART_COLUMNS,
   RIGGED_JUMP_FRAME_COUNT,
   RIGGED_RUN_FRAME_COUNT,
+  WALK_V4_FRAME_COUNT,
   RigPart,
   getDebugJumpPose,
   getDebugRunPose,
   getRiggedJumpPose,
   getRiggedRunPose,
+  getWalkV4Pose,
   rigEndpoint,
   solveTwoBoneChain,
   type DebugRigPose,
   type LayeredRigPose,
   type RigPoint,
   type TwoBoneChain,
+  type WalkFootPose,
+  type WalkV4Pose,
 } from './layeredRig';
 
-type AnimationKind = 'run' | 'jump' | 'rig-run-v2' | 'rig-jump-v2' | 'rig-run-debug' | 'rig-jump-debug' | 'double-jump' | 'double-jump-v2' | 'freefall' | 'freefall-v2' | 'powered' | 'glide' | 'grind' | 'wall' | 'flame';
+type AnimationKind = 'run' | 'jump' | 'rig-run-v2' | 'rig-jump-v2' | 'rig-run-debug' | 'rig-jump-debug' | 'walk-v4-debug' | 'walk-v4-painted' | 'double-jump' | 'double-jump-v2' | 'freefall' | 'freefall-v2' | 'powered' | 'glide' | 'grind' | 'wall' | 'flame';
 type LoadedSprite = HTMLImageElement & { ready?: boolean };
 
 interface Preview {
@@ -85,6 +91,39 @@ interface DrawRect {
   height: number;
 }
 
+interface WalkFootGeometry {
+  ankle: RigPoint;
+  heel: RigPoint;
+  toe: RigPoint;
+  angle: number;
+  grounded: boolean;
+}
+
+interface WalkRigGeometry {
+  hip: RigPoint;
+  farHip: RigPoint;
+  nearHip: RigPoint;
+  spine: RigPoint;
+  chest: RigPoint;
+  neck: RigPoint;
+  farShoulder: RigPoint;
+  nearShoulder: RigPoint;
+  farLeg: TwoBoneChain;
+  nearLeg: TwoBoneChain;
+  farArm: TwoBoneChain;
+  nearArm: TwoBoneChain;
+  farFoot: WalkFootGeometry;
+  nearFoot: WalkFootGeometry;
+}
+
+interface AtlasPartRegistration {
+  part: number;
+  columns: number;
+  rows: number;
+  sourceStart: RigPoint;
+  sourceEnd: RigPoint;
+}
+
 const ANIMATION_CONFIG: Record<AnimationKind, { frameCount: number; duration: number }> = {
   run: { frameCount: 60, duration: 2 },
   jump: { frameCount: 8, duration: 2.4 },
@@ -92,6 +131,8 @@ const ANIMATION_CONFIG: Record<AnimationKind, { frameCount: number; duration: nu
   'rig-jump-v2': { frameCount: RIGGED_JUMP_FRAME_COUNT, duration: 1.2 },
   'rig-run-debug': { frameCount: RIGGED_RUN_FRAME_COUNT, duration: 1 },
   'rig-jump-debug': { frameCount: RIGGED_JUMP_FRAME_COUNT, duration: 1.2 },
+  'walk-v4-debug': { frameCount: WALK_V4_FRAME_COUNT, duration: 1.2 },
+  'walk-v4-painted': { frameCount: WALK_V4_FRAME_COUNT, duration: 1.2 },
   'double-jump': { frameCount: 6, duration: 2 },
   'double-jump-v2': { frameCount: 16, duration: DOUBLE_JUMP_V2_DURATION },
   freefall: { frameCount: 6, duration: 0.6 },
@@ -109,6 +150,8 @@ export class AnimationSandbox {
     run: this.createSprite(),
     jump: this.createSprite(),
     layeredRig: this.createSprite(),
+    walkParts: this.createSprite(),
+    walkLegs: this.createSprite(),
     doubleJump: this.createSprite(),
     doubleJumpV2: this.createSprite(),
     freefall: this.createSprite(),
@@ -191,7 +234,9 @@ export class AnimationSandbox {
         || kind === 'rig-run-v2'
         || kind === 'rig-jump-v2'
         || kind === 'rig-run-debug'
-        || kind === 'rig-jump-debug',
+        || kind === 'rig-jump-debug'
+        || kind === 'walk-v4-debug'
+        || kind === 'walk-v4-painted',
     );
 
     switch (kind) {
@@ -212,6 +257,12 @@ export class AnimationSandbox {
         break;
       case 'rig-jump-debug':
         this.drawRiggedJumpDebug(preview, forcedFrame);
+        break;
+      case 'walk-v4-debug':
+        this.drawWalkingV4Debug(preview, forcedFrame);
+        break;
+      case 'walk-v4-painted':
+        this.drawWalkingV4Painted(preview, forcedFrame);
         break;
       case 'double-jump':
         this.drawDoubleJump(preview, elapsed, forcedFrame);
@@ -291,6 +342,436 @@ export class AnimationSandbox {
   private drawRiggedJumpDebug(preview: Preview, forcedFrame: number | null): void {
     const frame = forcedFrame ?? 0;
     this.drawDebugRig(preview, getDebugJumpPose(frame), frame, preview.canvas.height * 0.82, 'jump');
+  }
+
+  private drawWalkingV4Debug(preview: Preview, forcedFrame: number | null): void {
+    const frame = forcedFrame ?? 0;
+    const pose = getWalkV4Pose(frame);
+    const groundY = preview.canvas.height * 0.82;
+    const geometry = this.buildWalkingRig(preview.canvas, pose, groundY);
+    const { context, canvas } = preview;
+
+    context.save();
+    this.drawDebugGuide(context, canvas, groundY);
+    this.drawDebugChain(context, geometry.farLeg, 13, '#9a8bff', 'rgba(117, 96, 244, .24)', 0.72);
+    this.drawWalkingDebugFoot(context, geometry.farFoot, groundY, '#9a8bff', 'rgba(117, 96, 244, .24)', 0.72);
+    this.drawDebugChain(context, geometry.farArm, 10, '#9a8bff', 'rgba(117, 96, 244, .24)', 0.72);
+
+    this.drawDebugSegment(context, geometry.hip, geometry.spine, 34, '#ffd661', 'rgba(255, 190, 49, .23)');
+    this.drawDebugSegment(context, geometry.spine, geometry.chest, 31, '#ffd661', 'rgba(255, 190, 49, .23)');
+    this.drawDebugSegment(context, geometry.chest, geometry.neck, 22, '#70f0b1', 'rgba(66, 216, 149, .2)');
+    this.drawDebugSegment(context, geometry.farHip, geometry.nearHip, 16, '#ffd661', 'rgba(255, 190, 49, .23)');
+    this.drawDebugJoint(context, geometry.hip, '#ffd661', 5);
+    this.drawDebugJoint(context, geometry.spine, '#ffd661', 4.5);
+    this.drawDebugJoint(context, geometry.chest, '#ffd661', 5);
+    this.drawDebugJoint(context, geometry.neck, '#70f0b1', 4);
+
+    this.drawDebugChain(context, geometry.nearLeg, 14, '#5ce9ff', 'rgba(40, 207, 239, .28)', 1);
+    this.drawWalkingDebugFoot(context, geometry.nearFoot, groundY, '#5ce9ff', 'rgba(40, 207, 239, .28)', 1);
+    this.drawDebugChain(context, geometry.nearArm, 11, '#5ce9ff', 'rgba(40, 207, 239, .28)', 1);
+
+    this.drawHeadHitbox(context, geometry.neck, pose.headAngle);
+    this.drawRigPart(context, RigPart.head, geometry.neck, pose.headAngle, 0.3, { x: 160, y: 302 });
+    this.drawWalkLabel(context, 'SOCKET-LOCKED WALK CYCLE', 'SPINE · CHEST · HEEL · TOE NODES');
+    context.restore();
+    this.markFrame(preview, frame);
+  }
+
+  private drawWalkingV4Painted(preview: Preview, forcedFrame: number | null): void {
+    const frame = forcedFrame ?? 0;
+    const pose = getWalkV4Pose(frame);
+    const groundY = preview.canvas.height * 0.82;
+    const geometry = this.buildWalkingRig(preview.canvas, pose, groundY);
+    const { context } = preview;
+
+    context.save();
+    context.globalAlpha = 0.84;
+    this.drawWalkAtlasBone(context, this.sprites.walkLegs, {
+      part: 2,
+      columns: 2,
+      rows: 2,
+      sourceStart: { x: 0.2, y: 0.5 },
+      sourceEnd: { x: 0.85, y: 0.5 },
+    }, geometry.farLeg.root, geometry.farLeg.joint, 1.25);
+    this.drawWalkAtlasBone(context, this.sprites.walkLegs, {
+      part: 3,
+      columns: 2,
+      rows: 2,
+      sourceStart: { x: 0.18, y: 0.5 },
+      sourceEnd: { x: 0.82, y: 0.5 },
+    }, geometry.farLeg.joint, geometry.farLeg.end, 1.35);
+    this.drawWalkShoe(context, 11, geometry.farFoot, 0.84);
+    this.drawWalkAtlasBone(context, this.sprites.walkParts, {
+      part: 4,
+      columns: 4,
+      rows: 4,
+      sourceStart: { x: 0.24, y: 0.51 },
+      sourceEnd: { x: 0.8, y: 0.51 },
+    }, geometry.farArm.root, geometry.farArm.joint, 1.35);
+    this.drawWalkAtlasBone(context, this.sprites.walkParts, {
+      part: 5,
+      columns: 4,
+      rows: 4,
+      sourceStart: { x: 0.18, y: 0.53 },
+      sourceEnd: { x: 0.88, y: 0.62 },
+    }, geometry.farArm.joint, geometry.farArm.end, 1.25);
+    context.restore();
+
+    this.drawWalkAtlasBone(context, this.sprites.walkParts, {
+      part: 2,
+      columns: 4,
+      rows: 4,
+      sourceStart: { x: 0.25, y: 0.6 },
+      sourceEnd: { x: 0.79, y: 0.6 },
+    }, geometry.nearArm.root, geometry.nearArm.joint, 1.35);
+    this.drawWalkingTorso(context, geometry.hip, geometry.neck);
+
+    this.drawWalkAtlasBone(context, this.sprites.walkLegs, {
+      part: 0,
+      columns: 2,
+      rows: 2,
+      sourceStart: { x: 0.2, y: 0.5 },
+      sourceEnd: { x: 0.85, y: 0.5 },
+    }, geometry.nearLeg.root, geometry.nearLeg.joint, 1.25);
+    this.drawWalkAtlasBone(context, this.sprites.walkLegs, {
+      part: 1,
+      columns: 2,
+      rows: 2,
+      sourceStart: { x: 0.18, y: 0.5 },
+      sourceEnd: { x: 0.82, y: 0.5 },
+    }, geometry.nearLeg.joint, geometry.nearLeg.end, 1.35);
+    this.drawWalkShoe(context, 8, geometry.nearFoot, 1);
+    this.drawWalkAtlasBone(context, this.sprites.walkParts, {
+      part: 3,
+      columns: 4,
+      rows: 4,
+      sourceStart: { x: 0.18, y: 0.62 },
+      sourceEnd: { x: 0.88, y: 0.7 },
+    }, geometry.nearArm.joint, geometry.nearArm.end, 1.25);
+    this.drawWalkAtlasAtPivot(
+      context,
+      this.sprites.walkParts,
+      1,
+      4,
+      4,
+      geometry.neck,
+      pose.headAngle,
+      0.3,
+      { x: 0.57, y: 0.93 },
+    );
+
+    this.drawPaintedWalkNodes(context, geometry);
+    this.drawWalkLabel(context, 'GENERATED ART ON V4 SOCKETS', 'IDENTICAL BONES · IDENTICAL CONTACTS');
+    context.restore();
+    this.markFrame(preview, frame);
+  }
+
+  private buildWalkingRig(
+    canvas: HTMLCanvasElement,
+    pose: WalkV4Pose,
+    groundY: number,
+  ): WalkRigGeometry {
+    const worldPoint = (point: RigPoint): RigPoint => ({
+      x: canvas.width / 2 + point.x,
+      y: groundY + point.y,
+    });
+    const hip = worldPoint(pose.hip);
+    const torsoVector = {
+      x: -Math.sin(pose.torsoAngle),
+      y: -Math.cos(pose.torsoAngle),
+    };
+    const spine = {
+      x: hip.x + torsoVector.x * 23,
+      y: hip.y + torsoVector.y * 23,
+    };
+    const chest = {
+      x: hip.x + torsoVector.x * 48,
+      y: hip.y + torsoVector.y * 48,
+    };
+    const neck = {
+      x: hip.x + torsoVector.x * 66,
+      y: hip.y + torsoVector.y * 66,
+    };
+    const hipSpread = {
+      x: Math.cos(pose.pelvisAngle) * 6,
+      y: Math.sin(pose.pelvisAngle) * 6,
+    };
+    const farHip = { x: hip.x - hipSpread.x, y: hip.y - hipSpread.y + 1 };
+    const nearHip = { x: hip.x + hipSpread.x, y: hip.y + hipSpread.y };
+    const shoulderBase = { x: chest.x - 6, y: chest.y };
+    const farShoulder = { x: shoulderBase.x - 4, y: shoulderBase.y + 2 };
+    const nearShoulder = { x: shoulderBase.x + 4, y: shoulderBase.y };
+    const farFoot = this.buildWalkingFoot(worldPoint(pose.farFoot), pose.farFoot, groundY);
+    const nearFoot = this.buildWalkingFoot(worldPoint(pose.nearFoot), pose.nearFoot, groundY);
+    const farHand = {
+      x: farShoulder.x + pose.farHandOffset.x,
+      y: farShoulder.y + pose.farHandOffset.y,
+    };
+    const nearHand = {
+      x: nearShoulder.x + pose.nearHandOffset.x,
+      y: nearShoulder.y + pose.nearHandOffset.y,
+    };
+    const farArmBend = pose.farHandOffset.x >= 0 ? 1 : -1;
+    const nearArmBend = pose.nearHandOffset.x >= 0 ? 1 : -1;
+
+    return {
+      hip,
+      farHip,
+      nearHip,
+      spine,
+      chest,
+      neck,
+      farShoulder,
+      nearShoulder,
+      farLeg: solveTwoBoneChain(farHip, farFoot.ankle, 43, 43, -1),
+      nearLeg: solveTwoBoneChain(nearHip, nearFoot.ankle, 43, 43, -1),
+      farArm: solveTwoBoneChain(farShoulder, farHand, 31, 29, farArmBend),
+      nearArm: solveTwoBoneChain(nearShoulder, nearHand, 31, 29, nearArmBend),
+      farFoot,
+      nearFoot,
+    };
+  }
+
+  private buildWalkingFoot(
+    target: RigPoint,
+    pose: WalkFootPose,
+    groundY: number,
+  ): WalkFootGeometry {
+    const cosine = Math.cos(pose.angle);
+    const sine = Math.sin(pose.angle);
+    const heelOffset = { x: -5 * cosine, y: -5 * sine };
+    const toeOffset = { x: 28 * cosine, y: 28 * sine };
+    const lowestOffset = Math.max(heelOffset.y, toeOffset.y) + 7.5;
+    const groundCorrection = pose.grounded ? groundY - (target.y + lowestOffset) : 0;
+    const ankle = { x: target.x, y: target.y + groundCorrection };
+    return {
+      ankle,
+      heel: { x: ankle.x + heelOffset.x, y: ankle.y + heelOffset.y },
+      toe: { x: ankle.x + toeOffset.x, y: ankle.y + toeOffset.y },
+      angle: pose.angle,
+      grounded: pose.grounded,
+    };
+  }
+
+  private drawWalkingDebugFoot(
+    context: CanvasRenderingContext2D,
+    foot: WalkFootGeometry,
+    groundY: number,
+    stroke: string,
+    fill: string,
+    opacity: number,
+  ): void {
+    context.save();
+    context.globalAlpha = opacity;
+    this.drawDebugSegment(context, foot.heel, foot.toe, 15, stroke, fill);
+    this.drawDebugJoint(context, foot.ankle, stroke, 4);
+    this.drawDebugJoint(context, foot.heel, stroke, 3);
+    this.drawDebugJoint(context, foot.toe, stroke, 3);
+    if (foot.grounded) {
+      context.strokeStyle = '#fff0a6';
+      context.lineWidth = 4;
+      context.beginPath();
+      context.moveTo(Math.min(foot.heel.x, foot.toe.x) - 3, groundY - 1);
+      context.lineTo(Math.max(foot.heel.x, foot.toe.x) + 3, groundY - 1);
+      context.stroke();
+    }
+    context.restore();
+  }
+
+  private drawWalkAtlasBone(
+    context: CanvasRenderingContext2D,
+    sprite: LoadedSprite,
+    registration: AtlasPartRegistration,
+    targetStart: RigPoint,
+    targetEnd: RigPoint,
+    thicknessScale = 1,
+  ): void {
+    if (!sprite.ready) return;
+    const cellWidth = sprite.naturalWidth / registration.columns;
+    const cellHeight = sprite.naturalHeight / registration.rows;
+    const sourceRect = {
+      x: registration.part % registration.columns * cellWidth,
+      y: Math.floor(registration.part / registration.columns) * cellHeight,
+      width: cellWidth,
+      height: cellHeight,
+    };
+    this.drawMappedSprite(
+      context,
+      sprite,
+      sourceRect,
+      {
+        x: registration.sourceStart.x * cellWidth,
+        y: registration.sourceStart.y * cellHeight,
+      },
+      {
+        x: registration.sourceEnd.x * cellWidth,
+        y: registration.sourceEnd.y * cellHeight,
+      },
+      targetStart,
+      targetEnd,
+      thicknessScale,
+    );
+  }
+
+  private drawWalkingTorso(
+    context: CanvasRenderingContext2D,
+    hip: RigPoint,
+    neck: RigPoint,
+  ): void {
+    this.drawWalkAtlasBone(
+      context,
+      this.sprites.walkParts,
+      {
+        part: 13,
+        columns: 4,
+        rows: 4,
+        sourceStart: { x: 0.54, y: 0.78 },
+        sourceEnd: { x: 0.54, y: 0.05 },
+      },
+      hip,
+      neck,
+      1.25,
+    );
+  }
+
+  private drawMappedSprite(
+    context: CanvasRenderingContext2D,
+    sprite: LoadedSprite,
+    sourceRect: DrawRect,
+    sourceStart: RigPoint,
+    sourceEnd: RigPoint,
+    targetStart: RigPoint,
+    targetEnd: RigPoint,
+    thicknessScale = 1,
+  ): void {
+    if (!sprite.ready) return;
+    const sourceDelta = {
+      x: sourceEnd.x - sourceStart.x,
+      y: sourceEnd.y - sourceStart.y,
+    };
+    const targetDelta = {
+      x: targetEnd.x - targetStart.x,
+      y: targetEnd.y - targetStart.y,
+    };
+    const sourceLength = Math.hypot(sourceDelta.x, sourceDelta.y);
+    const targetLength = Math.hypot(targetDelta.x, targetDelta.y);
+    if (sourceLength <= 0 || targetLength <= 0) return;
+    const sourceAngle = Math.atan2(sourceDelta.y, sourceDelta.x);
+    const targetAngle = Math.atan2(targetDelta.y, targetDelta.x);
+    const scale = targetLength / sourceLength;
+
+    context.save();
+    context.translate(targetStart.x, targetStart.y);
+    context.rotate(targetAngle);
+    context.scale(scale, scale * thicknessScale);
+    context.rotate(-sourceAngle);
+    context.drawImage(
+      sprite,
+      sourceRect.x,
+      sourceRect.y,
+      sourceRect.width,
+      sourceRect.height,
+      -sourceStart.x,
+      -sourceStart.y,
+      sourceRect.width,
+      sourceRect.height,
+    );
+    context.restore();
+  }
+
+  private drawWalkShoe(
+    context: CanvasRenderingContext2D,
+    part: number,
+    foot: WalkFootGeometry,
+    opacity: number,
+  ): void {
+    const pivot = part === 8 ? { x: 0.3, y: 0.29 } : { x: 0.18, y: 0.29 };
+    this.drawWalkAtlasAtPivot(
+      context,
+      this.sprites.walkParts,
+      part,
+      4,
+      4,
+      foot.ankle,
+      foot.angle,
+      0.18,
+      pivot,
+      opacity,
+    );
+  }
+
+  private drawWalkAtlasAtPivot(
+    context: CanvasRenderingContext2D,
+    sprite: LoadedSprite,
+    part: number,
+    columns: number,
+    rows: number,
+    position: RigPoint,
+    angle: number,
+    scale: number,
+    pivot: RigPoint,
+    opacity = 1,
+  ): void {
+    if (!sprite.ready) return;
+    const cellWidth = sprite.naturalWidth / columns;
+    const cellHeight = sprite.naturalHeight / rows;
+    const sourceX = part % columns * cellWidth;
+    const sourceY = Math.floor(part / columns) * cellHeight;
+    context.save();
+    context.globalAlpha *= opacity;
+    context.translate(position.x, position.y);
+    context.rotate(angle);
+    context.drawImage(
+      sprite,
+      sourceX,
+      sourceY,
+      cellWidth,
+      cellHeight,
+      -pivot.x * cellWidth * scale,
+      -pivot.y * cellHeight * scale,
+      cellWidth * scale,
+      cellHeight * scale,
+    );
+    context.restore();
+  }
+
+  private drawPaintedWalkNodes(
+    context: CanvasRenderingContext2D,
+    geometry: WalkRigGeometry,
+  ): void {
+    context.save();
+    context.globalAlpha = 0.24;
+    const nodes = [
+      geometry.hip,
+      geometry.spine,
+      geometry.chest,
+      geometry.neck,
+      geometry.farShoulder,
+      geometry.nearShoulder,
+      geometry.farLeg.joint,
+      geometry.nearLeg.joint,
+      geometry.farFoot.ankle,
+      geometry.nearFoot.ankle,
+      geometry.farArm.joint,
+      geometry.nearArm.joint,
+    ];
+    for (const node of nodes) this.drawDebugJoint(context, node, '#e7fbff', 2);
+    context.restore();
+  }
+
+  private drawWalkLabel(
+    context: CanvasRenderingContext2D,
+    title: string,
+    detail: string,
+  ): void {
+    context.fillStyle = 'rgba(4, 27, 55, .78)';
+    context.fillRect(15, 15, 284, 46);
+    context.fillStyle = '#dffaff';
+    context.font = '700 12px "IBM Plex Mono", monospace';
+    context.fillText(title, 27, 34);
+    context.fillStyle = '#8ab1ca';
+    context.font = '600 10px "IBM Plex Mono", monospace';
+    context.fillText(detail, 27, 50);
   }
 
   private drawDebugRig(
@@ -1089,6 +1570,8 @@ export class AnimationSandbox {
     this.sprites.run.src = hugoRunCycleUrl;
     this.sprites.jump.src = hugoJumpLandCycleUrl;
     this.sprites.layeredRig.src = hugoLayeredRigPartsUrl;
+    this.sprites.walkParts.src = hugoWalkV4PartsUrl;
+    this.sprites.walkLegs.src = hugoWalkV4LegsUrl;
     this.sprites.doubleJump.src = hugoDoubleJumpCycleUrl;
     this.sprites.doubleJumpV2.src = hugoDoubleJumpV2CycleUrl;
     this.sprites.freefall.src = hugoFreefallCycleUrl;

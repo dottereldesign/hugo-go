@@ -4,6 +4,8 @@ export const RIGGED_RUN_FRAME_COUNT = 30;
 export const RIGGED_RUN_FRAMES_PER_SECOND = 30;
 export const RIGGED_JUMP_FRAME_COUNT = 36;
 export const RIGGED_JUMP_FRAMES_PER_SECOND = 30;
+export const WALK_V4_FRAME_COUNT = 36;
+export const WALK_V4_FRAMES_PER_SECOND = 30;
 
 export const RigPart = {
   torso: 0,
@@ -63,6 +65,22 @@ export interface TwoBoneChain {
   root: RigPoint;
   joint: RigPoint;
   end: RigPoint;
+}
+
+export interface WalkFootPose extends RigPoint {
+  angle: number;
+  grounded: boolean;
+}
+
+export interface WalkV4Pose {
+  hip: RigPoint;
+  torsoAngle: number;
+  headAngle: number;
+  pelvisAngle: number;
+  nearFoot: WalkFootPose;
+  farFoot: WalkFootPose;
+  nearHandOffset: RigPoint;
+  farHandOffset: RigPoint;
 }
 
 export function getRiggedRunPose(frameIndex: number): LayeredRigPose {
@@ -209,6 +227,33 @@ export function getDebugJumpPose(frameIndex: number): DebugRigPose {
   };
 }
 
+export function getWalkV4Pose(frameIndex: number): WalkV4Pose {
+  const progress = normalizedFrame(frameIndex, WALK_V4_FRAME_COUNT);
+  const phase = progress * Math.PI * 2;
+  const verticalRise = (1 - Math.cos(phase * 2)) * 2;
+  const armSwing = Math.cos(phase);
+
+  return {
+    hip: {
+      x: Math.sin(phase) * 1.5,
+      y: -89 - verticalRise,
+    },
+    torsoAngle: -0.045 + Math.sin(phase * 2) * 0.012,
+    headAngle: 0.018 - Math.sin(phase * 2) * 0.01,
+    pelvisAngle: Math.sin(phase) * 0.045,
+    nearFoot: walkFootTarget(progress),
+    farFoot: walkFootTarget((progress + 0.5) % 1),
+    nearHandOffset: {
+      x: -armSwing * 14,
+      y: 55 - Math.abs(armSwing) * 1.5,
+    },
+    farHandOffset: {
+      x: armSwing * 13,
+      y: 56 - Math.abs(armSwing) * 1.25,
+    },
+  };
+}
+
 export function solveTwoBoneChain(
   root: RigPoint,
   target: RigPoint,
@@ -260,6 +305,33 @@ function runFootTarget(progress: number): RigPoint {
   return {
     x: mix(-32, 32, smoothstep(0, 1, swing)),
     y: -8 - Math.sin(swing * Math.PI) * 23,
+  };
+}
+
+function walkFootTarget(progress: number): WalkFootPose {
+  const stanceDuration = 0.62;
+  if (progress < stanceDuration) {
+    const stance = progress / stanceDuration;
+    let angle = 0;
+    if (stance < 0.16) {
+      angle = mix(-0.18, 0, smoothstep(0, 0.16, stance));
+    } else if (stance > 0.78) {
+      angle = mix(0, 0.28, smoothstep(0.78, 1, stance));
+    }
+    return {
+      x: mix(27, -27, smoothstep(0, 1, stance)),
+      y: -8,
+      angle,
+      grounded: true,
+    };
+  }
+
+  const swing = (progress - stanceDuration) / (1 - stanceDuration);
+  return {
+    x: mix(-27, 27, smoothstep(0, 1, swing)),
+    y: -8 - Math.sin(swing * Math.PI) * 18,
+    angle: mix(0.2, -0.12, smoothstep(0, 1, swing)),
+    grounded: false,
   };
 }
 

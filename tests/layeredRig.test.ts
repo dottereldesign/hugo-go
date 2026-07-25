@@ -2,10 +2,12 @@ import { describe, expect, it } from 'vitest';
 import {
   RIGGED_JUMP_FRAME_COUNT,
   RIGGED_RUN_FRAME_COUNT,
+  WALK_V4_FRAME_COUNT,
   getDebugJumpPose,
   getDebugRunPose,
   getRiggedJumpPose,
   getRiggedRunPose,
+  getWalkV4Pose,
   rigEndpoint,
   solveTwoBoneChain,
 } from '../src/game/layeredRig';
@@ -88,5 +90,34 @@ describe('deterministic layered Hugo rig', () => {
     expect(chain.end).toEqual({ x: 42, y: 58 });
     expect(upperLength).toBeCloseTo(44, 8);
     expect(lowerLength).toBeCloseTo(44, 8);
+  });
+
+  it('returns Walking V4 to the identical pose after its 36-frame cycle', () => {
+    expect(getWalkV4Pose(WALK_V4_FRAME_COUNT)).toEqual(getWalkV4Pose(0));
+  });
+
+  it('alternates planted and swinging feet through a natural walking gait', () => {
+    const nearStance = getWalkV4Pose(9);
+    const farStance = getWalkV4Pose(27);
+
+    expect(nearStance.nearFoot.grounded).toBe(true);
+    expect(nearStance.farFoot.grounded).toBe(false);
+    expect(nearStance.farFoot.y).toBeLessThan(-18);
+    expect(farStance.nearFoot.grounded).toBe(false);
+    expect(farStance.farFoot.grounded).toBe(true);
+    expect(farStance.nearFoot.y).toBeLessThan(-18);
+  });
+
+  it('uses heel strike, toe-off, upright posture, and opposing relaxed arms', () => {
+    const heelStrike = getWalkV4Pose(0);
+    const toeOff = getWalkV4Pose(20);
+
+    expect(heelStrike.nearFoot.angle).toBeLessThan(0);
+    expect(toeOff.nearFoot.angle).toBeGreaterThan(0.1);
+    expect(Math.abs(heelStrike.torsoAngle)).toBeLessThan(0.08);
+    expect(Math.abs(heelStrike.headAngle)).toBeLessThan(0.04);
+    expect(heelStrike.nearHandOffset.x).toBeLessThan(0);
+    expect(heelStrike.farHandOffset.x).toBeGreaterThan(0);
+    expect(heelStrike.nearHandOffset.y).toBeGreaterThan(50);
   });
 });
