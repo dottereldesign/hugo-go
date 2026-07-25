@@ -2034,6 +2034,155 @@ body.sandbox-page-open {
   box-shadow: 0 0 0 2px rgba(255, 214, 98, .16), 0 0 18px rgba(255, 190, 54, .22);
 }
 
+.sandbox-v2 {
+  display: grid;
+  gap: 22px;
+  max-width: 1320px;
+  margin: 54px auto 16px;
+  padding-top: 42px;
+  border-top: 1px solid rgba(127, 225, 255, .24);
+}
+
+.sandbox-v2-heading {
+  max-width: 880px;
+}
+
+.sandbox-v2-heading > span,
+.sandbox-v2-spec span {
+  color: #ffcf5a;
+  font: 700 .7rem/1.2 'IBM Plex Mono', monospace;
+  letter-spacing: .17em;
+}
+
+.sandbox-v2-heading h2 {
+  margin: 5px 0 9px;
+  color: #fff;
+  font: 400 clamp(1.7rem, 4vw, 2.8rem)/1 'Titan One', sans-serif;
+  text-shadow: 0 4px 0 #072651, 0 0 25px rgba(64, 216, 255, .22);
+}
+
+.sandbox-v2-heading p {
+  margin: 0;
+  color: #b9c8dc;
+  font-size: clamp(.9rem, 1.5vw, 1.04rem);
+  line-height: 1.65;
+}
+
+.sandbox-v2-principles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.sandbox-v2-principles article {
+  position: relative;
+  min-width: 0;
+  padding: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(114, 211, 248, .16);
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(21, 48, 84, .84), rgba(8, 25, 53, .88));
+  box-shadow: inset 0 1px rgba(255, 255, 255, .05);
+}
+
+.sandbox-v2-principles b {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  color: rgba(105, 227, 255, .16);
+  font: 800 2.35rem/1 'IBM Plex Mono', monospace;
+}
+
+.sandbox-v2-principles h3,
+.sandbox-v2-spec h3 {
+  position: relative;
+  margin: 0 0 8px;
+  color: #fff;
+  font: 800 1rem/1.2 Inter, sans-serif;
+}
+
+.sandbox-v2-principles p,
+.sandbox-v2-spec p,
+.sandbox-v2-next p {
+  position: relative;
+  margin: 0;
+  color: #9fb2ca;
+  font-size: .82rem;
+  line-height: 1.55;
+}
+
+.sandbox-v2-spec {
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(460px, 1.1fr);
+  gap: 28px;
+  align-items: center;
+  padding: 24px;
+  border: 1px solid rgba(255, 205, 86, .22);
+  border-radius: 20px;
+  background: linear-gradient(120deg, rgba(124, 73, 23, .18), rgba(9, 28, 58, .72));
+}
+
+.sandbox-v2-spec h3 {
+  margin-top: 5px;
+  font-size: 1.1rem;
+}
+
+.sandbox-v2-spec dl {
+  display: grid;
+  gap: 0;
+  margin: 0;
+}
+
+.sandbox-v2-spec dl div {
+  display: grid;
+  grid-template-columns: 145px 1fr;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, .08);
+}
+
+.sandbox-v2-spec dl div:last-child {
+  border-bottom: 0;
+}
+
+.sandbox-v2-spec dt {
+  color: #fff;
+  font: 700 .76rem/1.35 'IBM Plex Mono', monospace;
+}
+
+.sandbox-v2-spec dd {
+  margin: 0;
+  color: #aebed2;
+  font: 500 .75rem/1.35 'IBM Plex Mono', monospace;
+}
+
+.sandbox-card--v2 {
+  margin-top: 8px;
+  border-color: rgba(255, 207, 90, .38);
+  box-shadow: 0 24px 52px rgba(0, 4, 22, .3), 0 0 35px rgba(255, 178, 48, .07);
+}
+
+.sandbox-canvas--v2 {
+  aspect-ratio: 900 / 420;
+}
+
+.sandbox-v2-next {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 22px;
+  align-items: start;
+  padding: 20px 22px;
+  border-left: 4px solid #62dcf5;
+  border-radius: 0 14px 14px 0;
+  background: rgba(21, 61, 94, .34);
+}
+
+.sandbox-v2-next strong {
+  color: #8eecff;
+  font: 800 .86rem/1.4 'IBM Plex Mono', monospace;
+  text-transform: uppercase;
+}
+
 .setting-row--sandbox {
   border-color: rgba(77, 210, 239, .34);
   background: linear-gradient(105deg, rgba(39, 195, 229, .12), rgba(126, 88, 255, .1));
@@ -2132,6 +2281,36 @@ body.sandbox-page-open {
     flex-basis: 40px;
     min-width: 40px;
     min-height: 38px;
+  }
+
+  .sandbox-v2 {
+    gap: 16px;
+    margin-top: 34px;
+    padding-top: 28px;
+  }
+
+  .sandbox-v2-principles {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sandbox-v2-spec {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+    padding: 18px;
+  }
+
+  .sandbox-v2-spec dl div {
+    grid-template-columns: minmax(100px, .7fr) 1.3fr;
+  }
+
+  .sandbox-canvas--v2 {
+    aspect-ratio: 600 / 340;
+  }
+
+  .sandbox-v2-next {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+    padding: 17px;
   }
 
   .setting-row--sandbox {

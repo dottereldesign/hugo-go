@@ -210,6 +210,75 @@
             <canvas class="sandbox-canvas" data-sandbox-animation="flame" width="600" height="340" role="img" aria-label="Hugo's animated shoe jet flames"></canvas>
           </article>
         </div>
+        <section class="sandbox-v2" aria-labelledby="sandbox-v2-title">
+          <header class="sandbox-v2-heading">
+            <span>PRODUCTION RESET</span>
+            <h2 id="sandbox-v2-title">Animation V2 Framework</h2>
+            <p>Smooth animation comes from controlled motion and continuity—not simply asking for more pictures. This is the standard every new Hugo animation should pass.</p>
+          </header>
+
+          <div class="sandbox-v2-principles">
+            <article>
+              <b>01</b>
+              <h3>Lock Hugo first</h3>
+              <p>Start from one approved identity sheet: exact face, body proportions, outfit, palette, viewing angle, scale, lighting, and a fixed body registration point. Nothing is generated before those invariants are written into the prompt.</p>
+            </article>
+            <article>
+              <b>02</b>
+              <h3>Plan the motion arc</h3>
+              <p>Define contact, extreme, passing, recoil, and loop-seam poses before making in-betweens. For running, both legs and both arms must complete opposite arcs; no limb may remain frozen while its partner moves.</p>
+            </article>
+            <article>
+              <b>03</b>
+              <h3>Generate controlled groups</h3>
+              <p>Use strict equal-size atlas cells, fixed camera and silhouette scale, tiny sequential pose deltas, overlap frames between sheets, and a flat removable chroma background. Each group follows the approved pose map.</p>
+            </article>
+            <article>
+              <b>04</b>
+              <h3>Clean and register</h3>
+              <p>Remove the background to alpha, despill edges, normalize every frame to the same dimensions and pivot, preserve sharp source pixels, and record gameplay anchors separately from the artwork.</p>
+            </article>
+            <article>
+              <b>05</b>
+              <h3>Reject continuity failures</h3>
+              <p>Inspect neighboring frames for limb count, foot paths, hand arcs, face drift, clothing changes, scale jumps, frozen anatomy, duplicate poses, edge halos, and a visible loop hitch. A single failed gate sends the sequence back.</p>
+            </article>
+            <article>
+              <b>06</b>
+              <h3>Approve in this Sandbox</h3>
+              <p>Review at speed, paused, and frame-by-frame. Only promote V2 into gameplay after its numbered frames, loop seam, collision silhouette, and transition into the animations before and after it are approved.</p>
+            </article>
+          </div>
+
+          <div class="sandbox-v2-spec">
+            <div>
+              <span>FRAME POLICY</span>
+              <h3>30 fps is playback—not a quality guarantee</h3>
+              <p>Use 30 unique frames only when there are 30 meaningful, correctly ordered changes. A clean 12–18-pose action with intentional timing is better than 30 inconsistent drawings. For subtle wind and freefall loops, 24–30 tiny changes are useful; for impacts, holds and timing matter more than volume.</p>
+            </div>
+            <dl>
+              <div><dt>Run</dt><dd>18–24 unique poses · 30 fps · 0.8–1.0 s</dd></div>
+              <div><dt>Freefall / glide</dt><dd>24–30 unique poses · 30 fps · 1.0 s</dd></div>
+              <div><dt>Jump / land</dt><dd>10–14 unique poses · 30 fps · non-looping</dd></div>
+              <div><dt>Double jump</dt><dd>12–18 unique poses · 30 fps · non-looping</dd></div>
+              <div><dt>Grind</dt><dd>16–24 unique poses · 30 fps · 0.8–1.0 s</dd></div>
+              <div><dt>Impact / recovery</dt><dd>8–12 key poses · timed holds · non-looping</dd></div>
+            </dl>
+          </div>
+
+          <article class="sandbox-card sandbox-card--v2" data-sandbox-card="freefall-v2">
+            <header>
+              <div><span>V2 PROTOTYPE</span><h2>Freefall V2 — Wingsuit posture</h2></div>
+              <small>30 controlled poses · 30 fps · 1 second loop</small>
+            </header>
+            <canvas class="sandbox-canvas sandbox-canvas--v2" data-sandbox-animation="freefall-v2" width="900" height="420" role="img" aria-label="Hugo's 30-frame Freefall V2 wingsuit-style animation"></canvas>
+          </article>
+
+          <aside class="sandbox-v2-next">
+            <strong>Recommended production upgrade</strong>
+            <p>Keep transparent character sheets as the review and export format, but build future motion from a layered Hugo rig: head and hair, jacket and torso, upper/lower arms, hands, thighs, calves, and shoes. AI should help create identity-locked textures and key poses; deterministic rig interpolation should create the in-betweens. That prevents missing limbs, frozen legs, costume drift, and random changes between frames.</p>
+          </aside>
+        </section>
       </main>
     </section>
 

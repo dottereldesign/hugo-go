@@ -8,6 +8,11 @@ export const RUN_ATLAS_COLUMNS = 10;
 export const FLIGHT_FRAME_COUNT = 6;
 export const FLIGHT_FRAMES_PER_SECOND = 12;
 export const FREEFALL_FRAMES_PER_SECOND = 10;
+export const FREEFALL_V2_FRAME_COUNT = 30;
+export const FREEFALL_V2_FRAMES_PER_SECOND = 30;
+export const FREEFALL_V2_FRAME_WIDTH = 320;
+export const FREEFALL_V2_FRAME_HEIGHT = 256;
+export const FREEFALL_V2_ATLAS_COLUMNS = 6;
 export const TRANSITION_FRAME_COUNT = 8;
 export const TAKEOFF_FRAME_COUNT = 2;
 export const LANDING_FRAME_START = 4;
@@ -109,6 +114,16 @@ export function getFreefallLoopFrame(elapsedSeconds: number): AtlasFrame {
   const safeElapsed = Number.isFinite(elapsedSeconds) ? Math.max(0, elapsedSeconds) : 0;
   const index = Math.floor(safeElapsed * FREEFALL_FRAMES_PER_SECOND) % FLIGHT_FRAME_COUNT;
   return getFlightAtlasFrame(index);
+}
+
+export function getFreefallV2LoopFrame(elapsedSeconds: number): AtlasFrame {
+  const safeElapsed = Number.isFinite(elapsedSeconds) ? Math.max(0, elapsedSeconds) : 0;
+  const index = Math.floor(safeElapsed * FREEFALL_V2_FRAMES_PER_SECOND) % FREEFALL_V2_FRAME_COUNT;
+  return {
+    index,
+    sourceX: index % FREEFALL_V2_ATLAS_COLUMNS * FREEFALL_V2_FRAME_WIDTH,
+    sourceY: Math.floor(index / FREEFALL_V2_ATLAS_COLUMNS) * FREEFALL_V2_FRAME_HEIGHT,
+  };
 }
 
 export function getTakeoffFrame(airborneTime: number): AtlasFrame {

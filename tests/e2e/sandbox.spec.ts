@@ -10,8 +10,10 @@ test.describe('Animation Sandbox', () => {
     await expect(page.locator('#sandbox-screen')).toBeVisible();
     await expect(page.locator('#home-screen')).not.toHaveClass(/is-open/);
     await expect(page.locator('#game-screen')).toBeHidden();
-    await expect(page.locator('[data-sandbox-card]')).toHaveCount(9);
-    await expect(page.locator('[data-sandbox-animation]')).toHaveCount(9);
+    await expect(page.locator('[data-sandbox-card]')).toHaveCount(10);
+    await expect(page.locator('[data-sandbox-animation]')).toHaveCount(10);
+    await expect(page.getByRole('heading', { name: 'Animation V2 Framework' })).toBeVisible();
+    await expect(page.locator('[data-sandbox-card="freefall-v2"] button[data-frame]')).toHaveCount(30);
 
     await expect.poll(async () => page.locator('[data-sandbox-animation="run"]').getAttribute('data-frame')).not.toBeNull();
     const firstFrame = await page.locator('[data-sandbox-animation="run"]').getAttribute('data-frame');

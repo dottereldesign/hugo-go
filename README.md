@@ -11,6 +11,8 @@ Pressing **Play** on the home screen opens `#/game` and starts the run immediate
 - Hugo automatically runs on the ground and on obstacle tops.
 - Ground running uses all 60 authored full-body poses at 30 fps in a smoother two-second loop.
 - Settings includes a fullscreen Animation Sandbox at `#/sandbox` for reviewing every live character and shoe-fire animation. Each preview has independent play, pause, restart, loop, frame-step, and numbered frame-selection controls.
+- The bottom of the Sandbox documents the Animation V2 production framework and includes a 30-frame, 30 fps Freefall V2 wingsuit-posture prototype for comparison with the original.
+- The reusable authoring, validation, rigging, and prompt standard is documented in [`docs/ANIMATION_V2.md`](docs/ANIMATION_V2.md).
 - Occasional two-post drooping wires can be landed on from above. Hugo automatically
   grinds their curved cable with a 30-frame side-profile cycle; press again to jump off.
 - A quick second press after takeoff triggers one stronger animated double jump.
