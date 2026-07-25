@@ -316,3 +316,122 @@ background, and all negative constraints exactly.
 
 Generated sources: `jet-flame-frames-21-30-green.png` and
 `jet-flame-frames-21-30-transparent.png`.
+
+## Thirty-frame side-profile shoe-edge grind
+
+Generated with the built-in image-generation tool as three sequential ten-frame sheets.
+The initial flat-footed draft was rejected; only the corrected right-facing inline
+shoe-edge sheets below are retained.
+
+### Frames 01–10
+
+Make frames 01–10 of a seamless 30-frame cable-grinding animation for Hugo, matching
+the supplied game character sheets exactly.
+
+Keep Hugo’s existing face, natural round brown eyes, warm medium skin, black windswept
+hair, teal hooded jacket with orange trim, cream shirt, navy shorts over black leggings,
+white-and-teal chunky sneakers, proportions, polished stylized 3D family-game art, and
+right-facing direction.
+
+The view must be a clear right-facing side profile. Use an inline grind stance: the
+rightward shoe is visibly ahead and the other shoe is visibly behind, separated
+horizontally along the direction of travel. The long axis of each sneaker follows the
+invisible cable direction. Tilt both sneakers slightly so the outer side edge of each
+sole—not the flat bottom—is the contact point. Show a narrow strip of each angled
+underside so this side-edge contact is easy to read. Keep both shoe-edge contact points
+on the same invisible horizontal baseline in all frames. This must look like balancing
+on a narrow cable, not standing flat on a floor and not a front-facing squat.
+
+Use a low, balanced sports pose with individually bent knees, forward-moving torso, and
+arms counterbalancing. Across frames 01–10, smoothly shift weight toward the forward shoe
+in tiny sequential increments. Add subtle continuous hair, hood, jacket-hem, sleeve, and
+hand movement. Keep anatomy, shoes, face, camera, scale, and contact points consistent.
+
+Exactly 10 equal animation cells arranged in a strict 5-column by 2-row grid, read
+left-to-right top row then left-to-right bottom row. Exactly one complete full-body Hugo
+in each cell. Equal generous padding; crop nothing. No visible grid, text, labels,
+numbers, borders, or separators.
+
+Do not include a cable because the game draws it. No wheels, rollerblades, skateboard,
+snowboard, rail, poles, ground, flames, smoke, sparks, cast shadow, or scenery.
+
+Use a perfectly flat uniform solid `#FF00FF` magenta background edge to edge with no
+gradient, texture, glow, floor, shadow, vignette, or color spill.
+
+Frame 10 continues into later frames and does not return to frame 01 yet. Avoid fused
+legs, overlapping or merged footwear, extra limbs, shoe deformation, flat planted soles,
+three-quarter/front body angle, identity drift, repeated poses, or crossing cell boundaries.
+
+Generated sources: `hugo-grind-frames-01-10-magenta.png` and
+`hugo-grind-frames-01-10-transparent.png`.
+
+### Frames 11–20
+
+Create frames 11–20 of the same seamless 30-frame Hugo cable-grinding loop. Match the
+supplied corrected frames 01–10 exactly in right-facing side-profile camera, inline shoe
+placement, identity, outfit, scale, contact baseline, polished stylized 3D game art, and
+lighting.
+
+Hugo remains in an inline grind: one sneaker ahead to the right, the other behind to the
+left, clearly separated horizontally. The long axes of both sneakers follow the invisible
+cable direction. Each ankle remains slightly banked so the outer side edge of each
+sole—not the flat underside—is grinding the invisible line; neither sole may flatten like
+standing on ground. The two narrow side-edge contact points stay on one identical
+invisible horizontal baseline. Keep the clear shoe side profiles and the small visible
+angled underside strip from the supplied corrected sheet.
+
+Continue directly from frame 10. Frames 11–14 shift Hugo’s balance gently toward the
+forward shoe and bend both knees a little more. Frames 15–17 form the lowest controlled
+compression. Frames 18–20 begin a small rebound and transfer balance back toward the rear
+shoe. Adjacent differences must be tiny, smooth, and sequential at 30 fps. Hair, hood,
+jacket hem, sleeves, and fingers flutter continuously. Stable face, anatomy, footwear
+design, shoe separation, and side profile.
+
+Exactly 10 equal cells in a strict 5-column × 2-row grid, top row left-to-right then
+bottom row left-to-right. One complete full-body Hugo per cell, equal generous padding,
+nothing cropped. No grid, text, labels, numbers, border, or separators.
+
+The cable is invisible and added by code. No rollerblades, wheels, skateboard, snowboard,
+skis, rail, cable, posts, ground, props, flames, smoke, sparks, cast shadows, or scenery.
+
+Perfectly flat uniform `#FF00FF` magenta background edge-to-edge, without gradient,
+texture, glow, floor, vignette, shadow, or spill.
+
+Frame 20 continues into frames 21–30; it does not close the loop yet. Avoid
+front/three-quarter view, feet side-by-side, flat planted soles, fused legs,
+merged/deformed shoes, extra limbs, identity drift, repeated poses, or cell crossings.
+
+Generated sources: `hugo-grind-frames-11-20-magenta.png` and
+`hugo-grind-frames-11-20-transparent.png`.
+
+### Frames 21–30
+
+Continue the supplied family-friendly video-game sprite animation with frames 21–30 of
+the same cable-grinding loop.
+
+Match the supplied character, face, hair, teal jacket, clothes, sneakers, polished
+stylized 3D art, right-facing side view, scale, lighting, magenta background, and baseline
+exactly.
+
+Keep the same inline balance pose: one sneaker ahead to the right and one behind to the
+left. Keep both sneakers seen from the side and slightly tilted, with their outer sole
+edges on the same invisible contact line. Do not flatten the feet onto a floor.
+
+Continue smoothly from the last supplied pose. Gradually rebound and transfer balance,
+then ease back toward the first pose of the first sheet. Frame 30 should be a distinct
+tiny in-between that flows directly into frame 01. Use small sequential movements in
+knees, arms, torso, hair, hood, jacket, and hands. Keep anatomy, shoe separation, camera,
+and scale stable.
+
+Exactly 10 equal cells in a strict 5-column by 2-row grid, read left-to-right across the
+top then bottom. One complete character in each cell, generous equal padding, nothing
+cropped. No grid lines, text, numbers, labels, or borders.
+
+Draw no cable or equipment. No wheels, rollerblades, board, rail, poles, ground, fire,
+smoke, sparks, shadow, or scenery.
+
+Background must be flat uniform solid `#FF00FF` magenta edge to edge, with no texture,
+gradient, glow, floor, vignette, or shadow.
+
+Generated sources: `hugo-grind-frames-21-30-magenta.png` and
+`hugo-grind-frames-21-30-transparent.png`.

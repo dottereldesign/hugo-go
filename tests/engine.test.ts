@@ -6,7 +6,10 @@ import {
   HUGO_WIDTH,
   advanceFlight,
   createFlightGame,
+  getGrindingWire,
   getHugoHitbox,
+  getWireSlopeAtX,
+  getWireYAtX,
   rectanglesOverlap,
   setFlightThrust,
   sweptRectangleHits,
@@ -28,6 +31,19 @@ function obstacle(overrides: Partial<Obstacle> = {}): Obstacle {
     y: GROUND_Y - 80,
     width: 50,
     height: 80,
+    ...overrides,
+  };
+}
+
+function wire(overrides: Partial<Obstacle> = {}): Obstacle {
+  return {
+    id: 199,
+    kind: 'wire',
+    x: 20,
+    y: 430,
+    width: 300,
+    height: GROUND_Y - 430,
+    sag: 48,
     ...overrides,
   };
 }
@@ -215,6 +231,127 @@ describe('HUGO GO! deterministic flight physics', () => {
     expect(state.hugo.y).toBeGreaterThan(platformRunY);
   });
 
+  it('uses one exact quadratic curve for the rendered and physical wire', () => {
+    const cable = wire({ x: 100, y: 420, width: 320, sag: 50 });
+    expect(getWireYAtX(cable, 100)).toBe(420);
+    expect(getWireYAtX(cable, 420)).toBe(420);
+    expect(getWireYAtX(cable, 260)).toBe(470);
+    expect(getWireYAtX(cable, 180)).toBe(457.5);
+    expect(getWireSlopeAtX(cable, 100)).toBeCloseTo(0.625);
+    expect(getWireSlopeAtX(cable, 260)).toBeCloseTo(0);
+    expect(getWireSlopeAtX(cable, 420)).toBeCloseTo(-0.625);
+  });
+
+  it('catches Hugo on a drooping wire only when he crosses it from above', () => {
+    const state = clearCourse();
+    const cable = wire();
+    state.obstacles = [cable];
+    const contactX = state.hugo.x + HUGO_WIDTH / 2;
+    state.hugo.y = getWireYAtX(cable, contactX) - HUGO_HEIGHT - 5;
+    state.hugo.velocityY = 420;
+    state.hugo.grounded = false;
+    advanceFlight(state, 0.05);
+
+    const movedCable = state.obstacles[0];
+    expect(state.hugo.surfaceId).toBe(cable.id);
+    expect(getGrindingWire(state)?.id).toBe(cable.id);
+    expect(state.hugo.grounded).toBe(true);
+    expect(state.hugo.y + HUGO_HEIGHT).toBeCloseTo(
+      getWireYAtX(movedCable, contactX),
+      7,
+    );
+    expect(state.hugo.grindTime).toBeGreaterThanOrEqual(0);
+  });
+
+  it('does not snap Hugo onto the wire while he is rising from below', () => {
+    const state = clearCourse();
+    const cable = wire();
+    state.obstacles = [cable];
+    const contactX = state.hugo.x + HUGO_WIDTH / 2;
+    state.hugo.y = getWireYAtX(cable, contactX) - HUGO_HEIGHT + 14;
+    state.hugo.velocityY = -320;
+    state.hugo.grounded = false;
+    state.hugo.jumpAvailable = false;
+    advanceFlight(state, 0.04);
+    expect(state.hugo.surfaceId).toBeNull();
+    expect(getGrindingWire(state)).toBeNull();
+  });
+
+  it('keeps Hugo shoe-locked to the changing sag while the wire scrolls', () => {
+    const state = clearCourse();
+    const cable = wire();
+    state.obstacles = [cable];
+    const contactX = state.hugo.x + HUGO_WIDTH / 2;
+    state.hugo.y = getWireYAtX(cable, contactX) - HUGO_HEIGHT - 3;
+    state.hugo.velocityY = 360;
+    state.hugo.grounded = false;
+    advanceFlight(state, 0.05);
+    const startingGrindTime = state.hugo.grindTime;
+    const startingY = state.hugo.y;
+
+    advanceFlight(state, 0.2);
+    const movedCable = state.obstacles[0];
+    expect(state.hugo.surfaceId).toBe(cable.id);
+    expect(state.hugo.grindTime).toBeGreaterThan(startingGrindTime);
+    expect(state.hugo.y).not.toBe(startingY);
+    expect(state.hugo.y + HUGO_HEIGHT).toBeCloseTo(
+      getWireYAtX(movedCable, contactX),
+      7,
+    );
+  });
+
+  it('jumps cleanly off a grinding wire on a fresh press', () => {
+    const state = clearCourse();
+    const cable = wire();
+    state.obstacles = [cable];
+    const contactX = state.hugo.x + HUGO_WIDTH / 2;
+    state.hugo.y = getWireYAtX(cable, contactX) - HUGO_HEIGHT;
+    state.hugo.velocityY = 0;
+    state.hugo.grounded = true;
+    state.hugo.surfaceId = cable.id;
+    state.hugo.grindTime = 0.4;
+    state.hugo.jumpAvailable = true;
+
+    expect(setFlightThrust(state, true)).toBe(true);
+    expect(state.hugo.surfaceId).toBeNull();
+    expect(state.hugo.grindTime).toBe(Number.POSITIVE_INFINITY);
+    expect(state.hugo.grounded).toBe(false);
+    expect(state.hugo.velocityY).toBeLessThan(0);
+  });
+
+  it('lifts Hugo clear when the far wire post passes behind him', () => {
+    const state = clearCourse();
+    const contactX = state.hugo.x + HUGO_WIDTH / 2;
+    const cable = wire({ x: contactX - 300 + 10 });
+    state.obstacles = [cable];
+    state.hugo.y = getWireYAtX(cable, contactX) - HUGO_HEIGHT;
+    state.hugo.velocityY = 0;
+    state.hugo.grounded = true;
+    state.hugo.surfaceId = cable.id;
+    state.hugo.grindTime = 0.7;
+    advanceFlight(state, FIXED_STEP);
+    expect(state.hugo.surfaceId).toBeNull();
+    expect(state.hugo.grounded).toBe(false);
+    expect(state.hugo.velocityY).toBeLessThan(0);
+  });
+
+  it('treats both visible wire supports as solid wall-splat hazards', () => {
+    for (const post of ['left', 'right'] as const) {
+      const state = clearCourse();
+      const hugoFront = state.hugo.x + HUGO_WIDTH;
+      const cable = wire({
+        x: post === 'left'
+          ? hugoFront + 9
+          : hugoFront + 9 - 300,
+      });
+      state.obstacles = [cable];
+      advanceFlight(state, 0.04);
+      expect(state.hugo.stuckObstacleId).toBe(cable.id);
+      expect(state.hugo.stuckObstacleOffsetX).toBe(post === 'left' ? -8 : cable.width - 8);
+      expect(state.phase).toBe('playing');
+    }
+  });
+
   it('sticks Hugo harmlessly to an obstacle front instead of ending immediately', () => {
     const state = clearCourse();
     state.obstacles = [obstacle({
@@ -269,6 +406,7 @@ describe('HUGO GO! deterministic flight physics', () => {
       current.x - (state.obstacles[index].x + state.obstacles[index].width)
     ));
     expect(Math.min(...clearances)).toBeGreaterThanOrEqual(560);
+    expect(state.obstacles.some(({ kind }) => kind === 'wire')).toBe(true);
   });
 
   it('collects each coin exactly once', () => {

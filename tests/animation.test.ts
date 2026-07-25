@@ -2,6 +2,9 @@ import { describe, expect, it } from 'vitest';
 import {
   DOUBLE_JUMP_DURATION,
   FLIGHT_FRAME_COUNT,
+  GRIND_FRAME_COUNT,
+  GRIND_FRAME_HEIGHT,
+  GRIND_FRAME_WIDTH,
   JET_FLAME_FRAME_COUNT,
   JET_FLAME_FRAME_HEIGHT,
   JET_FLAME_FRAME_WIDTH,
@@ -13,6 +16,7 @@ import {
   getDoubleJumpFrameLayout,
   getFlightLoopFrame,
   getFreefallLoopFrame,
+  getGrindFrame,
   getJetFlameAnchors,
   getJetFlameFrame,
   getLandingFrame,
@@ -136,5 +140,18 @@ describe('Hugo character animation timing', () => {
     expect(getJetFlameFrame(0, 13).index).toBe(13);
     expect(getJetFlameFrame(1 / 30, 13).index).toBe(14);
     expect(getJetFlameFrame(17 / 30, 13).index).toBe(0);
+  });
+
+  it('plays all 30 authored side-profile grind frames in one second at 30 fps', () => {
+    const frames = Array.from({ length: GRIND_FRAME_COUNT }, (_, index) => (
+      getGrindFrame(index / 30)
+    ));
+    expect(frames.map((frame) => frame.index)).toEqual(
+      Array.from({ length: 30 }, (_, index) => index),
+    );
+    expect(getGrindFrame(1).index).toBe(0);
+    expect(new Set(frames.map(({ sourceX, sourceY }) => `${sourceX},${sourceY}`)).size).toBe(30);
+    expect(frames.every(({ sourceX }) => sourceX % GRIND_FRAME_WIDTH === 0)).toBe(true);
+    expect(frames.every(({ sourceY }) => sourceY % GRIND_FRAME_HEIGHT === 0)).toBe(true);
   });
 });

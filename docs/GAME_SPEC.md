@@ -20,6 +20,8 @@ The home screen still shows Workshop, Word, Number, Space, and Music so the prod
 | Mouse/trackpad | Hold the primary button in the game | Jump once, then apply continuous upward shoe-jet acceleration |
 | Keyboard | Hold Space, Up Arrow, or W | Jump once, then apply continuous upward shoe-jet acceleration |
 | Any gameplay input | Release and press again within `0.48 s` | Trigger one stronger double jump |
+| Any gameplay input | Descend onto a wire | Automatically enter a shoe-edge grind |
+| Any gameplay input | Press while grinding | Jump cleanly away from the cable |
 | Any gameplay input | Press while wall-splatted | Peel upward from the obstacle and resume flight |
 | Any | Back home | End the active view and return home |
 
@@ -34,9 +36,14 @@ The main input is press-and-hold rather than repeated impulses. A fresh press ju
 5. The fixed ground and obstacle tops are safe running surfaces.
 6. Hugo remains grounded while an obstacle scrolls beneath him and falls when its trailing edge passes.
 7. A direct horizontal impact splats Hugo against the obstacle instead of ending the run immediately.
-8. Pressing while splatted peels Hugo upward with a short side-collision grace window. If he is pushed fully off-screen or remains stuck for `1.25 s`, the run ends.
-9. Coins are collected once and removed.
-10. A failed recovery freezes the run, saves its result, and shows **Fly again**.
+8. Two-post wires appear occasionally. A downward crossing lands on the visible sagging
+   cable, follows its curve, collects its coin line, and exits with a small lift at the
+   far post. Rising through a cable from below does not attach Hugo; either support uses
+   the same recoverable wall-splat response as a solid obstacle.
+9. Pressing while grinding jumps immediately away from the wire.
+10. Pressing while splatted peels Hugo upward with a short side-collision grace window. If he is pushed fully off-screen or remains stuck for `1.25 s`, the run ends.
+11. Coins are collected once and removed.
+12. A failed recovery freezes the run, saves its result, and shows **Fly again**.
 
 The opening obstacle is placed far enough away for the player to see the running state and learn the control.
 
@@ -51,6 +58,7 @@ Obstacle detection combines:
 - inclusive axis-aligned overlap, where exact edge contact counts;
 - swept rectangle helpers for diagnostic coverage;
 - swept top-crossing tests using relative world motion for platform landings;
+- swept downward-only crossings against the exact quadratic wire curve;
 - front-face crossing tests for wall attachment;
 - fixed-step integration for vertical falls and horizontal scrolling.
 
@@ -61,6 +69,10 @@ This makes these outcomes explicit:
 - fast downward travel through a thin platform still lands on its top;
 - a fall toward an obstacle top lands precisely on that top;
 - a supported Hugo runs at the platform height until its trailing edge passes;
+- the same quadratic function drives wire drawing, shoe height, collision, and sprite
+  tangent rotation;
+- a grinding Hugo remains shoe-locked to the scrolling sag, can jump at any point, and
+  cannot be caught while moving upward from below;
 - front contact attaches Hugo to the scrolling obstacle without an immediate loss;
 - a recovery press clears the attachment and provides upward velocity;
 - an unrecovered Hugo is eventually pushed out and loses;
@@ -87,20 +99,33 @@ The home profile, missions, resource counters, best-distance footer, and local l
 
 ## Presentation
 
-Hugo has six generated full-body animation atlases:
+Hugo has eight generated full-body animation atlases:
 
 - an eight-frame grounded forward-leaning sprint cycle with arms swept back;
 - an eight-frame jump/landing sheet with push-off, airborne, falling, toe-contact, compression, and recovery poses;
 - a six-frame powered-glide loop with wind-rustled hair and jacket;
-- a six-frame unpowered glide/fall loop with distinct secondary motion.
+- a six-frame unpowered glide loop with distinct secondary motion;
+- a six-frame freefall loop with banking and calmer cloth motion;
 - a six-frame double-jump sheet with tuck, corkscrew, opening, and stabilization;
-- a six-frame non-injury wall-impact sheet with splat, wobble, peel, crouch, and upward recovery.
+- a six-frame non-injury wall-impact sheet with splat, wobble, peel, crouch, and upward recovery;
+- a 30-frame right-facing grind loop with one shoe leading, one trailing, and the outer
+  side edges of both soles aligned to the cable contact line.
 
-All atlases play at 12 fps. Jumping uses the clean crouch and airborne silhouettes in transition frames 3–4; the two stiffer duplicate stride poses are intentionally skipped. Landing uses frames 5–8 before returning to the run cycle. The authored frames keep Hugo as a complete rendered character so cloth, lighting, hands, and joint occlusion stay coherent; splitting this particular 3D art into separately generated limbs would introduce seams and identity drift.
+The run, flight, transition, and wall atlases play at their specified 10–14 fps cadences;
+the grind atlas plays all 30 authored frames at 30 fps. Jumping uses the clean crouch and
+airborne silhouettes in transition frames 3–4; the two stiffer duplicate stride poses are
+intentionally skipped. Landing uses frames 5–8 before returning to the run cycle. The
+authored frames keep Hugo as a complete rendered character so cloth, lighting, hands,
+and joint occlusion stay coherent; splitting this particular 3D art into separately
+generated limbs would introduce seams and identity drift.
 
 The two shoe flames use a generated 30-frame atlas played at 30 fps as a seamless one-second loop. Both shoes share the atlas but the rear flame starts 13 frames later, avoiding mirrored flicker. Every powered and glide character frame has two independently measured source-pixel coordinates on the visible metal heel ports plus its own down/back angle. The generated exhaust supplies the white/cyan plasma core, gold/orange body, coral-red tip, and sequential shape motion; a lightweight Canvas glow remains behind it. Flame length, opacity, and glow respond to smoothed thrust intensity.
 
-The old full-screen Forest image is not loaded. The play corridor uses a clean cyan sky, while a generated transparent ochre/scorched-red New Zealand forestry trail scrolls below it. Obstacles are large red procedural silhouettes with stripe, facet, or panel identities, keeping their art aligned with collision bounds.
+The old full-screen Forest image is not loaded. The play corridor uses a clean cyan sky,
+while a generated transparent ochre/scorched-red New Zealand forestry trail scrolls below
+it. Solid obstacles are large red procedural silhouettes with stripe, facet, or panel
+identities. The occasional wire is also procedural: two red support posts and a highlighted
+dark cable drawn from the same quadratic curve used by collision.
 
 ## Seasonal cycle
 

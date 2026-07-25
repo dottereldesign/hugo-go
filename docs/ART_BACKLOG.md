@@ -7,6 +7,8 @@ No character image required for the current Forest controls is missing.
 - One wide transparent ochre/scorched-red New Zealand forestry trail.
 - Flat home-wordmark-blue sky with Spring, Summer, Autumn, and Winter tint/particles.
 - Lightweight seasonal petals, light motes, leaves, and snow.
+- Procedural two-post drooping grind wire whose visible quadratic cable is also its
+  collision and character-tangent curve.
 - Eight-frame Hugo run cycle:
   1. right contact;
   2. right recoil/down;
@@ -21,9 +23,17 @@ No character image required for the current Forest controls is missing.
 - Eight-frame jump/landing sheet: push-off, rise, airborne, fall, toe-contact, compression, and run recovery.
 - Six-frame double-jump sheet: tuck, corkscrew, open, and stabilized flight.
 - Six-frame non-injury wall sheet: approach, splat, wobble, peel, crouch, and upward recovery.
+- Thirty-frame right-facing cable-grind loop: forward and rear shoes separated inline,
+  outer sole edges sharing one contact baseline, with sequential balance, jacket, and
+  hair motion at 30 fps.
 - One generated 30-frame shoe-jet flame loop played at 30 fps, reused across two measured per-frame metal heel-port anchors with a 13-frame offset and thrust-responsive length/opacity/glow.
 
-The run cycle plays at 12 fps and repeats every `0.667 s`. The two flight loops each repeat every `0.5 s`; the double jump plays at 14 fps, the wall action at 12 fps, and the jet flame completes its 30-frame loop every second. Across the character atlases there are **40 authored full-body frames**, plus **30 authored flame frames**. More generated in-betweens should be added only when they improve silhouette continuity enough to justify their download/decode cost.
+The run cycle plays at 12 fps and repeats every `0.667 s`. The flight loops repeat every
+`0.5–0.6 s`; the double jump plays at 14 fps, the wall action at 12 fps, and both the
+grind and jet flame complete their 30-frame loops every second. Across the character
+atlases there are **76 authored full-body frames**, plus **30 authored flame frames**.
+More generated in-betweens should be added only when they improve silhouette continuity
+enough to justify their download/decode cost.
 
 Full-body normalized cells are intentional. Separately generated heads, arms, jacket panels, and legs would be useful for a purpose-built 2D skeletal rig, but this established stylized 3D render contains overlapping cloth, hands, hair, soft lighting, and self-shadowing. Cutting it apart would create seams and inconsistent occlusion. If a future art direction changes to rigged 2D, author layered source parts together from one turnaround rather than slicing these rendered poses.
 

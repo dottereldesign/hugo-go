@@ -9,7 +9,8 @@ Physics and collision are render-rate independent and use fixed `1/120 s` subste
 - advances at most `0.05 s`;
 - moves a short obstacle/coin list;
 - uses one cached sky gradient;
-- draws the scrolling trail, pickups, red obstacles, one Hugo atlas cell, and up to 24 seasonal particles;
+- draws the scrolling trail, pickups, red obstacles or one quadratic wire, one Hugo atlas
+  cell, and up to 24 seasonal particles;
 - writes HUD text only when a displayed value changes.
 
 The animation loop pauses while the document is hidden. Character glow is limited to the active jet effect, avoiding full-scene per-frame filters or offscreen buffers.
@@ -23,17 +24,20 @@ npm run build
 npm run audit:performance
 ```
 
-The audit serves the production build, opens a `390 × 844` Chromium viewport at simulated DPR 3, starts a powered jump, and samples 180 animation frames after load/input settling. The checked mobile budget is:
+The audit serves the production build, opens a `390 × 844` Chromium viewport at simulated
+DPR 3, starts a powered jump, then forces and warms the 30 fps cable-grind path before
+sampling 180 settled animation frames. The checked mobile budget is:
 
 - backing store exactly `780 × 1560`;
 - p95 frame interval no slower than `34 ms` in the constrained headless runner.
 
 Latest local result on 25 July 2026:
 
-- average frame interval: approximately `17.2 ms` (about 58 fps);
+- average frame interval: approximately `16.76 ms` (about 60 fps);
 - p95 interval: `16.8 ms`;
+- maximum interval: `33.4 ms`;
 - backing store: `780 × 1560`;
-- decoded resources: approximately `2.42 MB` across 28 requests;
+- decoded resources: approximately `2.79 MB` across 29 requests;
 - long tasks during the settled sample: `0`.
 
 The 2× cap is a deliberate quality/performance balance: it doubles Hugo's physical render height compared with the former 1× mobile path while avoiding the 2.25× pixel-count increase from 2× to 3×. A controlled 3× comparison regressed the same audit to a `50 ms` p95 with repeated long tasks, so 3× is not used on phones.
@@ -45,11 +49,17 @@ Runtime character atlases are approximately:
 - run: 167 KB;
 - powered glide: 111 KB;
 - free glide: 119 KB;
+- freefall: 118 KB;
 - jump/landing: 140 KB;
 - double jump: 120 KB;
 - wall impact/recovery: 100 KB.
 
-The 30-frame jet-flame atlas is approximately 132 KB and the trail is 64 KB. Full generation sources under `art/` are excluded from production. The flame uses one shared decoded atlas for both shoes; only its small glow remains procedural.
+The 30-frame side-profile grind atlas is 366 KB, the 30-frame jet-flame atlas is
+approximately 132 KB, and the trail is 64 KB. The grind atlas is packed into a near-square
+`1120 × 1176` texture using `224 × 196` cells: enough source resolution for the stable
+2× Canvas while avoiding the first draft’s overly wide texture. Images are explicitly
+decoded before being marked render-ready. Full generation sources under `art/` are
+excluded from production.
 
 ## Mobile behavior
 

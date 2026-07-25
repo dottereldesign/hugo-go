@@ -125,6 +125,61 @@ test('lands on an obstacle, runs along it, and jumps cleanly from its top', asyn
   expect(jumping.jumpTime).toBeLessThan(0.34);
 });
 
+test('lands from above, follows, animates, and jumps from a drooping wire', async ({ page }) => {
+  await page.goto('/#/game');
+  await page.evaluate(() => {
+    const state = window.__HUGO_GO__.getGameState();
+    const wire = {
+      id: 817,
+      kind: 'wire' as const,
+      x: 20,
+      y: 430,
+      width: 300,
+      height: 274,
+      sag: 48,
+    };
+    const contactX = state.hugo.x + 16;
+    const progress = (contactX - wire.x) / wire.width;
+    const wireY = wire.y + wire.sag * 4 * progress * (1 - progress);
+    Object.assign(state, { obstacles: [wire], coins: [] });
+    Object.assign(state.hugo, {
+      y: wireY - 50 - 5,
+      velocityY: 420,
+      grounded: false,
+      thrusting: false,
+      thrustIntensity: 0,
+      jumpAvailable: true,
+      surfaceId: null,
+      grindTime: Number.POSITIVE_INFINITY,
+    });
+  });
+
+  await page.waitForFunction(() => window.__HUGO_GO__.getGameState().hugo.surfaceId === 817);
+  const landed = await page.evaluate(() => ({
+    y: window.__HUGO_GO__.getGameState().hugo.y,
+    grindTime: window.__HUGO_GO__.getGameState().hugo.grindTime,
+  }));
+  await page.waitForTimeout(180);
+  const grinding = await page.evaluate(() => ({
+    y: window.__HUGO_GO__.getGameState().hugo.y,
+    grindTime: window.__HUGO_GO__.getGameState().hugo.grindTime,
+    surfaceId: window.__HUGO_GO__.getGameState().hugo.surfaceId,
+    grindAssetLoaded: performance.getEntriesByType('resource').some(
+      ({ name }) => name.includes('hugo-grind-cycle'),
+    ),
+  }));
+  expect(grinding.surfaceId).toBe(817);
+  expect(grinding.grindTime).toBeGreaterThan(landed.grindTime);
+  expect(grinding.y).not.toBeCloseTo(landed.y, 3);
+  expect(grinding.grindAssetLoaded).toBe(true);
+
+  await page.keyboard.press('Space');
+  const jumping = await page.evaluate(() => ({ ...window.__HUGO_GO__.getGameState().hugo }));
+  expect(jumping.surfaceId).toBeNull();
+  expect(jumping.grindTime).toBe(Number.POSITIVE_INFINITY);
+  expect(jumping.velocityY).toBeLessThan(0);
+});
+
 test('a front impact splats first and a quick hold recovers the run', async ({ page }) => {
   await page.goto('/#/game');
   await page.evaluate(() => {

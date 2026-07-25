@@ -1,6 +1,7 @@
 import hugoDoubleJumpCycleUrl from '../assets/game/hugo-double-jump-cycle.webp';
 import hugoFreefallCycleUrl from '../assets/game/hugo-freefall-cycle.webp';
 import hugoGlideCycleUrl from '../assets/game/hugo-glide-cycle.webp';
+import hugoGrindCycleUrl from '../assets/game/hugo-grind-cycle.webp';
 import hugoJumpLandCycleUrl from '../assets/game/hugo-jump-land-cycle.webp';
 import hugoPoweredCycleUrl from '../assets/game/hugo-powered-cycle.webp';
 import hugoRunCycleUrl from '../assets/game/hugo-run-cycle.webp';
@@ -9,6 +10,8 @@ import jetFlameCycleUrl from '../assets/game/jet-flame-cycle.webp';
 import trailGroundUrl from '../assets/game/trail-ground.webp';
 import {
   DOUBLE_JUMP_DURATION,
+  GRIND_FRAME_HEIGHT,
+  GRIND_FRAME_WIDTH,
   JET_FLAME_FRAME_HEIGHT,
   JET_FLAME_FRAME_WIDTH,
   WALL_RECOVERY_DURATION,
@@ -16,6 +19,7 @@ import {
   getDoubleJumpFrameLayout,
   getFlightLoopFrame,
   getFreefallLoopFrame,
+  getGrindFrame,
   getJetFlameAnchors,
   getJetFlameFrame,
   getLandingFrame,
@@ -37,6 +41,8 @@ import {
   HUGO_WIDTH,
   advanceFlight,
   createFlightGame,
+  getGrindingWire,
+  getWireSlopeAtX,
   setFlightThrust,
   type FlightGameState,
   type Obstacle,
@@ -68,6 +74,7 @@ type LoadedSprite = HTMLImageElement & { ready?: boolean };
 
 const RUN_DRAW_HEIGHT = 76;
 const AIRBORNE_DRAW_HEIGHT = 84;
+const GRIND_DRAW_HEIGHT = 82;
 const JET_FLAME_SECOND_SHOE_OFFSET = 13;
 
 export class FlightGame {
@@ -86,6 +93,7 @@ export class FlightGame {
   private readonly doubleJumpCycleSprite = this.createSprite();
   private readonly wallRecoveryCycleSprite = this.createSprite();
   private readonly runCycleSprite = this.createSprite();
+  private readonly grindCycleSprite = this.createSprite();
   private readonly jetFlameCycleSprite = this.createSprite();
   private readonly trailGroundSprite = this.createSprite();
   private hudDistance = -1;
@@ -345,6 +353,11 @@ export class FlightGame {
   }
 
   private drawObstacle(context: CanvasRenderingContext2D, obstacle: Obstacle): void {
+    if (obstacle.kind === 'wire') {
+      this.drawGrindingWire(context, obstacle);
+      return;
+    }
+
     context.save();
     context.translate(obstacle.x, obstacle.y);
     context.fillStyle = obstacle.kind === 'log'
@@ -417,8 +430,104 @@ export class FlightGame {
     context.restore();
   }
 
+  private drawGrindingWire(context: CanvasRenderingContext2D, obstacle: Obstacle): void {
+    const sag = obstacle.sag ?? 0;
+    const poleTop = -28;
+    const poleBottom = obstacle.height + 18;
+    const drawPole = (x: number) => {
+      context.fillStyle = '#b81740';
+      context.strokeStyle = '#650c29';
+      context.lineWidth = 4;
+      context.beginPath();
+      context.roundRect(x - 8, poleTop, 16, poleBottom - poleTop, 6);
+      context.fill();
+      context.stroke();
+
+      context.fillStyle = '#f04a68';
+      context.fillRect(x - 3, poleTop + 7, 4, poleBottom - poleTop - 15);
+      context.fillStyle = '#5b1730';
+      context.beginPath();
+      context.roundRect(x - 18, poleTop - 4, 36, 10, 5);
+      context.fill();
+      context.stroke();
+
+      context.fillStyle = '#ffd45c';
+      context.beginPath();
+      context.arc(x, -1, 5.5, 0, Math.PI * 2);
+      context.fill();
+      context.strokeStyle = '#6f3e12';
+      context.lineWidth = 2;
+      context.stroke();
+    };
+
+    context.save();
+    context.translate(obstacle.x, obstacle.y);
+    drawPole(0);
+    drawPole(obstacle.width);
+
+    context.lineCap = 'round';
+    context.strokeStyle = 'rgba(44, 18, 38, .38)';
+    context.lineWidth = 6;
+    context.beginPath();
+    context.moveTo(0, 0);
+    context.quadraticCurveTo(obstacle.width / 2, sag * 2, obstacle.width, 0);
+    context.stroke();
+
+    context.strokeStyle = '#42263f';
+    context.lineWidth = 3.2;
+    context.beginPath();
+    context.moveTo(0, 0);
+    context.quadraticCurveTo(obstacle.width / 2, sag * 2, obstacle.width, 0);
+    context.stroke();
+
+    context.strokeStyle = 'rgba(215, 235, 241, .76)';
+    context.lineWidth = 1.1;
+    context.beginPath();
+    context.moveTo(0, -1);
+    context.quadraticCurveTo(obstacle.width / 2, sag * 2 - 1, obstacle.width, -1);
+    context.stroke();
+    context.restore();
+  }
+
   private drawHugo(context: CanvasRenderingContext2D): void {
     const { hugo } = this.state;
+    const grindingWire = getGrindingWire(this.state);
+
+    if (grindingWire) {
+      const contactX = hugo.x + HUGO_WIDTH / 2;
+      const contactY = hugo.y + HUGO_HEIGHT;
+      const cableAngle = Math.atan(getWireSlopeAtX(grindingWire, contactX));
+      context.save();
+      context.translate(
+        this.snapToDevicePixel(contactX),
+        this.snapToDevicePixel(contactY),
+      );
+      context.rotate(cableAngle);
+      this.drawGrindingSparks(context);
+      if (this.grindCycleSprite.ready) {
+        const frame = getGrindFrame(hugo.grindTime);
+        const drawWidth = GRIND_DRAW_HEIGHT * (GRIND_FRAME_WIDTH / GRIND_FRAME_HEIGHT);
+        const shoeEdgePadding = GRIND_DRAW_HEIGHT * (4 / GRIND_FRAME_HEIGHT);
+        context.drawImage(
+          this.grindCycleSprite,
+          frame.sourceX,
+          frame.sourceY,
+          GRIND_FRAME_WIDTH,
+          GRIND_FRAME_HEIGHT,
+          -drawWidth / 2,
+          -GRIND_DRAW_HEIGHT + shoeEdgePadding,
+          drawWidth,
+          GRIND_DRAW_HEIGHT,
+        );
+      } else {
+        context.fillStyle = '#1cb6c9';
+        context.beginPath();
+        context.roundRect(-HUGO_WIDTH / 2, -HUGO_HEIGHT, HUGO_WIDTH, HUGO_HEIGHT, 14);
+        context.fill();
+      }
+      context.restore();
+      return;
+    }
 
     if (hugo.grounded && hugo.groundedTime >= TRANSITION_DURATION && this.runCycleSprite.ready) {
       const runFrame = getRunFrame(this.state.elapsed);
@@ -507,6 +616,26 @@ export class FlightGame {
       context.fill();
       context.restore();
     }
+  }
+
+  private drawGrindingSparks(context: CanvasRenderingContext2D): void {
+    const pulse = this.state.hugo.grindTime * 30;
+    context.save();
+    for (let shoe = 0; shoe < 2; shoe += 1) {
+      const shoeX = shoe === 0 ? -27 : 28;
+      for (let index = 0; index < 3; index += 1) {
+        const phase = modulo(Math.floor(pulse) + shoe * 4 + index * 3, 9) / 9;
+        const length = 3 + phase * 8;
+        context.globalAlpha = 0.28 + (1 - phase) * 0.58;
+        context.strokeStyle = index === 0 ? '#fff5b0' : '#ffb42f';
+        context.lineWidth = 0.8 + (1 - phase) * 1.1;
+        context.beginPath();
+        context.moveTo(shoeX, 0);
+        context.lineTo(shoeX - length, 2 + phase * 7 + index);
+        context.stroke();
+      }
+    }
+    context.restore();
   }
 
   private getAnimatedFlightPose(): {
@@ -689,8 +818,15 @@ export class FlightGame {
     const image = new Image() as LoadedSprite;
     image.decoding = 'async';
     image.addEventListener('load', () => {
-      image.ready = true;
-      this.render();
+      const markReady = () => {
+        image.ready = true;
+        this.render();
+      };
+      if (typeof image.decode === 'function') {
+        void image.decode().then(markReady, markReady);
+      } else {
+        markReady();
+      }
     });
     return image;
   }
@@ -705,6 +841,7 @@ export class FlightGame {
     this.doubleJumpCycleSprite.src = hugoDoubleJumpCycleUrl;
     this.wallRecoveryCycleSprite.src = hugoWallRecoveryCycleUrl;
     this.runCycleSprite.src = hugoRunCycleUrl;
+    this.grindCycleSprite.src = hugoGrindCycleUrl;
     this.jetFlameCycleSprite.src = jetFlameCycleUrl;
     this.trailGroundSprite.src = trailGroundUrl;
   }

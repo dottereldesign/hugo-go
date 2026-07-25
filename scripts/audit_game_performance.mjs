@@ -46,7 +46,7 @@ try {
   });
   await page.goto(`${origin}/#/game`, { waitUntil: 'networkidle' });
   await page.waitForFunction(() => (
-    performance.getEntriesByType('resource').some((entry) => entry.name.includes('hugo-wall-recovery-cycle'))
+    performance.getEntriesByType('resource').some((entry) => entry.name.includes('hugo-grind-cycle'))
   ));
   await page.waitForTimeout(1_500);
   const canvas = page.locator('#game-canvas');
@@ -57,6 +57,46 @@ try {
   await page.waitForTimeout(280);
   await page.mouse.up();
   await page.waitForTimeout(500);
+  await page.evaluate(() => {
+    const state = window.__HUGO_GO__.getGameState();
+    const wire = {
+      id: 9_001,
+      kind: 'wire',
+      x: -100,
+      y: 430,
+      width: 1_200,
+      height: 274,
+      sag: 60,
+    };
+    const contactX = state.hugo.x + 16;
+    const progress = (contactX - wire.x) / wire.width;
+    const wireY = wire.y + wire.sag * 4 * progress * (1 - progress);
+    state.obstacles = [wire];
+    state.coins = [];
+    Object.assign(state.hugo, {
+      y: wireY - 50,
+      velocityY: 0,
+      grounded: true,
+      thrusting: false,
+      thrustIntensity: 0,
+      jumpAvailable: true,
+      doubleJumpAvailable: false,
+      doubleJumpTime: Number.POSITIVE_INFINITY,
+      surfaceId: wire.id,
+      grindTime: 0,
+    });
+  });
+  await page.evaluate(async () => {
+    let frames = 0;
+    await new Promise((resolve) => {
+      const warmGrindRenderer = () => {
+        frames += 1;
+        if (frames >= 120) resolve();
+        else requestAnimationFrame(warmGrindRenderer);
+      };
+      requestAnimationFrame(warmGrindRenderer);
+    });
+  });
   await page.evaluate(() => {
     window.__HUGO_GO_LONG_TASKS__.length = 0;
   });

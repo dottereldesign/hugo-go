@@ -20,6 +20,11 @@ export const JET_FLAME_FRAMES_PER_SECOND = 30;
 export const JET_FLAME_FRAME_WIDTH = 96;
 export const JET_FLAME_FRAME_HEIGHT = 160;
 export const JET_FLAME_ATLAS_COLUMNS = 10;
+export const GRIND_FRAME_COUNT = 30;
+export const GRIND_FRAMES_PER_SECOND = 30;
+export const GRIND_FRAME_WIDTH = 224;
+export const GRIND_FRAME_HEIGHT = 196;
+export const GRIND_ATLAS_COLUMNS = 5;
 export type FlightPoseKind = 'powered' | 'glide';
 
 const RUN_FRAME_Y_OFFSETS = [0, 2, -1, -7, 0, 2, -1, -7] as const;
@@ -169,6 +174,16 @@ export function getJetFlameFrame(
     index,
     sourceX: (index % JET_FLAME_ATLAS_COLUMNS) * JET_FLAME_FRAME_WIDTH,
     sourceY: Math.floor(index / JET_FLAME_ATLAS_COLUMNS) * JET_FLAME_FRAME_HEIGHT,
+  };
+}
+
+export function getGrindFrame(elapsedSeconds: number): AtlasFrame {
+  const safeElapsed = Number.isFinite(elapsedSeconds) ? Math.max(0, elapsedSeconds) : 0;
+  const index = Math.floor(safeElapsed * GRIND_FRAMES_PER_SECOND) % GRIND_FRAME_COUNT;
+  return {
+    index,
+    sourceX: (index % GRIND_ATLAS_COLUMNS) * GRIND_FRAME_WIDTH,
+    sourceY: Math.floor(index / GRIND_ATLAS_COLUMNS) * GRIND_FRAME_HEIGHT,
   };
 }
 

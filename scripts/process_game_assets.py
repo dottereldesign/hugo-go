@@ -38,6 +38,16 @@ JET_FLAME_SOURCE_ROWS = 2
 JET_FLAME_FRAME_SIZE = (96, 160)
 JET_FLAME_ATLAS_COLUMNS = 10
 JET_FLAME_ATLAS_ROWS = 3
+GRIND_SOURCE_SHEETS = (
+    "hugo-grind-frames-01-10-transparent.png",
+    "hugo-grind-frames-11-20-transparent.png",
+    "hugo-grind-frames-21-30-transparent.png",
+)
+GRIND_SOURCE_COLUMNS = 5
+GRIND_SOURCE_ROWS = 2
+GRIND_FRAME_SIZE = (224, 196)
+GRIND_ATLAS_COLUMNS = 5
+GRIND_ATLAS_ROWS = 6
 
 
 def process_transparent_asset(source_name: str, output_name: str) -> None:
@@ -294,6 +304,79 @@ def process_jet_flame_sheets() -> None:
     )
 
 
+def process_grind_sheets() -> None:
+    poses: list[Image.Image] = []
+    for source_name in GRIND_SOURCE_SHEETS:
+        sheet = Image.open(SOURCE_DIRECTORY / source_name).convert("RGBA")
+        for row in range(GRIND_SOURCE_ROWS):
+            for column in range(GRIND_SOURCE_COLUMNS):
+                left = round(column * sheet.width / GRIND_SOURCE_COLUMNS)
+                top = round(row * sheet.height / GRIND_SOURCE_ROWS)
+                right = round((column + 1) * sheet.width / GRIND_SOURCE_COLUMNS)
+                bottom = round((row + 1) * sheet.height / GRIND_SOURCE_ROWS)
+                cell = sheet.crop((left, top, right, bottom))
+                bounds = cell.getchannel("A").getbbox()
+                if bounds is None:
+                    raise ValueError(
+                        f"{source_name} row {row + 1}, column {column + 1} has no Hugo pose"
+                    )
+                pose = cell.crop(bounds)
+                if pose.width < cell.width * 0.45 or pose.height < cell.height * 0.42:
+                    raise ValueError(
+                        f"{source_name} row {row + 1}, column {column + 1} "
+                        "does not contain a complete full-body pose"
+                    )
+                poses.append(pose)
+
+    expected_count = GRIND_ATLAS_COLUMNS * GRIND_ATLAS_ROWS
+    if len(poses) != expected_count:
+        raise ValueError(f"Expected {expected_count} grind poses, found {len(poses)}")
+
+    widths = [pose.width for pose in poses]
+    heights = [pose.height for pose in poses]
+    if max(widths) / min(widths) > 1.2 or max(heights) / min(heights) > 1.18:
+        raise ValueError("Generated grind poses vary too much in scale for a stable animation")
+
+    frame_width, frame_height = GRIND_FRAME_SIZE
+    scale = min((frame_width - 12) / max(widths), (frame_height - 12) / max(heights))
+    atlas = Image.new(
+        "RGBA",
+        (
+            frame_width * GRIND_ATLAS_COLUMNS,
+            frame_height * GRIND_ATLAS_ROWS,
+        ),
+        (0, 0, 0, 0),
+    )
+    normalized_frames: list[Image.Image] = []
+    for index, pose in enumerate(poses):
+        resized = pose.resize(
+            (round(pose.width * scale), round(pose.height * scale)),
+            Image.Resampling.LANCZOS,
+        )
+        frame = Image.new("RGBA", GRIND_FRAME_SIZE, (0, 0, 0, 0))
+        x = (frame_width - resized.width) // 2
+        y = frame_height - resized.height - 4
+        frame.alpha_composite(resized, (x, y))
+        normalized_frames.append(frame)
+        atlas.alpha_composite(
+            frame,
+            (
+                (index % GRIND_ATLAS_COLUMNS) * frame_width,
+                (index // GRIND_ATLAS_COLUMNS) * frame_height,
+            ),
+        )
+
+    if len({frame.tobytes() for frame in normalized_frames}) != expected_count:
+        raise ValueError("Every grind animation frame must be visually distinct")
+
+    output = OUTPUT_DIRECTORY / "hugo-grind-cycle.webp"
+    atlas.save(output, "WEBP", quality=93, method=6, exact=True)
+    print(
+        f"Wrote {output.relative_to(ROOT)} "
+        f"({expected_count} frames, {atlas.width}x{atlas.height})"
+    )
+
+
 if __name__ == "__main__":
     OUTPUT_DIRECTORY.mkdir(parents=True, exist_ok=True)
     for source_asset, output_asset in TRANSPARENT_ASSETS.items():
@@ -302,3 +385,4 @@ if __name__ == "__main__":
         process_character_sheet(*sheet)
     process_trail_ground()
     process_jet_flame_sheets()
+    process_grind_sheets()
