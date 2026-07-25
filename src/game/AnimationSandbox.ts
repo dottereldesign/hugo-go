@@ -43,13 +43,16 @@ interface Preview {
   controls: HTMLElement;
   playButton: HTMLButtonElement;
   loopButton: HTMLButtonElement;
+  editButton: HTMLButtonElement;
   frameReadout: HTMLElement;
   frameButtons: HTMLButtonElement[];
   elapsed: number;
-  forcedFrame: number | null;
+  frameAccumulator: number;
   currentFrame: number;
   playing: boolean;
   looping: boolean;
+  editing: boolean;
+  activeFrames: boolean[];
 }
 
 interface DrawRect {
@@ -64,7 +67,7 @@ const ANIMATION_CONFIG: Record<AnimationKind, { frameCount: number; duration: nu
   jump: { frameCount: 8, duration: 2.4 },
   'double-jump': { frameCount: 6, duration: 2 },
   freefall: { frameCount: 6, duration: 0.6 },
-  'freefall-v2': { frameCount: 30, duration: 1 },
+  'freefall-v2': { frameCount: 24, duration: 0.8 },
   powered: { frameCount: 6, duration: 0.5 },
   glide: { frameCount: 6, duration: 0.5 },
   grind: { frameCount: 30, duration: 1 },
@@ -105,15 +108,19 @@ export class AnimationSandbox {
         controls,
         playButton: this.controlButton(controls, '[data-sandbox-control="play"]'),
         loopButton: this.controlButton(controls, '[data-sandbox-control="loop"]'),
+        editButton: this.controlButton(controls, '[data-sandbox-control="edit"]'),
         frameReadout: this.controlElement(controls, '[data-sandbox-frame-readout]'),
         frameButtons,
         elapsed: 0,
-        forcedFrame: null,
+        frameAccumulator: 0,
         currentFrame: 0,
         playing: true,
         looping: true,
+        editing: false,
+        activeFrames: this.loadActiveFrames(kind, ANIMATION_CONFIG[kind].frameCount),
       };
     });
+    for (const preview of this.previews) this.syncControls(preview);
     this.root.addEventListener('click', (event) => this.handleControl(event));
   }
 
@@ -136,7 +143,7 @@ export class AnimationSandbox {
     this.previousTime = time;
     for (const preview of this.previews) {
       if (preview.playing) this.advance(preview, delta);
-      this.drawPreview(preview, preview.elapsed, preview.forcedFrame);
+      this.drawPreview(preview, preview.elapsed, preview.currentFrame);
     }
     this.animationFrame = window.requestAnimationFrame((nextTime) => this.tick(nextTime));
   }
@@ -241,7 +248,7 @@ export class AnimationSandbox {
 
   private drawFreefallV2(preview: Preview, elapsed: number, forcedFrame: number | null): void {
     const frame = getFreefallV2LoopFrame(forcedFrame === null ? elapsed : forcedFrame / 30);
-    const momentum = Math.sin(frame.index / 30 * Math.PI * 2) * 7;
+    const momentum = Math.sin(frame.index / 24 * Math.PI * 2) * 7;
     this.drawAtlas(
       preview.context,
       this.sprites.freefallV2,
@@ -333,15 +340,20 @@ export class AnimationSandbox {
   private advance(preview: Preview, delta: number): void {
     const { duration, frameCount } = ANIMATION_CONFIG[preview.kind];
     preview.elapsed += delta;
-    if (preview.elapsed < duration) return;
-    if (preview.looping) {
-      preview.elapsed %= duration;
-      return;
+    preview.frameAccumulator += delta;
+    const frameDuration = duration / frameCount;
+    while (preview.frameAccumulator >= frameDuration) {
+      preview.frameAccumulator -= frameDuration;
+      const nextFrame = this.findNextActiveFrame(preview, preview.currentFrame, 1);
+      if (nextFrame === null) {
+        preview.playing = false;
+        preview.frameAccumulator = 0;
+        this.syncControls(preview);
+        return;
+      }
+      preview.currentFrame = nextFrame;
+      preview.elapsed = this.seekElapsed(preview.kind, nextFrame);
     }
-    preview.elapsed = this.seekElapsed(preview.kind, frameCount - 1);
-    preview.forcedFrame = frameCount - 1;
-    preview.playing = false;
-    this.syncControls(preview);
   }
 
   private handleControl(event: Event): void {
@@ -353,7 +365,8 @@ export class AnimationSandbox {
 
     const selectedFrame = button.dataset.frame;
     if (selectedFrame !== undefined) {
-      this.selectFrame(preview, Number(selectedFrame));
+      if (preview.editing) this.toggleFrameActive(preview, Number(selectedFrame));
+      else this.selectFrame(preview, Number(selectedFrame));
       return;
     }
 
@@ -361,16 +374,20 @@ export class AnimationSandbox {
       case 'play':
         if (preview.playing) {
           preview.playing = false;
-          preview.forcedFrame = preview.currentFrame;
         } else {
+          if (!preview.activeFrames[preview.currentFrame]) {
+            preview.currentFrame = this.findNextActiveFrame(preview, preview.currentFrame, 1)
+              ?? preview.activeFrames.findIndex(Boolean);
+          }
           preview.elapsed = this.seekElapsed(preview.kind, preview.currentFrame);
-          preview.forcedFrame = null;
+          preview.frameAccumulator = 0;
           preview.playing = true;
         }
         break;
       case 'restart':
-        preview.elapsed = 0;
-        preview.forcedFrame = null;
+        preview.currentFrame = preview.activeFrames.findIndex(Boolean);
+        preview.elapsed = this.seekElapsed(preview.kind, preview.currentFrame);
+        preview.frameAccumulator = 0;
         preview.playing = true;
         break;
       case 'previous':
@@ -382,9 +399,17 @@ export class AnimationSandbox {
       case 'loop':
         preview.looping = !preview.looping;
         break;
+      case 'edit':
+        preview.editing = !preview.editing;
+        if (preview.editing) preview.playing = false;
+        break;
+      case 'activate-all':
+        preview.activeFrames.fill(true);
+        this.saveActiveFrames(preview);
+        break;
     }
     this.syncControls(preview);
-    this.drawPreview(preview, preview.elapsed, preview.forcedFrame);
+    this.drawPreview(preview, preview.elapsed, preview.currentFrame);
   }
 
   private selectFrame(preview: Preview, requestedFrame: number): void {
@@ -394,10 +419,52 @@ export class AnimationSandbox {
       : Math.max(0, Math.min(frameCount - 1, Math.floor(requestedFrame)));
     preview.currentFrame = frame;
     preview.elapsed = this.seekElapsed(preview.kind, frame);
-    preview.forcedFrame = frame;
+    preview.frameAccumulator = 0;
     preview.playing = false;
     this.syncControls(preview);
     this.drawPreview(preview, preview.elapsed, frame);
+  }
+
+  private toggleFrameActive(preview: Preview, requestedFrame: number): void {
+    const frame = Math.max(0, Math.min(preview.activeFrames.length - 1, Math.floor(requestedFrame)));
+    const activeCount = preview.activeFrames.filter(Boolean).length;
+    if (preview.activeFrames[frame] && activeCount === 1) return;
+    preview.activeFrames[frame] = !preview.activeFrames[frame];
+    this.saveActiveFrames(preview);
+    this.syncControls(preview);
+  }
+
+  private findNextActiveFrame(preview: Preview, from: number, direction: 1 | -1): number | null {
+    const frameCount = preview.activeFrames.length;
+    for (let step = 1; step <= frameCount; step += 1) {
+      const candidate = from + step * direction;
+      if (!preview.looping && (candidate < 0 || candidate >= frameCount)) return null;
+      const frame = (candidate % frameCount + frameCount) % frameCount;
+      if (preview.activeFrames[frame]) return frame;
+    }
+    return null;
+  }
+
+  private loadActiveFrames(kind: AnimationKind, frameCount: number): boolean[] {
+    try {
+      const saved = JSON.parse(localStorage.getItem(`hugo-go:sandbox-frames:${kind}`) ?? 'null');
+      if (
+        Array.isArray(saved)
+        && saved.length === frameCount
+        && saved.every((value) => typeof value === 'boolean')
+        && saved.some(Boolean)
+      ) return saved;
+    } catch {
+      // Invalid local review data falls back to the complete production sequence.
+    }
+    return Array.from({ length: frameCount }, () => true);
+  }
+
+  private saveActiveFrames(preview: Preview): void {
+    localStorage.setItem(
+      `hugo-go:sandbox-frames:${preview.kind}`,
+      JSON.stringify(preview.activeFrames),
+    );
   }
 
   private seekElapsed(kind: AnimationKind, frame: number): number {
@@ -419,10 +486,13 @@ export class AnimationSandbox {
         <strong data-sandbox-frame-readout>Frame 1 / ${frameCount}</strong>
         <button type="button" data-sandbox-control="next" aria-label="Next frame">+1</button>
         <button class="sandbox-loop is-active" type="button" data-sandbox-control="loop" aria-pressed="true">Loop</button>
+        <button class="sandbox-edit" type="button" data-sandbox-control="edit" aria-pressed="false">Edit frames</button>
+        <button class="sandbox-activate-all" type="button" data-sandbox-control="activate-all">Use all</button>
       </div>
       <div class="sandbox-frame-picker" role="group" aria-label="${kind} frames">
         ${Array.from({ length: frameCount }, (_, index) => `<button type="button" data-frame="${index}" aria-label="Show frame ${index + 1}">${index + 1}</button>`).join('')}
       </div>
+      <p class="sandbox-edit-help">Editing: click frame numbers to deactivate or restore them. Red frames are skipped during playback.</p>
     `;
     canvas.after(controls);
     return controls;
@@ -433,11 +503,20 @@ export class AnimationSandbox {
     preview.playButton.setAttribute('aria-pressed', String(!preview.playing));
     preview.loopButton.classList.toggle('is-active', preview.looping);
     preview.loopButton.setAttribute('aria-pressed', String(preview.looping));
-    preview.frameReadout.textContent = `Frame ${preview.currentFrame + 1} / ${ANIMATION_CONFIG[preview.kind].frameCount}`;
+    preview.editButton.classList.toggle('is-active', preview.editing);
+    preview.editButton.setAttribute('aria-pressed', String(preview.editing));
+    preview.editButton.textContent = preview.editing ? 'Done editing' : 'Edit frames';
+    preview.controls.classList.toggle('is-editing', preview.editing);
+    const activeCount = preview.activeFrames.filter(Boolean).length;
+    preview.frameReadout.textContent = `Frame ${preview.currentFrame + 1} / ${ANIMATION_CONFIG[preview.kind].frameCount} · ${activeCount} active`;
     preview.frameButtons.forEach((button, index) => {
-      const active = index === preview.currentFrame;
-      button.classList.toggle('is-active', active);
-      button.setAttribute('aria-pressed', String(active));
+      const selected = index === preview.currentFrame;
+      const enabled = preview.activeFrames[index];
+      button.classList.toggle('is-active', selected);
+      button.classList.toggle('is-deactivated', !enabled);
+      button.dataset.frameActive = String(enabled);
+      button.setAttribute('aria-pressed', String(selected));
+      button.setAttribute('aria-label', `${preview.editing ? (enabled ? 'Deactivate' : 'Reactivate') : 'Show'} frame ${index + 1}${enabled ? '' : ', deactivated'}`);
     });
   }
 

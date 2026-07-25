@@ -50,15 +50,15 @@ describe('Hugo character animation timing', () => {
     expect(getFreefallLoopFrame(FLIGHT_FRAME_COUNT / 10).index).toBe(0);
   });
 
-  it('plays all 30 Freefall V2 poses in one second with unique atlas cells', () => {
+  it('plays the approved first 24 Freefall V2 poses at 30 fps with unique atlas cells', () => {
     const frames = Array.from({ length: FREEFALL_V2_FRAME_COUNT }, (_, index) => (
       getFreefallV2LoopFrame(index / 30)
     ));
     expect(frames.map(({ index }) => index)).toEqual(
-      Array.from({ length: 30 }, (_, index) => index),
+      Array.from({ length: 24 }, (_, index) => index),
     );
-    expect(getFreefallV2LoopFrame(1).index).toBe(0);
-    expect(new Set(frames.map(({ sourceX, sourceY }) => `${sourceX},${sourceY}`)).size).toBe(30);
+    expect(getFreefallV2LoopFrame(0.8).index).toBe(0);
+    expect(new Set(frames.map(({ sourceX, sourceY }) => `${sourceX},${sourceY}`)).size).toBe(24);
     expect(frames.every(({ sourceX }) => sourceX % FREEFALL_V2_FRAME_WIDTH === 0)).toBe(true);
     expect(frames.every(({ sourceY }) => sourceY % FREEFALL_V2_FRAME_HEIGHT === 0)).toBe(true);
   });

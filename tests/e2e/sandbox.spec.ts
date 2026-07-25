@@ -13,7 +13,7 @@ test.describe('Animation Sandbox', () => {
     await expect(page.locator('[data-sandbox-card]')).toHaveCount(10);
     await expect(page.locator('[data-sandbox-animation]')).toHaveCount(10);
     await expect(page.getByRole('heading', { name: 'Animation V2 Framework' })).toBeVisible();
-    await expect(page.locator('[data-sandbox-card="freefall-v2"] button[data-frame]')).toHaveCount(30);
+    await expect(page.locator('[data-sandbox-card="freefall-v2"] button[data-frame]')).toHaveCount(24);
 
     await expect.poll(async () => page.locator('[data-sandbox-animation="run"]').getAttribute('data-frame')).not.toBeNull();
     const firstFrame = await page.locator('[data-sandbox-animation="run"]').getAttribute('data-frame');
@@ -22,7 +22,9 @@ test.describe('Animation Sandbox', () => {
 
     const runWidth = await page.locator('[data-sandbox-card="run"]').evaluate((element) => element.getBoundingClientRect().width);
     const jumpWidth = await page.locator('[data-sandbox-card="jump"]').evaluate((element) => element.getBoundingClientRect().width);
-    expect(runWidth).toBeGreaterThan(jumpWidth * 1.8);
+    expect(Math.abs(runWidth - jumpWidth)).toBeLessThan(2);
+    const freefallV2Width = await page.locator('[data-sandbox-card="freefall-v2"]').evaluate((element) => element.getBoundingClientRect().width);
+    expect(Math.abs(freefallV2Width - jumpWidth)).toBeLessThan(2);
 
     await page.getByRole('button', { name: 'Back home' }).click();
     await expect(page).toHaveURL(/#\/home$/);
@@ -52,7 +54,7 @@ test.describe('Animation Sandbox', () => {
     await expect(runCard.locator('button[data-frame]')).toHaveCount(60);
     await runCard.getByRole('button', { name: 'Show frame 40', exact: true }).click();
     await expect(runCanvas).toHaveAttribute('data-frame', '39');
-    await expect(runCard.locator('[data-sandbox-frame-readout]')).toHaveText('Frame 40 / 60');
+    await expect(runCard.locator('[data-sandbox-frame-readout]')).toContainText('Frame 40 / 60');
     await expect(runCard.getByRole('button', { name: 'Resume' })).toBeVisible();
 
     await page.waitForTimeout(180);
@@ -72,5 +74,47 @@ test.describe('Animation Sandbox', () => {
     await expect(loopButton).toHaveAttribute('aria-pressed', 'false');
     await runCard.getByRole('button', { name: 'Start' }).click();
     await expect(runCard.getByRole('button', { name: 'Pause' })).toBeVisible();
+  });
+
+  test('deactivates red frames and skips them during playback', async ({ page }) => {
+    await page.goto('/#/sandbox');
+    const runCard = page.locator('[data-sandbox-card="run"]');
+    const runCanvas = runCard.locator('canvas');
+
+    await runCard.getByRole('button', { name: 'Edit frames' }).click();
+    await runCard.getByRole('button', { name: 'Deactivate frame 5', exact: true }).click();
+    const removedFrame = runCard.locator('button[data-frame="4"]');
+    await expect(removedFrame).toHaveClass(/is-deactivated/);
+    await expect(removedFrame).toHaveAttribute('data-frame-active', 'false');
+    await expect(runCard.locator('[data-sandbox-frame-readout]')).toContainText('59 active');
+    await runCard.getByRole('button', { name: 'Done editing' }).click();
+
+    await page.evaluate(() => {
+      const canvas = document.querySelector<HTMLCanvasElement>('[data-sandbox-animation="run"]');
+      if (!canvas) throw new Error('Missing run canvas');
+      const observed: string[] = [];
+      const observer = new MutationObserver(() => {
+        if (canvas.dataset.frame) observed.push(canvas.dataset.frame);
+      });
+      observer.observe(canvas, { attributes: true, attributeFilter: ['data-frame'] });
+      Object.assign(window, { __sandboxObservedFrames: observed, __sandboxObserver: observer });
+    });
+    await runCard.getByRole('button', { name: 'Start' }).click();
+    await page.waitForFunction(() => (
+      ((window as Window & { __sandboxObservedFrames?: string[] }).__sandboxObservedFrames ?? []).includes('5')
+    ));
+    await runCard.getByRole('button', { name: 'Pause' }).click();
+    const observed = await page.evaluate(() => (
+      (window as Window & { __sandboxObservedFrames?: string[] }).__sandboxObservedFrames ?? []
+    ));
+    expect(observed).toContain('5');
+    expect(observed).not.toContain('4');
+    await expect(runCanvas).not.toHaveAttribute('data-frame', '4');
+
+    await page.reload();
+    await expect(removedFrame).toHaveClass(/is-deactivated/);
+    await runCard.getByRole('button', { name: 'Edit frames' }).click();
+    await runCard.getByRole('button', { name: 'Use all' }).click();
+    await expect(removedFrame).not.toHaveClass(/is-deactivated/);
   });
 });

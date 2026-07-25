@@ -173,9 +173,9 @@
       </header>
       <main class="sandbox-scroll">
         <div class="sandbox-grid" aria-label="Hugo character animation previews">
-          <article class="sandbox-card sandbox-card--wide" data-sandbox-card="run">
+          <article class="sandbox-card" data-sandbox-card="run">
             <header><div><span>GROUND</span><h2>Running</h2></div><small>60 poses · 30 fps · 2 second loop</small></header>
-            <canvas class="sandbox-canvas sandbox-canvas--wide" data-sandbox-animation="run" width="1000" height="260" role="img" aria-label="Hugo's running animation"></canvas>
+            <canvas class="sandbox-canvas" data-sandbox-animation="run" width="600" height="340" role="img" aria-label="Hugo's running animation"></canvas>
           </article>
           <article class="sandbox-card" data-sandbox-card="jump">
             <header><div><span>AIR</span><h2>Jump &amp; land</h2></div><small>Takeoff to touchdown</small></header>
@@ -266,18 +266,20 @@
             </dl>
           </div>
 
-          <article class="sandbox-card sandbox-card--v2" data-sandbox-card="freefall-v2">
-            <header>
-              <div><span>V2 PROTOTYPE</span><h2>Freefall V2 — Wingsuit posture</h2></div>
-              <small>30 controlled poses · 30 fps · 1 second loop</small>
-            </header>
-            <canvas class="sandbox-canvas sandbox-canvas--v2" data-sandbox-animation="freefall-v2" width="900" height="420" role="img" aria-label="Hugo's 30-frame Freefall V2 wingsuit-style animation"></canvas>
-          </article>
+          <div class="sandbox-v2-preview-grid">
+            <article class="sandbox-card sandbox-card--v2" data-sandbox-card="freefall-v2">
+              <header>
+                <div><span>V2 PROTOTYPE</span><h2>Freefall V2 — Wingsuit posture</h2></div>
+                <small>24 controlled poses · 30 fps · 0.8 second loop</small>
+              </header>
+              <canvas class="sandbox-canvas" data-sandbox-animation="freefall-v2" width="600" height="340" role="img" aria-label="Hugo's 24-frame Freefall V2 wingsuit-style animation"></canvas>
+            </article>
 
-          <aside class="sandbox-v2-next">
-            <strong>Recommended production upgrade</strong>
-            <p>Keep transparent character sheets as the review and export format, but build future motion from a layered Hugo rig: head and hair, jacket and torso, upper/lower arms, hands, thighs, calves, and shoes. AI should help create identity-locked textures and key poses; deterministic rig interpolation should create the in-betweens. That prevents missing limbs, frozen legs, costume drift, and random changes between frames.</p>
-          </aside>
+            <aside class="sandbox-v2-next">
+              <strong>Recommended production upgrade</strong>
+              <p>Keep transparent character sheets as the review and export format, but build future motion from a layered Hugo rig: head and hair, jacket and torso, upper/lower arms, hands, thighs, calves, and shoes. AI should help create identity-locked textures and key poses; deterministic rig interpolation should create the in-betweens. That prevents missing limbs, frozen legs, costume drift, and random changes between frames.</p>
+            </aside>
+          </div>
         </section>
       </main>
     </section>

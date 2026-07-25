@@ -90,13 +90,20 @@ Loop: the final pose must transition smoothly into the first pose.
 
 ## Freefall V2 prototype
 
-The Sandbox prototype uses 30 isolated alpha frames in a `6 × 5` atlas with
-`320 × 256` cells, played at 30 fps for a one-second loop. Hugo keeps his
+The Sandbox prototype uses the approved first 24 isolated alpha frames in a
+`6 × 4` atlas with `320 × 256` cells, played at 30 fps for a `0.8`-second loop. Hugo keeps his
 existing outfit while adopting a forward-descending wingsuit-style posture.
 The generated poses use subtle arm, knee, ankle, hair, and jacket changes.
 
 The initial generated sheet failed the safe-margin gate on its final row. Those
-six frames were rejected and regenerated as a separate closing strip. All 30
-characters were then detected from their alpha silhouettes and registered into
-a new atlas with verified transparent margins. Freefall V2 remains a Sandbox
-prototype until its motion and seam are approved for gameplay.
+six frames were rejected, leaving the clean first 24 characters detected from
+their alpha silhouettes and registered into an atlas with verified transparent
+margins. Freefall V2 remains a Sandbox prototype until its motion and seam are
+approved for gameplay.
+
+Sandbox edit mode is part of the approval workflow. A reviewer can mark any
+numbered frame inactive; inactive frames turn red, remain available for manual
+inspection, and are omitted from playback and loop traversal. The final active
+set can therefore be evaluated before the source atlas is edited permanently.
+The active set is saved locally per animation so the review survives a refresh;
+**Use all** clears the exclusions for that animation.
