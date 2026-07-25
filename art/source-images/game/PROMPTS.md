@@ -588,3 +588,32 @@ clipping, blur, motion blur, text, or watermark.
 Generated source: `hugo-double-jump-v2-sheet-magenta.png`, with
 `hugo-double-jump-v2-sheet-transparent.png` as the chroma-removed source and
 `src/assets/game/hugo-double-jump-v2-cycle.png` as the normalized runtime atlas.
+
+## Layered Hugo rig — 16 reusable puppet pieces
+
+Reference: `src/assets/game/hugo-jump-land-cycle.webp`
+
+```text
+Use case: stylized-concept. Asset type: reusable 2D cutout-rig puppet-part
+atlas for HUGO GO. Lock Hugo's exact identity, face, age, proportions, teal
+jacket with orange trim, cream shirt, navy shorts over black leggings,
+white-and-teal shoes, polished 3D family-game rendering, right-facing side
+profile, palette, lighting, and material finish from the reference.
+
+Create exactly 16 separate reusable puppet pieces in a strict equal-cell 4 × 4
+atlas: torso/pelvis; head/neck/base hair; rear hair accessory; hood; near upper
+arm; near forearm/hand; far upper arm; far forearm/hand; near thigh; near shin;
+near shoe; far thigh; far shin; far shoe; rear jacket-tail flap; front
+jacket-tail flap.
+
+Every limb segment is straight and neutral, with its proximal joint at the top
+center and distal joint at the bottom center. Shoes face right with the ankle
+connection at upper-left. Pieces reconnect without gaps when layered. Near
+parts are slightly brighter and far parts subtly darker. Lock scale and
+construction. No joint markers, labels, text, grid lines, cast shadows, floor,
+reflection, props, flames, full-body characters, bent limbs, anatomy drift,
+costume drift, blur, clipping, or watermark.
+
+Use a perfectly flat uniform #ff00ff magenta background edge-to-edge for
+removal, with no gradient, texture, lighting variation, shadow, or spill.
+```

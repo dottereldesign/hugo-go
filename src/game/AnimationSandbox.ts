@@ -5,6 +5,7 @@ import hugoFreefallV2CycleUrl from '../assets/game/hugo-freefall-v2-cycle.png';
 import hugoGlideCycleUrl from '../assets/game/hugo-glide-cycle.webp';
 import hugoGrindCycleUrl from '../assets/game/hugo-grind-cycle.webp';
 import hugoJumpLandCycleUrl from '../assets/game/hugo-jump-land-cycle.webp';
+import hugoLayeredRigPartsUrl from '../assets/game/hugo-layered-rig-parts.png';
 import hugoPoweredCycleUrl from '../assets/game/hugo-powered-cycle.webp';
 import hugoRunCycleUrl from '../assets/game/hugo-run-60-cycle.webp';
 import hugoWallRecoveryCycleUrl from '../assets/game/hugo-wall-recovery-cycle.webp';
@@ -37,8 +38,20 @@ import {
   type AtlasFrame,
   type FlightPoseKind,
 } from './animation';
+import {
+  RIG_PART_CELL_SIZE,
+  RIG_PART_COLUMNS,
+  RIGGED_JUMP_FRAME_COUNT,
+  RIGGED_RUN_FRAME_COUNT,
+  RigPart,
+  getRiggedJumpPose,
+  getRiggedRunPose,
+  rigEndpoint,
+  type LayeredRigPose,
+  type RigPoint,
+} from './layeredRig';
 
-type AnimationKind = 'run' | 'jump' | 'double-jump' | 'double-jump-v2' | 'freefall' | 'freefall-v2' | 'powered' | 'glide' | 'grind' | 'wall' | 'flame';
+type AnimationKind = 'run' | 'jump' | 'rig-run-v2' | 'rig-jump-v2' | 'double-jump' | 'double-jump-v2' | 'freefall' | 'freefall-v2' | 'powered' | 'glide' | 'grind' | 'wall' | 'flame';
 type LoadedSprite = HTMLImageElement & { ready?: boolean };
 
 interface Preview {
@@ -70,6 +83,8 @@ interface DrawRect {
 const ANIMATION_CONFIG: Record<AnimationKind, { frameCount: number; duration: number }> = {
   run: { frameCount: 60, duration: 2 },
   jump: { frameCount: 8, duration: 2.4 },
+  'rig-run-v2': { frameCount: RIGGED_RUN_FRAME_COUNT, duration: 1 },
+  'rig-jump-v2': { frameCount: RIGGED_JUMP_FRAME_COUNT, duration: 1.2 },
   'double-jump': { frameCount: 6, duration: 2 },
   'double-jump-v2': { frameCount: 16, duration: DOUBLE_JUMP_V2_DURATION },
   freefall: { frameCount: 6, duration: 0.6 },
@@ -86,6 +101,7 @@ export class AnimationSandbox {
   private readonly sprites = {
     run: this.createSprite(),
     jump: this.createSprite(),
+    layeredRig: this.createSprite(),
     doubleJump: this.createSprite(),
     doubleJumpV2: this.createSprite(),
     freefall: this.createSprite(),
@@ -159,7 +175,12 @@ export class AnimationSandbox {
 
   private drawPreview(preview: Preview, elapsed: number, forcedFrame: number | null): void {
     const { canvas, context, kind } = preview;
-    this.drawBackdrop(context, canvas.width, canvas.height, kind === 'run' || kind === 'jump');
+    this.drawBackdrop(
+      context,
+      canvas.width,
+      canvas.height,
+      kind === 'run' || kind === 'jump' || kind === 'rig-run-v2' || kind === 'rig-jump-v2',
+    );
 
     switch (kind) {
       case 'run':
@@ -167,6 +188,12 @@ export class AnimationSandbox {
         break;
       case 'jump':
         this.drawJump(preview, elapsed, forcedFrame);
+        break;
+      case 'rig-run-v2':
+        this.drawRiggedRunV2(preview, forcedFrame);
+        break;
+      case 'rig-jump-v2':
+        this.drawRiggedJumpV2(preview, forcedFrame);
         break;
       case 'double-jump':
         this.drawDoubleJump(preview, elapsed, forcedFrame);
@@ -226,6 +253,154 @@ export class AnimationSandbox {
     const frame = this.atlasFrame(frameIndex, 4, CHARACTER_FRAME_WIDTH, CHARACTER_FRAME_HEIGHT);
     this.drawAtlas(preview.context, this.sprites.jump, frame, CHARACTER_FRAME_WIDTH, CHARACTER_FRAME_HEIGHT, preview.canvas.width / 2, preview.canvas.height * 0.8 - height, 198);
     this.markFrame(preview, frameIndex);
+  }
+
+  private drawRiggedRunV2(preview: Preview, forcedFrame: number | null): void {
+    const frame = forcedFrame ?? 0;
+    this.drawLayeredRig(preview, getRiggedRunPose(frame), frame, preview.canvas.height * 0.81);
+  }
+
+  private drawRiggedJumpV2(preview: Preview, forcedFrame: number | null): void {
+    const frame = forcedFrame ?? 0;
+    this.drawLayeredRig(preview, getRiggedJumpPose(frame), frame, preview.canvas.height * 0.81);
+  }
+
+  private drawLayeredRig(
+    preview: Preview,
+    pose: LayeredRigPose,
+    frame: number,
+    groundY: number,
+  ): void {
+    const { context, canvas } = preview;
+    const hip = {
+      x: canvas.width / 2 + pose.hipX,
+      y: groundY - 83 + pose.hipY,
+    };
+    const farHip = { x: hip.x - 7, y: hip.y + 1 };
+    const nearHip = { x: hip.x + 7, y: hip.y };
+    const shoulder = rigEndpoint(hip, pose.torsoAngle + Math.PI, 61);
+    const farShoulder = { x: shoulder.x - 7, y: shoulder.y + 2 };
+    const nearShoulder = { x: shoulder.x + 8, y: shoulder.y };
+    const neck = rigEndpoint(hip, pose.torsoAngle + Math.PI, 82);
+
+    context.save();
+    context.globalAlpha = 0.96;
+    this.drawRigLimb(
+      context,
+      RigPart.farThigh,
+      RigPart.farShin,
+      RigPart.farShoe,
+      farHip,
+      pose.farThighAngle,
+      pose.farShinAngle,
+      pose.shoeAngle,
+      true,
+    );
+    this.drawRigArm(
+      context,
+      RigPart.farUpperArm,
+      RigPart.farForearm,
+      farShoulder,
+      pose.farUpperArmAngle,
+      pose.farForearmAngle,
+      true,
+    );
+    context.restore();
+
+    this.drawRigPart(context, RigPart.rearJacketTail, { x: hip.x - 8, y: hip.y - 34 }, pose.rearTailAngle, 0.22, { x: 104, y: 38 });
+    this.drawRigPart(context, RigPart.hair, { x: neck.x - 8, y: neck.y + 5 }, pose.hairAngle, 0.2, { x: 178, y: 260 });
+    this.drawRigPart(context, RigPart.hood, { x: neck.x - 7, y: neck.y + 16 }, pose.hoodAngle, 0.22, { x: 152, y: 283 });
+    this.drawRigPart(context, RigPart.torso, hip, pose.torsoAngle, 0.38, { x: 192, y: 285 });
+    this.drawRigPart(context, RigPart.frontJacketTail, { x: hip.x + 4, y: hip.y - 32 }, pose.frontTailAngle, 0.18, { x: 118, y: 37 });
+
+    this.drawRigLimb(
+      context,
+      RigPart.nearThigh,
+      RigPart.nearShin,
+      RigPart.nearShoe,
+      nearHip,
+      pose.nearThighAngle,
+      pose.nearShinAngle,
+      pose.shoeAngle,
+      false,
+    );
+    this.drawRigArm(
+      context,
+      RigPart.nearUpperArm,
+      RigPart.nearForearm,
+      nearShoulder,
+      pose.nearUpperArmAngle,
+      pose.nearForearmAngle,
+      false,
+    );
+    this.drawRigPart(context, RigPart.head, neck, pose.headAngle, 0.3, { x: 160, y: 302 });
+
+    this.markFrame(preview, frame);
+  }
+
+  private drawRigArm(
+    context: CanvasRenderingContext2D,
+    upperPart: number,
+    forearmPart: number,
+    shoulder: RigPoint,
+    upperAngle: number,
+    forearmAngle: number,
+    farSide: boolean,
+  ): void {
+    const upperPivot = farSide ? { x: 160, y: 92 } : { x: 188, y: 8 };
+    const forearmPivot = farSide ? { x: 130, y: 99 } : { x: 172, y: 8 };
+    this.drawRigPart(context, upperPart, shoulder, upperAngle, farSide ? 0.16 : 0.145, upperPivot);
+    const elbow = rigEndpoint(shoulder, upperAngle, 35);
+    this.drawRigPart(context, forearmPart, elbow, forearmAngle, farSide ? 0.16 : 0.145, forearmPivot);
+  }
+
+  private drawRigLimb(
+    context: CanvasRenderingContext2D,
+    thighPart: number,
+    shinPart: number,
+    shoePart: number,
+    hip: RigPoint,
+    thighAngle: number,
+    shinAngle: number,
+    shoeAngle: number,
+    farSide: boolean,
+  ): void {
+    const thighPivot = farSide ? { x: 135, y: 8 } : { x: 192, y: 8 };
+    const shinPivot = farSide ? { x: 113, y: 40 } : { x: 170, y: 8 };
+    const shoePivot = farSide ? { x: 92, y: 112 } : { x: 142, y: 15 };
+    this.drawRigPart(context, thighPart, hip, thighAngle, 0.19, thighPivot);
+    const knee = rigEndpoint(hip, thighAngle, 45);
+    this.drawRigPart(context, shinPart, knee, shinAngle, 0.18, shinPivot);
+    const ankle = rigEndpoint(knee, shinAngle, 43);
+    this.drawRigPart(context, shoePart, ankle, shoeAngle, 0.18, shoePivot);
+  }
+
+  private drawRigPart(
+    context: CanvasRenderingContext2D,
+    part: number,
+    position: RigPoint,
+    angle: number,
+    scale: number,
+    pivot: RigPoint,
+  ): void {
+    if (!this.sprites.layeredRig.ready) return;
+    const sourceX = part % RIG_PART_COLUMNS * RIG_PART_CELL_SIZE;
+    const sourceY = Math.floor(part / RIG_PART_COLUMNS) * RIG_PART_CELL_SIZE;
+    context.save();
+    context.translate(position.x, position.y);
+    context.rotate(angle);
+    context.drawImage(
+      this.sprites.layeredRig,
+      sourceX,
+      sourceY,
+      RIG_PART_CELL_SIZE,
+      RIG_PART_CELL_SIZE,
+      -pivot.x * scale,
+      -pivot.y * scale,
+      RIG_PART_CELL_SIZE * scale,
+      RIG_PART_CELL_SIZE * scale,
+    );
+    context.restore();
   }
 
   private drawDoubleJump(preview: Preview, elapsed: number, forcedFrame: number | null): void {
@@ -669,6 +844,7 @@ export class AnimationSandbox {
     this.assetsStarted = true;
     this.sprites.run.src = hugoRunCycleUrl;
     this.sprites.jump.src = hugoJumpLandCycleUrl;
+    this.sprites.layeredRig.src = hugoLayeredRigPartsUrl;
     this.sprites.doubleJump.src = hugoDoubleJumpCycleUrl;
     this.sprites.doubleJumpV2.src = hugoDoubleJumpV2CycleUrl;
     this.sprites.freefall.src = hugoFreefallCycleUrl;

@@ -323,11 +323,29 @@
               </header>
               <canvas class="sandbox-canvas" data-sandbox-animation="double-jump-v2" width="600" height="340" role="img" aria-label="Hugo's 16-frame Double Jump V2 animation"></canvas>
             </article>
+
+            <article class="sandbox-card sandbox-card--v2 sandbox-card--rigged" data-sandbox-card="rig-run-v2">
+              <header>
+                <div><span>LAYERED RIG V2</span><h2>Running V2 — Code-driven puppet</h2></div>
+                <small data-sandbox-metrics>30 frames · 1.00 s total · 30 FPS</small>
+              </header>
+              <canvas class="sandbox-canvas" data-sandbox-animation="rig-run-v2" width="600" height="340" role="img" aria-label="Hugo's code-rigged Running V2 animation"></canvas>
+              <p class="sandbox-rig-caption">One reusable 16-part Hugo · hips, knees, shoulders, elbows, hair and jacket interpolated in code</p>
+            </article>
+
+            <article class="sandbox-card sandbox-card--v2 sandbox-card--rigged" data-sandbox-card="rig-jump-v2">
+              <header>
+                <div><span>LAYERED RIG V2</span><h2>Normal Jump V2 — Code-driven puppet</h2></div>
+                <small data-sandbox-metrics>36 frames · 1.20 s total · 30 FPS</small>
+              </header>
+              <canvas class="sandbox-canvas" data-sandbox-animation="rig-jump-v2" width="600" height="340" role="img" aria-label="Hugo's code-rigged Normal Jump V2 animation"></canvas>
+              <p class="sandbox-rig-caption">Anticipation → takeoff → tuck → apex → landing compression → secondary settle</p>
+            </article>
           </div>
 
           <aside class="sandbox-v2-next">
-            <strong>Recommended production upgrade</strong>
-            <p>Keep transparent character sheets as the review and export format, but build future motion from a layered Hugo rig: head and hair, jacket and torso, upper/lower arms, hands, thighs, calves, and shoes. AI should help create identity-locked textures and key poses; deterministic rig interpolation should create the in-betweens. That prevents missing limbs, frozen legs, costume drift, and random changes between frames.</p>
+            <strong>Layered-rig production prototype</strong>
+            <p>The Running V2 and Normal Jump V2 cards above reuse one approved 16-part Hugo. Code connects shoulder → upper arm → elbow → forearm, hip → thigh → knee → shin → shoe, and torso → neck → head. The motion functions change joint angles, body height, anticipation, overlap, and settling; the face, outfit, proportions, and textures never regenerate between frames. Transparent sheets remain useful as review and final export formats.</p>
           </aside>
 
           <p class="sandbox-v2-sources">Framework references: <a href="https://books.disney.com/book-author/ollie-johnston/" target="_blank" rel="noreferrer">Thomas &amp; Johnston, <em>The Illusion of Life</em></a> · <a href="https://dl.acm.org/doi/10.1145/37402.37407" target="_blank" rel="noreferrer">Lasseter, <em>Principles of Traditional Animation Applied to 3D Computer Animation</em></a>.</p>

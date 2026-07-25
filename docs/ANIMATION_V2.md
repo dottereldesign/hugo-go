@@ -142,6 +142,36 @@ cleanup references. A deterministic 2D bone/deform rig should produce
 in-betweens, secondary movement, pivots, and repeatable exports. This prevents
 missing limbs, frozen legs, costume drift, and random changes between frames.
 
+## Layered-rig prototype
+
+The Sandbox now includes two deterministic examples that reuse the same
+16-piece Hugo atlas:
+
+- **Running V2:** a 30-frame, one-second cycle with opposing leg arcs, stable
+  arms-back posture, hip bounce, and delayed hair, hood, and jacket tails.
+- **Normal Jump V2:** a 36-frame, 1.2-second cycle with anticipation, takeoff,
+  airborne tuck, apex, landing compression, and secondary settle.
+
+The atlas contains one approved torso, head, hair, hood, near/far upper arms,
+near/far forearms and hands, near/far thighs, near/far shins, near/far shoes,
+and two jacket-tail layers. Code connects them as a hierarchy:
+
+```text
+hips
+├── torso → neck → head → hair / hood
+├── near thigh → knee → shin → ankle → shoe
+├── far thigh → knee → shin → ankle → shoe
+├── near shoulder → upper arm → elbow → forearm / hand
+└── far shoulder → upper arm → elbow → forearm / hand
+```
+
+Every child part is drawn at its parent's calculated endpoint. The animation
+functions output only joint angles and body offsets. Because both examples use
+the same pixels, adding or removing an in-between cannot change Hugo's face,
+shoe design, jacket texture, limb length, or lighting. The rig can render
+directly at runtime or export deterministic transparent sprite frames after the
+motion is approved.
+
 ## Reusable atlas prompt
 
 ```text

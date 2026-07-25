@@ -75,6 +75,18 @@ Double Jump V2 is a non-looping `4 × 4` atlas with `384 × 320` cells. The
 source matte was removed, all 16 full-body connected components were verified,
 and each pose was extracted and registered without crossing a cell boundary.
 
+The layered-rig prototype uses one generated `4 × 4` puppet-part atlas:
+
+```text
+art/source-images/game/hugo-layered-rig-parts-magenta.png
+art/source-images/game/hugo-layered-rig-parts-transparent.png
+src/assets/game/hugo-layered-rig-parts.png
+```
+
+Each normalized cell is `320 × 320`. The same torso, head, hair, hood, limb
+segments, shoes, and jacket tails are assembled by deterministic canvas
+transforms for both Running V2 and Normal Jump V2.
+
 ## Processing pipeline
 
 The generated poses use a flat magenta background. It is removed with the image-generation skill’s chroma-key helper using:
