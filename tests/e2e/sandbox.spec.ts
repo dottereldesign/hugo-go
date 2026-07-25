@@ -41,4 +41,34 @@ test.describe('Animation Sandbox', () => {
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(390);
     expect(await page.evaluate(() => document.body.scrollWidth)).toBe(390);
   });
+
+  test('lets each preview pause, seek by number, step, resume, restart, and toggle looping', async ({ page }) => {
+    await page.goto('/#/sandbox');
+    const runCard = page.locator('[data-sandbox-card="run"]');
+    const runCanvas = runCard.locator('canvas');
+
+    await expect(runCard.locator('button[data-frame]')).toHaveCount(60);
+    await runCard.getByRole('button', { name: 'Show frame 40', exact: true }).click();
+    await expect(runCanvas).toHaveAttribute('data-frame', '39');
+    await expect(runCard.locator('[data-sandbox-frame-readout]')).toHaveText('Frame 40 / 60');
+    await expect(runCard.getByRole('button', { name: 'Resume' })).toBeVisible();
+
+    await page.waitForTimeout(180);
+    await expect(runCanvas).toHaveAttribute('data-frame', '39');
+
+    await runCard.getByRole('button', { name: 'Next frame' }).click();
+    await expect(runCanvas).toHaveAttribute('data-frame', '40');
+    await runCard.getByRole('button', { name: 'Previous frame' }).click();
+    await expect(runCanvas).toHaveAttribute('data-frame', '39');
+
+    await runCard.getByRole('button', { name: 'Resume' }).click();
+    await page.waitForTimeout(120);
+    await expect(runCanvas).not.toHaveAttribute('data-frame', '39');
+
+    const loopButton = runCard.getByRole('button', { name: 'Loop' });
+    await loopButton.click();
+    await expect(loopButton).toHaveAttribute('aria-pressed', 'false');
+    await runCard.getByRole('button', { name: 'Start' }).click();
+    await expect(runCard.getByRole('button', { name: 'Pause' })).toBeVisible();
+  });
 });

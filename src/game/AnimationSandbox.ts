@@ -36,6 +36,16 @@ interface Preview {
   canvas: HTMLCanvasElement;
   context: CanvasRenderingContext2D;
   kind: AnimationKind;
+  controls: HTMLElement;
+  playButton: HTMLButtonElement;
+  loopButton: HTMLButtonElement;
+  frameReadout: HTMLElement;
+  frameButtons: HTMLButtonElement[];
+  elapsed: number;
+  forcedFrame: number | null;
+  currentFrame: number;
+  playing: boolean;
+  looping: boolean;
 }
 
 interface DrawRect {
@@ -44,6 +54,18 @@ interface DrawRect {
   width: number;
   height: number;
 }
+
+const ANIMATION_CONFIG: Record<AnimationKind, { frameCount: number; duration: number }> = {
+  run: { frameCount: 60, duration: 2 },
+  jump: { frameCount: 8, duration: 2.4 },
+  'double-jump': { frameCount: 6, duration: 2 },
+  freefall: { frameCount: 6, duration: 0.6 },
+  powered: { frameCount: 6, duration: 0.5 },
+  glide: { frameCount: 6, duration: 0.5 },
+  grind: { frameCount: 30, duration: 1 },
+  wall: { frameCount: 6, duration: 2.8 },
+  flame: { frameCount: 30, duration: 1 },
+};
 
 export class AnimationSandbox {
   private readonly previews: Preview[];
@@ -61,25 +83,39 @@ export class AnimationSandbox {
   private assetsStarted = false;
   private running = false;
   private animationFrame = 0;
-  private startedAt = 0;
+  private previousTime = 0;
 
   constructor(private readonly root: HTMLElement) {
     this.previews = Array.from(root.querySelectorAll<HTMLCanvasElement>('[data-sandbox-animation]')).map((canvas) => {
       const context = canvas.getContext('2d');
       if (!context) throw new Error('Animation Sandbox requires a 2D canvas context.');
+      const kind = canvas.dataset.sandboxAnimation as AnimationKind;
+      const controls = this.createControls(canvas, kind);
+      const frameButtons = Array.from(controls.querySelectorAll<HTMLButtonElement>('[data-frame]'));
       return {
         canvas,
         context,
-        kind: canvas.dataset.sandboxAnimation as AnimationKind,
+        kind,
+        controls,
+        playButton: this.controlButton(controls, '[data-sandbox-control="play"]'),
+        loopButton: this.controlButton(controls, '[data-sandbox-control="loop"]'),
+        frameReadout: this.controlElement(controls, '[data-sandbox-frame-readout]'),
+        frameButtons,
+        elapsed: 0,
+        forcedFrame: null,
+        currentFrame: 0,
+        playing: true,
+        looping: true,
       };
     });
+    this.root.addEventListener('click', (event) => this.handleControl(event));
   }
 
   start(): void {
     if (this.running) return;
     this.ensureAssets();
     this.running = true;
-    this.startedAt = performance.now();
+    this.previousTime = performance.now();
     this.animationFrame = window.requestAnimationFrame((time) => this.tick(time));
   }
 
@@ -90,48 +126,52 @@ export class AnimationSandbox {
 
   private tick(time: number): void {
     if (!this.running || this.root.hidden) return;
-    const elapsed = Math.max(0, (time - this.startedAt) / 1000);
-    for (const preview of this.previews) this.drawPreview(preview, elapsed);
+    const delta = Math.min(0.1, Math.max(0, (time - this.previousTime) / 1000));
+    this.previousTime = time;
+    for (const preview of this.previews) {
+      if (preview.playing) this.advance(preview, delta);
+      this.drawPreview(preview, preview.elapsed, preview.forcedFrame);
+    }
     this.animationFrame = window.requestAnimationFrame((nextTime) => this.tick(nextTime));
   }
 
-  private drawPreview(preview: Preview, elapsed: number): void {
+  private drawPreview(preview: Preview, elapsed: number, forcedFrame: number | null): void {
     const { canvas, context, kind } = preview;
     this.drawBackdrop(context, canvas.width, canvas.height, kind === 'run' || kind === 'jump');
 
     switch (kind) {
       case 'run':
-        this.drawRun(preview, elapsed);
+        this.drawRun(preview, elapsed, forcedFrame);
         break;
       case 'jump':
-        this.drawJump(preview, elapsed);
+        this.drawJump(preview, elapsed, forcedFrame);
         break;
       case 'double-jump':
-        this.drawDoubleJump(preview, elapsed);
+        this.drawDoubleJump(preview, elapsed, forcedFrame);
         break;
       case 'freefall':
-        this.drawFreefall(preview, elapsed);
+        this.drawFreefall(preview, elapsed, forcedFrame);
         break;
       case 'powered':
-        this.drawFlight(preview, elapsed, 'powered');
+        this.drawFlight(preview, elapsed, 'powered', forcedFrame);
         break;
       case 'glide':
-        this.drawFlight(preview, elapsed, 'glide');
+        this.drawFlight(preview, elapsed, 'glide', forcedFrame);
         break;
       case 'grind':
-        this.drawGrind(preview, elapsed);
+        this.drawGrind(preview, elapsed, forcedFrame);
         break;
       case 'wall':
-        this.drawWall(preview, elapsed);
+        this.drawWall(preview, elapsed, forcedFrame);
         break;
       case 'flame':
-        this.drawFlames(preview, elapsed);
+        this.drawFlames(preview, elapsed, forcedFrame);
         break;
     }
   }
 
-  private drawRun(preview: Preview, elapsed: number): void {
-    const frame = getRunFrame(elapsed);
+  private drawRun(preview: Preview, elapsed: number, forcedFrame: number | null): void {
+    const frame = getRunFrame(forcedFrame === null ? elapsed : forcedFrame / 30);
     const { context, canvas } = preview;
     context.save();
     context.strokeStyle = 'rgba(255, 255, 255, .3)';
@@ -149,19 +189,22 @@ export class AnimationSandbox {
     this.markFrame(preview, frame.index);
   }
 
-  private drawJump(preview: Preview, elapsed: number): void {
+  private drawJump(preview: Preview, elapsed: number, forcedFrame: number | null): void {
     const phase = elapsed % 2.4;
     const progress = phase / 2.4;
-    const frameIndex = Math.min(7, Math.floor(progress * 8));
-    const height = Math.sin(progress * Math.PI) * preview.canvas.height * 0.34;
+    const frameIndex = forcedFrame ?? Math.min(7, Math.floor(progress * 8));
+    const frameProgress = forcedFrame === null ? progress : frameIndex / 7;
+    const height = Math.sin(frameProgress * Math.PI) * preview.canvas.height * 0.34;
     const frame = this.atlasFrame(frameIndex, 4, CHARACTER_FRAME_WIDTH, CHARACTER_FRAME_HEIGHT);
     this.drawAtlas(preview.context, this.sprites.jump, frame, CHARACTER_FRAME_WIDTH, CHARACTER_FRAME_HEIGHT, preview.canvas.width / 2, preview.canvas.height * 0.8 - height, 198);
     this.markFrame(preview, frameIndex);
   }
 
-  private drawDoubleJump(preview: Preview, elapsed: number): void {
-    const progress = (elapsed % 2) / 2;
-    const sequenceTime = Math.min(DOUBLE_JUMP_DURATION, progress * DOUBLE_JUMP_DURATION);
+  private drawDoubleJump(preview: Preview, elapsed: number, forcedFrame: number | null): void {
+    const progress = forcedFrame === null ? (elapsed % 2) / 2 : forcedFrame / 5;
+    const sequenceTime = forcedFrame === null
+      ? Math.min(DOUBLE_JUMP_DURATION, progress * DOUBLE_JUMP_DURATION)
+      : forcedFrame / 14;
     const frame = getDoubleJumpFrame(sequenceTime);
     const layout = getDoubleJumpFrameLayout(frame.index);
     const height = (0.42 + Math.sin(progress * Math.PI) * 0.18) * preview.canvas.height;
@@ -178,15 +221,19 @@ export class AnimationSandbox {
     this.markFrame(preview, frame.index);
   }
 
-  private drawFreefall(preview: Preview, elapsed: number): void {
-    const frame = getFreefallLoopFrame(elapsed);
+  private drawFreefall(preview: Preview, elapsed: number, forcedFrame: number | null): void {
+    const frame = forcedFrame === null
+      ? getFreefallLoopFrame(elapsed)
+      : this.atlasFrame(forcedFrame, 3, CHARACTER_FRAME_WIDTH, CHARACTER_FRAME_HEIGHT);
     const drift = ((elapsed * 75) % 100) - 50;
     this.drawAtlas(preview.context, this.sprites.freefall, frame, CHARACTER_FRAME_WIDTH, CHARACTER_FRAME_HEIGHT, preview.canvas.width / 2, preview.canvas.height * 0.62 + drift, 205);
     this.markFrame(preview, frame.index);
   }
 
-  private drawFlight(preview: Preview, elapsed: number, pose: FlightPoseKind): void {
-    const frame = getFlightLoopFrame(elapsed);
+  private drawFlight(preview: Preview, elapsed: number, pose: FlightPoseKind, forcedFrame: number | null): void {
+    const frame = forcedFrame === null
+      ? getFlightLoopFrame(elapsed)
+      : this.atlasFrame(forcedFrame, 3, CHARACTER_FRAME_WIDTH, CHARACTER_FRAME_HEIGHT);
     const sprite = pose === 'powered' ? this.sprites.powered : this.sprites.glide;
     const bob = Math.sin(elapsed * Math.PI * 2) * 8;
     const rect = this.characterRect(preview.canvas.width / 2, preview.canvas.height * 0.68 + bob, 205, CHARACTER_FRAME_WIDTH, CHARACTER_FRAME_HEIGHT);
@@ -195,9 +242,9 @@ export class AnimationSandbox {
     this.markFrame(preview, frame.index);
   }
 
-  private drawGrind(preview: Preview, elapsed: number): void {
+  private drawGrind(preview: Preview, elapsed: number, forcedFrame: number | null): void {
     const { context, canvas } = preview;
-    const frame = getGrindFrame(elapsed);
+    const frame = getGrindFrame(forcedFrame === null ? elapsed : forcedFrame / 30);
     context.save();
     context.lineWidth = 7;
     context.strokeStyle = '#182f47';
@@ -215,12 +262,14 @@ export class AnimationSandbox {
     this.markFrame(preview, frame.index);
   }
 
-  private drawWall(preview: Preview, elapsed: number): void {
+  private drawWall(preview: Preview, elapsed: number, forcedFrame: number | null): void {
     const { context, canvas } = preview;
     const phase = elapsed % 2.8;
-    let frameIndex = 0;
-    if (phase >= 0.45 && phase < 1.35) frameIndex = 1 + Math.floor((phase - 0.45) * 7) % 2;
-    else if (phase >= 1.35) frameIndex = Math.min(5, 3 + Math.floor((phase - 1.35) * 3));
+    let frameIndex = forcedFrame ?? 0;
+    if (forcedFrame === null) {
+      if (phase >= 0.45 && phase < 1.35) frameIndex = 1 + Math.floor((phase - 0.45) * 7) % 2;
+      else if (phase >= 1.35) frameIndex = Math.min(5, 3 + Math.floor((phase - 1.35) * 3));
+    }
     context.fillStyle = '#ef4c52';
     context.fillRect(canvas.width * 0.69, 30, canvas.width * 0.18, canvas.height - 60);
     context.fillStyle = 'rgba(255,255,255,.2)';
@@ -230,8 +279,9 @@ export class AnimationSandbox {
     this.markFrame(preview, frameIndex);
   }
 
-  private drawFlames(preview: Preview, elapsed: number): void {
-    const frame = getJetFlameFrame(elapsed);
+  private drawFlames(preview: Preview, elapsed: number, forcedFrame: number | null): void {
+    const flameElapsed = forcedFrame === null ? elapsed : forcedFrame / 30;
+    const frame = getJetFlameFrame(flameElapsed);
     const { context, canvas } = preview;
     context.save();
     context.translate(canvas.width / 2 - 55, canvas.height * 0.35);
@@ -239,7 +289,7 @@ export class AnimationSandbox {
     this.drawFlameCell(context, frame, 0, 0, 72, 120);
     context.translate(110, -8);
     context.rotate(-0.35);
-    this.drawFlameCell(context, getJetFlameFrame(elapsed, 11), 0, 0, 72, 120);
+    this.drawFlameCell(context, getJetFlameFrame(flameElapsed, 11), 0, 0, 72, 120);
     context.restore();
     this.markFrame(preview, frame.index);
   }
@@ -253,6 +303,129 @@ export class AnimationSandbox {
       this.drawFlameCell(context, getJetFlameFrame(elapsed, index * 11), 0, 0, 35, 65);
       context.restore();
     });
+  }
+
+  private advance(preview: Preview, delta: number): void {
+    const { duration, frameCount } = ANIMATION_CONFIG[preview.kind];
+    preview.elapsed += delta;
+    if (preview.elapsed < duration) return;
+    if (preview.looping) {
+      preview.elapsed %= duration;
+      return;
+    }
+    preview.elapsed = this.seekElapsed(preview.kind, frameCount - 1);
+    preview.forcedFrame = frameCount - 1;
+    preview.playing = false;
+    this.syncControls(preview);
+  }
+
+  private handleControl(event: Event): void {
+    const button = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-sandbox-control], [data-frame]');
+    if (!button) return;
+    const controls = button.closest<HTMLElement>('.sandbox-controls');
+    const preview = this.previews.find((candidate) => candidate.controls === controls);
+    if (!preview) return;
+
+    const selectedFrame = button.dataset.frame;
+    if (selectedFrame !== undefined) {
+      this.selectFrame(preview, Number(selectedFrame));
+      return;
+    }
+
+    switch (button.dataset.sandboxControl) {
+      case 'play':
+        if (preview.playing) {
+          preview.playing = false;
+          preview.forcedFrame = preview.currentFrame;
+        } else {
+          preview.elapsed = this.seekElapsed(preview.kind, preview.currentFrame);
+          preview.forcedFrame = null;
+          preview.playing = true;
+        }
+        break;
+      case 'restart':
+        preview.elapsed = 0;
+        preview.forcedFrame = null;
+        preview.playing = true;
+        break;
+      case 'previous':
+        this.selectFrame(preview, preview.currentFrame - 1);
+        return;
+      case 'next':
+        this.selectFrame(preview, preview.currentFrame + 1);
+        return;
+      case 'loop':
+        preview.looping = !preview.looping;
+        break;
+    }
+    this.syncControls(preview);
+    this.drawPreview(preview, preview.elapsed, preview.forcedFrame);
+  }
+
+  private selectFrame(preview: Preview, requestedFrame: number): void {
+    const { frameCount } = ANIMATION_CONFIG[preview.kind];
+    const frame = preview.looping
+      ? (Math.floor(requestedFrame) % frameCount + frameCount) % frameCount
+      : Math.max(0, Math.min(frameCount - 1, Math.floor(requestedFrame)));
+    preview.currentFrame = frame;
+    preview.elapsed = this.seekElapsed(preview.kind, frame);
+    preview.forcedFrame = frame;
+    preview.playing = false;
+    this.syncControls(preview);
+    this.drawPreview(preview, preview.elapsed, frame);
+  }
+
+  private seekElapsed(kind: AnimationKind, frame: number): number {
+    if (kind === 'wall') return [0, 0.45, 0.58, 1.35, 1.68, 2.01][frame] ?? 0;
+    const { duration, frameCount } = ANIMATION_CONFIG[kind];
+    return frame / frameCount * duration;
+  }
+
+  private createControls(canvas: HTMLCanvasElement, kind: AnimationKind): HTMLElement {
+    const { frameCount } = ANIMATION_CONFIG[kind];
+    const controls = document.createElement('footer');
+    controls.className = 'sandbox-controls';
+    controls.dataset.sandboxControls = kind;
+    controls.innerHTML = `
+      <div class="sandbox-transport" role="group" aria-label="${kind} playback controls">
+        <button type="button" data-sandbox-control="restart">Start</button>
+        <button type="button" data-sandbox-control="play" aria-pressed="false">Pause</button>
+        <button type="button" data-sandbox-control="previous" aria-label="Previous frame">−1</button>
+        <strong data-sandbox-frame-readout>Frame 1 / ${frameCount}</strong>
+        <button type="button" data-sandbox-control="next" aria-label="Next frame">+1</button>
+        <button class="sandbox-loop is-active" type="button" data-sandbox-control="loop" aria-pressed="true">Loop</button>
+      </div>
+      <div class="sandbox-frame-picker" role="group" aria-label="${kind} frames">
+        ${Array.from({ length: frameCount }, (_, index) => `<button type="button" data-frame="${index}" aria-label="Show frame ${index + 1}">${index + 1}</button>`).join('')}
+      </div>
+    `;
+    canvas.after(controls);
+    return controls;
+  }
+
+  private syncControls(preview: Preview): void {
+    preview.playButton.textContent = preview.playing ? 'Pause' : 'Resume';
+    preview.playButton.setAttribute('aria-pressed', String(!preview.playing));
+    preview.loopButton.classList.toggle('is-active', preview.looping);
+    preview.loopButton.setAttribute('aria-pressed', String(preview.looping));
+    preview.frameReadout.textContent = `Frame ${preview.currentFrame + 1} / ${ANIMATION_CONFIG[preview.kind].frameCount}`;
+    preview.frameButtons.forEach((button, index) => {
+      const active = index === preview.currentFrame;
+      button.classList.toggle('is-active', active);
+      button.setAttribute('aria-pressed', String(active));
+    });
+  }
+
+  private controlButton(root: HTMLElement, selector: string): HTMLButtonElement {
+    const button = root.querySelector<HTMLButtonElement>(selector);
+    if (!button) throw new Error(`Missing Animation Sandbox control ${selector}.`);
+    return button;
+  }
+
+  private controlElement(root: HTMLElement, selector: string): HTMLElement {
+    const element = root.querySelector<HTMLElement>(selector);
+    if (!element) throw new Error(`Missing Animation Sandbox control ${selector}.`);
+    return element;
   }
 
   private drawFlameCell(context: CanvasRenderingContext2D, frame: AtlasFrame, x: number, y: number, width: number, height: number): void {
@@ -329,6 +502,9 @@ export class AnimationSandbox {
 
   private markFrame(preview: Preview, index: number): void {
     preview.canvas.dataset.frame = String(index);
+    if (preview.currentFrame === index) return;
+    preview.currentFrame = index;
+    this.syncControls(preview);
   }
 
   private createSprite(): LoadedSprite {
