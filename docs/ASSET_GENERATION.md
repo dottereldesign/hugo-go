@@ -60,13 +60,15 @@ src/assets/game/trail-ground.webp
 
 The exact prompts are recorded in `art/source-images/game/PROMPTS.md`.
 
-The Sandbox also retains the Double Jump V2 review sources and its normalized
-16-frame alpha atlas:
+Gameplay now promotes the 24-frame Freefall V2 and 16-frame Double Jump V2
+atlases. The Sandbox retains both V2 animations alongside their legacy versions
+for review:
 
 ```text
 art/source-images/game/hugo-double-jump-v2-sheet-magenta.png
 art/source-images/game/hugo-double-jump-v2-sheet-transparent.png
 src/assets/game/hugo-double-jump-v2-cycle.png
+src/assets/game/hugo-freefall-v2-cycle.png
 ```
 
 Double Jump V2 is a non-looping `4 × 4` atlas with `384 × 320` cells. The
@@ -108,17 +110,18 @@ Current runtime sizes are approximately:
 - 60-frame run atlas: 541 KB;
 - six-frame powered-glide atlas: 111 KB;
 - six-frame unpowered glide/fall atlas: 119 KB;
-- six-frame freefall atlas: 118 KB;
+- 24-frame Freefall V2 atlas: 987 KB;
 - eight-frame jump/landing atlas: 140 KB;
-- six-frame double-jump atlas: 120 KB;
+- 16-frame Double Jump V2 atlas: 1,194 KB;
 - six-frame wall-impact/recovery atlas: 100 KB;
 - 30-frame side-profile grind atlas: 366 KB;
 - 30-frame jet-flame atlas: 132 KB;
 - scrolling trail strip: 64 KB.
 
 The old single flight pose, single-pose run WebP, six-frame transition sheet, and full-screen
-Forest plate are retired from runtime. The game now has 128 authored character frames
-plus 30 authored jet-flame frames. The wall-splat atlas replaces its two camera-facing
+Forest plate are retired from runtime. Live gameplay now uses 156 authored character
+frames plus 30 authored jet-flame frames. Including the legacy freefall and double-jump
+comparisons in the Sandbox, the repository contains 168 full-body frames. The wall-splat atlas replaces its two camera-facing
 wobble frames with generated strict side-profile poses. The grind atlas uses 30 authored
 side-profile in-betweens at 30 fps, with one shoe leading and one trailing; both outer
 sole edges share the normalized contact baseline. The run atlas plays one distinct pose

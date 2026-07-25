@@ -1,5 +1,5 @@
-import hugoDoubleJumpCycleUrl from '../assets/game/hugo-double-jump-cycle.webp';
-import hugoFreefallCycleUrl from '../assets/game/hugo-freefall-cycle.webp';
+import hugoDoubleJumpCycleUrl from '../assets/game/hugo-double-jump-v2-cycle.png';
+import hugoFreefallCycleUrl from '../assets/game/hugo-freefall-v2-cycle.png';
 import hugoGlideCycleUrl from '../assets/game/hugo-glide-cycle.webp';
 import hugoGrindCycleUrl from '../assets/game/hugo-grind-cycle.webp';
 import hugoJumpLandCycleUrl from '../assets/game/hugo-jump-land-cycle.webp';
@@ -9,18 +9,21 @@ import hugoWallRecoveryCycleUrl from '../assets/game/hugo-wall-recovery-cycle.we
 import jetFlameCycleUrl from '../assets/game/jet-flame-cycle.webp';
 import trailGroundUrl from '../assets/game/trail-ground.webp';
 import {
-  DOUBLE_JUMP_DURATION,
+  DOUBLE_JUMP_V2_DURATION,
+  DOUBLE_JUMP_V2_FRAME_HEIGHT,
+  DOUBLE_JUMP_V2_FRAME_WIDTH,
   CHARACTER_FRAME_HEIGHT,
   CHARACTER_FRAME_WIDTH,
+  FREEFALL_V2_FRAME_HEIGHT,
+  FREEFALL_V2_FRAME_WIDTH,
   GRIND_FRAME_HEIGHT,
   GRIND_FRAME_WIDTH,
   JET_FLAME_FRAME_HEIGHT,
   JET_FLAME_FRAME_WIDTH,
   WALL_RECOVERY_DURATION,
-  getDoubleJumpFrame,
-  getDoubleJumpFrameLayout,
+  getDoubleJumpV2Frame,
   getFlightLoopFrame,
-  getFreefallLoopFrame,
+  getFreefallV2LoopFrame,
   getGrindFrame,
   getJetFlameAnchors,
   getJetFlameFrame,
@@ -625,19 +628,23 @@ export class FlightGame {
 
     const animatedPose = this.getAnimatedFlightPose();
     if (animatedPose) {
-      const baseDrawWidth = AIRBORNE_DRAW_HEIGHT
-        * (CHARACTER_FRAME_WIDTH / CHARACTER_FRAME_HEIGHT);
+      const sourceWidth = animatedPose.kind === 'freefall'
+        ? FREEFALL_V2_FRAME_WIDTH
+        : animatedPose.kind === 'doubleJump'
+          ? DOUBLE_JUMP_V2_FRAME_WIDTH
+          : CHARACTER_FRAME_WIDTH;
+      const sourceHeight = animatedPose.kind === 'freefall'
+        ? FREEFALL_V2_FRAME_HEIGHT
+        : animatedPose.kind === 'doubleJump'
+          ? DOUBLE_JUMP_V2_FRAME_HEIGHT
+          : CHARACTER_FRAME_HEIGHT;
+      const baseDrawWidth = AIRBORNE_DRAW_HEIGHT * (sourceWidth / sourceHeight);
       const baseDrawX = hugo.x + HUGO_WIDTH / 2 - baseDrawWidth / 2;
       const baseDrawY = hugo.y + HUGO_HEIGHT - AIRBORNE_DRAW_HEIGHT;
-      const frameLayout = animatedPose.kind === 'doubleJump'
-        ? getDoubleJumpFrameLayout(animatedPose.frame.index)
-        : { scale: 1, verticalOffset: 0 };
-      const drawHeight = AIRBORNE_DRAW_HEIGHT * frameLayout.scale;
-      const drawWidth = baseDrawWidth * frameLayout.scale;
-      const drawX = this.snapToDevicePixel(baseDrawX + (baseDrawWidth - drawWidth) / 2);
-      const drawY = this.snapToDevicePixel(
-        baseDrawY + AIRBORNE_DRAW_HEIGHT * frameLayout.verticalOffset,
-      );
+      const drawHeight = AIRBORNE_DRAW_HEIGHT;
+      const drawWidth = baseDrawWidth;
+      const drawX = this.snapToDevicePixel(baseDrawX);
+      const drawY = this.snapToDevicePixel(baseDrawY);
 
       if (
         !hugo.grounded
@@ -674,8 +681,8 @@ export class FlightGame {
         animatedPose.sprite,
         animatedPose.frame.sourceX,
         animatedPose.frame.sourceY,
-        CHARACTER_FRAME_WIDTH,
-        CHARACTER_FRAME_HEIGHT,
+        sourceWidth,
+        sourceHeight,
         drawX,
         drawY,
         drawWidth,
@@ -732,10 +739,10 @@ export class FlightGame {
         kind: 'wall',
       };
     }
-    if (hugo.doubleJumpTime < DOUBLE_JUMP_DURATION && this.doubleJumpCycleSprite.ready) {
+    if (hugo.doubleJumpTime < DOUBLE_JUMP_V2_DURATION && this.doubleJumpCycleSprite.ready) {
       return {
         sprite: this.doubleJumpCycleSprite,
-        frame: getDoubleJumpFrame(hugo.doubleJumpTime),
+        frame: getDoubleJumpV2Frame(hugo.doubleJumpTime),
         kind: 'doubleJump',
       };
     }
@@ -763,7 +770,7 @@ export class FlightGame {
     if (hugo.velocityY > 45 && this.freefallCycleSprite.ready) {
       return {
         sprite: this.freefallCycleSprite,
-        frame: getFreefallLoopFrame(this.state.elapsed),
+        frame: getFreefallV2LoopFrame(this.state.elapsed),
         kind: 'freefall',
       };
     }
@@ -778,7 +785,7 @@ export class FlightGame {
   }
 
   private drawDoubleJumpEffect(context: CanvasRenderingContext2D): void {
-    const progress = clamp01(this.state.hugo.doubleJumpTime / DOUBLE_JUMP_DURATION);
+    const progress = clamp01(this.state.hugo.doubleJumpTime / DOUBLE_JUMP_V2_DURATION);
     const centerX = this.state.hugo.x + HUGO_WIDTH / 2;
     const centerY = this.state.hugo.y + HUGO_HEIGHT / 2;
     context.save();

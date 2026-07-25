@@ -10,7 +10,8 @@
 - Ground running now uses 60 generated full-body poses at 30 fps over a two-second loop, including continuous
   arms-back sprint, shoe, hair, hood, and jacket motion.
 - Jumping/landing uses eight authored phases, including a toe-contact frame.
-- A rapid second press produces an authored six-frame double-jump corkscrew.
+- A rapid second press produces the authored 16-frame Double Jump V2 corkscrew
+  and a substantially stronger vertical impulse than a normal jump.
 - Shoe jets visibly fire from both measured metal heel ports in every powered/glide frame, using layered plasma rather than flat triangular exhaust.
 - A clean wordmark-blue sky and generated forestry trail replace the full-screen Forest plate.
 - Hugo can land on and run across obstacle tops; frontal impacts use a six-frame wall-splat/recovery sequence and only end the run if he is pushed off-screen.

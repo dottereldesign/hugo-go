@@ -75,7 +75,7 @@ test('a fast second press triggers the authored double-jump state', async ({ pag
 
   expect(doubleJump.doubleJumpAvailable).toBe(false);
   expect(doubleJump.doubleJumpTime).toBeLessThan(0.35);
-  expect(doubleJump.velocityY).toBeLessThan(-300);
+  expect(doubleJump.velocityY).toBeLessThanOrEqual(-525);
 });
 
 test('lands on an obstacle, runs along it, and jumps cleanly from its top', async ({ page }) => {

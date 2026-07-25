@@ -121,7 +121,31 @@ describe('HUGO GO! deterministic flight physics', () => {
     const velocityBeforeDoubleJump = rising.hugo.velocityY;
     setFlightThrust(rising, true);
     expect(rising.hugo.velocityY).toBeLessThan(velocityBeforeDoubleJump);
-    expect(rising.hugo.velocityY).toBe(-560);
+    expect(rising.hugo.velocityY).toBe(-610);
+  });
+
+  it('gives a quick double jump a meaningful apex advantage over a normal tap jump', () => {
+    const normalJump = clearCourse();
+    setFlightThrust(normalJump, true);
+    setFlightThrust(normalJump, false);
+
+    const doubleJump = clearCourse();
+    setFlightThrust(doubleJump, true);
+    setFlightThrust(doubleJump, false);
+    advanceFlight(doubleJump, 0.1);
+    setFlightThrust(doubleJump, true);
+    setFlightThrust(doubleJump, false);
+
+    let normalApex = normalJump.hugo.y;
+    let doubleJumpApex = doubleJump.hugo.y;
+    for (let frame = 0; frame < 120; frame += 1) {
+      advanceFlight(normalJump, FIXED_STEP);
+      advanceFlight(doubleJump, FIXED_STEP);
+      normalApex = Math.min(normalApex, normalJump.hugo.y);
+      doubleJumpApex = Math.min(doubleJumpApex, doubleJump.hugo.y);
+    }
+
+    expect(doubleJumpApex).toBeLessThan(normalApex - 55);
   });
 
   it('does not grant the double jump after the fast-press window closes', () => {

@@ -25,7 +25,8 @@ No character image required for the current Forest controls is missing.
 The run cycle plays all 60 poses at 30 fps and repeats every `2 s`. The flight loops repeat every
 `0.5–0.6 s`; the double jump plays at 14 fps, the wall action at 12 fps, and both the
 grind and jet flame complete their 30-frame loops every second. Across the character
-atlases there are **128 authored full-body frames**, plus **30 authored flame frames**.
+atlases there are **168 authored full-body frames** across live and legacy Sandbox
+comparisons, plus **30 authored flame frames**.
 More generated in-betweens should be added only when they improve silhouette continuity
 enough to justify their download/decode cost.
 

@@ -14,6 +14,7 @@ game/
   hugo-jump-land-cycle.webp  eight jump/landing frames in a 4×2 atlas
   hugo-double-jump-cycle.webp six double-jump frames in a 3×2 atlas
   hugo-double-jump-v2-cycle.png sixteen Double Jump V2 frames in a 4×4 alpha atlas
+  hugo-freefall-v2-cycle.png twenty-four Freefall V2 frames in a 6×4 alpha atlas
   hugo-wall-recovery-cycle.webp six wall-impact/recovery frames in a 3×2 atlas
 ui/
   buttons/      shared interface controls

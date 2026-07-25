@@ -6,6 +6,10 @@ test('loads all home artwork and visually mutes unfinished worlds', async ({ pag
 
   const images = page.locator('#home-screen img');
   await expect(images).toHaveCount(15);
+  await page.waitForFunction(() => (
+    Array.from(document.querySelectorAll<HTMLImageElement>('#home-screen img'))
+      .every((image) => image.complete && image.naturalWidth > 0)
+  ));
   const brokenImages = await images.evaluateAll((elements) => (
     elements.filter((element) => !(element as HTMLImageElement).complete || (element as HTMLImageElement).naturalWidth === 0).length
   ));
@@ -144,9 +148,9 @@ test('loads the generated character and trail art over a clean blue sky', async 
       && resources.some((name) => name.includes('hugo-run-60-cycle'))
       && resources.some((name) => name.includes('hugo-powered-cycle'))
       && resources.some((name) => name.includes('hugo-glide-cycle'))
-      && resources.some((name) => name.includes('hugo-freefall-cycle'))
+      && resources.some((name) => name.includes('hugo-freefall-v2-cycle'))
       && resources.some((name) => name.includes('hugo-jump-land-cycle'))
-      && resources.some((name) => name.includes('hugo-double-jump-cycle'))
+      && resources.some((name) => name.includes('hugo-double-jump-v2-cycle'))
       && resources.some((name) => name.includes('hugo-wall-recovery-cycle'))
       && resources.some((name) => name.includes('jet-flame-cycle'));
   });
@@ -163,10 +167,14 @@ test('loads the generated character and trail art over a clean blue sky', async 
     return {
       run: await readSize('hugo-run-60-cycle'),
       flame: await readSize('jet-flame-cycle'),
+      freefallV2: await readSize('hugo-freefall-v2-cycle'),
+      doubleJumpV2: await readSize('hugo-double-jump-v2-cycle'),
     };
   });
   expect(atlasSizes.run).toEqual({ width: 1920, height: 1008 });
   expect(atlasSizes.flame).toEqual({ width: 960, height: 480 });
+  expect(atlasSizes.freefallV2).toEqual({ width: 1920, height: 1024 });
+  expect(atlasSizes.doubleJumpV2).toEqual({ width: 1536, height: 1280 });
   const skyPixel = await page.locator('#game-canvas').evaluate((canvas) => (
     Array.from((canvas as HTMLCanvasElement).getContext('2d')!.getImageData(10, 10, 1, 1).data)
   ));

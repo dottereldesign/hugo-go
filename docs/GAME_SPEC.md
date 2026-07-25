@@ -106,8 +106,9 @@ Hugo has eight generated full-body animation atlases:
 - an eight-frame jump/landing sheet with push-off, airborne, falling, toe-contact, compression, and recovery poses;
 - a six-frame powered-glide loop with wind-rustled hair and jacket;
 - a six-frame unpowered glide loop with distinct secondary motion;
-- a six-frame freefall loop with banking and calmer cloth motion;
-- a six-frame double-jump sheet with tuck, corkscrew, opening, and stabilization;
+- a 24-frame Freefall V2 loop with wingsuit posture and subtle overlapping cloth motion;
+- a 16-frame Double Jump V2 sheet with anticipation, explosive corkscrew release,
+  eased opening, and flight-ready stabilization;
 - a six-frame non-injury wall-impact sheet with splat, wobble, peel, crouch, and upward recovery;
 - a 30-frame right-facing grind loop with one shoe leading, one trailing, and the outer
   side edges of both soles aligned to the cable contact line.
