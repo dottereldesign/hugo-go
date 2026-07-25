@@ -2,9 +2,12 @@ import { describe, expect, it } from 'vitest';
 import {
   RIGGED_JUMP_FRAME_COUNT,
   RIGGED_RUN_FRAME_COUNT,
+  getDebugJumpPose,
+  getDebugRunPose,
   getRiggedJumpPose,
   getRiggedRunPose,
   rigEndpoint,
+  solveTwoBoneChain,
 } from '../src/game/layeredRig';
 
 describe('deterministic layered Hugo rig', () => {
@@ -38,5 +41,52 @@ describe('deterministic layered Hugo rig', () => {
     const endpoint = rigEndpoint({ x: 100, y: 50 }, Math.PI / 2, 40);
     expect(endpoint.x).toBeCloseTo(60, 8);
     expect(endpoint.y).toBeCloseTo(50, 8);
+  });
+
+  it('plants one debug-run foot while the other follows a raised swing arc', () => {
+    const nearContact = getDebugRunPose(7);
+    expect(nearContact.nearFoot.y).toBe(-8);
+    expect(nearContact.farFoot.y).toBeLessThan(-25);
+
+    const farContact = getDebugRunPose(22);
+    expect(farContact.farFoot.y).toBe(-8);
+    expect(farContact.nearFoot.y).toBeLessThan(-25);
+    expect(getDebugRunPose(RIGGED_RUN_FRAME_COUNT)).toEqual(getDebugRunPose(0));
+  });
+
+  it('keeps the debug-jump feet grounded before takeoff and after landing', () => {
+    const rest = getDebugJumpPose(0);
+    const apex = getDebugJumpPose(18);
+    const landing = getDebugJumpPose(30);
+
+    expect(rest.nearFoot.y).toBe(-8);
+    expect(rest.farFoot.y).toBe(-8);
+    expect(apex.hip.y).toBeLessThan(-145);
+    expect(apex.nearFoot.y).toBeLessThan(-80);
+    expect(landing.nearFoot.y).toBe(-8);
+    expect(landing.farFoot.y).toBe(-8);
+    expect(getDebugJumpPose(RIGGED_JUMP_FRAME_COUNT)).toEqual(rest);
+  });
+
+  it('solves connected two-bone limbs without changing either segment length', () => {
+    const chain = solveTwoBoneChain(
+      { x: 4, y: 7 },
+      { x: 42, y: 58 },
+      44,
+      44,
+      -1,
+    );
+    const upperLength = Math.hypot(
+      chain.joint.x - chain.root.x,
+      chain.joint.y - chain.root.y,
+    );
+    const lowerLength = Math.hypot(
+      chain.end.x - chain.joint.x,
+      chain.end.y - chain.joint.y,
+    );
+
+    expect(chain.end).toEqual({ x: 42, y: 58 });
+    expect(upperLength).toBeCloseTo(44, 8);
+    expect(lowerLength).toBeCloseTo(44, 8);
   });
 });

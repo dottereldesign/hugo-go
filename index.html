@@ -341,11 +341,46 @@
               <canvas class="sandbox-canvas" data-sandbox-animation="rig-jump-v2" width="600" height="340" role="img" aria-label="Hugo's code-rigged Normal Jump V2 animation"></canvas>
               <p class="sandbox-rig-caption">Anticipation → takeoff → tuck → apex → landing compression → secondary settle</p>
             </article>
+
+            <aside class="sandbox-rig-review" aria-labelledby="rig-review-title">
+              <div>
+                <span>VISUAL POST-MORTEM</span>
+                <h3 id="rig-review-title">Why the first two layered rigs fail</h3>
+                <p>The idea is sound; the source parts and assembly rules were not production-ready. Keeping these cards visible makes the failure measurable instead of hiding it.</p>
+              </div>
+              <ol>
+                <li><b>Mixed scale and camera.</b> Painted parts were generated as separate illustrations, so their apparent lengths, thicknesses and perspective do not agree.</li>
+                <li><b>No authored sockets.</b> Pivots were guessed from painted edges rather than fixed shoulder, elbow, wrist, hip, knee and ankle coordinates.</li>
+                <li><b>Artwork and bones disagree.</b> Code used arbitrary limb lengths that do not match the pixels, opening gaps at nearly every joint.</li>
+                <li><b>Disconnected posing.</b> Upper and lower limb angles were authored independently, letting knees, elbows, shoes and hands drift away from one another.</li>
+                <li><b>No contact solving.</b> The run has no planted-foot constraint, so feet float or slide instead of carrying Hugo's weight.</li>
+                <li><b>Unclear silhouette.</b> Decorative pieces overlap the broken anatomy, making it harder—not easier—to review the actual motion.</li>
+              </ol>
+              <strong>Verdict: approve connected geometry first. Painted limbs come after the skeleton reads correctly at speed and frame-by-frame.</strong>
+            </aside>
+
+            <article class="sandbox-card sandbox-card--v2 sandbox-card--debug" data-sandbox-card="rig-run-debug">
+              <header>
+                <div><span>GEOMETRY FIRST V3</span><h2>Running V3 — Head + debug rig</h2></div>
+                <small data-sandbox-metrics>30 frames · 1.00 s total · 30 FPS</small>
+              </header>
+              <canvas class="sandbox-canvas" data-sandbox-animation="rig-run-debug" width="600" height="340" role="img" aria-label="Hugo head attached to a connected running skeleton with visible limb hitboxes"></canvas>
+              <p class="sandbox-rig-caption">Actual Hugo head · connected two-bone limbs · solved foot contacts · visible gameplay geometry</p>
+            </article>
+
+            <article class="sandbox-card sandbox-card--v2 sandbox-card--debug" data-sandbox-card="rig-jump-debug">
+              <header>
+                <div><span>GEOMETRY FIRST V3</span><h2>Normal Jump V3 — Head + debug rig</h2></div>
+                <small data-sandbox-metrics>36 frames · 1.20 s total · 30 FPS</small>
+              </header>
+              <canvas class="sandbox-canvas" data-sandbox-animation="rig-jump-debug" width="600" height="340" role="img" aria-label="Hugo head attached to a connected jumping skeleton with visible limb hitboxes"></canvas>
+              <p class="sandbox-rig-caption">Anticipation · takeoff · tucked apex · landing compression · every joint remains connected</p>
+            </article>
           </div>
 
           <aside class="sandbox-v2-next">
-            <strong>Layered-rig production prototype</strong>
-            <p>The Running V2 and Normal Jump V2 cards above reuse one approved 16-part Hugo. Code connects shoulder → upper arm → elbow → forearm, hip → thigh → knee → shin → shoe, and torso → neck → head. The motion functions change joint angles, body height, anticipation, overlap, and settling; the face, outfit, proportions, and textures never regenerate between frames. Transparent sheets remain useful as review and final export formats.</p>
+            <strong>New production gate: geometry before artwork</strong>
+            <p>The two V3 cards attach only Hugo's approved head. Cyan near-side limbs, violet far-side limbs and the amber body are both the visible rig and its exact hit geometry. Knees and elbows are solved from connected two-bone chains; feet follow explicit contact and swing paths. Once those paths are approved, painted pieces can be registered to these fixed sockets without changing the motion.</p>
           </aside>
 
           <p class="sandbox-v2-sources">Framework references: <a href="https://books.disney.com/book-author/ollie-johnston/" target="_blank" rel="noreferrer">Thomas &amp; Johnston, <em>The Illusion of Life</em></a> · <a href="https://dl.acm.org/doi/10.1145/37402.37407" target="_blank" rel="noreferrer">Lasseter, <em>Principles of Traditional Animation Applied to 3D Computer Animation</em></a>.</p>

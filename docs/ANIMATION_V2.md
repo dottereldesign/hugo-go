@@ -142,10 +142,11 @@ cleanup references. A deterministic 2D bone/deform rig should produce
 in-betweens, secondary movement, pivots, and repeatable exports. This prevents
 missing limbs, frozen legs, costume drift, and random changes between frames.
 
-## Layered-rig prototype
+## Layered-rig prototype (rejected V2)
 
 The Sandbox now includes two deterministic examples that reuse the same
-16-piece Hugo atlas:
+16-piece Hugo atlas. They remain visible as failure references, not approved
+production animation:
 
 - **Running V2:** a 30-frame, one-second cycle with opposing leg arcs, stable
   arms-back posture, hip bounce, and delayed hair, hood, and jacket tails.
@@ -165,12 +166,33 @@ hips
 └── far shoulder → upper arm → elbow → forearm / hand
 ```
 
-Every child part is drawn at its parent's calculated endpoint. The animation
-functions output only joint angles and body offsets. Because both examples use
-the same pixels, adding or removing an in-between cannot change Hugo's face,
-shoe design, jacket texture, limb length, or lighting. The rig can render
-directly at runtime or export deterministic transparent sprite frames after the
-motion is approved.
+Reusing pixels prevented frame-to-frame identity drift, but it did not make the
+parts rig-compatible. Visual review rejected both examples for six reasons:
+
+1. the separately illustrated parts use inconsistent scale, thickness and
+   perspective;
+2. joint pivots were inferred from painted edges instead of authored sockets;
+3. code bone lengths do not match the painted limb lengths;
+4. upper and lower limb angles were posed independently;
+5. the run had no planted-foot constraint; and
+6. decorative overlaps hid rather than clarified the broken anatomy.
+
+## Geometry-first V3 gate
+
+Running V3 and Normal Jump V3 keep only Hugo's approved head artwork. The body
+is intentionally rendered as a debug skeleton:
+
+- cyan boxes and lines are the near-side limbs;
+- violet boxes and lines are the far-side limbs;
+- amber boxes and lines are the pelvis and torso;
+- every rectangle is drawn directly between its two actual joint coordinates;
+- knees and elbows use deterministic two-bone inverse kinematics; and
+- run feet follow explicit alternating contact and swing paths.
+
+The debug geometry is also the proposed collision geometry, so the display
+cannot conceal a detached joint or disagree with the underlying rig. Painted
+limbs may be attached only after the head, hip, hand and foot paths read
+correctly at speed, at the extreme frames and through the loop seam.
 
 ## Reusable atlas prompt
 

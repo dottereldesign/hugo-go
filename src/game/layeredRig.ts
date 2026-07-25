@@ -49,6 +49,22 @@ export interface RigPoint {
   y: number;
 }
 
+export interface DebugRigPose {
+  hip: RigPoint;
+  torsoAngle: number;
+  headAngle: number;
+  nearFoot: RigPoint;
+  farFoot: RigPoint;
+  nearHandOffset: RigPoint;
+  farHandOffset: RigPoint;
+}
+
+export interface TwoBoneChain {
+  root: RigPoint;
+  joint: RigPoint;
+  end: RigPoint;
+}
+
 export function getRiggedRunPose(frameIndex: number): LayeredRigPose {
   const phase = normalizedFrame(frameIndex, RIGGED_RUN_FRAME_COUNT) * Math.PI * 2;
   const nearStride = Math.sin(phase);
@@ -123,6 +139,108 @@ export function rigEndpoint(origin: RigPoint, angle: number, length: number): Ri
   };
 }
 
+export function getDebugRunPose(frameIndex: number): DebugRigPose {
+  const progress = normalizedFrame(frameIndex, RIGGED_RUN_FRAME_COUNT);
+  const phase = progress * Math.PI * 2;
+  const nearFoot = runFootTarget(progress);
+  const farFoot = runFootTarget((progress + 0.5) % 1);
+  const bounce = Math.sin(phase * 2) ** 2;
+  return {
+    hip: { x: 0, y: -82 - bounce * 3 },
+    torsoAngle: -0.24 + Math.sin(phase * 2) * 0.025,
+    headAngle: 0.08 - Math.sin(phase * 2) * 0.03,
+    nearFoot,
+    farFoot,
+    nearHandOffset: {
+      x: -55 + Math.sin(phase - 0.45) * 3,
+      y: 24 + Math.cos(phase) * 2,
+    },
+    farHandOffset: {
+      x: -50 + Math.sin(phase + Math.PI - 0.45) * 2.5,
+      y: 28 + Math.cos(phase + Math.PI) * 2,
+    },
+  };
+}
+
+export function getDebugJumpPose(frameIndex: number): DebugRigPose {
+  const progress = normalizedFrame(frameIndex, RIGGED_JUMP_FRAME_COUNT);
+  const anticipation = pulse(progress, 0, 0.18);
+  const flightProgress = clamp01((progress - 0.16) / 0.62);
+  const airborne = progress >= 0.16 && progress <= 0.78
+    ? Math.sin(flightProgress * Math.PI)
+    : 0;
+  const tuck = progress >= 0.28 && progress <= 0.68
+    ? Math.sin(clamp01((progress - 0.28) / 0.4) * Math.PI)
+    : 0;
+  const landing = pulse(progress, 0.76, 0.93);
+  const hip = {
+    x: airborne * 8,
+    y: -82 + anticipation * 20 + landing * 17 - airborne * 68,
+  };
+  const nearGroundFoot = { x: 13, y: -8 };
+  const farGroundFoot = { x: -13, y: -8 };
+  const nearAirFoot = {
+    x: hip.x + 24 - tuck * 11,
+    y: hip.y + 72 - tuck * 27,
+  };
+  const farAirFoot = {
+    x: hip.x - 18 + tuck * 9,
+    y: hip.y + 74 - tuck * 25,
+  };
+  const airborneBlend = smoothstep(0.15, 0.24, progress)
+    * (1 - smoothstep(0.69, 0.8, progress));
+  const armLift = smoothstep(0.1, 0.3, progress)
+    * (1 - smoothstep(0.58, 0.84, progress));
+
+  return {
+    hip,
+    torsoAngle: -0.08 - anticipation * 0.18 - airborne * 0.12 + landing * 0.1,
+    headAngle: 0.03 + anticipation * 0.06 - airborne * 0.035,
+    nearFoot: mixPoint(nearGroundFoot, nearAirFoot, airborneBlend),
+    farFoot: mixPoint(farGroundFoot, farAirFoot, airborneBlend),
+    nearHandOffset: {
+      x: mix(-14, 52, armLift),
+      y: mix(50, -27, armLift),
+    },
+    farHandOffset: {
+      x: mix(-19, 45, armLift),
+      y: mix(53, -22, armLift),
+    },
+  };
+}
+
+export function solveTwoBoneChain(
+  root: RigPoint,
+  target: RigPoint,
+  firstLength: number,
+  secondLength: number,
+  bendDirection: 1 | -1,
+): TwoBoneChain {
+  const deltaX = target.x - root.x;
+  const deltaY = target.y - root.y;
+  const rawDistance = Math.hypot(deltaX, deltaY);
+  const minimum = Math.abs(firstLength - secondLength) + 0.001;
+  const maximum = firstLength + secondLength - 0.001;
+  const distance = Math.max(minimum, Math.min(maximum, rawDistance || minimum));
+  const directionX = rawDistance > 0 ? deltaX / rawDistance : 0;
+  const directionY = rawDistance > 0 ? deltaY / rawDistance : 1;
+  const along = (
+    firstLength ** 2 - secondLength ** 2 + distance ** 2
+  ) / (2 * distance);
+  const perpendicular = Math.sqrt(Math.max(0, firstLength ** 2 - along ** 2));
+  const joint = {
+    x: root.x + directionX * along - directionY * perpendicular * bendDirection,
+    y: root.y + directionY * along + directionX * perpendicular * bendDirection,
+  };
+  const constrainedEnd = rawDistance > maximum || rawDistance < minimum
+    ? {
+        x: root.x + directionX * distance,
+        y: root.y + directionY * distance,
+      }
+    : target;
+  return { root, joint, end: constrainedEnd };
+}
+
 function normalizedFrame(frameIndex: number, frameCount: number): number {
   const safeIndex = Number.isFinite(frameIndex) ? Math.floor(frameIndex) : 0;
   return ((safeIndex % frameCount) + frameCount) % frameCount / frameCount;
@@ -131,6 +249,29 @@ function normalizedFrame(frameIndex: number, frameCount: number): number {
 function pulse(value: number, start: number, end: number): number {
   if (value <= start || value >= end) return 0;
   return Math.sin((value - start) / (end - start) * Math.PI);
+}
+
+function runFootTarget(progress: number): RigPoint {
+  if (progress < 0.5) {
+    const contact = progress / 0.5;
+    return { x: mix(32, -32, contact), y: -8 };
+  }
+  const swing = (progress - 0.5) / 0.5;
+  return {
+    x: mix(-32, 32, smoothstep(0, 1, swing)),
+    y: -8 - Math.sin(swing * Math.PI) * 23,
+  };
+}
+
+function mixPoint(from: RigPoint, to: RigPoint, amount: number): RigPoint {
+  return {
+    x: mix(from.x, to.x, amount),
+    y: mix(from.y, to.y, amount),
+  };
+}
+
+function mix(from: number, to: number, amount: number): number {
+  return from + (to - from) * amount;
 }
 
 function smoothstep(start: number, end: number, value: number): number {

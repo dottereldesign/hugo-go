@@ -44,14 +44,19 @@ import {
   RIGGED_JUMP_FRAME_COUNT,
   RIGGED_RUN_FRAME_COUNT,
   RigPart,
+  getDebugJumpPose,
+  getDebugRunPose,
   getRiggedJumpPose,
   getRiggedRunPose,
   rigEndpoint,
+  solveTwoBoneChain,
+  type DebugRigPose,
   type LayeredRigPose,
   type RigPoint,
+  type TwoBoneChain,
 } from './layeredRig';
 
-type AnimationKind = 'run' | 'jump' | 'rig-run-v2' | 'rig-jump-v2' | 'double-jump' | 'double-jump-v2' | 'freefall' | 'freefall-v2' | 'powered' | 'glide' | 'grind' | 'wall' | 'flame';
+type AnimationKind = 'run' | 'jump' | 'rig-run-v2' | 'rig-jump-v2' | 'rig-run-debug' | 'rig-jump-debug' | 'double-jump' | 'double-jump-v2' | 'freefall' | 'freefall-v2' | 'powered' | 'glide' | 'grind' | 'wall' | 'flame';
 type LoadedSprite = HTMLImageElement & { ready?: boolean };
 
 interface Preview {
@@ -85,6 +90,8 @@ const ANIMATION_CONFIG: Record<AnimationKind, { frameCount: number; duration: nu
   jump: { frameCount: 8, duration: 2.4 },
   'rig-run-v2': { frameCount: RIGGED_RUN_FRAME_COUNT, duration: 1 },
   'rig-jump-v2': { frameCount: RIGGED_JUMP_FRAME_COUNT, duration: 1.2 },
+  'rig-run-debug': { frameCount: RIGGED_RUN_FRAME_COUNT, duration: 1 },
+  'rig-jump-debug': { frameCount: RIGGED_JUMP_FRAME_COUNT, duration: 1.2 },
   'double-jump': { frameCount: 6, duration: 2 },
   'double-jump-v2': { frameCount: 16, duration: DOUBLE_JUMP_V2_DURATION },
   freefall: { frameCount: 6, duration: 0.6 },
@@ -179,7 +186,12 @@ export class AnimationSandbox {
       context,
       canvas.width,
       canvas.height,
-      kind === 'run' || kind === 'jump' || kind === 'rig-run-v2' || kind === 'rig-jump-v2',
+      kind === 'run'
+        || kind === 'jump'
+        || kind === 'rig-run-v2'
+        || kind === 'rig-jump-v2'
+        || kind === 'rig-run-debug'
+        || kind === 'rig-jump-debug',
     );
 
     switch (kind) {
@@ -194,6 +206,12 @@ export class AnimationSandbox {
         break;
       case 'rig-jump-v2':
         this.drawRiggedJumpV2(preview, forcedFrame);
+        break;
+      case 'rig-run-debug':
+        this.drawRiggedRunDebug(preview, forcedFrame);
+        break;
+      case 'rig-jump-debug':
+        this.drawRiggedJumpDebug(preview, forcedFrame);
         break;
       case 'double-jump':
         this.drawDoubleJump(preview, elapsed, forcedFrame);
@@ -263,6 +281,232 @@ export class AnimationSandbox {
   private drawRiggedJumpV2(preview: Preview, forcedFrame: number | null): void {
     const frame = forcedFrame ?? 0;
     this.drawLayeredRig(preview, getRiggedJumpPose(frame), frame, preview.canvas.height * 0.81);
+  }
+
+  private drawRiggedRunDebug(preview: Preview, forcedFrame: number | null): void {
+    const frame = forcedFrame ?? 0;
+    this.drawDebugRig(preview, getDebugRunPose(frame), frame, preview.canvas.height * 0.82, 'run');
+  }
+
+  private drawRiggedJumpDebug(preview: Preview, forcedFrame: number | null): void {
+    const frame = forcedFrame ?? 0;
+    this.drawDebugRig(preview, getDebugJumpPose(frame), frame, preview.canvas.height * 0.82, 'jump');
+  }
+
+  private drawDebugRig(
+    preview: Preview,
+    pose: DebugRigPose,
+    frame: number,
+    groundY: number,
+    motion: 'run' | 'jump',
+  ): void {
+    const { context, canvas } = preview;
+    const worldPoint = (point: RigPoint): RigPoint => ({
+      x: canvas.width / 2 + point.x,
+      y: groundY + point.y,
+    });
+    const hip = worldPoint(pose.hip);
+    const farHip = { x: hip.x - 6, y: hip.y + 1 };
+    const nearHip = { x: hip.x + 6, y: hip.y };
+    const torsoVector = {
+      x: -Math.sin(pose.torsoAngle),
+      y: -Math.cos(pose.torsoAngle),
+    };
+    const shoulder = {
+      x: hip.x + torsoVector.x * 55,
+      y: hip.y + torsoVector.y * 55,
+    };
+    const neck = {
+      x: shoulder.x + torsoVector.x * 10,
+      y: shoulder.y + torsoVector.y * 10,
+    };
+    const farShoulder = { x: shoulder.x - 5, y: shoulder.y + 2 };
+    const nearShoulder = { x: shoulder.x + 5, y: shoulder.y };
+    const nearFoot = worldPoint(pose.nearFoot);
+    const farFoot = worldPoint(pose.farFoot);
+    const nearHand = {
+      x: nearShoulder.x + pose.nearHandOffset.x,
+      y: nearShoulder.y + pose.nearHandOffset.y,
+    };
+    const farHand = {
+      x: farShoulder.x + pose.farHandOffset.x,
+      y: farShoulder.y + pose.farHandOffset.y,
+    };
+    const farLeg = solveTwoBoneChain(farHip, farFoot, 44, 44, -1);
+    const nearLeg = solveTwoBoneChain(nearHip, nearFoot, 44, 44, -1);
+    const farArm = solveTwoBoneChain(farShoulder, farHand, 31, 30, 1);
+    const nearArm = solveTwoBoneChain(nearShoulder, nearHand, 31, 30, -1);
+
+    context.save();
+    this.drawDebugGuide(context, canvas, groundY);
+    this.drawDebugChain(context, farLeg, 13, '#9a8bff', 'rgba(117, 96, 244, .24)', 0.72);
+    this.drawDebugFoot(context, farLeg.end, pose.farFoot, groundY, '#9a8bff', 'rgba(117, 96, 244, .24)', 0.72);
+    this.drawDebugChain(context, farArm, 10, '#9a8bff', 'rgba(117, 96, 244, .24)', 0.72);
+
+    this.drawDebugSegment(context, hip, shoulder, 32, '#ffd661', 'rgba(255, 190, 49, .23)');
+    this.drawDebugSegment(context, farHip, nearHip, 16, '#ffd661', 'rgba(255, 190, 49, .23)');
+    this.drawDebugJoint(context, hip, '#ffd661', 5);
+    this.drawDebugJoint(context, shoulder, '#ffd661', 5);
+    this.drawDebugJoint(context, neck, '#70f0b1', 4);
+
+    this.drawDebugChain(context, nearLeg, 14, '#5ce9ff', 'rgba(40, 207, 239, .28)', 1);
+    this.drawDebugFoot(context, nearLeg.end, pose.nearFoot, groundY, '#5ce9ff', 'rgba(40, 207, 239, .28)', 1);
+    this.drawDebugChain(context, nearArm, 11, '#5ce9ff', 'rgba(40, 207, 239, .28)', 1);
+
+    this.drawHeadHitbox(context, neck, pose.headAngle);
+    this.drawRigPart(context, RigPart.head, neck, pose.headAngle, 0.3, { x: 160, y: 302 });
+
+    context.fillStyle = 'rgba(4, 27, 55, .78)';
+    context.fillRect(15, 15, 264, 46);
+    context.fillStyle = '#dffaff';
+    context.font = '700 12px "IBM Plex Mono", monospace';
+    context.fillText(motion === 'run' ? 'CONTACT-SOLVED RUN CYCLE' : 'CONTACT-SOLVED JUMP ARC', 27, 34);
+    context.fillStyle = '#8ab1ca';
+    context.font = '600 10px "IBM Plex Mono", monospace';
+    context.fillText('CYAN near · VIOLET far · AMBER body', 27, 50);
+    context.restore();
+    this.markFrame(preview, frame);
+  }
+
+  private drawDebugGuide(
+    context: CanvasRenderingContext2D,
+    canvas: HTMLCanvasElement,
+    groundY: number,
+  ): void {
+    context.save();
+    context.strokeStyle = 'rgba(9, 59, 91, .13)';
+    context.lineWidth = 1;
+    for (let x = 0; x <= canvas.width; x += 25) {
+      context.beginPath();
+      context.moveTo(x + 0.5, 0);
+      context.lineTo(x + 0.5, groundY);
+      context.stroke();
+    }
+    for (let y = 0; y <= groundY; y += 25) {
+      context.beginPath();
+      context.moveTo(0, y + 0.5);
+      context.lineTo(canvas.width, y + 0.5);
+      context.stroke();
+    }
+    context.strokeStyle = 'rgba(255, 242, 177, .9)';
+    context.lineWidth = 3;
+    context.setLineDash([12, 7]);
+    context.beginPath();
+    context.moveTo(0, groundY - 1);
+    context.lineTo(canvas.width, groundY - 1);
+    context.stroke();
+    context.restore();
+  }
+
+  private drawDebugChain(
+    context: CanvasRenderingContext2D,
+    chain: TwoBoneChain,
+    width: number,
+    stroke: string,
+    fill: string,
+    opacity: number,
+  ): void {
+    context.save();
+    context.globalAlpha = opacity;
+    this.drawDebugSegment(context, chain.root, chain.joint, width, stroke, fill);
+    this.drawDebugSegment(context, chain.joint, chain.end, width * 0.88, stroke, fill);
+    this.drawDebugJoint(context, chain.root, stroke, 4.5);
+    this.drawDebugJoint(context, chain.joint, stroke, 4);
+    this.drawDebugJoint(context, chain.end, stroke, 3.5);
+    context.restore();
+  }
+
+  private drawDebugSegment(
+    context: CanvasRenderingContext2D,
+    start: RigPoint,
+    end: RigPoint,
+    width: number,
+    stroke: string,
+    fill: string,
+  ): void {
+    const deltaX = end.x - start.x;
+    const deltaY = end.y - start.y;
+    const length = Math.hypot(deltaX, deltaY);
+    context.save();
+    context.translate(start.x, start.y);
+    context.rotate(Math.atan2(deltaY, deltaX));
+    context.fillStyle = fill;
+    context.strokeStyle = stroke;
+    context.lineWidth = 2;
+    context.beginPath();
+    context.roundRect(0, -width / 2, length, width, width / 2);
+    context.fill();
+    context.stroke();
+    context.strokeStyle = stroke;
+    context.lineWidth = 2.5;
+    context.beginPath();
+    context.moveTo(0, 0);
+    context.lineTo(length, 0);
+    context.stroke();
+    context.restore();
+  }
+
+  private drawDebugJoint(
+    context: CanvasRenderingContext2D,
+    point: RigPoint,
+    colour: string,
+    radius: number,
+  ): void {
+    context.fillStyle = '#071b37';
+    context.strokeStyle = colour;
+    context.lineWidth = 2;
+    context.beginPath();
+    context.arc(point.x, point.y, radius, 0, Math.PI * 2);
+    context.fill();
+    context.stroke();
+  }
+
+  private drawDebugFoot(
+    context: CanvasRenderingContext2D,
+    ankle: RigPoint,
+    relativeFoot: RigPoint,
+    groundY: number,
+    stroke: string,
+    fill: string,
+    opacity: number,
+  ): void {
+    const onGround = Math.abs(relativeFoot.y + 8) < 0.01;
+    const toe = {
+      x: ankle.x + 27,
+      y: onGround ? ankle.y : ankle.y + 2,
+    };
+    context.save();
+    context.globalAlpha = opacity;
+    this.drawDebugSegment(context, ankle, toe, 15, stroke, fill);
+    this.drawDebugJoint(context, toe, stroke, 3);
+    if (onGround) {
+      context.strokeStyle = '#fff0a6';
+      context.lineWidth = 4;
+      context.beginPath();
+      context.moveTo(ankle.x - 4, groundY - 1);
+      context.lineTo(toe.x + 4, groundY - 1);
+      context.stroke();
+    }
+    context.restore();
+  }
+
+  private drawHeadHitbox(
+    context: CanvasRenderingContext2D,
+    neck: RigPoint,
+    angle: number,
+  ): void {
+    context.save();
+    context.translate(neck.x, neck.y);
+    context.rotate(angle);
+    context.fillStyle = 'rgba(78, 242, 159, .13)';
+    context.strokeStyle = '#70f0b1';
+    context.lineWidth = 2;
+    context.setLineDash([5, 4]);
+    context.beginPath();
+    context.roundRect(-26, -62, 57, 61, 19);
+    context.fill();
+    context.stroke();
+    context.restore();
   }
 
   private drawLayeredRig(
