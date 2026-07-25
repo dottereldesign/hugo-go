@@ -57,9 +57,9 @@ Runtime character atlases are approximately:
 The 30-frame side-profile grind atlas is 366 KB, the 30-frame jet-flame atlas is
 approximately 132 KB, and the trail is 64 KB. The grind atlas is packed into a near-square
 `1120 × 1176` texture using `224 × 196` cells: enough source resolution for the stable
-2× Canvas while avoiding the first draft’s overly wide texture. Images are explicitly
-decoded before being marked render-ready. Full generation sources under `art/` are
-excluded from production.
+2× Canvas while avoiding the first draft’s overly wide texture. Images request async
+decoding as soon as they load without blocking their render-ready state. Full generation
+sources under `art/` are excluded from production.
 
 ## Mobile behavior
 

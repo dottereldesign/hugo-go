@@ -774,25 +774,6 @@ export class FlightGame {
       context.translate(drawX + drawWidth * anchor.x, drawY + drawHeight * anchor.y);
       context.rotate(anchor.angle);
       context.globalAlpha = 0.55 + intensity * 0.45;
-      context.globalCompositeOperation = 'lighter';
-
-      const glow = context.createRadialGradient(0, 2, 0, 0, flameHeight * 0.38, flameHeight * 0.7);
-      glow.addColorStop(0, 'rgba(70, 232, 255, .72)');
-      glow.addColorStop(0.46, 'rgba(255, 148, 35, .24)');
-      glow.addColorStop(1, 'rgba(70, 232, 255, 0)');
-      context.fillStyle = glow;
-      context.beginPath();
-      context.ellipse(
-        0,
-        flameHeight * 0.38,
-        flameWidth * 0.7,
-        flameHeight * 0.56,
-        0,
-        0,
-        Math.PI * 2,
-      );
-      context.fill();
-      context.globalCompositeOperation = 'source-over';
       context.shadowColor = 'rgba(70, 232, 255, .68)';
       context.shadowBlur = 4 + intensity * 5;
       context.drawImage(
@@ -818,14 +799,13 @@ export class FlightGame {
     const image = new Image() as LoadedSprite;
     image.decoding = 'async';
     image.addEventListener('load', () => {
-      const markReady = () => {
-        image.ready = true;
-        this.render();
-      };
+      image.ready = true;
+      this.render();
       if (typeof image.decode === 'function') {
-        void image.decode().then(markReady, markReady);
-      } else {
-        markReady();
+        void image.decode().then(
+          () => this.render(),
+          () => undefined,
+        );
       }
     });
     return image;
