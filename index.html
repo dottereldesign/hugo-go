@@ -174,39 +174,39 @@
       <main class="sandbox-scroll">
         <div class="sandbox-grid" aria-label="Hugo character animation previews">
           <article class="sandbox-card" data-sandbox-card="run">
-            <header><div><span>GROUND</span><h2>Running</h2></div><small>60 poses · 30 fps · 2 second loop</small></header>
+            <header><div><span>GROUND</span><h2>Running</h2></div><small data-sandbox-metrics>60 frames · 2.00 s total · 30 FPS</small></header>
             <canvas class="sandbox-canvas" data-sandbox-animation="run" width="600" height="340" role="img" aria-label="Hugo's running animation"></canvas>
           </article>
           <article class="sandbox-card" data-sandbox-card="jump">
-            <header><div><span>AIR</span><h2>Jump &amp; land</h2></div><small>Takeoff to touchdown</small></header>
+            <header><div><span>AIR</span><h2>Jump &amp; land</h2></div><small data-sandbox-metrics>8 frames · 2.40 s total · 3.33 FPS</small></header>
             <canvas class="sandbox-canvas" data-sandbox-animation="jump" width="600" height="340" role="img" aria-label="Hugo's normal jump and landing animation"></canvas>
           </article>
           <article class="sandbox-card" data-sandbox-card="double-jump">
-            <header><div><span>AIR</span><h2>Double jump</h2></div><small>Second-press flip</small></header>
+            <header><div><span>AIR</span><h2>Double jump</h2></div><small data-sandbox-metrics>6 frames · 2.00 s total · 3 FPS</small></header>
             <canvas class="sandbox-canvas" data-sandbox-animation="double-jump" width="600" height="340" role="img" aria-label="Hugo's double jump animation"></canvas>
           </article>
           <article class="sandbox-card" data-sandbox-card="freefall">
-            <header><div><span>AIR</span><h2>Freefall</h2></div><small>Jets released</small></header>
+            <header><div><span>AIR</span><h2>Freefall</h2></div><small data-sandbox-metrics>6 frames · 0.60 s total · 10 FPS</small></header>
             <canvas class="sandbox-canvas" data-sandbox-animation="freefall" width="600" height="340" role="img" aria-label="Hugo's freefall animation"></canvas>
           </article>
           <article class="sandbox-card" data-sandbox-card="powered">
-            <header><div><span>FLIGHT</span><h2>Powered flight</h2></div><small>Pose + shoe flames</small></header>
+            <header><div><span>FLIGHT</span><h2>Powered flight</h2></div><small data-sandbox-metrics>6 frames · 0.50 s total · 12 FPS</small></header>
             <canvas class="sandbox-canvas" data-sandbox-animation="powered" width="600" height="340" role="img" aria-label="Hugo's powered flight animation with shoe jets"></canvas>
           </article>
           <article class="sandbox-card" data-sandbox-card="glide">
-            <header><div><span>FLIGHT</span><h2>Gliding</h2></div><small>Forward coast</small></header>
+            <header><div><span>FLIGHT</span><h2>Gliding</h2></div><small data-sandbox-metrics>6 frames · 0.50 s total · 12 FPS</small></header>
             <canvas class="sandbox-canvas" data-sandbox-animation="glide" width="600" height="340" role="img" aria-label="Hugo's gliding animation"></canvas>
           </article>
           <article class="sandbox-card" data-sandbox-card="grind">
-            <header><div><span>WIRE</span><h2>Grinding</h2></div><small>Side-on shoe grind</small></header>
+            <header><div><span>WIRE</span><h2>Grinding</h2></div><small data-sandbox-metrics>30 frames · 1.00 s total · 30 FPS</small></header>
             <canvas class="sandbox-canvas" data-sandbox-animation="grind" width="600" height="340" role="img" aria-label="Hugo's wire grinding animation"></canvas>
           </article>
           <article class="sandbox-card" data-sandbox-card="wall">
-            <header><div><span>IMPACT</span><h2>Wall recovery</h2></div><small>Splat, wobble, escape</small></header>
+            <header><div><span>IMPACT</span><h2>Wall recovery</h2></div><small data-sandbox-metrics>6 frames · 2.80 s total · 2.14 FPS</small></header>
             <canvas class="sandbox-canvas" data-sandbox-animation="wall" width="600" height="340" role="img" aria-label="Hugo's wall impact and recovery animation"></canvas>
           </article>
           <article class="sandbox-card" data-sandbox-card="flame">
-            <header><div><span>FX</span><h2>Shoe-fire cycle</h2></div><small>30 distinct flame frames</small></header>
+            <header><div><span>FX</span><h2>Shoe-fire cycle</h2></div><small data-sandbox-metrics>30 frames · 1.00 s total · 30 FPS</small></header>
             <canvas class="sandbox-canvas" data-sandbox-animation="flame" width="600" height="340" role="img" aria-label="Hugo's animated shoe jet flames"></canvas>
           </article>
         </div>
@@ -216,6 +216,11 @@
             <h2 id="sandbox-v2-title">Animation V2 Framework</h2>
             <p>Smooth animation comes from controlled motion and continuity—not simply asking for more pictures. This is the standard every new Hugo animation should pass.</p>
           </header>
+
+          <aside class="sandbox-v2-loop-rule">
+            <strong>Mandatory looping-sheet bookend</strong>
+            <p>For every looping animation, generated frame 1 and the generated final frame must be pixel-identical. The motion must arrive cleanly back at that exact opening pose. Keep the matching final frame as the seam-validation bookend, then omit that duplicate endpoint from discrete runtime playback so frame 1 is not held twice.</p>
+          </aside>
 
           <div class="sandbox-v2-principles">
             <article>
@@ -270,7 +275,7 @@
             <article class="sandbox-card sandbox-card--v2" data-sandbox-card="freefall-v2">
               <header>
                 <div><span>V2 PROTOTYPE</span><h2>Freefall V2 — Wingsuit posture</h2></div>
-                <small>24 controlled poses · 30 fps · 0.8 second loop</small>
+                <small data-sandbox-metrics>24 frames · 0.80 s total · 30 FPS</small>
               </header>
               <canvas class="sandbox-canvas" data-sandbox-animation="freefall-v2" width="600" height="340" role="img" aria-label="Hugo's 24-frame Freefall V2 wingsuit-style animation"></canvas>
             </article>

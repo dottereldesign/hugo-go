@@ -99,6 +99,8 @@ export class AnimationSandbox {
       const context = canvas.getContext('2d');
       if (!context) throw new Error('Animation Sandbox requires a 2D canvas context.');
       const kind = canvas.dataset.sandboxAnimation as AnimationKind;
+      const metrics = canvas.closest<HTMLElement>('[data-sandbox-card]')?.querySelector<HTMLElement>('[data-sandbox-metrics]');
+      if (metrics) metrics.textContent = this.metricsText(kind, ANIMATION_CONFIG[kind].frameCount);
       const controls = this.createControls(canvas, kind);
       const frameButtons = Array.from(controls.querySelectorAll<HTMLButtonElement>('[data-frame]'));
       return {
@@ -508,7 +510,7 @@ export class AnimationSandbox {
     preview.editButton.textContent = preview.editing ? 'Done editing' : 'Edit frames';
     preview.controls.classList.toggle('is-editing', preview.editing);
     const activeCount = preview.activeFrames.filter(Boolean).length;
-    preview.frameReadout.textContent = `Frame ${preview.currentFrame + 1} / ${ANIMATION_CONFIG[preview.kind].frameCount} · ${activeCount} active`;
+    preview.frameReadout.textContent = `Frame ${preview.currentFrame + 1} / ${ANIMATION_CONFIG[preview.kind].frameCount} · ${activeCount} active · ${this.metricsText(preview.kind, activeCount, false)}`;
     preview.frameButtons.forEach((button, index) => {
       const selected = index === preview.currentFrame;
       const enabled = preview.activeFrames[index];
@@ -524,6 +526,17 @@ export class AnimationSandbox {
     const button = root.querySelector<HTMLButtonElement>(selector);
     if (!button) throw new Error(`Missing Animation Sandbox control ${selector}.`);
     return button;
+  }
+
+  private metricsText(kind: AnimationKind, frameCount: number, includeFrameCount = true): string {
+    const config = ANIMATION_CONFIG[kind];
+    const framesPerSecond = config.frameCount / config.duration;
+    const duration = frameCount / framesPerSecond;
+    const fpsLabel = Number.isInteger(framesPerSecond)
+      ? String(framesPerSecond)
+      : framesPerSecond.toFixed(2);
+    const prefix = includeFrameCount ? `${frameCount} frames · ` : '';
+    return `${prefix}${duration.toFixed(2)} s total · ${fpsLabel} FPS`;
   }
 
   private controlElement(root: HTMLElement, selector: string): HTMLElement {

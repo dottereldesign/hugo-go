@@ -9,6 +9,19 @@ registration point, and lighting while following a planned motion arc. A
 sequence with fewer correct poses is preferable to a larger sequence containing
 frozen limbs, duplicates, missing in-betweens, scale jumps, or costume drift.
 
+## Mandatory loop bookend
+
+Every generated **looping** animation sheet must begin and end on the exact
+same image: the generated final frame must be pixel-identical to generated
+frame 1. This makes the motion leading into the final frame prove that it can
+return cleanly to the opening pose.
+
+The matching final frame is a generation and seam-validation bookend. For a
+discrete runtime sprite atlas, exclude that final duplicate from playback;
+otherwise the identical opening pose is displayed twice and creates a subtle
+one-frame pause. Frame totals and durations shown in the Sandbox refer to the
+runtime frames after this duplicate endpoint is omitted.
+
 ## Production pipeline
 
 1. **Lock the character.** Use one approved identity sheet with front, side,
@@ -17,7 +30,8 @@ frozen limbs, duplicates, missing in-betweens, scale jumps, or costume drift.
    silhouette.
 2. **Write the motion map.** Identify contact, extreme, passing, recoil, and
    loop-seam poses. Document the path of both hands and both feet. No paired
-   limb may remain frozen through a locomotion cycle.
+   limb may remain frozen through a locomotion cycle. For a loop, explicitly
+   copy frame 1 as the generated final validation frame.
 3. **Choose the frame budget.** Set the playback rate and duration first. Add
    unique drawings only where the silhouette or secondary motion changes.
 4. **Generate controlled groups.** Keep the camera, scale, light, registration,
@@ -30,8 +44,10 @@ frozen limbs, duplicates, missing in-betweens, scale jumps, or costume drift.
    reversed or broken foot paths, face drift, clothing changes, duplicates,
    clipping, halos, registration jumps, and a visible loop seam.
 7. **Review in the Sandbox.** Inspect the sequence at speed, paused, and one
-   numbered frame at a time. Check its transition from the preceding animation
-   and into the following animation before promoting it to gameplay.
+   numbered frame at a time. Confirm that the generated final bookend is
+   pixel-identical to frame 1, then review runtime playback without that
+   duplicate. Check transitions from the preceding animation and into the
+   following animation before promotion to gameplay.
 
 ## Frame policy
 
@@ -85,7 +101,10 @@ Backdrop: perfectly flat solid chroma-key color with no shadow, gradient,
 texture, floor, grid, label, reflection, or lighting variation.
 Avoid: extra, merged, or missing limbs; duplicate frames; pose jumps; camera
 drift; scale changes; costume drift; clipping; motion blur; text; watermark.
-Loop: the final pose must transition smoothly into the first pose.
+Loop: generated frame 1 and the generated final frame must be pixel-identical.
+The motion leading into the final frame must return smoothly to that exact
+opening image. Treat the matching final frame as a seam-validation bookend and
+omit it from discrete runtime playback to avoid displaying frame 1 twice.
 ```
 
 ## Freefall V2 prototype

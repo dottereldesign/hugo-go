@@ -14,6 +14,7 @@ Pressing **Play** on the home screen opens `#/game` and starts the run immediate
 - The bottom of the Sandbox documents the Animation V2 production framework and includes its approved first 24 Freefall V2 wingsuit-posture frames at 30 fps for comparison with the original.
 - Sandbox edit mode can deactivate individual frames; red frames remain inspectable but are skipped by playback and looping.
 - The reusable authoring, validation, rigging, and prompt standard is documented in [`docs/ANIMATION_V2.md`](docs/ANIMATION_V2.md).
+- Looping-sheet generation now requires a pixel-identical first/final bookend; the duplicate final validation frame is omitted from discrete runtime playback to avoid a seam pause.
 - Occasional two-post drooping wires can be landed on from above. Hugo automatically
   grinds their curved cable with a 30-frame side-profile cycle; press again to jump off.
 - A quick second press after takeoff triggers one stronger animated double jump.

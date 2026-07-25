@@ -2096,6 +2096,31 @@ body.sandbox-page-open {
   line-height: 1.65;
 }
 
+.sandbox-v2-loop-rule {
+  display: grid;
+  grid-template-columns: minmax(210px, .42fr) minmax(0, 1.58fr);
+  gap: 24px;
+  align-items: center;
+  padding: 19px 22px;
+  border: 1px solid rgba(255, 207, 90, .38);
+  border-left: 5px solid #ffd05d;
+  border-radius: 0 16px 16px 0;
+  background: linear-gradient(105deg, rgba(133, 81, 20, .28), rgba(16, 38, 73, .68));
+}
+
+.sandbox-v2-loop-rule strong {
+  color: #ffe08d;
+  font: 800 .84rem/1.4 'IBM Plex Mono', monospace;
+  text-transform: uppercase;
+}
+
+.sandbox-v2-loop-rule p {
+  margin: 0;
+  color: #d5deeb;
+  font-size: .83rem;
+  line-height: 1.55;
+}
+
 .sandbox-v2-principles {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -2314,6 +2339,12 @@ body.sandbox-page-open {
 
   .sandbox-v2-principles {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sandbox-v2-loop-rule {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+    padding: 17px;
   }
 
   .sandbox-v2-spec {

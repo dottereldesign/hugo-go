@@ -13,7 +13,23 @@ test.describe('Animation Sandbox', () => {
     await expect(page.locator('[data-sandbox-card]')).toHaveCount(10);
     await expect(page.locator('[data-sandbox-animation]')).toHaveCount(10);
     await expect(page.getByRole('heading', { name: 'Animation V2 Framework' })).toBeVisible();
+    await expect(page.getByText('Mandatory looping-sheet bookend')).toBeVisible();
     await expect(page.locator('[data-sandbox-card="freefall-v2"] button[data-frame]')).toHaveCount(24);
+    const expectedMetrics: Record<string, string> = {
+      run: '60 frames · 2.00 s total · 30 FPS',
+      jump: '8 frames · 2.40 s total · 3.33 FPS',
+      'double-jump': '6 frames · 2.00 s total · 3 FPS',
+      freefall: '6 frames · 0.60 s total · 10 FPS',
+      powered: '6 frames · 0.50 s total · 12 FPS',
+      glide: '6 frames · 0.50 s total · 12 FPS',
+      grind: '30 frames · 1.00 s total · 30 FPS',
+      wall: '6 frames · 2.80 s total · 2.14 FPS',
+      flame: '30 frames · 1.00 s total · 30 FPS',
+      'freefall-v2': '24 frames · 0.80 s total · 30 FPS',
+    };
+    for (const [animation, metrics] of Object.entries(expectedMetrics)) {
+      await expect(page.locator(`[data-sandbox-card="${animation}"] [data-sandbox-metrics]`)).toHaveText(metrics);
+    }
 
     await expect.poll(async () => page.locator('[data-sandbox-animation="run"]').getAttribute('data-frame')).not.toBeNull();
     const firstFrame = await page.locator('[data-sandbox-animation="run"]').getAttribute('data-frame');
@@ -87,6 +103,7 @@ test.describe('Animation Sandbox', () => {
     await expect(removedFrame).toHaveClass(/is-deactivated/);
     await expect(removedFrame).toHaveAttribute('data-frame-active', 'false');
     await expect(runCard.locator('[data-sandbox-frame-readout]')).toContainText('59 active');
+    await expect(runCard.locator('[data-sandbox-frame-readout]')).toContainText('1.97 s total · 30 FPS');
     await runCard.getByRole('button', { name: 'Done editing' }).click();
 
     await page.evaluate(() => {
