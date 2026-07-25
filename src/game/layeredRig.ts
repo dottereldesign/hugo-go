@@ -6,6 +6,8 @@ export const RIGGED_JUMP_FRAME_COUNT = 36;
 export const RIGGED_JUMP_FRAMES_PER_SECOND = 30;
 export const WALK_V4_FRAME_COUNT = 36;
 export const WALK_V4_FRAMES_PER_SECOND = 30;
+export const WALK_V5_FRAME_COUNT = 36;
+export const WALK_V5_FRAMES_PER_SECOND = 30;
 
 export const RigPart = {
   torso: 0,
@@ -250,6 +252,33 @@ export function getWalkV4Pose(frameIndex: number): WalkV4Pose {
     farHandOffset: {
       x: armSwing * 13,
       y: 56 - Math.abs(armSwing) * 1.25,
+    },
+  };
+}
+
+export function getWalkV5Pose(frameIndex: number): WalkV4Pose {
+  const progress = normalizedFrame(frameIndex, WALK_V5_FRAME_COUNT);
+  const phase = progress * Math.PI * 2;
+  const verticalRise = (1 - Math.cos(phase * 2)) * 1.75;
+  const armSwing = Math.cos(phase);
+
+  return {
+    hip: {
+      x: Math.sin(phase) * 1.25,
+      y: -91 - verticalRise,
+    },
+    torsoAngle: -0.035 + Math.sin(phase * 2) * 0.01,
+    headAngle: 0.014 - Math.sin(phase * 2) * 0.009,
+    pelvisAngle: Math.sin(phase) * 0.04,
+    nearFoot: walkFootTarget(progress),
+    farFoot: walkFootTarget((progress + 0.5) % 1),
+    nearHandOffset: {
+      x: -armSwing * 14,
+      y: 62 - Math.abs(armSwing) * 1.5,
+    },
+    farHandOffset: {
+      x: armSwing * 13,
+      y: 63 - Math.abs(armSwing) * 1.25,
     },
   };
 }

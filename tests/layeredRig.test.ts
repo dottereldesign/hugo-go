@@ -3,11 +3,13 @@ import {
   RIGGED_JUMP_FRAME_COUNT,
   RIGGED_RUN_FRAME_COUNT,
   WALK_V4_FRAME_COUNT,
+  WALK_V5_FRAME_COUNT,
   getDebugJumpPose,
   getDebugRunPose,
   getRiggedJumpPose,
   getRiggedRunPose,
   getWalkV4Pose,
+  getWalkV5Pose,
   rigEndpoint,
   solveTwoBoneChain,
 } from '../src/game/layeredRig';
@@ -94,6 +96,23 @@ describe('deterministic layered Hugo rig', () => {
 
   it('returns Walking V4 to the identical pose after its 36-frame cycle', () => {
     expect(getWalkV4Pose(WALK_V4_FRAME_COUNT)).toEqual(getWalkV4Pose(0));
+  });
+
+  it('returns Walking V5 to the identical pose after its 36-frame cycle', () => {
+    expect(getWalkV5Pose(WALK_V5_FRAME_COUNT)).toEqual(getWalkV5Pose(0));
+  });
+
+  it('gives Walking V5 complete relaxed arm reach without changing its upright gait', () => {
+    const forward = getWalkV5Pose(0);
+    const reverse = getWalkV5Pose(WALK_V5_FRAME_COUNT / 2);
+
+    expect(forward.nearHandOffset.y).toBeGreaterThan(60);
+    expect(forward.farHandOffset.y).toBeGreaterThan(60);
+    expect(forward.nearHandOffset.x).toBeLessThan(0);
+    expect(forward.farHandOffset.x).toBeGreaterThan(0);
+    expect(reverse.nearHandOffset.x).toBeGreaterThan(0);
+    expect(reverse.farHandOffset.x).toBeLessThan(0);
+    expect(Math.abs(forward.torsoAngle)).toBeLessThan(0.06);
   });
 
   it('alternates planted and swinging feet through a natural walking gait', () => {

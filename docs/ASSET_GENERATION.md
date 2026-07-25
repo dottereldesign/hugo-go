@@ -128,6 +128,9 @@ Current runtime sizes are approximately:
 - six-frame wall-impact/recovery atlas: 100 KB;
 - 30-frame side-profile grind atlas: 366 KB;
 - 30-frame jet-flame atlas: 132 KB;
+- Walking V4 modular-parts atlas: 692 KB;
+- Walking V4 corrective straight-leg atlas: 481 KB;
+- Walking V5 side-profile torso: 752 KB;
 - scrolling trail strip: 64 KB.
 
 The old single flight pose, single-pose run WebP, six-frame transition sheet, and full-screen
@@ -143,6 +146,12 @@ to the quadratic cable tangent. Every powered and glide frame records the two me
 metal heel-port coordinates in source-atlas pixels, preventing normalized anchor drift as
 Hugo moves his feet. The same flame atlas is reused by both shoes with a 13-frame offset,
 while code retains thrust-responsive scale, opacity, and glow.
+
+Walking V5 deliberately reuses the accepted V4 head, arm, leg, hand and shoe
+sources and promotes the previously generated side-profile torso. It does not
+add generated in-between frames: one deterministic 36-frame skeleton drives
+both the debug and painted previews. The interactive Sandbox limb sheet records
+the public part IDs and source socket paths used to register those images.
 
 ## Generated and procedural scene art
 

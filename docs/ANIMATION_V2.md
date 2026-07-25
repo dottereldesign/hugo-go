@@ -223,17 +223,48 @@ Generated assets:
   thighs and shins.
 
 The first generated atlas's leg cells were rejected because they contained
-pre-bent whole legs. A supplemental torso was also generated and tested, but
-its oversized arm opening and separated open-jacket silhouette read worse on
-the rig, so it remains a documented source experiment rather than runtime art.
-The accepted torso comes from the primary V4 parts atlas.
+pre-bent whole legs. A supplemental side torso was generated, but the V4
+painted card silently used the front-facing atlas torso instead. V4 remains in
+the Sandbox as an honest record of that mismatch; V5 corrects it.
 
-Recommended V5 refinements:
+## Walking V5: source-locked sockets
+
+Walking V5 keeps V4's 36-frame, 1.2-second gait while replacing the visual
+registration contract:
+
+- `hugo-walk-v5-torso.png` is the generated side-on jacket and shorts. Its
+  pelvis root, collar and visible armhole define the hip, neck and shoulder;
+- upper-arm art spans the complete shoulder-to-elbow bone and forearm art spans
+  the complete elbow-to-hand bone. Source anchors sit at the visible openings
+  instead of being moved inward to crop away difficult joins;
+- arms use 34-pixel upper bones and 32-pixel forearms so relaxed hands reach
+  the upper thigh instead of stopping near the elbow;
+- thighs render over shin openings, the torso covers hip openings, and shoes
+  cover the distal shin openings. This is visual overlap only: joints and bone
+  lengths never move to accommodate art; and
+- each shoe has an authored ankle pivot inside its opening plus separate heel
+  and toe contact nodes. Ground solving includes 19 pixels of sole depth, so
+  the skeleton ankle is not mistaken for the bottom of the shoe.
+
+The Sandbox's interactive limb sheet is the naming contract for future review.
+It exposes these IDs:
+
+- `head`, `torso`;
+- `near-upper-arm`, `near-forearm`, `far-upper-arm`, `far-forearm`;
+- `near-thigh`, `near-shin`, `near-shoe`; and
+- `far-thigh`, `far-shin`, `far-shoe`.
+
+Hovering, focusing, or clicking a label isolates the exact source image and its
+socket path. Requests should name the part and both relevant sockets, such as:
+“move the `near-shoe` ankle pivot toward the heel while preserving the toe
+contact.”
+
+Recommended V6 refinements:
 
 1. generate small knee and elbow overlap caps that conceal texture seams
    without moving sockets;
 2. author two relaxed-hand variants for forward and backward arm swing;
-3. store source and destination pivots in asset metadata rather than code;
+3. move source rectangles and anchors into validated asset metadata;
 4. add delayed hair and jacket-hem bones only after the base gait is approved;
 5. match the cycle's visual ground speed to gameplay metres per second before
    promoting it outside the Sandbox.

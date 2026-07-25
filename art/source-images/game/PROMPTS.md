@@ -683,7 +683,7 @@ foreshortening, perspective drift and extra objects.
 Generated sources: `hugo-walk-v4-legs-magenta.png` and
 `src/assets/game/hugo-walk-v4-legs.png`.
 
-### Side-profile torso experiment
+### Side-profile torso (promoted in Walking V5)
 
 ```text
 Use case: stylized-concept
@@ -702,10 +702,14 @@ text or watermark. Avoid front view, assembled person, extra openings, wide
 spread shoulders, bent body, foreshortening and cropped edges.
 ```
 
-Generated experiment:
+Generated source:
 `hugo-walk-v4-torso-magenta.png` and
 `hugo-walk-v4-torso-transparent.png`.
 
-This experiment was visually tested and rejected for runtime use: its
-oversized arm opening and separated open-jacket edge read less naturally than
-the accepted torso from the primary atlas.
+V4 generated this source but then displayed the front-facing primary-atlas
+torso in its painted card. Walking V5 corrects that mismatch and promotes this
+side-on source as `src/assets/game/hugo-walk-v5-torso.png`. V5 maps pelvis
+source point `(620, 930)` to the rig hip, collar source point `(603, 115)` to
+the neck, and derives the shoulder from the visible armhole. The open jacket
+edge is therefore evaluated as part of the intended side silhouette rather
+than silently replaced.

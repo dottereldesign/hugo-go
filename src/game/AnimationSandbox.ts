@@ -10,6 +10,7 @@ import hugoPoweredCycleUrl from '../assets/game/hugo-powered-cycle.webp';
 import hugoRunCycleUrl from '../assets/game/hugo-run-60-cycle.webp';
 import hugoWalkV4LegsUrl from '../assets/game/hugo-walk-v4-legs.png';
 import hugoWalkV4PartsUrl from '../assets/game/hugo-walk-v4-parts.png';
+import hugoWalkV5TorsoUrl from '../assets/game/hugo-walk-v5-torso.png';
 import hugoWallRecoveryCycleUrl from '../assets/game/hugo-wall-recovery-cycle.webp';
 import jetFlameCycleUrl from '../assets/game/jet-flame-cycle.webp';
 import {
@@ -46,12 +47,14 @@ import {
   RIGGED_JUMP_FRAME_COUNT,
   RIGGED_RUN_FRAME_COUNT,
   WALK_V4_FRAME_COUNT,
+  WALK_V5_FRAME_COUNT,
   RigPart,
   getDebugJumpPose,
   getDebugRunPose,
   getRiggedJumpPose,
   getRiggedRunPose,
   getWalkV4Pose,
+  getWalkV5Pose,
   rigEndpoint,
   solveTwoBoneChain,
   type DebugRigPose,
@@ -62,8 +65,9 @@ import {
   type WalkV4Pose,
 } from './layeredRig';
 
-type AnimationKind = 'run' | 'jump' | 'rig-run-v2' | 'rig-jump-v2' | 'rig-run-debug' | 'rig-jump-debug' | 'walk-v4-debug' | 'walk-v4-painted' | 'double-jump' | 'double-jump-v2' | 'freefall' | 'freefall-v2' | 'powered' | 'glide' | 'grind' | 'wall' | 'flame';
+type AnimationKind = 'run' | 'jump' | 'rig-run-v2' | 'rig-jump-v2' | 'rig-run-debug' | 'rig-jump-debug' | 'walk-v4-debug' | 'walk-v4-painted' | 'walk-v5-debug' | 'walk-v5-painted' | 'double-jump' | 'double-jump-v2' | 'freefall' | 'freefall-v2' | 'powered' | 'glide' | 'grind' | 'wall' | 'flame';
 type LoadedSprite = HTMLImageElement & { ready?: boolean };
+type AnatomySprite = 'parts' | 'legs' | 'torso';
 
 interface Preview {
   canvas: HTMLCanvasElement;
@@ -124,6 +128,35 @@ interface AtlasPartRegistration {
   sourceEnd: RigPoint;
 }
 
+interface AnatomyPart {
+  id: string;
+  label: string;
+  sockets: string;
+  sprite: AnatomySprite;
+  part: number;
+  columns: number;
+  rows: number;
+  crop: DrawRect;
+  start: RigPoint;
+  end: RigPoint;
+  colour: string;
+}
+
+const WALK_V5_ANATOMY: AnatomyPart[] = [
+  { id: 'head', label: 'Head artwork', sockets: 'neck socket → crown guide', sprite: 'parts', part: 1, columns: 4, rows: 4, crop: { x: 0.12, y: 0.06, width: 0.78, height: 0.91 }, start: { x: 0.57, y: 0.93 }, end: { x: 0.52, y: 0.12 }, colour: '#70f0b1' },
+  { id: 'torso', label: 'Side torso + pelvis', sockets: 'pelvis root → neck socket', sprite: 'torso', part: 0, columns: 1, rows: 1, crop: { x: 0.28, y: 0.06, width: 0.4, height: 0.84 }, start: { x: 0.5, y: 0.742 }, end: { x: 0.48, y: 0.092 }, colour: '#ffd661' },
+  { id: 'near-upper-arm', label: 'Near upper arm', sockets: 'near shoulder → near elbow', sprite: 'parts', part: 2, columns: 4, rows: 4, crop: { x: 0.13, y: 0.4, width: 0.69, height: 0.36 }, start: { x: 0.17, y: 0.6 }, end: { x: 0.77, y: 0.6 }, colour: '#5ce9ff' },
+  { id: 'near-forearm', label: 'Near forearm + hand', sockets: 'near elbow → near hand', sprite: 'parts', part: 3, columns: 4, rows: 4, crop: { x: 0.06, y: 0.4, width: 0.87, height: 0.4 }, start: { x: 0.1, y: 0.6 }, end: { x: 0.88, y: 0.68 }, colour: '#5ce9ff' },
+  { id: 'far-upper-arm', label: 'Far upper arm', sockets: 'far shoulder → far elbow', sprite: 'parts', part: 4, columns: 4, rows: 4, crop: { x: 0.26, y: 0.29, width: 0.68, height: 0.41 }, start: { x: 0.3, y: 0.52 }, end: { x: 0.89, y: 0.52 }, colour: '#9a8bff' },
+  { id: 'far-forearm', label: 'Far forearm + hand', sockets: 'far elbow → far hand', sprite: 'parts', part: 5, columns: 4, rows: 4, crop: { x: 0.16, y: 0.31, width: 0.82, height: 0.47 }, start: { x: 0.2, y: 0.53 }, end: { x: 0.94, y: 0.62 }, colour: '#9a8bff' },
+  { id: 'near-thigh', label: 'Near thigh', sockets: 'near hip → near knee', sprite: 'legs', part: 0, columns: 2, rows: 2, crop: { x: 0.12, y: 0.36, width: 0.79, height: 0.3 }, start: { x: 0.15, y: 0.525 }, end: { x: 0.893, y: 0.525 }, colour: '#5ce9ff' },
+  { id: 'near-shin', label: 'Near shin', sockets: 'near knee → near ankle', sprite: 'legs', part: 1, columns: 2, rows: 2, crop: { x: 0.08, y: 0.39, width: 0.82, height: 0.25 }, start: { x: 0.11, y: 0.52 }, end: { x: 0.864, y: 0.52 }, colour: '#5ce9ff' },
+  { id: 'near-shoe', label: 'Near shoe', sockets: 'near ankle → toe contact', sprite: 'parts', part: 8, columns: 4, rows: 4, crop: { x: 0.12, y: 0.22, width: 0.87, height: 0.51 }, start: { x: 0.35, y: 0.3 }, end: { x: 0.95, y: 0.61 }, colour: '#5ce9ff' },
+  { id: 'far-thigh', label: 'Far thigh', sockets: 'far hip → far knee', sprite: 'legs', part: 2, columns: 2, rows: 2, crop: { x: 0.12, y: 0.36, width: 0.79, height: 0.3 }, start: { x: 0.15, y: 0.515 }, end: { x: 0.893, y: 0.515 }, colour: '#9a8bff' },
+  { id: 'far-shin', label: 'Far shin', sockets: 'far knee → far ankle', sprite: 'legs', part: 3, columns: 2, rows: 2, crop: { x: 0.08, y: 0.39, width: 0.82, height: 0.25 }, start: { x: 0.11, y: 0.52 }, end: { x: 0.864, y: 0.52 }, colour: '#9a8bff' },
+  { id: 'far-shoe', label: 'Far shoe', sockets: 'far ankle → toe contact', sprite: 'parts', part: 11, columns: 4, rows: 4, crop: { x: 0.11, y: 0.22, width: 0.87, height: 0.51 }, start: { x: 0.24, y: 0.3 }, end: { x: 0.95, y: 0.61 }, colour: '#9a8bff' },
+];
+
 const ANIMATION_CONFIG: Record<AnimationKind, { frameCount: number; duration: number }> = {
   run: { frameCount: 60, duration: 2 },
   jump: { frameCount: 8, duration: 2.4 },
@@ -133,6 +166,8 @@ const ANIMATION_CONFIG: Record<AnimationKind, { frameCount: number; duration: nu
   'rig-jump-debug': { frameCount: RIGGED_JUMP_FRAME_COUNT, duration: 1.2 },
   'walk-v4-debug': { frameCount: WALK_V4_FRAME_COUNT, duration: 1.2 },
   'walk-v4-painted': { frameCount: WALK_V4_FRAME_COUNT, duration: 1.2 },
+  'walk-v5-debug': { frameCount: WALK_V5_FRAME_COUNT, duration: 1.2 },
+  'walk-v5-painted': { frameCount: WALK_V5_FRAME_COUNT, duration: 1.2 },
   'double-jump': { frameCount: 6, duration: 2 },
   'double-jump-v2': { frameCount: 16, duration: DOUBLE_JUMP_V2_DURATION },
   freefall: { frameCount: 6, duration: 0.6 },
@@ -152,6 +187,7 @@ export class AnimationSandbox {
     layeredRig: this.createSprite(),
     walkParts: this.createSprite(),
     walkLegs: this.createSprite(),
+    walkV5Torso: this.createSprite(),
     doubleJump: this.createSprite(),
     doubleJumpV2: this.createSprite(),
     freefall: this.createSprite(),
@@ -166,8 +202,14 @@ export class AnimationSandbox {
   private running = false;
   private animationFrame = 0;
   private previousTime = 0;
+  private readonly anatomyCanvas: HTMLCanvasElement | null;
+  private readonly anatomyContext: CanvasRenderingContext2D | null;
+  private activeAnatomyPart = 'all';
+  private anatomyDirty = true;
 
   constructor(private readonly root: HTMLElement) {
+    this.anatomyCanvas = root.querySelector<HTMLCanvasElement>('[data-rig-anatomy-canvas]');
+    this.anatomyContext = this.anatomyCanvas?.getContext('2d') ?? null;
     this.previews = Array.from(root.querySelectorAll<HTMLCanvasElement>('[data-sandbox-animation]')).map((canvas) => {
       const context = canvas.getContext('2d');
       if (!context) throw new Error('Animation Sandbox requires a 2D canvas context.');
@@ -197,6 +239,10 @@ export class AnimationSandbox {
     });
     for (const preview of this.previews) this.syncControls(preview);
     this.root.addEventListener('click', (event) => this.handleControl(event));
+    this.root.addEventListener('click', (event) => this.handleAnatomySelection(event));
+    this.root.addEventListener('pointerover', (event) => this.handleAnatomyHover(event));
+    this.root.addEventListener('focusin', (event) => this.handleAnatomyHover(event));
+    this.syncAnatomyControls();
   }
 
   start(): void {
@@ -220,6 +266,10 @@ export class AnimationSandbox {
       if (preview.playing) this.advance(preview, delta);
       this.drawPreview(preview, preview.elapsed, preview.currentFrame);
     }
+    if (this.anatomyDirty) {
+      this.drawAnatomySheet();
+      this.anatomyDirty = false;
+    }
     this.animationFrame = window.requestAnimationFrame((nextTime) => this.tick(nextTime));
   }
 
@@ -236,7 +286,9 @@ export class AnimationSandbox {
         || kind === 'rig-run-debug'
         || kind === 'rig-jump-debug'
         || kind === 'walk-v4-debug'
-        || kind === 'walk-v4-painted',
+        || kind === 'walk-v4-painted'
+        || kind === 'walk-v5-debug'
+        || kind === 'walk-v5-painted',
     );
 
     switch (kind) {
@@ -263,6 +315,12 @@ export class AnimationSandbox {
         break;
       case 'walk-v4-painted':
         this.drawWalkingV4Painted(preview, forcedFrame);
+        break;
+      case 'walk-v5-debug':
+        this.drawWalkingV5Debug(preview, forcedFrame);
+        break;
+      case 'walk-v5-painted':
+        this.drawWalkingV5Painted(preview, forcedFrame);
         break;
       case 'double-jump':
         this.drawDoubleJump(preview, elapsed, forcedFrame);
@@ -466,6 +524,225 @@ export class AnimationSandbox {
     this.markFrame(preview, frame);
   }
 
+  private drawWalkingV5Debug(preview: Preview, forcedFrame: number | null): void {
+    const frame = forcedFrame ?? 0;
+    const pose = getWalkV5Pose(frame);
+    const groundY = preview.canvas.height * 0.82;
+    const geometry = this.buildWalkingV5Rig(preview.canvas, pose, groundY);
+    const { context, canvas } = preview;
+
+    context.save();
+    this.drawDebugGuide(context, canvas, groundY);
+    this.drawDebugChain(context, geometry.farLeg, 13, '#9a8bff', 'rgba(117, 96, 244, .24)', 0.72);
+    this.drawWalkingDebugFoot(context, geometry.farFoot, groundY, '#9a8bff', 'rgba(117, 96, 244, .24)', 0.72);
+    this.drawDebugChain(context, geometry.farArm, 11, '#9a8bff', 'rgba(117, 96, 244, .24)', 0.72);
+
+    this.drawDebugSegment(context, geometry.hip, geometry.spine, 35, '#ffd661', 'rgba(255, 190, 49, .23)');
+    this.drawDebugSegment(context, geometry.spine, geometry.chest, 33, '#ffd661', 'rgba(255, 190, 49, .23)');
+    this.drawDebugSegment(context, geometry.chest, geometry.neck, 23, '#70f0b1', 'rgba(66, 216, 149, .2)');
+    this.drawDebugSegment(context, geometry.farHip, geometry.nearHip, 16, '#ffd661', 'rgba(255, 190, 49, .23)');
+    this.drawDebugJoint(context, geometry.hip, '#ffd661', 5);
+    this.drawDebugJoint(context, geometry.spine, '#ffd661', 4.5);
+    this.drawDebugJoint(context, geometry.chest, '#ffd661', 5);
+    this.drawDebugJoint(context, geometry.neck, '#70f0b1', 4);
+
+    this.drawDebugChain(context, geometry.nearLeg, 14, '#5ce9ff', 'rgba(40, 207, 239, .28)', 1);
+    this.drawWalkingDebugFoot(context, geometry.nearFoot, groundY, '#5ce9ff', 'rgba(40, 207, 239, .28)', 1);
+    this.drawDebugChain(context, geometry.nearArm, 12, '#5ce9ff', 'rgba(40, 207, 239, .28)', 1);
+
+    this.drawHeadHitbox(context, geometry.neck, pose.headAngle);
+    this.drawRigPart(context, RigPart.head, geometry.neck, pose.headAngle, 0.3, { x: 160, y: 302 });
+    this.drawWalkLabel(context, 'V5 SOURCE-ALIGNED WALK', 'FULL LIMBS · ANKLE-TO-SHOE SOCKETS');
+    context.restore();
+    this.markFrame(preview, frame);
+  }
+
+  private drawWalkingV5Painted(preview: Preview, forcedFrame: number | null): void {
+    const frame = forcedFrame ?? 0;
+    const pose = getWalkV5Pose(frame);
+    const groundY = preview.canvas.height * 0.82;
+    const geometry = this.buildWalkingV5Rig(preview.canvas, pose, groundY);
+    const { context } = preview;
+
+    context.save();
+    context.globalAlpha = 0.82;
+    this.drawWalkAtlasBone(context, this.sprites.walkLegs, {
+      part: 3,
+      columns: 2,
+      rows: 2,
+      sourceStart: { x: 0.11, y: 0.52 },
+      sourceEnd: { x: 0.864, y: 0.52 },
+    }, geometry.farLeg.joint, geometry.farLeg.end, 1.12);
+    this.drawWalkAtlasBone(context, this.sprites.walkLegs, {
+      part: 2,
+      columns: 2,
+      rows: 2,
+      sourceStart: { x: 0.15, y: 0.515 },
+      sourceEnd: { x: 0.893, y: 0.515 },
+    }, geometry.farLeg.root, geometry.farLeg.joint, 1.08);
+    this.drawWalkShoeV5(context, 11, geometry.farFoot, 1);
+    this.drawWalkAtlasBone(context, this.sprites.walkParts, {
+      part: 5,
+      columns: 4,
+      rows: 4,
+      sourceStart: { x: 0.2, y: 0.53 },
+      sourceEnd: { x: 0.94, y: 0.62 },
+    }, geometry.farArm.joint, geometry.farArm.end, 1.08);
+    this.drawWalkAtlasBone(context, this.sprites.walkParts, {
+      part: 4,
+      columns: 4,
+      rows: 4,
+      sourceStart: { x: 0.3, y: 0.52 },
+      sourceEnd: { x: 0.89, y: 0.52 },
+    }, geometry.farArm.root, geometry.farArm.joint, 1.08);
+    context.restore();
+
+    this.drawWalkAtlasBone(context, this.sprites.walkLegs, {
+      part: 1,
+      columns: 2,
+      rows: 2,
+      sourceStart: { x: 0.11, y: 0.52 },
+      sourceEnd: { x: 0.864, y: 0.52 },
+    }, geometry.nearLeg.joint, geometry.nearLeg.end, 1.12);
+    this.drawWalkAtlasBone(context, this.sprites.walkLegs, {
+      part: 0,
+      columns: 2,
+      rows: 2,
+      sourceStart: { x: 0.15, y: 0.525 },
+      sourceEnd: { x: 0.893, y: 0.525 },
+    }, geometry.nearLeg.root, geometry.nearLeg.joint, 1.08);
+    this.drawWalkShoeV5(context, 8, geometry.nearFoot, 1);
+
+    this.drawWalkingV5Torso(context, geometry.hip, geometry.neck);
+    this.drawWalkAtlasBone(context, this.sprites.walkParts, {
+      part: 3,
+      columns: 4,
+      rows: 4,
+      sourceStart: { x: 0.1, y: 0.6 },
+      sourceEnd: { x: 0.88, y: 0.68 },
+    }, geometry.nearArm.joint, geometry.nearArm.end, 1.05);
+    this.drawWalkAtlasBone(context, this.sprites.walkParts, {
+      part: 2,
+      columns: 4,
+      rows: 4,
+      sourceStart: { x: 0.17, y: 0.6 },
+      sourceEnd: { x: 0.77, y: 0.6 },
+    }, geometry.nearArm.root, geometry.nearArm.joint, 1.08);
+    this.drawWalkAtlasAtPivot(
+      context,
+      this.sprites.walkParts,
+      1,
+      4,
+      4,
+      geometry.neck,
+      pose.headAngle,
+      0.3,
+      { x: 0.57, y: 0.93 },
+    );
+
+    this.drawPaintedWalkNodes(context, geometry);
+    this.drawWalkLabel(context, 'PAINTED V5 · TRUE SIDE TORSO', 'VISIBLE SOCKETS · FULL-LENGTH LIMBS');
+    context.restore();
+    this.markFrame(preview, frame);
+  }
+
+  private buildWalkingV5Rig(
+    canvas: HTMLCanvasElement,
+    pose: WalkV4Pose,
+    groundY: number,
+  ): WalkRigGeometry {
+    const worldPoint = (point: RigPoint): RigPoint => ({
+      x: canvas.width / 2 + point.x,
+      y: groundY + point.y,
+    });
+    const hip = worldPoint(pose.hip);
+    const torsoVector = {
+      x: -Math.sin(pose.torsoAngle),
+      y: -Math.cos(pose.torsoAngle),
+    };
+    const sideVector = { x: torsoVector.y, y: -torsoVector.x };
+    const spine = {
+      x: hip.x + torsoVector.x * 23,
+      y: hip.y + torsoVector.y * 23,
+    };
+    const chest = {
+      x: hip.x + torsoVector.x * 49,
+      y: hip.y + torsoVector.y * 49,
+    };
+    const neck = {
+      x: hip.x + torsoVector.x * 69,
+      y: hip.y + torsoVector.y * 69,
+    };
+    const hipSpread = {
+      x: Math.cos(pose.pelvisAngle) * 6,
+      y: Math.sin(pose.pelvisAngle) * 6,
+    };
+    const farHip = { x: hip.x - hipSpread.x, y: hip.y - hipSpread.y + 1 };
+    const nearHip = { x: hip.x + hipSpread.x, y: hip.y + hipSpread.y };
+    const shoulderBase = {
+      x: hip.x + torsoVector.x * 52 + sideVector.x * 10,
+      y: hip.y + torsoVector.y * 52 + sideVector.y * 10,
+    };
+    const farShoulder = { x: shoulderBase.x + 3, y: shoulderBase.y + 2 };
+    const nearShoulder = { ...shoulderBase };
+    const farFoot = this.buildWalkingV5Foot(worldPoint(pose.farFoot), pose.farFoot, groundY);
+    const nearFoot = this.buildWalkingV5Foot(worldPoint(pose.nearFoot), pose.nearFoot, groundY);
+    const farHand = {
+      x: farShoulder.x + pose.farHandOffset.x,
+      y: farShoulder.y + pose.farHandOffset.y,
+    };
+    const nearHand = {
+      x: nearShoulder.x + pose.nearHandOffset.x,
+      y: nearShoulder.y + pose.nearHandOffset.y,
+    };
+    const farArmBend = pose.farHandOffset.x >= 0 ? 1 : -1;
+    const nearArmBend = pose.nearHandOffset.x >= 0 ? 1 : -1;
+
+    return {
+      hip,
+      farHip,
+      nearHip,
+      spine,
+      chest,
+      neck,
+      farShoulder,
+      nearShoulder,
+      farLeg: solveTwoBoneChain(farHip, farFoot.ankle, 43, 43, -1),
+      nearLeg: solveTwoBoneChain(nearHip, nearFoot.ankle, 43, 43, -1),
+      farArm: solveTwoBoneChain(farShoulder, farHand, 34, 32, farArmBend),
+      nearArm: solveTwoBoneChain(nearShoulder, nearHand, 34, 32, nearArmBend),
+      farFoot,
+      nearFoot,
+    };
+  }
+
+  private buildWalkingV5Foot(
+    target: RigPoint,
+    pose: WalkFootPose,
+    groundY: number,
+  ): WalkFootGeometry {
+    const cosine = Math.cos(pose.angle);
+    const sine = Math.sin(pose.angle);
+    const heelOffset = {
+      x: -4 * cosine - 19 * sine,
+      y: -4 * sine + 19 * cosine,
+    };
+    const toeOffset = {
+      x: 37 * cosine - 19 * sine,
+      y: 37 * sine + 19 * cosine,
+    };
+    const lowestOffset = Math.max(heelOffset.y, toeOffset.y);
+    const groundCorrection = pose.grounded ? groundY - (target.y + lowestOffset) : 0;
+    const ankle = { x: target.x, y: target.y + groundCorrection };
+    return {
+      ankle,
+      heel: { x: ankle.x + heelOffset.x, y: ankle.y + heelOffset.y },
+      toe: { x: ankle.x + toeOffset.x, y: ankle.y + toeOffset.y },
+      angle: pose.angle,
+      grounded: pose.grounded,
+    };
+  }
+
   private buildWalkingRig(
     canvas: HTMLCanvasElement,
     pose: WalkV4Pose,
@@ -634,6 +911,29 @@ export class AnimationSandbox {
     );
   }
 
+  private drawWalkingV5Torso(
+    context: CanvasRenderingContext2D,
+    hip: RigPoint,
+    neck: RigPoint,
+  ): void {
+    if (!this.sprites.walkV5Torso.ready) return;
+    this.drawMappedSprite(
+      context,
+      this.sprites.walkV5Torso,
+      {
+        x: 0,
+        y: 0,
+        width: this.sprites.walkV5Torso.naturalWidth,
+        height: this.sprites.walkV5Torso.naturalHeight,
+      },
+      { x: 620, y: 930 },
+      { x: 603, y: 115 },
+      hip,
+      neck,
+      1,
+    );
+  }
+
   private drawMappedSprite(
     context: CanvasRenderingContext2D,
     sprite: LoadedSprite,
@@ -686,6 +986,27 @@ export class AnimationSandbox {
     opacity: number,
   ): void {
     const pivot = part === 8 ? { x: 0.3, y: 0.29 } : { x: 0.18, y: 0.29 };
+    this.drawWalkAtlasAtPivot(
+      context,
+      this.sprites.walkParts,
+      part,
+      4,
+      4,
+      foot.ankle,
+      foot.angle,
+      0.18,
+      pivot,
+      opacity,
+    );
+  }
+
+  private drawWalkShoeV5(
+    context: CanvasRenderingContext2D,
+    part: number,
+    foot: WalkFootGeometry,
+    opacity: number,
+  ): void {
+    const pivot = part === 8 ? { x: 0.35, y: 0.3 } : { x: 0.24, y: 0.3 };
     this.drawWalkAtlasAtPivot(
       context,
       this.sprites.walkParts,
@@ -1270,6 +1591,117 @@ export class AnimationSandbox {
     });
   }
 
+  private drawAnatomySheet(): void {
+    const canvas = this.anatomyCanvas;
+    const context = this.anatomyContext;
+    if (!canvas || !context) return;
+
+    const background = context.createLinearGradient(0, 0, canvas.width, canvas.height);
+    background.addColorStop(0, '#071b37');
+    background.addColorStop(1, '#0b3153');
+    context.fillStyle = background;
+    context.fillRect(0, 0, canvas.width, canvas.height);
+
+    const columnWidth = canvas.width / 2;
+    const rowHeight = canvas.height / 6;
+    WALK_V5_ANATOMY.forEach((part, index) => {
+      const x = index % 2 * columnWidth;
+      const y = Math.floor(index / 2) * rowHeight;
+      this.drawAnatomyPart(context, part, x, y, columnWidth, rowHeight);
+    });
+    canvas.dataset.activeRigPart = this.activeAnatomyPart;
+  }
+
+  private drawAnatomyPart(
+    context: CanvasRenderingContext2D,
+    part: AnatomyPart,
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+  ): void {
+    const selected = this.activeAnatomyPart === 'all' || this.activeAnatomyPart === part.id;
+    const sprite = part.sprite === 'parts'
+      ? this.sprites.walkParts
+      : part.sprite === 'legs'
+        ? this.sprites.walkLegs
+        : this.sprites.walkV5Torso;
+    const padding = 10;
+
+    context.save();
+    context.globalAlpha = selected ? 1 : 0.18;
+    context.fillStyle = selected && this.activeAnatomyPart !== 'all'
+      ? 'rgba(40, 207, 239, .13)'
+      : 'rgba(3, 16, 40, .34)';
+    context.strokeStyle = selected && this.activeAnatomyPart !== 'all'
+      ? part.colour
+      : 'rgba(133, 218, 255, .13)';
+    context.lineWidth = selected && this.activeAnatomyPart !== 'all' ? 2 : 1;
+    context.beginPath();
+    context.roundRect(x + padding, y + 6, width - padding * 2, height - 12, 13);
+    context.fill();
+    context.stroke();
+
+    if (sprite.ready) {
+      const cellWidth = sprite.naturalWidth / part.columns;
+      const cellHeight = sprite.naturalHeight / part.rows;
+      const cellX = part.part % part.columns * cellWidth;
+      const cellY = Math.floor(part.part / part.columns) * cellHeight;
+      const source = {
+        x: cellX + part.crop.x * cellWidth,
+        y: cellY + part.crop.y * cellHeight,
+        width: part.crop.width * cellWidth,
+        height: part.crop.height * cellHeight,
+      };
+      const imageArea = { x: x + 22, y: y + 14, width: 174, height: height - 28 };
+      const scale = Math.min(imageArea.width / source.width, imageArea.height / source.height);
+      const drawWidth = source.width * scale;
+      const drawHeight = source.height * scale;
+      const drawX = imageArea.x + (imageArea.width - drawWidth) / 2;
+      const drawY = imageArea.y + (imageArea.height - drawHeight) / 2;
+      context.drawImage(
+        sprite,
+        source.x,
+        source.y,
+        source.width,
+        source.height,
+        drawX,
+        drawY,
+        drawWidth,
+        drawHeight,
+      );
+
+      const mapAnchor = (anchor: RigPoint): RigPoint => ({
+        x: drawX + (anchor.x - part.crop.x) / part.crop.width * drawWidth,
+        y: drawY + (anchor.y - part.crop.y) / part.crop.height * drawHeight,
+      });
+      const start = mapAnchor(part.start);
+      const end = mapAnchor(part.end);
+      const labelX = x + 218;
+      const labelY = y + height * 0.57;
+      context.strokeStyle = part.colour;
+      context.lineWidth = 2;
+      context.beginPath();
+      context.moveTo(start.x, start.y);
+      context.lineTo(end.x, end.y);
+      context.lineTo(labelX - 10, labelY);
+      context.stroke();
+      this.drawDebugJoint(context, start, part.colour, 4);
+      this.drawDebugJoint(context, end, part.colour, 4);
+    }
+
+    context.fillStyle = '#f4fbff';
+    context.font = '800 15px Inter, sans-serif';
+    context.fillText(part.label, x + 218, y + 39);
+    context.fillStyle = part.colour;
+    context.font = '700 11px "IBM Plex Mono", monospace';
+    context.fillText(part.sockets.toUpperCase(), x + 218, y + 62);
+    context.fillStyle = '#809bb8';
+    context.font = '600 10px "IBM Plex Mono", monospace';
+    context.fillText(`ID: ${part.id}`, x + 218, y + 82);
+    context.restore();
+  }
+
   private advance(preview: Preview, delta: number): void {
     const { duration, frameCount } = ANIMATION_CONFIG[preview.kind];
     preview.elapsed += delta;
@@ -1343,6 +1775,35 @@ export class AnimationSandbox {
     }
     this.syncControls(preview);
     this.drawPreview(preview, preview.elapsed, preview.currentFrame);
+  }
+
+  private handleAnatomySelection(event: Event): void {
+    const button = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-rig-part]');
+    if (!button) return;
+    this.setActiveAnatomyPart(button.dataset.rigPart ?? 'all');
+  }
+
+  private handleAnatomyHover(event: Event): void {
+    const button = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-rig-part]');
+    if (!button) return;
+    this.setActiveAnatomyPart(button.dataset.rigPart ?? 'all');
+  }
+
+  private setActiveAnatomyPart(partId: string): void {
+    if (partId !== 'all' && !WALK_V5_ANATOMY.some((part) => part.id === partId)) return;
+    this.activeAnatomyPart = partId;
+    this.syncAnatomyControls();
+    this.anatomyDirty = true;
+    this.drawAnatomySheet();
+    this.anatomyDirty = false;
+  }
+
+  private syncAnatomyControls(): void {
+    this.root.querySelectorAll<HTMLButtonElement>('[data-rig-part]').forEach((button) => {
+      const selected = button.dataset.rigPart === this.activeAnatomyPart;
+      button.classList.toggle('is-active', selected);
+      button.setAttribute('aria-pressed', String(selected));
+    });
   }
 
   private selectFrame(preview: Preview, requestedFrame: number): void {
@@ -1560,6 +2021,7 @@ export class AnimationSandbox {
     sprite.decoding = 'async';
     sprite.addEventListener('load', () => {
       sprite.ready = true;
+      this.anatomyDirty = true;
     });
     return sprite;
   }
@@ -1572,6 +2034,7 @@ export class AnimationSandbox {
     this.sprites.layeredRig.src = hugoLayeredRigPartsUrl;
     this.sprites.walkParts.src = hugoWalkV4PartsUrl;
     this.sprites.walkLegs.src = hugoWalkV4LegsUrl;
+    this.sprites.walkV5Torso.src = hugoWalkV5TorsoUrl;
     this.sprites.doubleJump.src = hugoDoubleJumpCycleUrl;
     this.sprites.doubleJumpV2.src = hugoDoubleJumpV2CycleUrl;
     this.sprites.freefall.src = hugoFreefallCycleUrl;

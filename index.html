@@ -405,10 +405,69 @@
                 <div><dt>Posture</dt><dd>Upright spine, gently proud chest, level eye-line and relaxed shoulders; confidence comes from carriage rather than a forced swagger.</dd></div>
                 <div><dt>Gait</dt><dd>36 runtime frames over 1.20 seconds. Each foot uses a 62% planted stance and 38% lifted swing with opposing natural arm motion.</dd></div>
                 <div><dt>Added nodes</dt><dd>Pelvis, lower spine, chest and neck control the body line. Each foot now exposes ankle, heel and toe so heel-strike, flat support and toe-off can be judged.</dd></div>
-                <div><dt>Art gate</dt><dd>The first generated leg cells were rejected because they contained pre-bent whole legs, so V4 replaces them with straight socket-to-socket pieces. A separate side-torso experiment was also tested and rejected when its open-jacket silhouette read worse in motion.</dd></div>
+                <div><dt>Art gate</dt><dd>The first generated leg cells were rejected because they contained pre-bent whole legs, so V4 replaces them with straight socket-to-socket pieces. A separate side-torso was generated but not used in the painted V4 card; V5 below corrects that confusing mismatch.</dd></div>
               </dl>
               <strong>Best next upgrade: add small knee/elbow overlap caps and two relaxed-hand variants, then bind jacket hems and hair to delayed secondary bones after the base walk is approved.</strong>
             </aside>
+
+            <article class="sandbox-card sandbox-card--v2 sandbox-card--debug" data-sandbox-card="walk-v5-debug">
+              <header>
+                <div><span>WALKING V5 · SOURCE LOCK</span><h2>Confident Walk V5 — Corrected sockets</h2></div>
+                <small data-sandbox-metrics>36 frames · 1.20 s total · 30 FPS</small>
+              </header>
+              <canvas class="sandbox-canvas" data-sandbox-animation="walk-v5-debug" width="600" height="340" role="img" aria-label="Walking V5 geometry with full-length arms and explicit ankle, heel, and toe sockets"></canvas>
+              <p class="sandbox-rig-caption">Full shoulder-to-elbow and elbow-to-hand bones · shoe soles registered below the ankle · side-torso armhole drives the shoulder</p>
+            </article>
+
+            <article class="sandbox-card sandbox-card--v2 sandbox-card--painted" data-sandbox-card="walk-v5-painted">
+              <header>
+                <div><span>WALKING V5 · PAINTED SOURCE LOCK</span><h2>Confident Walk V5 — Side-on painted rig</h2></div>
+                <small data-sandbox-metrics>36 frames · 1.20 s total · 30 FPS</small>
+              </header>
+              <canvas class="sandbox-canvas" data-sandbox-animation="walk-v5-painted" width="600" height="340" role="img" aria-label="Walking V5 painted rig using the generated side-on torso and complete registered limbs"></canvas>
+              <p class="sandbox-rig-caption">The actual side-on torso is now used · sleeve openings own shoulder and elbow sockets · ankle pivots sit inside both shoes</p>
+            </article>
+
+            <aside class="sandbox-walk-v5-notes" aria-labelledby="walk-v5-notes-title">
+              <div>
+                <span>V5 CORRECTION LOG</span>
+                <h3 id="walk-v5-notes-title">What V5 fixes from the V4 review</h3>
+                <p>V5 keeps the approved walk timing but rebuilds the registration contract between the skeleton and the generated pieces.</p>
+              </div>
+              <dl>
+                <div><dt>Torso honesty</dt><dd>The generated side-on jacket and shorts are the painted body. Its collar, pelvis and visible armhole—not a front-facing fallback—define the neck, hip and shoulder.</dd></div>
+                <div><dt>Complete arms</dt><dd>Upper arms span shoulder to elbow and forearms span elbow to hand. Source anchors now sit at the visible openings, so no sleeve is silently cropped into a half limb.</dd></div>
+                <div><dt>Joint layering</dt><dd>Forearms render before upper sleeves, thighs cover shin openings, the torso covers hip seams, and shoes cover shin ends. Overlap hides the cut edges without changing bone length.</dd></div>
+                <div><dt>Shoe sockets</dt><dd>Each ankle is registered inside its shoe opening. Heel and toe are separate contact nodes, with 19 pixels of sole depth included before ground contact is solved.</dd></div>
+              </dl>
+              <strong>Review rule: a painted part may never move a joint to make the art fit. Fix its source anchors, crop, overlap, or artwork instead.</strong>
+            </aside>
+
+            <section class="sandbox-anatomy" aria-labelledby="rig-anatomy-title">
+              <header>
+                <span>INTERACTIVE LIMB SHEET</span>
+                <h3 id="rig-anatomy-title">Walking V5 part names and socket paths</h3>
+                <p>Hover, focus, or click a label to isolate its exact source art and nodes. Use these IDs when describing future fixes—for example, “lengthen <code>near-upper-arm</code> between the near shoulder and near elbow.”</p>
+              </header>
+              <div class="sandbox-anatomy-layout">
+                <canvas id="walk-v5-anatomy-canvas" class="sandbox-anatomy-canvas" data-rig-anatomy-canvas width="900" height="720" role="img" aria-label="Exploded Walking V5 character part sheet with named socket paths"></canvas>
+                <div class="sandbox-anatomy-labels" role="group" aria-label="Walking V5 anatomy highlights">
+                  <button type="button" data-rig-part="all" aria-controls="walk-v5-anatomy-canvas"><b>All parts</b><span>Complete exploded sheet</span></button>
+                  <button type="button" data-rig-part="head" aria-controls="walk-v5-anatomy-canvas"><b>Head artwork</b><span><code>head</code> · neck → crown</span></button>
+                  <button type="button" data-rig-part="torso" aria-controls="walk-v5-anatomy-canvas"><b>Side torso + pelvis</b><span><code>torso</code> · pelvis → neck</span></button>
+                  <button type="button" data-rig-part="near-upper-arm" aria-controls="walk-v5-anatomy-canvas"><b>Near upper arm</b><span><code>near-upper-arm</code> · shoulder → elbow</span></button>
+                  <button type="button" data-rig-part="near-forearm" aria-controls="walk-v5-anatomy-canvas"><b>Near forearm + hand</b><span><code>near-forearm</code> · elbow → hand</span></button>
+                  <button type="button" data-rig-part="far-upper-arm" aria-controls="walk-v5-anatomy-canvas"><b>Far upper arm</b><span><code>far-upper-arm</code> · shoulder → elbow</span></button>
+                  <button type="button" data-rig-part="far-forearm" aria-controls="walk-v5-anatomy-canvas"><b>Far forearm + hand</b><span><code>far-forearm</code> · elbow → hand</span></button>
+                  <button type="button" data-rig-part="near-thigh" aria-controls="walk-v5-anatomy-canvas"><b>Near thigh</b><span><code>near-thigh</code> · hip → knee</span></button>
+                  <button type="button" data-rig-part="near-shin" aria-controls="walk-v5-anatomy-canvas"><b>Near shin</b><span><code>near-shin</code> · knee → ankle</span></button>
+                  <button type="button" data-rig-part="near-shoe" aria-controls="walk-v5-anatomy-canvas"><b>Near shoe</b><span><code>near-shoe</code> · ankle → toe</span></button>
+                  <button type="button" data-rig-part="far-thigh" aria-controls="walk-v5-anatomy-canvas"><b>Far thigh</b><span><code>far-thigh</code> · hip → knee</span></button>
+                  <button type="button" data-rig-part="far-shin" aria-controls="walk-v5-anatomy-canvas"><b>Far shin</b><span><code>far-shin</code> · knee → ankle</span></button>
+                  <button type="button" data-rig-part="far-shoe" aria-controls="walk-v5-anatomy-canvas"><b>Far shoe</b><span><code>far-shoe</code> · ankle → toe</span></button>
+                </div>
+              </div>
+            </section>
           </div>
 
           <aside class="sandbox-v2-next">

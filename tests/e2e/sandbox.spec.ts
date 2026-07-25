@@ -1,6 +1,8 @@
 import { expect, test } from '@playwright/test';
 
 test.describe('Animation Sandbox', () => {
+  test.describe.configure({ timeout: 60_000 });
+
   test('opens from Settings and presents every live production animation', async ({ page }) => {
     await page.goto('/#/home');
     await page.getByRole('button', { name: 'Settings' }).click();
@@ -10,8 +12,8 @@ test.describe('Animation Sandbox', () => {
     await expect(page.locator('#sandbox-screen')).toBeVisible();
     await expect(page.locator('#home-screen')).not.toHaveClass(/is-open/);
     await expect(page.locator('#game-screen')).toBeHidden();
-    await expect(page.locator('[data-sandbox-card]')).toHaveCount(17);
-    await expect(page.locator('[data-sandbox-animation]')).toHaveCount(17);
+    await expect(page.locator('[data-sandbox-card]')).toHaveCount(19);
+    await expect(page.locator('[data-sandbox-animation]')).toHaveCount(19);
     await expect(page.getByRole('heading', { name: 'Animation V2 Framework' })).toBeVisible();
     await expect(page.getByText('Mandatory looping-sheet bookend')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'The 12 animation principles, translated for HUGO GO!' })).toBeVisible();
@@ -24,8 +26,12 @@ test.describe('Animation Sandbox', () => {
     await expect(page.locator('[data-sandbox-card="rig-jump-debug"] button[data-frame]')).toHaveCount(36);
     await expect(page.locator('[data-sandbox-card="walk-v4-debug"] button[data-frame]')).toHaveCount(36);
     await expect(page.locator('[data-sandbox-card="walk-v4-painted"] button[data-frame]')).toHaveCount(36);
+    await expect(page.locator('[data-sandbox-card="walk-v5-debug"] button[data-frame]')).toHaveCount(36);
+    await expect(page.locator('[data-sandbox-card="walk-v5-painted"] button[data-frame]')).toHaveCount(36);
     await expect(page.getByRole('heading', { name: 'Why the first two layered rigs fail' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'What changed for Walking V4' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'What V5 fixes from the V4 review' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Walking V5 part names and socket paths' })).toBeVisible();
     const expectedMetrics: Record<string, string> = {
       run: '60 frames · 2.00 s total · 30 FPS',
       jump: '8 frames · 2.40 s total · 3.33 FPS',
@@ -44,6 +50,8 @@ test.describe('Animation Sandbox', () => {
       'rig-jump-debug': '36 frames · 1.20 s total · 30 FPS',
       'walk-v4-debug': '36 frames · 1.20 s total · 30 FPS',
       'walk-v4-painted': '36 frames · 1.20 s total · 30 FPS',
+      'walk-v5-debug': '36 frames · 1.20 s total · 30 FPS',
+      'walk-v5-painted': '36 frames · 1.20 s total · 30 FPS',
     };
     for (const [animation, metrics] of Object.entries(expectedMetrics)) {
       await expect(page.locator(`[data-sandbox-card="${animation}"] [data-sandbox-metrics]`)).toHaveText(metrics);
@@ -71,12 +79,25 @@ test.describe('Animation Sandbox', () => {
     const walkPaintedWidth = await page.locator('[data-sandbox-card="walk-v4-painted"]').evaluate((element) => element.getBoundingClientRect().width);
     expect(Math.abs(walkDebugWidth - jumpWidth)).toBeLessThan(2);
     expect(Math.abs(walkPaintedWidth - jumpWidth)).toBeLessThan(2);
+    const walkV5DebugWidth = await page.locator('[data-sandbox-card="walk-v5-debug"]').evaluate((element) => element.getBoundingClientRect().width);
+    const walkV5PaintedWidth = await page.locator('[data-sandbox-card="walk-v5-painted"]').evaluate((element) => element.getBoundingClientRect().width);
+    expect(Math.abs(walkV5DebugWidth - jumpWidth)).toBeLessThan(2);
+    expect(Math.abs(walkV5PaintedWidth - jumpWidth)).toBeLessThan(2);
     await expect.poll(async () => page.evaluate(() => (
       performance.getEntriesByType('resource').some((entry) => entry.name.includes('hugo-layered-rig-parts'))
     ))).toBe(true);
     await expect.poll(async () => page.evaluate(() => (
       performance.getEntriesByType('resource').some((entry) => entry.name.includes('hugo-walk-v4-parts'))
     ))).toBe(true);
+    await expect.poll(async () => page.evaluate(() => (
+      performance.getEntriesByType('resource').some((entry) => entry.name.includes('hugo-walk-v5-torso'))
+    ))).toBe(true);
+
+    const anatomyCanvas = page.locator('[data-rig-anatomy-canvas]');
+    const upperArmLabel = page.locator('button[data-rig-part="near-upper-arm"]');
+    await upperArmLabel.click();
+    await expect(upperArmLabel).toHaveAttribute('aria-pressed', 'true');
+    await expect(anatomyCanvas).toHaveAttribute('data-active-rig-part', 'near-upper-arm');
 
     await page.getByRole('button', { name: 'Back home' }).click();
     await expect(page).toHaveURL(/#\/home$/);
