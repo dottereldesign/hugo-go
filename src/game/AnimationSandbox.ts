@@ -4,7 +4,7 @@ import hugoFreefallCycleUrl from '../assets/game/hugo-freefall-cycle.webp';
 import hugoFreefallV2CycleUrl from '../assets/game/hugo-freefall-v2-cycle.png';
 import hugoGlideCycleUrl from '../assets/game/hugo-glide-cycle.webp';
 import hugoGrindCycleUrl from '../assets/game/hugo-grind-cycle.webp';
-import hugoHeadTurnCycleUrl from '../assets/game/hugo-head-turn-cycle.png';
+import hugoHeadTurnStabilizedCycleUrl from '../assets/game/hugo-head-turn-stabilized-cycle.png';
 import hugoJumpLandCycleUrl from '../assets/game/hugo-jump-land-cycle.webp';
 import hugoLayeredRigPartsUrl from '../assets/game/hugo-layered-rig-parts.png';
 import hugoPoweredCycleUrl from '../assets/game/hugo-powered-cycle.webp';
@@ -73,7 +73,7 @@ import {
   type WalkV6Pose,
 } from './layeredRig';
 
-type AnimationKind = 'run' | 'jump' | 'rig-run-v2' | 'rig-jump-v2' | 'rig-run-debug' | 'rig-jump-debug' | 'walk-v4-debug' | 'walk-v4-painted' | 'walk-v5-debug' | 'walk-v5-painted' | 'walk-v6-debug' | 'walk-v6-painted' | 'head-turn-debug' | 'head-turn-painted' | 'double-jump' | 'double-jump-v2' | 'freefall' | 'freefall-v2' | 'powered' | 'glide' | 'grind' | 'wall' | 'flame';
+type AnimationKind = 'run' | 'jump' | 'rig-run-v2' | 'rig-jump-v2' | 'rig-run-debug' | 'rig-jump-debug' | 'walk-v4-debug' | 'walk-v4-painted' | 'walk-v5-debug' | 'walk-v5-painted' | 'walk-v6-debug' | 'walk-v6-painted' | 'head-turn-debug' | 'head-turn-painted' | 'head-turn-fixed-debug' | 'head-turn-fixed-painted' | 'double-jump' | 'double-jump-v2' | 'freefall' | 'freefall-v2' | 'powered' | 'glide' | 'grind' | 'wall' | 'flame';
 type LoadedSprite = HTMLImageElement & { ready?: boolean };
 type AnatomySprite = 'parts' | 'legs' | 'torso';
 
@@ -85,11 +85,16 @@ interface Preview {
   playButton: HTMLButtonElement;
   loopButton: HTMLButtonElement;
   editButton: HTMLButtonElement;
+  metrics: HTMLElement | null;
   frameReadout: HTMLElement;
   frameButtons: HTMLButtonElement[];
+  speedInput: HTMLInputElement;
+  speedOutput: HTMLOutputElement;
   elapsed: number;
   frameAccumulator: number;
   currentFrame: number;
+  speed: number;
+  visible: boolean;
   playing: boolean;
   looping: boolean;
   editing: boolean;
@@ -210,6 +215,8 @@ const ANIMATION_CONFIG: Record<AnimationKind, { frameCount: number; duration: nu
   'walk-v6-painted': { frameCount: WALK_V6_FRAME_COUNT, duration: 1.2 },
   'head-turn-debug': { frameCount: HEAD_TURN_FRAME_COUNT, duration: 0.8 },
   'head-turn-painted': { frameCount: HEAD_TURN_FRAME_COUNT, duration: 0.8 },
+  'head-turn-fixed-debug': { frameCount: HEAD_TURN_FRAME_COUNT, duration: 0.8 },
+  'head-turn-fixed-painted': { frameCount: HEAD_TURN_FRAME_COUNT, duration: 0.8 },
   'double-jump': { frameCount: 6, duration: 2 },
   'double-jump-v2': { frameCount: 16, duration: DOUBLE_JUMP_V2_DURATION },
   freefall: { frameCount: 6, duration: 0.6 },
@@ -221,6 +228,11 @@ const ANIMATION_CONFIG: Record<AnimationKind, { frameCount: number; duration: nu
   flame: { frameCount: 30, duration: 1 },
 };
 
+const SPEED_MIN = 0.1;
+const SPEED_MAX = 2;
+const SPEED_STEP = 0.05;
+const HEAD_TURN_DEFAULT_SPEED = 0.4;
+
 export class AnimationSandbox {
   private readonly previews: Preview[];
   private readonly sprites = {
@@ -230,7 +242,7 @@ export class AnimationSandbox {
     walkParts: this.createSprite(),
     walkLegs: this.createSprite(),
     walkV5Torso: this.createSprite(),
-    headTurn: this.createSprite(),
+    headTurnStabilized: this.createSprite(),
     doubleJump: this.createSprite(),
     doubleJumpV2: this.createSprite(),
     freefall: this.createSprite(),
@@ -245,6 +257,7 @@ export class AnimationSandbox {
   private running = false;
   private animationFrame = 0;
   private previousTime = 0;
+  private readonly visibilityObserver: IntersectionObserver | null;
   private readonly anatomyCanvas: HTMLCanvasElement | null;
   private readonly anatomyContext: CanvasRenderingContext2D | null;
   private activeAnatomyPart = 'all';
@@ -258,8 +271,8 @@ export class AnimationSandbox {
       if (!context) throw new Error('Animation Sandbox requires a 2D canvas context.');
       const kind = canvas.dataset.sandboxAnimation as AnimationKind;
       const metrics = canvas.closest<HTMLElement>('[data-sandbox-card]')?.querySelector<HTMLElement>('[data-sandbox-metrics]');
-      if (metrics) metrics.textContent = this.metricsText(kind, ANIMATION_CONFIG[kind].frameCount);
-      const controls = this.createControls(canvas, kind);
+      const speed = this.loadSpeed(kind);
+      const controls = this.createControls(canvas, kind, speed);
       const frameButtons = Array.from(controls.querySelectorAll<HTMLButtonElement>('[data-frame]'));
       return {
         canvas,
@@ -269,11 +282,16 @@ export class AnimationSandbox {
         playButton: this.controlButton(controls, '[data-sandbox-control="play"]'),
         loopButton: this.controlButton(controls, '[data-sandbox-control="loop"]'),
         editButton: this.controlButton(controls, '[data-sandbox-control="edit"]'),
+        metrics: metrics ?? null,
         frameReadout: this.controlElement(controls, '[data-sandbox-frame-readout]'),
         frameButtons,
+        speedInput: this.controlInput(controls, '[data-sandbox-speed]'),
+        speedOutput: this.controlOutput(controls, '[data-sandbox-speed-output]'),
         elapsed: 0,
         frameAccumulator: 0,
         currentFrame: 0,
+        speed,
+        visible: typeof IntersectionObserver === 'undefined',
         playing: true,
         looping: true,
         editing: false,
@@ -281,7 +299,25 @@ export class AnimationSandbox {
       };
     });
     for (const preview of this.previews) this.syncControls(preview);
+    this.visibilityObserver = typeof IntersectionObserver === 'undefined'
+      ? null
+      : new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            const preview = this.previews.find((candidate) => candidate.canvas === entry.target);
+            if (!preview) continue;
+            preview.visible = entry.isIntersecting;
+            if (preview.visible) {
+              this.syncControls(preview);
+              this.drawPreview(preview, preview.elapsed, preview.currentFrame);
+            }
+          }
+        },
+        { rootMargin: '180px 0px' },
+      );
+    for (const preview of this.previews) this.visibilityObserver?.observe(preview.canvas);
     this.root.addEventListener('click', (event) => this.handleControl(event));
+    this.root.addEventListener('input', (event) => this.handleSpeedControl(event));
     this.root.addEventListener('click', (event) => this.handleAnatomySelection(event));
     this.root.addEventListener('pointerover', (event) => this.handleAnatomyHover(event));
     this.root.addEventListener('focusin', (event) => this.handleAnatomyHover(event));
@@ -306,7 +342,9 @@ export class AnimationSandbox {
     const delta = Math.min(0.1, Math.max(0, (time - this.previousTime) / 1000));
     this.previousTime = time;
     for (const preview of this.previews) {
-      if (preview.playing) this.advance(preview, delta);
+      const frameChanged = preview.playing ? this.advance(preview, delta) : false;
+      if (!preview.visible) continue;
+      if (frameChanged) this.syncControls(preview);
       this.drawPreview(preview, preview.elapsed, preview.currentFrame);
     }
     if (this.anatomyDirty) {
@@ -378,6 +416,12 @@ export class AnimationSandbox {
         break;
       case 'head-turn-painted':
         this.drawHeadTurnPainted(preview, forcedFrame);
+        break;
+      case 'head-turn-fixed-debug':
+        this.drawHeadTurnFixedDebug(preview, forcedFrame);
+        break;
+      case 'head-turn-fixed-painted':
+        this.drawHeadTurnFixedPainted(preview, forcedFrame);
         break;
       case 'double-jump':
         this.drawDoubleJump(preview, elapsed, forcedFrame);
@@ -953,16 +997,35 @@ export class AnimationSandbox {
     this.markFrame(preview, frame);
   }
 
+  private drawHeadTurnFixedDebug(preview: Preview, forcedFrame: number | null): void {
+    this.drawHeadTurnDebug(preview, forcedFrame);
+    const { context, canvas } = preview;
+    this.drawHeadRegistrationGuide(context, canvas.width / 2, canvas.height * 0.54);
+    this.drawWalkLabel(context, 'HEAD TURN V2 · REGISTRATION', 'FIXED CENTRE · FIXED HEIGHT · SAFE GUTTER');
+  }
+
   private drawHeadTurnPainted(preview: Preview, forcedFrame: number | null): void {
+    this.drawRegisteredHeadTurn(preview, forcedFrame, false);
+  }
+
+  private drawHeadTurnFixedPainted(preview: Preview, forcedFrame: number | null): void {
+    this.drawRegisteredHeadTurn(preview, forcedFrame, true);
+  }
+
+  private drawRegisteredHeadTurn(
+    preview: Preview,
+    forcedFrame: number | null,
+    showRegistration: boolean,
+  ): void {
     const frame = forcedFrame ?? 0;
     const pose = getHeadTurnPose(frame);
     const { context, canvas } = preview;
-    const cellSize = 256;
+    const cellSize = 320;
     const sourceX = frame % 5 * cellSize;
     const sourceY = Math.floor(frame / 5) * cellSize;
-    const drawSize = 292;
+    const drawSize = 304;
     const drawX = (canvas.width - drawSize) / 2;
-    const drawY = (canvas.height - drawSize) / 2 + 5;
+    const drawY = (canvas.height - drawSize) / 2 + 4;
 
     context.save();
     context.strokeStyle = 'rgba(7, 45, 79, .16)';
@@ -971,11 +1034,14 @@ export class AnimationSandbox {
     context.beginPath();
     context.ellipse(canvas.width / 2, canvas.height * 0.55, 112, 26, 0, 0, Math.PI * 2);
     context.stroke();
+    context.beginPath();
+    context.rect(drawX, drawY, drawSize, drawSize);
+    context.clip();
     context.imageSmoothingEnabled = true;
     context.imageSmoothingQuality = 'high';
-    if (this.sprites.headTurn.ready) {
+    if (this.sprites.headTurnStabilized.ready) {
       context.drawImage(
-        this.sprites.headTurn,
+        this.sprites.headTurnStabilized,
         sourceX,
         sourceY,
         cellSize,
@@ -988,9 +1054,42 @@ export class AnimationSandbox {
     }
     context.restore();
 
-    this.drawWalkLabel(context, 'HEAD TURN · GENERATED 360°', '24 VIEWS · IDENTITY LOCK · HEAD ONLY');
+    if (showRegistration) {
+      this.drawHeadRegistrationGuide(context, canvas.width / 2, canvas.height / 2 + 4);
+    }
+    this.drawWalkLabel(
+      context,
+      showRegistration ? 'HEAD TURN V2 · STABILIZED ART' : 'HEAD TURN · CLEAN GENERATED 360°',
+      showRegistration
+        ? '24 ISOLATED HEADS · REGISTERED CENTRE · STRICT CLIP'
+        : 'NO CELL LEAKS · FIXED CENTRE · HEAD ONLY',
+    );
     this.drawHeadTurnReadout(context, canvas, frame, pose.yaw);
     this.markFrame(preview, frame);
+  }
+
+  private drawHeadRegistrationGuide(
+    context: CanvasRenderingContext2D,
+    centerX: number,
+    centerY: number,
+  ): void {
+    context.save();
+    context.strokeStyle = 'rgba(255, 214, 97, .62)';
+    context.fillStyle = '#ffd661';
+    context.lineWidth = 1.5;
+    context.setLineDash([5, 5]);
+    context.strokeRect(centerX - 120, centerY - 120, 240, 240);
+    context.beginPath();
+    context.moveTo(centerX - 132, centerY);
+    context.lineTo(centerX + 132, centerY);
+    context.moveTo(centerX, centerY - 132);
+    context.lineTo(centerX, centerY + 132);
+    context.stroke();
+    context.setLineDash([]);
+    context.beginPath();
+    context.arc(centerX, centerY, 4, 0, Math.PI * 2);
+    context.fill();
+    context.restore();
   }
 
   private drawHeadTurnReadout(
@@ -2322,11 +2421,13 @@ export class AnimationSandbox {
     context.restore();
   }
 
-  private advance(preview: Preview, delta: number): void {
+  private advance(preview: Preview, delta: number): boolean {
     const { duration, frameCount } = ANIMATION_CONFIG[preview.kind];
-    preview.elapsed += delta;
-    preview.frameAccumulator += delta;
+    const scaledDelta = delta * preview.speed;
+    preview.elapsed += scaledDelta;
+    preview.frameAccumulator += scaledDelta;
     const frameDuration = duration / frameCount;
+    let frameChanged = false;
     while (preview.frameAccumulator >= frameDuration) {
       preview.frameAccumulator -= frameDuration;
       const nextFrame = this.findNextActiveFrame(preview, preview.currentFrame, 1);
@@ -2334,11 +2435,13 @@ export class AnimationSandbox {
         preview.playing = false;
         preview.frameAccumulator = 0;
         this.syncControls(preview);
-        return;
+        return frameChanged;
       }
       preview.currentFrame = nextFrame;
       preview.elapsed = this.seekElapsed(preview.kind, nextFrame);
+      frameChanged = true;
     }
+    return frameChanged;
   }
 
   private handleControl(event: Event): void {
@@ -2395,6 +2498,20 @@ export class AnimationSandbox {
     }
     this.syncControls(preview);
     this.drawPreview(preview, preview.elapsed, preview.currentFrame);
+  }
+
+  private handleSpeedControl(event: Event): void {
+    const input = (event.target as HTMLElement).closest<HTMLInputElement>('[data-sandbox-speed]');
+    if (!input) return;
+    const controls = input.closest<HTMLElement>('.sandbox-controls');
+    const preview = this.previews.find((candidate) => candidate.controls === controls);
+    if (!preview) return;
+
+    preview.speed = this.clampSpeed(Number(input.value));
+    preview.speedInput.value = preview.speed.toFixed(2);
+    preview.frameAccumulator = 0;
+    this.saveSpeed(preview);
+    this.syncControls(preview);
   }
 
   private handleAnatomySelection(event: Event): void {
@@ -2474,6 +2591,35 @@ export class AnimationSandbox {
     return Array.from({ length: frameCount }, () => true);
   }
 
+  private loadSpeed(kind: AnimationKind): number {
+    try {
+      const saved = Number(localStorage.getItem(`hugo-go:sandbox-speed:${kind}`));
+      if (Number.isFinite(saved) && saved >= SPEED_MIN && saved <= SPEED_MAX) {
+        return this.clampSpeed(saved);
+      }
+    } catch {
+      // Storage can be unavailable in restrictive browser contexts.
+    }
+    return kind.startsWith('head-turn') ? HEAD_TURN_DEFAULT_SPEED : 1;
+  }
+
+  private saveSpeed(preview: Preview): void {
+    try {
+      localStorage.setItem(
+        `hugo-go:sandbox-speed:${preview.kind}`,
+        preview.speed.toFixed(2),
+      );
+    } catch {
+      // The speed still works for this session when persistence is unavailable.
+    }
+  }
+
+  private clampSpeed(value: number): number {
+    if (!Number.isFinite(value)) return 1;
+    const stepped = Math.round(value / SPEED_STEP) * SPEED_STEP;
+    return Math.min(SPEED_MAX, Math.max(SPEED_MIN, stepped));
+  }
+
   private saveActiveFrames(preview: Preview): void {
     localStorage.setItem(
       `hugo-go:sandbox-frames:${preview.kind}`,
@@ -2487,8 +2633,9 @@ export class AnimationSandbox {
     return frame / frameCount * duration;
   }
 
-  private createControls(canvas: HTMLCanvasElement, kind: AnimationKind): HTMLElement {
+  private createControls(canvas: HTMLCanvasElement, kind: AnimationKind, speed: number): HTMLElement {
     const { frameCount } = ANIMATION_CONFIG[kind];
+    const speedId = `sandbox-speed-${kind}`;
     const controls = document.createElement('footer');
     controls.className = 'sandbox-controls';
     controls.dataset.sandboxControls = kind;
@@ -2503,6 +2650,20 @@ export class AnimationSandbox {
         <button class="sandbox-edit" type="button" data-sandbox-control="edit" aria-pressed="false">Edit frames</button>
         <button class="sandbox-activate-all" type="button" data-sandbox-control="activate-all">Use all</button>
       </div>
+      <label class="sandbox-speed-control" for="${speedId}">
+        <span>Playback speed</span>
+        <input
+          id="${speedId}"
+          type="range"
+          min="${SPEED_MIN}"
+          max="${SPEED_MAX}"
+          step="${SPEED_STEP}"
+          value="${speed.toFixed(2)}"
+          data-sandbox-speed
+          aria-label="${kind} playback speed"
+        >
+        <output for="${speedId}" data-sandbox-speed-output></output>
+      </label>
       <div class="sandbox-frame-picker" role="group" aria-label="${kind} frames">
         ${Array.from({ length: frameCount }, (_, index) => `<button type="button" data-frame="${index}" aria-label="Show frame ${index + 1}">${index + 1}</button>`).join('')}
       </div>
@@ -2522,7 +2683,17 @@ export class AnimationSandbox {
     preview.editButton.textContent = preview.editing ? 'Done editing' : 'Edit frames';
     preview.controls.classList.toggle('is-editing', preview.editing);
     const activeCount = preview.activeFrames.filter(Boolean).length;
-    preview.frameReadout.textContent = `Frame ${preview.currentFrame + 1} / ${ANIMATION_CONFIG[preview.kind].frameCount} · ${activeCount} active · ${this.metricsText(preview.kind, activeCount, false)}`;
+    const frameCount = ANIMATION_CONFIG[preview.kind].frameCount;
+    const metrics = this.metricsText(preview.kind, activeCount, false, preview.speed);
+    preview.frameReadout.textContent = `Frame ${preview.currentFrame + 1} / ${frameCount} · ${activeCount} active · ${metrics}`;
+    if (preview.metrics) {
+      preview.metrics.textContent = this.metricsText(preview.kind, frameCount, true, preview.speed);
+    }
+    const effectiveFramesPerSecond = frameCount / ANIMATION_CONFIG[preview.kind].duration * preview.speed;
+    const loopDuration = activeCount / effectiveFramesPerSecond;
+    preview.speedOutput.value = `${preview.speed.toFixed(2)}× · ${effectiveFramesPerSecond.toFixed(2)} FPS · ${loopDuration.toFixed(2)} s loop`;
+    preview.speedOutput.textContent = preview.speedOutput.value;
+    preview.speedInput.setAttribute('aria-valuetext', `${preview.speed.toFixed(2)} times speed`);
     preview.frameButtons.forEach((button, index) => {
       const selected = index === preview.currentFrame;
       const enabled = preview.activeFrames[index];
@@ -2540,9 +2711,14 @@ export class AnimationSandbox {
     return button;
   }
 
-  private metricsText(kind: AnimationKind, frameCount: number, includeFrameCount = true): string {
+  private metricsText(
+    kind: AnimationKind,
+    frameCount: number,
+    includeFrameCount = true,
+    speed = 1,
+  ): string {
     const config = ANIMATION_CONFIG[kind];
-    const framesPerSecond = config.frameCount / config.duration;
+    const framesPerSecond = config.frameCount / config.duration * speed;
     const duration = frameCount / framesPerSecond;
     const fpsLabel = Number.isInteger(framesPerSecond)
       ? String(framesPerSecond)
@@ -2555,6 +2731,18 @@ export class AnimationSandbox {
     const element = root.querySelector<HTMLElement>(selector);
     if (!element) throw new Error(`Missing Animation Sandbox control ${selector}.`);
     return element;
+  }
+
+  private controlInput(root: HTMLElement, selector: string): HTMLInputElement {
+    const input = root.querySelector<HTMLInputElement>(selector);
+    if (!input) throw new Error(`Missing Animation Sandbox input ${selector}.`);
+    return input;
+  }
+
+  private controlOutput(root: HTMLElement, selector: string): HTMLOutputElement {
+    const output = root.querySelector<HTMLOutputElement>(selector);
+    if (!output) throw new Error(`Missing Animation Sandbox output ${selector}.`);
+    return output;
   }
 
   private drawFlameCell(context: CanvasRenderingContext2D, frame: AtlasFrame, x: number, y: number, width: number, height: number): void {
@@ -2655,7 +2843,7 @@ export class AnimationSandbox {
     this.sprites.walkParts.src = hugoWalkV4PartsUrl;
     this.sprites.walkLegs.src = hugoWalkV4LegsUrl;
     this.sprites.walkV5Torso.src = hugoWalkV5TorsoUrl;
-    this.sprites.headTurn.src = hugoHeadTurnCycleUrl;
+    this.sprites.headTurnStabilized.src = hugoHeadTurnStabilizedCycleUrl;
     this.sprites.doubleJump.src = hugoDoubleJumpCycleUrl;
     this.sprites.doubleJumpV2.src = hugoDoubleJumpV2CycleUrl;
     this.sprites.freefall.src = hugoFreefallCycleUrl;

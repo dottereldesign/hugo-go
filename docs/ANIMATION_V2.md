@@ -293,26 +293,49 @@ Recommended refinements after V6 review:
 5. match the cycle's visual ground speed to gameplay metres per second before
    promoting it outside the Sandbox.
 
-## Head Turn V1: 360-degree identity test
+## Head Turn V2: isolated and registered rotation
 
-The paired Head Turn cards test whether Hugo's approved head can be treated as
-a genuinely three-dimensional asset without attaching it to a body. Both cards
-use the same 24-frame, `0.8`-second yaw path at 30 fps:
+The Head Turn cards test whether Hugo's approved head can be treated as a
+genuinely three-dimensional asset without attaching it to a body. All four
+cards use the same 24 unique 15-degree views. Frames 1, 7, 13 and 19 are the
+right profile, front, left profile and back cardinal views.
 
-- the left card projects a fixed skull, face contour, centre line and named
-  landmarks through a full turn. Its eye, ear, nose, mouth, chin, crown,
-  hairline and nape nodes change depth and visibility but never change identity;
-- the right card plays 24 unique generated views. Frames 1, 7, 13 and 19 are
-  the right profile, front, left profile and back cardinal views; and
-- the processed `5 x 5` exact-alpha atlas has `256 x 256` cells and stores a
-  25th seam-validation cell that is pixel-identical to frame 1. Playback omits
-  that duplicate, preserving 24 even 15-degree steps with no repeated pause.
+The generated V1 source contains 24 valid disconnected head silhouettes, but
+several silhouettes cross the nominal `256 x 256` grid boundaries. Slicing
+that sheet by its visual grid cut off parts of some heads and copied small
+pieces of neighbouring heads into other cells. The generated poses also had
+different source centres and heights, producing visible horizontal and
+vertical drift.
 
-This is an identity and volume experiment, not a gameplay animation. No torso,
-shoulders or limbs appear in either card; the small neck base belongs to the
-head registration silhouette. A future production head rig should use the same
-landmark contract to register hair, eyes, ears, nose and jaw consistently
-before any facial performance is added.
+Head Turn V2 treats connected alpha silhouettes, rather than assumed grid
+cells, as the source of truth:
+
+- all 24 complete connected heads are extracted from the full transparent
+  source sheet in reading order;
+- every head is normalized to exactly 240 pixels high and registered to the
+  centre of a transparent `320 x 320` cell;
+- the stabilized `5 x 5`, `1600 x 1600` atlas stores the 24 unique views plus
+  a 25th seam-validation cell that is pixel-identical to frame 1;
+- playback omits that duplicate, so the closing 345-degree view advances
+  directly to the opening profile with no repeated-frame pause; and
+- runtime rendering clips each destination cell as an additional containment
+  gate. Neighbouring head pixels cannot appear above or beside the active head.
+
+The V2 geometry card displays the permanent centre, height box, rotation pivot
+and landmarks. The V2 painted card uses the same registered source contract.
+The original painted card also uses the corrected atlas so the reported bug is
+not left behind in the earlier comparison.
+
+Head-turn previews now default to `0.40x`: 12 displayed frames per second and a
+two-second rotation. Every Sandbox card has an independent `0.10x` to `2.00x`
+playback-speed control. The card reports the selected multiplier, effective
+FPS and effective loop duration, and saves the setting locally. Frame buttons,
+readouts and canvases update together. Off-screen previews advance their
+timeline without repainting until they approach the viewport.
+
+This remains an identity and volume experiment, not a gameplay animation. No
+torso, shoulders or limbs appear; the small neck base belongs to the head
+registration silhouette.
 
 ## Reusable atlas prompt
 
@@ -369,4 +392,6 @@ differs from its first. The identical-bookend rule applies only to loops.
 Sandbox edit mode is part of the approval workflow. A reviewer can mark any
 numbered frame inactive; inactive frames turn red, remain available for manual
 inspection, and are omitted from playback. The active set is saved locally per
-animation; **Use all** clears the exclusions.
+animation; **Use all** clears the exclusions. Each animation also has an
+independent persistent speed control so spacing can be judged slowly, at its
+authored rate, and above speed without changing the source frames.

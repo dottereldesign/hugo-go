@@ -519,7 +519,25 @@
                 <small data-sandbox-metrics>24 frames · 0.80 s total · 30 FPS</small>
               </header>
               <canvas class="sandbox-canvas" data-sandbox-animation="head-turn-painted" width="600" height="340" role="img" aria-label="Generated head-only Hugo turntable rotating through right profile, front, left profile, back, and right profile"></canvas>
-              <p class="sandbox-rig-caption">24 identity-locked generated views · exact alpha extraction · the stored 25th seam-check cell is pixel-identical to frame 1</p>
+              <p class="sandbox-rig-caption">24 isolated generated views · stable centre and scale · strict cell clipping removes every neighbouring-head fragment</p>
+            </article>
+
+            <article class="sandbox-card sandbox-card--v2 sandbox-card--debug" data-sandbox-card="head-turn-fixed-debug">
+              <header>
+                <div><span>HEAD TURN V2 · FIXED GEOMETRY</span><h2>360° Head Turn V2 — Registration rig</h2></div>
+                <small data-sandbox-metrics>24 frames · 2.00 s total · 12 FPS</small>
+              </header>
+              <canvas class="sandbox-canvas" data-sandbox-animation="head-turn-fixed-debug" width="600" height="340" role="img" aria-label="Fixed head-turn geometry with a permanent centre, height box, pivot, and rotating landmarks"></canvas>
+              <p class="sandbox-rig-caption">The yellow registration box never moves · every facial landmark rotates around one permanent centre · default speed is 0.40×</p>
+            </article>
+
+            <article class="sandbox-card sandbox-card--v2 sandbox-card--painted" data-sandbox-card="head-turn-fixed-painted">
+              <header>
+                <div><span>HEAD TURN V2 · FIXED ART</span><h2>360° Head Turn V2 — Stabilized views</h2></div>
+                <small data-sandbox-metrics>24 frames · 2.00 s total · 12 FPS</small>
+              </header>
+              <canvas class="sandbox-canvas" data-sandbox-animation="head-turn-fixed-painted" width="600" height="340" role="img" aria-label="Stabilized generated Hugo head turn with all 24 isolated heads sharing one registration point and scale"></canvas>
+              <p class="sandbox-rig-caption">24 complete connected silhouettes · identical 240 px source height · common centre · 40 px transparent top and bottom gutters · exact seam bookend</p>
             </article>
           </div>
 

@@ -772,8 +772,18 @@ and face volume. No body, shoulders or extra objects.
 ```
 
 Accepted source: `art/source-images/game/hugo-head-turn-source.png`.
-Processed exact-alpha atlas: `src/assets/game/hugo-head-turn-cycle.png`.
-The matte was removed with the standard soft-matte/despill helper. For a
-deterministically verified loop, the 24 unique views are repacked into the
-first 24 cells of a `5 x 5` atlas and cell 25 is an exact pixel copy of cell 1.
+Transparent source:
+`art/source-images/game/hugo-head-turn-source-transparent.png`.
+
+The source contains 24 clean disconnected head silhouettes, but several cross
+the nominal `6 x 4` cell boundaries despite the prompt. The initial fixed-cell
+extraction is retained as `src/assets/game/hugo-head-turn-cycle.png` for audit
+history and is not loaded at runtime.
+
+`scripts/process_head_turn_atlas.py` extracts the complete connected
+silhouettes from the full transparent source instead of trusting the visual
+grid. It normalizes each head to a 240-pixel height, centres it in a
+`320 x 320` cell, and writes the accepted runtime asset
+`src/assets/game/hugo-head-turn-stabilized-cycle.png`. The first 24 cells are
+the unique rotational views and cell 25 is an exact pixel copy of cell 1.
 Runtime playback omits the duplicate bookend.

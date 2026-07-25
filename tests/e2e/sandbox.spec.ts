@@ -12,8 +12,9 @@ test.describe('Animation Sandbox', () => {
     await expect(page.locator('#sandbox-screen')).toBeVisible();
     await expect(page.locator('#home-screen')).not.toHaveClass(/is-open/);
     await expect(page.locator('#game-screen')).toBeHidden();
-    await expect(page.locator('[data-sandbox-card]')).toHaveCount(23);
-    await expect(page.locator('[data-sandbox-animation]')).toHaveCount(23);
+    await expect(page.locator('[data-sandbox-card]')).toHaveCount(25);
+    await expect(page.locator('[data-sandbox-animation]')).toHaveCount(25);
+    await expect(page.locator('[data-sandbox-speed]')).toHaveCount(25);
     await expect(page.getByRole('heading', { name: 'Animation V2 Framework' })).toBeVisible();
     await expect(page.getByText('Mandatory looping-sheet bookend')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'The 12 animation principles, translated for HUGO GO!' })).toBeVisible();
@@ -32,6 +33,8 @@ test.describe('Animation Sandbox', () => {
     await expect(page.locator('[data-sandbox-card="walk-v6-painted"] button[data-frame]')).toHaveCount(36);
     await expect(page.locator('[data-sandbox-card="head-turn-debug"] button[data-frame]')).toHaveCount(24);
     await expect(page.locator('[data-sandbox-card="head-turn-painted"] button[data-frame]')).toHaveCount(24);
+    await expect(page.locator('[data-sandbox-card="head-turn-fixed-debug"] button[data-frame]')).toHaveCount(24);
+    await expect(page.locator('[data-sandbox-card="head-turn-fixed-painted"] button[data-frame]')).toHaveCount(24);
     await expect(page.getByRole('heading', { name: 'Why the first two layered rigs fail' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'What changed for Walking V4' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'What V5 fixes from the V4 review' })).toBeVisible();
@@ -59,8 +62,10 @@ test.describe('Animation Sandbox', () => {
       'walk-v5-painted': '36 frames · 1.20 s total · 30 FPS',
       'walk-v6-debug': '36 frames · 1.20 s total · 30 FPS',
       'walk-v6-painted': '36 frames · 1.20 s total · 30 FPS',
-      'head-turn-debug': '24 frames · 0.80 s total · 30 FPS',
-      'head-turn-painted': '24 frames · 0.80 s total · 30 FPS',
+      'head-turn-debug': '24 frames · 2.00 s total · 12 FPS',
+      'head-turn-painted': '24 frames · 2.00 s total · 12 FPS',
+      'head-turn-fixed-debug': '24 frames · 2.00 s total · 12 FPS',
+      'head-turn-fixed-painted': '24 frames · 2.00 s total · 12 FPS',
     };
     for (const [animation, metrics] of Object.entries(expectedMetrics)) {
       await expect(page.locator(`[data-sandbox-card="${animation}"] [data-sandbox-metrics]`)).toHaveText(metrics);
@@ -100,6 +105,10 @@ test.describe('Animation Sandbox', () => {
     const headTurnPaintedWidth = await page.locator('[data-sandbox-card="head-turn-painted"]').evaluate((element) => element.getBoundingClientRect().width);
     expect(Math.abs(headTurnDebugWidth - jumpWidth)).toBeLessThan(2);
     expect(Math.abs(headTurnPaintedWidth - jumpWidth)).toBeLessThan(2);
+    const headTurnFixedDebugWidth = await page.locator('[data-sandbox-card="head-turn-fixed-debug"]').evaluate((element) => element.getBoundingClientRect().width);
+    const headTurnFixedPaintedWidth = await page.locator('[data-sandbox-card="head-turn-fixed-painted"]').evaluate((element) => element.getBoundingClientRect().width);
+    expect(Math.abs(headTurnFixedDebugWidth - jumpWidth)).toBeLessThan(2);
+    expect(Math.abs(headTurnFixedPaintedWidth - jumpWidth)).toBeLessThan(2);
     await expect.poll(async () => page.evaluate(() => (
       performance.getEntriesByType('resource').some((entry) => entry.name.includes('hugo-layered-rig-parts'))
     ))).toBe(true);
@@ -110,19 +119,88 @@ test.describe('Animation Sandbox', () => {
       performance.getEntriesByType('resource').some((entry) => entry.name.includes('hugo-walk-v5-torso'))
     ))).toBe(true);
     await expect.poll(async () => page.evaluate(() => (
-      performance.getEntriesByType('resource').some((entry) => entry.name.includes('hugo-head-turn-cycle'))
+      performance.getEntriesByType('resource').some((entry) => entry.name.includes('hugo-head-turn-stabilized-cycle'))
     ))).toBe(true);
     const headTurnAtlasSize = await page.evaluate(async () => {
       const source = performance.getEntriesByType('resource')
         .map((entry) => entry.name)
-        .find((name) => name.includes('hugo-head-turn-cycle') && !name.includes('?import'));
+        .find((name) => name.includes('hugo-head-turn-stabilized-cycle') && !name.includes('?import'));
       if (!source) throw new Error('Head-turn atlas did not load.');
       const image = new Image();
       image.src = source;
       await image.decode();
       return { width: image.naturalWidth, height: image.naturalHeight };
     });
-    expect(headTurnAtlasSize).toEqual({ width: 1280, height: 1280 });
+    expect(headTurnAtlasSize).toEqual({ width: 1600, height: 1600 });
+    const headRegistration = await page.evaluate(async () => {
+      const source = performance.getEntriesByType('resource')
+        .map((entry) => entry.name)
+        .find((name) => name.includes('hugo-head-turn-stabilized-cycle') && !name.includes('?import'));
+      if (!source) throw new Error('Stabilized head-turn atlas did not load.');
+      const image = new Image();
+      image.src = source;
+      await image.decode();
+      const canvas = document.createElement('canvas');
+      canvas.width = 320;
+      canvas.height = 320;
+      const context = canvas.getContext('2d', { willReadFrequently: true });
+      if (!context) throw new Error('Missing atlas validation context.');
+
+      const bounds = Array.from({ length: 24 }, (_, frame) => {
+        context.clearRect(0, 0, 320, 320);
+        context.drawImage(
+          image,
+          frame % 5 * 320,
+          Math.floor(frame / 5) * 320,
+          320,
+          320,
+          0,
+          0,
+          320,
+          320,
+        );
+        const pixels = context.getImageData(0, 0, 320, 320).data;
+        let left = 320;
+        let top = 320;
+        let right = -1;
+        let bottom = -1;
+        for (let index = 3; index < pixels.length; index += 4) {
+          if (pixels[index] === 0) continue;
+          const pixel = (index - 3) / 4;
+          const x = pixel % 320;
+          const y = Math.floor(pixel / 320);
+          left = Math.min(left, x);
+          top = Math.min(top, y);
+          right = Math.max(right, x);
+          bottom = Math.max(bottom, y);
+        }
+        return { left, top, right, bottom };
+      });
+
+      context.clearRect(0, 0, 320, 320);
+      context.drawImage(image, 0, 0, 320, 320, 0, 0, 320, 320);
+      const first = context.getImageData(0, 0, 320, 320).data;
+      context.clearRect(0, 0, 320, 320);
+      context.drawImage(image, 1280, 1280, 320, 320, 0, 0, 320, 320);
+      const bookend = context.getImageData(0, 0, 320, 320).data;
+      return {
+        centerXSpread: Math.max(...bounds.map(({ left, right }) => (left + right) / 2))
+          - Math.min(...bounds.map(({ left, right }) => (left + right) / 2)),
+        centerYSpread: Math.max(...bounds.map(({ top, bottom }) => (top + bottom) / 2))
+          - Math.min(...bounds.map(({ top, bottom }) => (top + bottom) / 2)),
+        heightSpread: Math.max(...bounds.map(({ top, bottom }) => bottom - top + 1))
+          - Math.min(...bounds.map(({ top, bottom }) => bottom - top + 1)),
+        minimumGutter: Math.min(...bounds.flatMap(
+          ({ left, top, right, bottom }) => [left, top, 319 - right, 319 - bottom],
+        )),
+        bookendMatches: first.every((value, index) => value === bookend[index]),
+      };
+    });
+    expect(headRegistration.centerXSpread).toBeLessThanOrEqual(0.5);
+    expect(headRegistration.centerYSpread).toBe(0);
+    expect(headRegistration.heightSpread).toBe(0);
+    expect(headRegistration.minimumGutter).toBeGreaterThanOrEqual(32);
+    expect(headRegistration.bookendMatches).toBe(true);
 
     const anatomyCanvas = page.locator('[data-rig-anatomy-canvas]');
     const upperArmLabel = page.locator('button[data-rig-part="left-upper-arm"]');
@@ -182,6 +260,40 @@ test.describe('Animation Sandbox', () => {
     await expect(loopButton).toHaveAttribute('aria-pressed', 'false');
     await runCard.getByRole('button', { name: 'Start' }).click();
     await expect(runCard.getByRole('button', { name: 'Pause' })).toBeVisible();
+  });
+
+  test('adjusts and remembers playback speed independently for every preview', async ({ page }) => {
+    await page.goto('/#/sandbox');
+    const runCard = page.locator('[data-sandbox-card="run"]');
+    const runSpeed = runCard.locator('[data-sandbox-speed]');
+    const runOutput = runCard.locator('[data-sandbox-speed-output]');
+    const headCard = page.locator('[data-sandbox-card="head-turn-fixed-painted"]');
+
+    await expect(runSpeed).toHaveValue('1');
+    await expect(runOutput).toHaveText('1.00× · 30.00 FPS · 2.00 s loop');
+    await expect(headCard.locator('[data-sandbox-speed]')).toHaveValue('0.4');
+    await expect(headCard.locator('[data-sandbox-speed-output]')).toHaveText('0.40× · 12.00 FPS · 2.00 s loop');
+
+    await headCard.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(220);
+    await headCard.getByRole('button', { name: 'Pause' }).click();
+    await expect(headCard.locator('canvas')).toHaveAttribute('data-frame', /\d+/);
+    const displayedHeadFrame = Number(await headCard.locator('canvas').getAttribute('data-frame'));
+    await expect(headCard.locator('[data-sandbox-frame-readout]')).toContainText(`Frame ${displayedHeadFrame + 1} / 24`);
+
+    await runSpeed.evaluate((element: HTMLInputElement) => {
+      element.value = '1.50';
+      element.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+    await expect(runSpeed).toHaveValue('1.5');
+    await expect(runSpeed).toHaveAttribute('aria-valuetext', '1.50 times speed');
+    await expect(runOutput).toHaveText('1.50× · 45.00 FPS · 1.33 s loop');
+    await expect(runCard.locator('[data-sandbox-metrics]')).toHaveText('60 frames · 1.33 s total · 45 FPS');
+
+    await page.reload();
+    await expect(runCard.locator('[data-sandbox-speed]')).toHaveValue('1.5');
+    await expect(runCard.locator('[data-sandbox-speed-output]')).toHaveText('1.50× · 45.00 FPS · 1.33 s loop');
+    await expect(headCard.locator('[data-sandbox-speed]')).toHaveValue('0.4');
   });
 
   test('deactivates red frames and skips them during playback', async ({ page }) => {

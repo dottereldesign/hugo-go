@@ -87,20 +87,31 @@ Each normalized cell is `320 × 320`. The same torso, head, hair, hood, limb
 segments, shoes, and jacket tails are assembled by deterministic canvas
 transforms for both Running V2 and Normal Jump V2.
 
-The head-only 360-degree experiment adds one generated review source and one
-processed Sandbox atlas:
+The head-only 360-degree experiment retains its generation source, transparent
+source, initial grid-sliced review atlas, and corrected registered runtime atlas:
 
 ```text
 art/source-images/game/hugo-head-turn-source.png
+art/source-images/game/hugo-head-turn-source-transparent.png
 src/assets/game/hugo-head-turn-cycle.png
+src/assets/game/hugo-head-turn-stabilized-cycle.png
 ```
 
-The accepted source is a strict `6 x 4` atlas. Chroma removal uses the same
-soft-matte/despill settings documented below. Its 24 unique `256 x 256` views
-are packed into a `5 x 5`, `1280 x 1280` exact-alpha PNG, followed by a 25th
-seam-validation cell that is a deterministic pixel copy of the first. The two
-Sandbox cards play only the 24 evenly spaced views for `0.8` seconds at 30 fps;
-the stored bookend proves the loop seam without adding a repeated-frame pause.
+The generated source visually resembles a `6 x 4` atlas, but its complete head
+silhouettes are not contained by those nominal cells. Chroma removal uses the
+same soft-matte/despill settings documented below. The initial `1280 x 1280`
+review atlas is retained as evidence of the failed cell-boundary assumption.
+
+`scripts/process_head_turn_atlas.py` detects the 24 complete connected alpha
+silhouettes across the full transparent sheet, orders them by source row and
+horizontal position, isolates each silhouette, normalizes it to 240 pixels
+high, and centres it in a `320 x 320` transparent cell. It writes a `5 x 5`,
+`1600 x 1600` exact-alpha atlas whose 25th cell is a deterministic pixel copy
+of frame 1. Validation rejects missing heads, inconsistent height or centre,
+unsafe gutters, and a mismatched seam bookend.
+
+The Sandbox plays the 24 unique frames. Head-turn previews default to `0.40x`,
+which displays the authored 30 fps sequence at 12 fps over two seconds.
 
 ## Processing pipeline
 
@@ -146,7 +157,8 @@ Current runtime sizes are approximately:
 - Walking V4 modular-parts atlas: 692 KB;
 - Walking V4 corrective straight-leg atlas: 481 KB;
 - Walking V5 side-profile torso: 752 KB;
-- 24-view head-turn review atlas plus seam bookend: 1,716 KB;
+- legacy 24-view grid-sliced head-turn review atlas: 1,716 KB;
+- stabilized 24-view head-turn atlas plus seam bookend: 1,884 KB;
 - scrolling trail strip: 64 KB.
 
 The old single flight pose, single-pose run WebP, six-frame transition sheet, and full-screen
