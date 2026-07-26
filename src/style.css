@@ -3554,7 +3554,7 @@ body.version-03-page-open {
 }
 
 .v03-animation-card > header {
-  min-height: 142px;
+  min-height: 180px;
   padding: 18px 19px 16px;
   border-bottom: 1px solid rgba(120, 233, 255, .16);
 }
@@ -3795,6 +3795,10 @@ body.version-03-page-open {
 }
 
 @media (max-width: 1100px) {
+  .version-03-animation-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   .outfit-03-header-nav .character-sheets-button,
   .outfit-03-header-nav .version-03-button {
     width: 44px;
@@ -3811,10 +3815,6 @@ body.version-03-page-open {
 @media (max-width: 900px) {
   .version-03-pose-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .version-03-animation-grid {
-    grid-template-columns: minmax(0, 1fr);
   }
 }
 
