@@ -96,4 +96,28 @@ test.describe('Outfit 03 reference and V02 animation loops', () => {
     await page.getByRole('button', { name: 'Back to Outfit 03' }).click();
     await expect(page).toHaveURL(/#\/outfit-03$/);
   });
+
+  test('keeps the complete Version 03 nod figures inside their preview stages', async ({ page }) => {
+    await page.goto('/#/version-03');
+
+    const previews = page.locator('[data-v03-animation]');
+    await expect(previews).toHaveCount(2);
+
+    const previewSizes = await previews.evaluateAll((cards) => cards.map((card) => {
+      const stage = card.querySelector<HTMLElement>('.v03-animation-stage');
+      const image = card.querySelector<HTMLImageElement>('.v03-animation-stage img');
+      if (!stage || !image) throw new Error('Version 03 preview is incomplete');
+
+      const stageBox = stage.getBoundingClientRect();
+      const imageBox = image.getBoundingClientRect();
+      return {
+        stageHeight: stageBox.height,
+        imageHeight: imageBox.height,
+      };
+    }));
+
+    for (const { stageHeight, imageHeight } of previewSizes) {
+      expect(imageHeight).toBeLessThanOrEqual(stageHeight * 1.07);
+    }
+  });
 });
