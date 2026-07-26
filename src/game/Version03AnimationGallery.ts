@@ -46,14 +46,21 @@ interface AnimationPreview {
   image: HTMLImageElement;
   frameReadout: HTMLElement;
   playButton: HTMLButtonElement;
+  speedInput: HTMLInputElement;
+  speedOutput: HTMLOutputElement;
   copyButton: HTMLButtonElement;
   copyStatus: HTMLElement;
   frameButtons: HTMLButtonElement[];
   urls: string[];
   currentFrame: number;
   elapsedMs: number;
+  speed: number;
   playing: boolean;
 }
+
+const SPEED_MIN = 0.1;
+const SPEED_MAX = 2;
+const SPEED_STEP = 0.05;
 
 const MANIFESTS = [
   neutralGrooveManifestJson as AnimationManifest,
@@ -150,6 +157,8 @@ export class Version03AnimationGallery {
     const isSoftHeadNod = manifest.animation.id === 'head-nod-soft';
     const usesRepeatedDrawings =
       manifest.timing.runtimeFrameCount !== manifest.timing.drawingCount;
+    const speed = this.loadSpeed(manifest.animation.id);
+    const speedId = `version-03-speed-${manifest.animation.id}`;
     const frameControls = isSoftHeadNod
       ? `
         <div class="v03-animation-frames" aria-label="${manifest.animation.name} frame selector">
@@ -188,6 +197,20 @@ export class Version03AnimationGallery {
         </button>
         <strong data-v03-frame-readout></strong>
       </div>
+      <label class="v03-animation-speed" for="${speedId}">
+        <span>Playback speed</span>
+        <input
+          id="${speedId}"
+          type="range"
+          min="${SPEED_MIN}"
+          max="${SPEED_MAX}"
+          step="${SPEED_STEP}"
+          value="${speed.toFixed(2)}"
+          data-v03-speed
+          aria-label="${manifest.animation.name} playback speed"
+        >
+        <output for="${speedId}" data-v03-speed-output></output>
+      </label>
       ${frameControls}
       <footer class="v03-animation-notes">
         <span>${usesRepeatedDrawings ? `<b>Source drawings:</b> ${manifest.timing.drawingCount} complete figures · ${manifest.timing.runtimeFrameCount}-step loop` : `<b>Full drawings:</b> all ${manifest.timing.runtimeFrameCount} generated characters`}</span>
@@ -223,6 +246,8 @@ export class Version03AnimationGallery {
       image: this.required<HTMLImageElement>(root, '.v03-animation-stage img'),
       frameReadout: this.required<HTMLElement>(root, '[data-v03-frame-readout]'),
       playButton: this.required<HTMLButtonElement>(root, '[data-v03-action="pause"]'),
+      speedInput: this.required<HTMLInputElement>(root, '[data-v03-speed]'),
+      speedOutput: this.required<HTMLOutputElement>(root, '[data-v03-speed-output]'),
       copyButton: this.required<HTMLButtonElement>(root, '[data-v03-copy-prompt]'),
       copyStatus: this.required<HTMLElement>(root, '[data-v03-copy-status]'),
       frameButtons: Array.from(
@@ -231,6 +256,7 @@ export class Version03AnimationGallery {
       urls,
       currentFrame: 0,
       elapsedMs: 0,
+      speed,
       playing: true,
     };
 
@@ -245,6 +271,12 @@ export class Version03AnimationGallery {
     );
     preview.playButton.addEventListener('click', () => {
       preview.playing = !preview.playing;
+      this.sync(preview);
+    });
+    preview.speedInput.addEventListener('input', () => {
+      preview.speed = this.clampSpeed(Number(preview.speedInput.value));
+      preview.speedInput.value = preview.speed.toFixed(2);
+      this.saveSpeed(preview);
       this.sync(preview);
     });
     preview.copyButton.addEventListener('click', () => {
@@ -271,7 +303,7 @@ export class Version03AnimationGallery {
     for (const preview of this.previews) {
       if (!preview.playing) continue;
       const frameDuration = 1000 / preview.manifest.timing.baseFps;
-      preview.elapsedMs += delta;
+      preview.elapsedMs += delta * preview.speed;
       let changed = false;
       while (preview.elapsedMs >= frameDuration) {
         preview.elapsedMs -= frameDuration;
@@ -300,6 +332,15 @@ export class Version03AnimationGallery {
     const buttonLabel = preview.playButton.querySelector('span');
     if (buttonLabel) buttonLabel.textContent = preview.playing ? 'Pause' : 'Resume';
     preview.playButton.dataset.playing = String(preview.playing);
+    const effectiveFps = preview.manifest.timing.baseFps * preview.speed;
+    const loopDuration = preview.manifest.timing.loopDurationSeconds / preview.speed;
+    preview.speedOutput.value =
+      `${preview.speed.toFixed(2)}× · ${effectiveFps.toFixed(2)} FPS · ${loopDuration.toFixed(2)} s loop`;
+    preview.speedOutput.textContent = preview.speedOutput.value;
+    preview.speedInput.setAttribute(
+      'aria-valuetext',
+      `${preview.speed.toFixed(2)} times speed`,
+    );
     for (const [index, button] of preview.frameButtons.entries()) {
       const isCurrent = index === preview.currentFrame;
       button.classList.toggle('is-current', isCurrent);
@@ -342,6 +383,37 @@ export class Version03AnimationGallery {
         image.src = url;
       }
     }
+  }
+
+  private loadSpeed(animationId: string): number {
+    try {
+      const saved = Number(
+        localStorage.getItem(`hugo-go:version-03-speed:${animationId}`),
+      );
+      if (Number.isFinite(saved) && saved >= SPEED_MIN && saved <= SPEED_MAX) {
+        return this.clampSpeed(saved);
+      }
+    } catch {
+      // Restricted storage still allows the in-memory speed control to work.
+    }
+    return 1;
+  }
+
+  private saveSpeed(preview: AnimationPreview): void {
+    try {
+      localStorage.setItem(
+        `hugo-go:version-03-speed:${preview.manifest.animation.id}`,
+        preview.speed.toFixed(2),
+      );
+    } catch {
+      // Restricted storage still allows the in-memory speed control to work.
+    }
+  }
+
+  private clampSpeed(value: number): number {
+    if (!Number.isFinite(value)) return 1;
+    const stepped = Math.round(value / SPEED_STEP) * SPEED_STEP;
+    return Math.min(SPEED_MAX, Math.max(SPEED_MIN, stepped));
   }
 
   private required<T extends Element>(root: ParentNode, selector: string): T {

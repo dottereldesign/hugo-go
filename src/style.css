@@ -3672,6 +3672,30 @@ body.version-03-page-open {
   font: 700 .64rem/1.2 'IBM Plex Mono', monospace;
 }
 
+.v03-animation-speed {
+  display: grid;
+  grid-template-columns: auto minmax(90px, 1fr);
+  gap: 7px 12px;
+  align-items: center;
+  padding: 0 13px 13px;
+  color: #b9c9dc;
+  font: 700 .63rem/1.2 'IBM Plex Mono', monospace;
+}
+
+.v03-animation-speed input {
+  width: 100%;
+  min-width: 0;
+  accent-color: #ffbd57;
+  cursor: ew-resize;
+}
+
+.v03-animation-speed output {
+  grid-column: 1 / -1;
+  min-width: 0;
+  color: #7cecff;
+  font-size: .61rem;
+}
+
 .v03-animation-frames {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));

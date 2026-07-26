@@ -100,3 +100,7 @@ Version 03 includes the `Sleepy.mp3` reference track imported from the sibling
 controls sit 16 px from the bottom-right safe area. Sleepy loops on this page,
 stops when the page closes, and cannot overlap the normal Hugo Go background
 music.
+
+Each Version 03 animation also has an independent playback-speed dial from
+`0.10×` to `2.00×`. Its live readout shows the multiplier, effective FPS, and
+resulting loop duration, and the selected speed is remembered per animation.
