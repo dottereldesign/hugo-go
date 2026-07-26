@@ -1,5 +1,11 @@
 # HUGO GO! Animation V2
 
+> **Sandbox Version 01:** this document records the earlier 3D rotation,
+> layered-rig, and full-frame animation experiments. The active 2D production
+> direction is documented in
+> [`2D_SANDBOX_V02.md`](./2D_SANDBOX_V02.md). The animation principles below
+> remain useful; the Version 01 asset-construction strategy is archived.
+
 ## Principle
 
 Frame count is not the quality target. Continuity, timing, spacing, and

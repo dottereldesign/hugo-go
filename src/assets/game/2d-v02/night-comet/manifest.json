@@ -1,0 +1,428 @@
+{
+  "schemaVersion": 1,
+  "sandboxVersion": "02",
+  "outfit": {
+    "id": "night-comet",
+    "name": "Night Comet Flight Suit",
+    "description": "Midnight indigo, violet and electric cyan with silver panels."
+  },
+  "source": {
+    "transparentSheet": "art/source-images/game/2d-v02/night-comet/hugo-2d-night-comet-poses-transparent.png",
+    "chromaSheet": "art/source-images/game/2d-v02/night-comet/hugo-2d-night-comet-poses-magenta.png",
+    "width": 1254,
+    "height": 1254,
+    "columns": 4,
+    "rows": 3,
+    "sha256": "51e58c148e0542517def82182ed595ea8990f38e2e2f8e7f9b2ab4dfb15c8ce9"
+  },
+  "extraction": {
+    "method": "connected-silhouette-ordered-by-grid-centre",
+    "alphaThreshold": 16,
+    "minimumComponentArea": 1000,
+    "outputCanvas": [
+      512,
+      512
+    ],
+    "figureLimit": 440,
+    "poseCount": 12
+  },
+  "poses": [
+    {
+      "index": 1,
+      "slug": "neutral-front",
+      "label": "Neutral front",
+      "filename": "hugo-2d-night-comet-01-neutral-front.png",
+      "file": "src/assets/game/2d-v02/night-comet/poses/hugo-2d-night-comet-01-neutral-front.png",
+      "sourceCell": {
+        "row": 1,
+        "column": 1,
+        "componentBounds": [
+          77,
+          31,
+          234,
+          423
+        ],
+        "componentCentre": [
+          154.98,
+          237.08
+        ],
+        "componentArea": 35883
+      },
+      "output": {
+        "width": 512,
+        "height": 512,
+        "alphaBounds": [
+          168,
+          36,
+          344,
+          476
+        ],
+        "sha256": "6521c337aff9c9d59d2a84e42fb3f8bf6555e8cbdddee06b5338d87f4844f864"
+      }
+    },
+    {
+      "index": 2,
+      "slug": "ready-profile",
+      "label": "Ready profile",
+      "filename": "hugo-2d-night-comet-02-ready-profile.png",
+      "file": "src/assets/game/2d-v02/night-comet/poses/hugo-2d-night-comet-02-ready-profile.png",
+      "sourceCell": {
+        "row": 1,
+        "column": 2,
+        "componentBounds": [
+          389,
+          27,
+          528,
+          425
+        ],
+        "componentCentre": [
+          453.57,
+          229.58
+        ],
+        "componentArea": 32446
+      },
+      "output": {
+        "width": 512,
+        "height": 512,
+        "alphaBounds": [
+          179,
+          36,
+          333,
+          476
+        ],
+        "sha256": "934d68913ca2025dd3ef67ee6ef932fe60525b4895b1d6287dc693067d55f1c4"
+      }
+    },
+    {
+      "index": 3,
+      "slug": "sprint-launch",
+      "label": "Sprint launch",
+      "filename": "hugo-2d-night-comet-03-sprint-launch.png",
+      "file": "src/assets/game/2d-v02/night-comet/poses/hugo-2d-night-comet-03-sprint-launch.png",
+      "sourceCell": {
+        "row": 1,
+        "column": 3,
+        "componentBounds": [
+          630,
+          74,
+          910,
+          410
+        ],
+        "componentCentre": [
+          774.84,
+          225.15
+        ],
+        "componentArea": 37555
+      },
+      "output": {
+        "width": 512,
+        "height": 512,
+        "alphaBounds": [
+          72,
+          36,
+          439,
+          476
+        ],
+        "sha256": "dcfa6414aa6a8df4648f9448c7b6183501d6ae9c39071eed9ca3f648736ced44"
+      }
+    },
+    {
+      "index": 4,
+      "slug": "jump-tuck",
+      "label": "Jump tuck",
+      "filename": "hugo-2d-night-comet-04-jump-tuck.png",
+      "file": "src/assets/game/2d-v02/night-comet/poses/hugo-2d-night-comet-04-jump-tuck.png",
+      "sourceCell": {
+        "row": 1,
+        "column": 4,
+        "componentBounds": [
+          995,
+          63,
+          1168,
+          342
+        ],
+        "componentCentre": [
+          1084.27,
+          205.24
+        ],
+        "componentArea": 27362
+      },
+      "output": {
+        "width": 512,
+        "height": 512,
+        "alphaBounds": [
+          119,
+          36,
+          392,
+          476
+        ],
+        "sha256": "74111a92e92627a8ca9b6f363e363e3638b0def13ea50cf521df34974cd7c5f5"
+      }
+    },
+    {
+      "index": 5,
+      "slug": "level-glide",
+      "label": "Level glide",
+      "filename": "hugo-2d-night-comet-05-level-glide.png",
+      "file": "src/assets/game/2d-v02/night-comet/poses/hugo-2d-night-comet-05-level-glide.png",
+      "sourceCell": {
+        "row": 2,
+        "column": 1,
+        "componentBounds": [
+          29,
+          498,
+          339,
+          715
+        ],
+        "componentCentre": [
+          190.88,
+          603.54
+        ],
+        "componentArea": 26150
+      },
+      "output": {
+        "width": 512,
+        "height": 512,
+        "alphaBounds": [
+          36,
+          102,
+          476,
+          410
+        ],
+        "sha256": "cb42979d7a94c48b45e985a772e80ba59c1f9b1486f9fdb661b5f653a53fe2b9"
+      }
+    },
+    {
+      "index": 6,
+      "slug": "steep-dive",
+      "label": "Steep dive",
+      "filename": "hugo-2d-night-comet-06-steep-dive.png",
+      "file": "src/assets/game/2d-v02/night-comet/poses/hugo-2d-night-comet-06-steep-dive.png",
+      "sourceCell": {
+        "row": 2,
+        "column": 2,
+        "componentBounds": [
+          381,
+          468,
+          593,
+          726
+        ],
+        "componentCentre": [
+          494.01,
+          602.2
+        ],
+        "componentArea": 24250
+      },
+      "output": {
+        "width": 512,
+        "height": 512,
+        "alphaBounds": [
+          75,
+          36,
+          437,
+          476
+        ],
+        "sha256": "e9513c03affefa4fc77a28662793f80a98da2ffcec2361ea70d2eb85b2e8473c"
+      }
+    },
+    {
+      "index": 7,
+      "slug": "bank-left",
+      "label": "Bank left",
+      "filename": "hugo-2d-night-comet-07-bank-left.png",
+      "file": "src/assets/game/2d-v02/night-comet/poses/hugo-2d-night-comet-07-bank-left.png",
+      "sourceCell": {
+        "row": 2,
+        "column": 3,
+        "componentBounds": [
+          644,
+          449,
+          931,
+          772
+        ],
+        "componentCentre": [
+          779.58,
+          590.52
+        ],
+        "componentArea": 37038
+      },
+      "output": {
+        "width": 512,
+        "height": 512,
+        "alphaBounds": [
+          60,
+          36,
+          451,
+          476
+        ],
+        "sha256": "ddac19c62fc10dca0a6c4bf29f85f0960394bdeff815306d319a2222605eb2c0"
+      }
+    },
+    {
+      "index": 8,
+      "slug": "bank-right",
+      "label": "Bank right",
+      "filename": "hugo-2d-night-comet-08-bank-right.png",
+      "file": "src/assets/game/2d-v02/night-comet/poses/hugo-2d-night-comet-08-bank-right.png",
+      "sourceCell": {
+        "row": 2,
+        "column": 4,
+        "componentBounds": [
+          941,
+          433,
+          1243,
+          748
+        ],
+        "componentCentre": [
+          1088.24,
+          583.51
+        ],
+        "componentArea": 32583
+      },
+      "output": {
+        "width": 512,
+        "height": 512,
+        "alphaBounds": [
+          45,
+          36,
+          467,
+          476
+        ],
+        "sha256": "5b81de35551ff91485ae4de87483596fa8a7dde3b19e67679c0b3be5a6b75446"
+      }
+    },
+    {
+      "index": 9,
+      "slug": "jet-boost",
+      "label": "Jet boost",
+      "filename": "hugo-2d-night-comet-09-jet-boost.png",
+      "file": "src/assets/game/2d-v02/night-comet/poses/hugo-2d-night-comet-09-jet-boost.png",
+      "sourceCell": {
+        "row": 3,
+        "column": 1,
+        "componentBounds": [
+          76,
+          746,
+          235,
+          1205
+        ],
+        "componentCentre": [
+          155.11,
+          963.37
+        ],
+        "componentArea": 34292
+      },
+      "output": {
+        "width": 512,
+        "height": 512,
+        "alphaBounds": [
+          180,
+          36,
+          332,
+          476
+        ],
+        "sha256": "6b0f74e6f1a51343b944a2965c0b892100af267f7b0eb588a457a8640bf7638b"
+      }
+    },
+    {
+      "index": 10,
+      "slug": "landing-crouch",
+      "label": "Landing crouch",
+      "filename": "hugo-2d-night-comet-10-landing-crouch.png",
+      "file": "src/assets/game/2d-v02/night-comet/poses/hugo-2d-night-comet-10-landing-crouch.png",
+      "sourceCell": {
+        "row": 3,
+        "column": 2,
+        "componentBounds": [
+          317,
+          883,
+          561,
+          1153
+        ],
+        "componentCentre": [
+          443.24,
+          1024.46
+        ],
+        "componentArea": 31848
+      },
+      "output": {
+        "width": 512,
+        "height": 512,
+        "alphaBounds": [
+          57,
+          36,
+          455,
+          476
+        ],
+        "sha256": "da6ae50c15468314b0627b42a45804326e54087903bf54ee1692950a3a36a7a3"
+      }
+    },
+    {
+      "index": 11,
+      "slug": "braking-flare",
+      "label": "Braking flare",
+      "filename": "hugo-2d-night-comet-11-braking-flare.png",
+      "file": "src/assets/game/2d-v02/night-comet/poses/hugo-2d-night-comet-11-braking-flare.png",
+      "sourceCell": {
+        "row": 3,
+        "column": 3,
+        "componentBounds": [
+          627,
+          837,
+          942,
+          1157
+        ],
+        "componentCentre": [
+          793.71,
+          1000.75
+        ],
+        "componentArea": 44981
+      },
+      "output": {
+        "width": 512,
+        "height": 512,
+        "alphaBounds": [
+          39,
+          36,
+          472,
+          476
+        ],
+        "sha256": "1b3fe35a3335e6f4f5c763dc03cb868803a8550bed796451ca4eab70aa5f53e2"
+      }
+    },
+    {
+      "index": 12,
+      "slug": "hero-finish",
+      "label": "Hero finish",
+      "filename": "hugo-2d-night-comet-12-hero-finish.png",
+      "file": "src/assets/game/2d-v02/night-comet/poses/hugo-2d-night-comet-12-hero-finish.png",
+      "sourceCell": {
+        "row": 3,
+        "column": 4,
+        "componentBounds": [
+          1007,
+          781,
+          1180,
+          1171
+        ],
+        "componentCentre": [
+          1086.88,
+          984.38
+        ],
+        "componentArea": 36090
+      },
+      "output": {
+        "width": 512,
+        "height": 512,
+        "alphaBounds": [
+          158,
+          36,
+          353,
+          476
+        ],
+        "sha256": "4f578728aa166a04dea75ca3e822a5240a673a36724571d643e23cd725b5c643"
+      }
+    }
+  ],
+  "qaContactSheet": "src/assets/game/2d-v02/qa/hugo-2d-night-comet-contact-sheet.jpg"
+}

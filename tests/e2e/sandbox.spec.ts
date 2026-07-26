@@ -4,6 +4,7 @@ test.describe('Animation Sandbox', () => {
   test.describe.configure({ timeout: 120_000 });
 
   test('opens from Settings and presents every live production animation', async ({ page }) => {
+    await page.addInitScript(() => performance.setResourceTimingBufferSize(1000));
     await page.goto('/#/home');
     await page.getByRole('button', { name: 'Settings' }).click();
     await page.getByRole('button', { name: 'Open Sandbox' }).click();
@@ -12,6 +13,24 @@ test.describe('Animation Sandbox', () => {
     await expect(page.locator('#sandbox-screen')).toBeVisible();
     await expect(page.locator('#home-screen')).not.toHaveClass(/is-open/);
     await expect(page.locator('#game-screen')).toBeHidden();
+    await expect(page.getByRole('heading', { name: 'Wingsuit pose library' })).toBeVisible();
+    await expect(page.getByText('2D SANDBOX · VERSION 02')).toBeVisible();
+    await expect(page.getByText('SANDBOX · VERSION 01')).toBeVisible();
+    await expect(page.locator('[data-2d-outfit]')).toHaveCount(3);
+    await expect(page.locator('.sandbox-2d-pose')).toHaveCount(36);
+    await expect(page.locator('[data-2d-outfit="skyline"] .sandbox-2d-pose')).toHaveCount(12);
+    await expect(page.locator('[data-2d-outfit="night-comet"] .sandbox-2d-pose')).toHaveCount(12);
+    await expect(page.locator('[data-2d-outfit="sunrise"] .sandbox-2d-pose')).toHaveCount(12);
+    const firstPoseDimensions = await page.locator('[data-2d-outfit="skyline"] img').first().evaluate(
+      async (image) => {
+        await (image as HTMLImageElement).decode();
+        return [
+          (image as HTMLImageElement).naturalWidth,
+          (image as HTMLImageElement).naturalHeight,
+        ];
+      },
+    );
+    expect(firstPoseDimensions).toEqual([512, 512]);
     await expect(page.locator('[data-sandbox-card]')).toHaveCount(31);
     await expect(page.locator('[data-sandbox-animation]')).toHaveCount(31);
     await expect(page.locator('[data-sandbox-speed]')).toHaveCount(31);
@@ -85,6 +104,7 @@ test.describe('Animation Sandbox', () => {
       await expect(page.locator(`[data-sandbox-card="${animation}"] [data-sandbox-metrics]`)).toHaveText(metrics);
     }
 
+    await page.locator('[data-sandbox-card="run"]').scrollIntoViewIfNeeded();
     await expect.poll(async () => page.locator('[data-sandbox-animation="run"]').getAttribute('data-frame')).not.toBeNull();
     const firstFrame = await page.locator('[data-sandbox-animation="run"]').getAttribute('data-frame');
     await page.waitForTimeout(180);
@@ -135,6 +155,10 @@ test.describe('Animation Sandbox', () => {
     const headTorsoTurnWidth = await page.locator('[data-sandbox-card="head-torso-turn-painted"]').evaluate((element) => element.getBoundingClientRect().width);
     expect(Math.abs(torsoTurnWidth - jumpWidth)).toBeLessThan(2);
     expect(Math.abs(headTorsoTurnWidth - jumpWidth)).toBeLessThan(2);
+    await page.locator('[data-sandbox-card="head-turn-fixed-painted"]').scrollIntoViewIfNeeded();
+    await expect.poll(async () => page.locator(
+      '[data-sandbox-card="head-turn-fixed-painted"] canvas',
+    ).getAttribute('data-frame')).not.toBeNull();
     await expect.poll(async () => page.evaluate(() => (
       performance.getEntriesByType('resource').some((entry) => entry.name.includes('hugo-layered-rig-parts'))
     ))).toBe(true);
@@ -145,8 +169,11 @@ test.describe('Animation Sandbox', () => {
       performance.getEntriesByType('resource').some((entry) => entry.name.includes('hugo-walk-v5-torso'))
     ))).toBe(true);
     await expect.poll(async () => page.evaluate(() => (
-      performance.getEntriesByType('resource').some((entry) => entry.name.includes('hugo-head-turn-stabilized-24'))
-    ))).toBe(true);
+      performance.getEntriesByType('resource').some((entry) => (
+        entry.name.includes('hugo-head-turn-stabilized-24')
+        && !entry.name.includes('?import')
+      ))
+    )), { timeout: 25_000 }).toBe(true);
     const headTurnAtlasSize = await page.evaluate(async () => {
       const source = performance.getEntriesByType('resource')
         .map((entry) => entry.name)
@@ -317,9 +344,17 @@ test.describe('Animation Sandbox', () => {
     await expect(page.locator('#sandbox-screen')).toBeVisible();
     const runBox = await page.locator('[data-sandbox-card="run"]').boundingBox();
     const jumpBox = await page.locator('[data-sandbox-card="jump"]').boundingBox();
+    const firstPose = await page.locator('.sandbox-2d-pose').nth(0).boundingBox();
+    const secondPose = await page.locator('.sandbox-2d-pose').nth(1).boundingBox();
+    const thirdPose = await page.locator('.sandbox-2d-pose').nth(2).boundingBox();
     expect(runBox).not.toBeNull();
     expect(jumpBox).not.toBeNull();
+    expect(firstPose).not.toBeNull();
+    expect(secondPose).not.toBeNull();
+    expect(thirdPose).not.toBeNull();
     expect(Math.abs((runBox?.width ?? 0) - (jumpBox?.width ?? 0))).toBeLessThan(2);
+    expect(Math.abs((firstPose?.y ?? 0) - (secondPose?.y ?? 0))).toBeLessThan(2);
+    expect((thirdPose?.y ?? 0)).toBeGreaterThan((firstPose?.y ?? 0));
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(390);
     expect(await page.evaluate(() => document.body.scrollWidth)).toBe(390);
   });

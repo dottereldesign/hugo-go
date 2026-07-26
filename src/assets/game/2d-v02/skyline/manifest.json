@@ -1,0 +1,428 @@
+{
+  "schemaVersion": 1,
+  "sandboxVersion": "02",
+  "outfit": {
+    "id": "skyline",
+    "name": "Skyline Flight Suit",
+    "description": "Navy, cyan and teal with orange flight accents."
+  },
+  "source": {
+    "transparentSheet": "art/source-images/game/2d-v02/skyline/hugo-2d-skyline-poses-transparent.png",
+    "chromaSheet": "art/source-images/game/2d-v02/skyline/hugo-2d-skyline-poses-magenta.png",
+    "width": 1254,
+    "height": 1254,
+    "columns": 4,
+    "rows": 3,
+    "sha256": "8297c7f42a142aa93ce3d17fc91d1975cfaf80f0ab2744c1e77176c2178a331c"
+  },
+  "extraction": {
+    "method": "connected-silhouette-ordered-by-grid-centre",
+    "alphaThreshold": 16,
+    "minimumComponentArea": 1000,
+    "outputCanvas": [
+      512,
+      512
+    ],
+    "figureLimit": 440,
+    "poseCount": 12
+  },
+  "poses": [
+    {
+      "index": 1,
+      "slug": "neutral-front",
+      "label": "Neutral front",
+      "filename": "hugo-2d-skyline-01-neutral-front.png",
+      "file": "src/assets/game/2d-v02/skyline/poses/hugo-2d-skyline-01-neutral-front.png",
+      "sourceCell": {
+        "row": 1,
+        "column": 1,
+        "componentBounds": [
+          78,
+          30,
+          235,
+          420
+        ],
+        "componentCentre": [
+          156.37,
+          235.85
+        ],
+        "componentArea": 35012
+      },
+      "output": {
+        "width": 512,
+        "height": 512,
+        "alphaBounds": [
+          167,
+          36,
+          344,
+          476
+        ],
+        "sha256": "db52d748129a74482e3d4b0ec0566897fa66042f030b8e38b40b3329c9e3b4a7"
+      }
+    },
+    {
+      "index": 2,
+      "slug": "ready-profile",
+      "label": "Ready profile",
+      "filename": "hugo-2d-skyline-02-ready-profile.png",
+      "file": "src/assets/game/2d-v02/skyline/poses/hugo-2d-skyline-02-ready-profile.png",
+      "sourceCell": {
+        "row": 1,
+        "column": 2,
+        "componentBounds": [
+          383,
+          28,
+          523,
+          423
+        ],
+        "componentCentre": [
+          447.11,
+          230.17
+        ],
+        "componentArea": 31445
+      },
+      "output": {
+        "width": 512,
+        "height": 512,
+        "alphaBounds": [
+          178,
+          36,
+          334,
+          476
+        ],
+        "sha256": "4e065dfd4c4c50a7c5d894dd6e0cab977fe26e34df404bbdd165b522a0a108da"
+      }
+    },
+    {
+      "index": 3,
+      "slug": "sprint-launch",
+      "label": "Sprint launch",
+      "filename": "hugo-2d-skyline-03-sprint-launch.png",
+      "file": "src/assets/game/2d-v02/skyline/poses/hugo-2d-skyline-03-sprint-launch.png",
+      "sourceCell": {
+        "row": 1,
+        "column": 3,
+        "componentBounds": [
+          625,
+          75,
+          904,
+          410
+        ],
+        "componentCentre": [
+          771.18,
+          224.37
+        ],
+        "componentArea": 36616
+      },
+      "output": {
+        "width": 512,
+        "height": 512,
+        "alphaBounds": [
+          73,
+          36,
+          439,
+          476
+        ],
+        "sha256": "7ae3ee333e3dfafc3d5e919cdffd78e47d08591a53ff4d838753d0c37c247c71"
+      }
+    },
+    {
+      "index": 4,
+      "slug": "jump-tuck",
+      "label": "Jump tuck",
+      "filename": "hugo-2d-skyline-04-jump-tuck.png",
+      "file": "src/assets/game/2d-v02/skyline/poses/hugo-2d-skyline-04-jump-tuck.png",
+      "sourceCell": {
+        "row": 1,
+        "column": 4,
+        "componentBounds": [
+          1000,
+          64,
+          1167,
+          345
+        ],
+        "componentCentre": [
+          1087.08,
+          204.9
+        ],
+        "componentArea": 26861
+      },
+      "output": {
+        "width": 512,
+        "height": 512,
+        "alphaBounds": [
+          125,
+          36,
+          386,
+          476
+        ],
+        "sha256": "6d8fb8c6609ec23f14c89ee4f7c93e4d75b106d11bea7c467552d9e12610a642"
+      }
+    },
+    {
+      "index": 5,
+      "slug": "level-glide",
+      "label": "Level glide",
+      "filename": "hugo-2d-skyline-05-level-glide.png",
+      "file": "src/assets/game/2d-v02/skyline/poses/hugo-2d-skyline-05-level-glide.png",
+      "sourceCell": {
+        "row": 2,
+        "column": 1,
+        "componentBounds": [
+          25,
+          497,
+          338,
+          713
+        ],
+        "componentCentre": [
+          189.44,
+          601.96
+        ],
+        "componentArea": 26375
+      },
+      "output": {
+        "width": 512,
+        "height": 512,
+        "alphaBounds": [
+          36,
+          104,
+          476,
+          408
+        ],
+        "sha256": "aaea12adf8fea06ec1d1ad9e4be8026bbd9c6ce52913b6ea7e556aaf0ebe7dfd"
+      }
+    },
+    {
+      "index": 6,
+      "slug": "steep-dive",
+      "label": "Steep dive",
+      "filename": "hugo-2d-skyline-06-steep-dive.png",
+      "file": "src/assets/game/2d-v02/skyline/poses/hugo-2d-skyline-06-steep-dive.png",
+      "sourceCell": {
+        "row": 2,
+        "column": 2,
+        "componentBounds": [
+          386,
+          472,
+          598,
+          725
+        ],
+        "componentCentre": [
+          498.98,
+          603.42
+        ],
+        "componentArea": 24066
+      },
+      "output": {
+        "width": 512,
+        "height": 512,
+        "alphaBounds": [
+          71,
+          36,
+          440,
+          476
+        ],
+        "sha256": "8fefee37c0e511a9d22c21be4860068193e101af89259203ddf6c97cd0e1cdf6"
+      }
+    },
+    {
+      "index": 7,
+      "slug": "bank-left",
+      "label": "Bank left",
+      "filename": "hugo-2d-skyline-07-bank-left.png",
+      "file": "src/assets/game/2d-v02/skyline/poses/hugo-2d-skyline-07-bank-left.png",
+      "sourceCell": {
+        "row": 2,
+        "column": 3,
+        "componentBounds": [
+          644,
+          452,
+          929,
+          765
+        ],
+        "componentCentre": [
+          778.07,
+          588.41
+        ],
+        "componentArea": 35850
+      },
+      "output": {
+        "width": 512,
+        "height": 512,
+        "alphaBounds": [
+          55,
+          36,
+          456,
+          476
+        ],
+        "sha256": "63f2ac6a181041470d3f50f5a85eeb631afec030fee9cb30a2f197694a020765"
+      }
+    },
+    {
+      "index": 8,
+      "slug": "bank-right",
+      "label": "Bank right",
+      "filename": "hugo-2d-skyline-08-bank-right.png",
+      "file": "src/assets/game/2d-v02/skyline/poses/hugo-2d-skyline-08-bank-right.png",
+      "sourceCell": {
+        "row": 2,
+        "column": 4,
+        "componentBounds": [
+          947,
+          434,
+          1246,
+          744
+        ],
+        "componentCentre": [
+          1092.07,
+          581.6
+        ],
+        "componentArea": 31948
+      },
+      "output": {
+        "width": 512,
+        "height": 512,
+        "alphaBounds": [
+          44,
+          36,
+          468,
+          476
+        ],
+        "sha256": "477bfe2aaf96e9f9bc8a57ee354ec4151a89dad0505bc4fb592924425cad5e9c"
+      }
+    },
+    {
+      "index": 9,
+      "slug": "jet-boost",
+      "label": "Jet boost",
+      "filename": "hugo-2d-skyline-09-jet-boost.png",
+      "file": "src/assets/game/2d-v02/skyline/poses/hugo-2d-skyline-09-jet-boost.png",
+      "sourceCell": {
+        "row": 3,
+        "column": 1,
+        "componentBounds": [
+          76,
+          745,
+          234,
+          1196
+        ],
+        "componentCentre": [
+          154.38,
+          957.27
+        ],
+        "componentArea": 32776
+      },
+      "output": {
+        "width": 512,
+        "height": 512,
+        "alphaBounds": [
+          179,
+          36,
+          333,
+          476
+        ],
+        "sha256": "94b25a48488947b01bcf19d664d101c2cb2b3977138bd9bc6059f59c9672a115"
+      }
+    },
+    {
+      "index": 10,
+      "slug": "landing-crouch",
+      "label": "Landing crouch",
+      "filename": "hugo-2d-skyline-10-landing-crouch.png",
+      "file": "src/assets/game/2d-v02/skyline/poses/hugo-2d-skyline-10-landing-crouch.png",
+      "sourceCell": {
+        "row": 3,
+        "column": 2,
+        "componentBounds": [
+          317,
+          883,
+          560,
+          1149
+        ],
+        "componentCentre": [
+          443.11,
+          1023.13
+        ],
+        "componentArea": 31100
+      },
+      "output": {
+        "width": 512,
+        "height": 512,
+        "alphaBounds": [
+          55,
+          36,
+          457,
+          476
+        ],
+        "sha256": "78123a3990d801b26a54f995bd037d2adced9592172fe848add01271bdd24e8e"
+      }
+    },
+    {
+      "index": 11,
+      "slug": "braking-flare",
+      "label": "Braking flare",
+      "filename": "hugo-2d-skyline-11-braking-flare.png",
+      "file": "src/assets/game/2d-v02/skyline/poses/hugo-2d-skyline-11-braking-flare.png",
+      "sourceCell": {
+        "row": 3,
+        "column": 3,
+        "componentBounds": [
+          624,
+          838,
+          940,
+          1155
+        ],
+        "componentCentre": [
+          790.99,
+          1000.56
+        ],
+        "componentArea": 44063
+      },
+      "output": {
+        "width": 512,
+        "height": 512,
+        "alphaBounds": [
+          36,
+          36,
+          475,
+          476
+        ],
+        "sha256": "4992e1d735ca762e0a173772854459734996a8cdae7bd535fb551b56f8447039"
+      }
+    },
+    {
+      "index": 12,
+      "slug": "hero-finish",
+      "label": "Hero finish",
+      "filename": "hugo-2d-skyline-12-hero-finish.png",
+      "file": "src/assets/game/2d-v02/skyline/poses/hugo-2d-skyline-12-hero-finish.png",
+      "sourceCell": {
+        "row": 3,
+        "column": 4,
+        "componentBounds": [
+          1008,
+          781,
+          1180,
+          1165
+        ],
+        "componentCentre": [
+          1087.64,
+          981.41
+        ],
+        "componentArea": 34923
+      },
+      "output": {
+        "width": 512,
+        "height": 512,
+        "alphaBounds": [
+          157,
+          36,
+          354,
+          476
+        ],
+        "sha256": "99e6d8dfe38e67d73c5405feb11c6335dfe0e7d51bb684185ee88eb19944e485"
+      }
+    }
+  ],
+  "qaContactSheet": "src/assets/game/2d-v02/qa/hugo-2d-skyline-contact-sheet.jpg"
+}

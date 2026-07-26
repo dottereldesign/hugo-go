@@ -1,0 +1,428 @@
+{
+  "schemaVersion": 1,
+  "sandboxVersion": "02",
+  "outfit": {
+    "id": "sunrise",
+    "name": "Sunrise Flight Suit",
+    "description": "Burnt orange, cream and gold with teal engineering details."
+  },
+  "source": {
+    "transparentSheet": "art/source-images/game/2d-v02/sunrise/hugo-2d-sunrise-poses-transparent.png",
+    "chromaSheet": "art/source-images/game/2d-v02/sunrise/hugo-2d-sunrise-poses-magenta.png",
+    "width": 1254,
+    "height": 1254,
+    "columns": 4,
+    "rows": 3,
+    "sha256": "ad438ad17c8ea11f0863705ae6b9c414ba132d5e24b0323f80ad8af6d8ba5940"
+  },
+  "extraction": {
+    "method": "connected-silhouette-ordered-by-grid-centre",
+    "alphaThreshold": 16,
+    "minimumComponentArea": 1000,
+    "outputCanvas": [
+      512,
+      512
+    ],
+    "figureLimit": 440,
+    "poseCount": 12
+  },
+  "poses": [
+    {
+      "index": 1,
+      "slug": "neutral-front",
+      "label": "Neutral front",
+      "filename": "hugo-2d-sunrise-01-neutral-front.png",
+      "file": "src/assets/game/2d-v02/sunrise/poses/hugo-2d-sunrise-01-neutral-front.png",
+      "sourceCell": {
+        "row": 1,
+        "column": 1,
+        "componentBounds": [
+          79,
+          29,
+          235,
+          421
+        ],
+        "componentCentre": [
+          156.58,
+          235.86
+        ],
+        "componentArea": 35012
+      },
+      "output": {
+        "width": 512,
+        "height": 512,
+        "alphaBounds": [
+          168,
+          36,
+          343,
+          476
+        ],
+        "sha256": "4f2000808a546443a4540696103a19f7fd385b8de7e480a0cc187ea496670879"
+      }
+    },
+    {
+      "index": 2,
+      "slug": "ready-profile",
+      "label": "Ready profile",
+      "filename": "hugo-2d-sunrise-02-ready-profile.png",
+      "file": "src/assets/game/2d-v02/sunrise/poses/hugo-2d-sunrise-02-ready-profile.png",
+      "sourceCell": {
+        "row": 1,
+        "column": 2,
+        "componentBounds": [
+          383,
+          28,
+          523,
+          424
+        ],
+        "componentCentre": [
+          447.51,
+          230.91
+        ],
+        "componentArea": 31207
+      },
+      "output": {
+        "width": 512,
+        "height": 512,
+        "alphaBounds": [
+          178,
+          36,
+          334,
+          476
+        ],
+        "sha256": "bc4bddcae50b4db058c25ed853116e121ee6bb8ab059326332af5ba3d64aabe7"
+      }
+    },
+    {
+      "index": 3,
+      "slug": "sprint-launch",
+      "label": "Sprint launch",
+      "filename": "hugo-2d-sunrise-03-sprint-launch.png",
+      "file": "src/assets/game/2d-v02/sunrise/poses/hugo-2d-sunrise-03-sprint-launch.png",
+      "sourceCell": {
+        "row": 1,
+        "column": 3,
+        "componentBounds": [
+          625,
+          74,
+          905,
+          410
+        ],
+        "componentCentre": [
+          771.72,
+          224.29
+        ],
+        "componentArea": 36480
+      },
+      "output": {
+        "width": 512,
+        "height": 512,
+        "alphaBounds": [
+          72,
+          36,
+          439,
+          476
+        ],
+        "sha256": "c8ee7061ed2fbbf8707ce357d5035e9dddac427b7b938c007e922542adcbd499"
+      }
+    },
+    {
+      "index": 4,
+      "slug": "jump-tuck",
+      "label": "Jump tuck",
+      "filename": "hugo-2d-sunrise-04-jump-tuck.png",
+      "file": "src/assets/game/2d-v02/sunrise/poses/hugo-2d-sunrise-04-jump-tuck.png",
+      "sourceCell": {
+        "row": 1,
+        "column": 4,
+        "componentBounds": [
+          999,
+          63,
+          1166,
+          344
+        ],
+        "componentCentre": [
+          1086.36,
+          204.34
+        ],
+        "componentArea": 26872
+      },
+      "output": {
+        "width": 512,
+        "height": 512,
+        "alphaBounds": [
+          125,
+          36,
+          386,
+          476
+        ],
+        "sha256": "674d583772d3e0770b8eddc1dcfeb3818d1983060ec42c5326c77b9ef31d5336"
+      }
+    },
+    {
+      "index": 5,
+      "slug": "level-glide",
+      "label": "Level glide",
+      "filename": "hugo-2d-sunrise-05-level-glide.png",
+      "file": "src/assets/game/2d-v02/sunrise/poses/hugo-2d-sunrise-05-level-glide.png",
+      "sourceCell": {
+        "row": 2,
+        "column": 1,
+        "componentBounds": [
+          26,
+          498,
+          339,
+          713
+        ],
+        "componentCentre": [
+          190.08,
+          602.46
+        ],
+        "componentArea": 26138
+      },
+      "output": {
+        "width": 512,
+        "height": 512,
+        "alphaBounds": [
+          36,
+          105,
+          476,
+          407
+        ],
+        "sha256": "698bc84f0df940f205c987783b3655749c8cfc0dbfd680d4c3cf8eb650f9b22d"
+      }
+    },
+    {
+      "index": 6,
+      "slug": "steep-dive",
+      "label": "Steep dive",
+      "filename": "hugo-2d-sunrise-06-steep-dive.png",
+      "file": "src/assets/game/2d-v02/sunrise/poses/hugo-2d-sunrise-06-steep-dive.png",
+      "sourceCell": {
+        "row": 2,
+        "column": 2,
+        "componentBounds": [
+          386,
+          474,
+          597,
+          724
+        ],
+        "componentCentre": [
+          498.98,
+          603.98
+        ],
+        "componentArea": 23681
+      },
+      "output": {
+        "width": 512,
+        "height": 512,
+        "alphaBounds": [
+          70,
+          36,
+          441,
+          476
+        ],
+        "sha256": "1e2b9f8b372004361a29d155dbca5a175fd4514306e21b41ff0fbb50ee2db39a"
+      }
+    },
+    {
+      "index": 7,
+      "slug": "bank-left",
+      "label": "Bank left",
+      "filename": "hugo-2d-sunrise-07-bank-left.png",
+      "file": "src/assets/game/2d-v02/sunrise/poses/hugo-2d-sunrise-07-bank-left.png",
+      "sourceCell": {
+        "row": 2,
+        "column": 3,
+        "componentBounds": [
+          643,
+          453,
+          930,
+          766
+        ],
+        "componentCentre": [
+          777.99,
+          588.82
+        ],
+        "componentArea": 35596
+      },
+      "output": {
+        "width": 512,
+        "height": 512,
+        "alphaBounds": [
+          54,
+          36,
+          457,
+          476
+        ],
+        "sha256": "25a01954c691309a38e2b6e71fe872fed95d67016f5c285beca86b93bc921801"
+      }
+    },
+    {
+      "index": 8,
+      "slug": "bank-right",
+      "label": "Bank right",
+      "filename": "hugo-2d-sunrise-08-bank-right.png",
+      "file": "src/assets/game/2d-v02/sunrise/poses/hugo-2d-sunrise-08-bank-right.png",
+      "sourceCell": {
+        "row": 2,
+        "column": 4,
+        "componentBounds": [
+          947,
+          435,
+          1246,
+          744
+        ],
+        "componentCentre": [
+          1092.1,
+          582.12
+        ],
+        "componentArea": 31588
+      },
+      "output": {
+        "width": 512,
+        "height": 512,
+        "alphaBounds": [
+          43,
+          36,
+          469,
+          476
+        ],
+        "sha256": "f9f10ad300593b5d4c18afc87677c293cef652854525d9a3d99a4edb738885ba"
+      }
+    },
+    {
+      "index": 9,
+      "slug": "jet-boost",
+      "label": "Jet boost",
+      "filename": "hugo-2d-sunrise-09-jet-boost.png",
+      "file": "src/assets/game/2d-v02/sunrise/poses/hugo-2d-sunrise-09-jet-boost.png",
+      "sourceCell": {
+        "row": 3,
+        "column": 1,
+        "componentBounds": [
+          75,
+          745,
+          235,
+          1198
+        ],
+        "componentCentre": [
+          154.45,
+          958.97
+        ],
+        "componentArea": 33093
+      },
+      "output": {
+        "width": 512,
+        "height": 512,
+        "alphaBounds": [
+          178,
+          36,
+          333,
+          476
+        ],
+        "sha256": "fe2df52fef786652ba14392b5b84b847f34ca08c7b6450668f3722ba182bd7a2"
+      }
+    },
+    {
+      "index": 10,
+      "slug": "landing-crouch",
+      "label": "Landing crouch",
+      "filename": "hugo-2d-sunrise-10-landing-crouch.png",
+      "file": "src/assets/game/2d-v02/sunrise/poses/hugo-2d-sunrise-10-landing-crouch.png",
+      "sourceCell": {
+        "row": 3,
+        "column": 2,
+        "componentBounds": [
+          317,
+          884,
+          560,
+          1150
+        ],
+        "componentCentre": [
+          443.22,
+          1023.7
+        ],
+        "componentArea": 31031
+      },
+      "output": {
+        "width": 512,
+        "height": 512,
+        "alphaBounds": [
+          55,
+          36,
+          457,
+          476
+        ],
+        "sha256": "04b57cec17e013a709db224349acd09511cde3bf54cb3aa56cd66da27a5b7c30"
+      }
+    },
+    {
+      "index": 11,
+      "slug": "braking-flare",
+      "label": "Braking flare",
+      "filename": "hugo-2d-sunrise-11-braking-flare.png",
+      "file": "src/assets/game/2d-v02/sunrise/poses/hugo-2d-sunrise-11-braking-flare.png",
+      "sourceCell": {
+        "row": 3,
+        "column": 3,
+        "componentBounds": [
+          624,
+          839,
+          940,
+          1156
+        ],
+        "componentCentre": [
+          791.32,
+          1001.16
+        ],
+        "componentArea": 43765
+      },
+      "output": {
+        "width": 512,
+        "height": 512,
+        "alphaBounds": [
+          36,
+          36,
+          475,
+          476
+        ],
+        "sha256": "6b57d277521bde3b6aadac817e09ec996fcd6d46c54d577e3082f3dda4241c46"
+      }
+    },
+    {
+      "index": 12,
+      "slug": "hero-finish",
+      "label": "Hero finish",
+      "filename": "hugo-2d-sunrise-12-hero-finish.png",
+      "file": "src/assets/game/2d-v02/sunrise/poses/hugo-2d-sunrise-12-hero-finish.png",
+      "sourceCell": {
+        "row": 3,
+        "column": 4,
+        "componentBounds": [
+          1008,
+          783,
+          1180,
+          1165
+        ],
+        "componentCentre": [
+          1087.24,
+          982.27
+        ],
+        "componentArea": 34747
+      },
+      "output": {
+        "width": 512,
+        "height": 512,
+        "alphaBounds": [
+          157,
+          36,
+          355,
+          476
+        ],
+        "sha256": "5532fec5609359ff798fee628aa9cce0745dc38566db300a964178faed248cfe"
+      }
+    }
+  ],
+  "qaContactSheet": "src/assets/game/2d-v02/qa/hugo-2d-sunrise-contact-sheet.jpg"
+}

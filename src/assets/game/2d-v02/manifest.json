@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "sandboxVersion": "02",
+  "direction": "2D pose library",
+  "sheetCount": 3,
+  "poseCountPerSheet": 12,
+  "individualPoseCount": 36,
+  "outfits": [
+    {
+      "id": "skyline",
+      "name": "Skyline Flight Suit",
+      "manifest": "src/assets/game/2d-v02/skyline/manifest.json"
+    },
+    {
+      "id": "night-comet",
+      "name": "Night Comet Flight Suit",
+      "manifest": "src/assets/game/2d-v02/night-comet/manifest.json"
+    },
+    {
+      "id": "sunrise",
+      "name": "Sunrise Flight Suit",
+      "manifest": "src/assets/game/2d-v02/sunrise/manifest.json"
+    }
+  ]
+}
