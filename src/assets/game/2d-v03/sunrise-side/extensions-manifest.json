@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "library": "Version 03 Sunrise side-profile extensions",
-  "poseCount": 22,
+  "poseCount": 23,
   "poses": [
     {
       "index": 13,
@@ -464,6 +464,27 @@
         411
       ],
       "sha256": "b57d68a2aa81f4fababe56cf7df52a126ceb01a66d2a2fe4ce1b3197f82eaab7"
+    },
+    {
+      "index": 35,
+      "slug": "naruto-run",
+      "label": "Naruto run",
+      "filename": "hugo-sunrise-side-35-naruto-run.png",
+      "source": "art/source-images/game/2d-v03/sunrise-side/hugo-sunrise-side-ninja-run-transparent.png",
+      "sourceCell": null,
+      "row": null,
+      "column": null,
+      "outputCanvas": [
+        512,
+        512
+      ],
+      "alphaBounds": [
+        107,
+        137,
+        404,
+        376
+      ],
+      "sha256": "7708b0833e5534aa43d9bc0f9bb53381500b39586d551b1c59c4ee7a121db7f1"
     }
   ]
 }

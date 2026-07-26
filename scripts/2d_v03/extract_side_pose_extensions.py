@@ -48,6 +48,7 @@ POSES = (
     Pose(32, "hugo-sunrise-side-wall-expression-poses-transparent.png", 10, "air-recovery-curl", "Air recovery curl"),
     Pose(33, "hugo-sunrise-side-wall-expression-poses-transparent.png", 11, "thumbs-up", "Thumbs up"),
     Pose(34, "hugo-sunrise-side-wall-expression-poses-transparent.png", 12, "finger-guns", "Finger guns"),
+    Pose(35, "hugo-sunrise-side-ninja-run-transparent.png", 0, "naruto-run", "Naruto run"),
 )
 
 

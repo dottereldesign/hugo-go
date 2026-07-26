@@ -5,12 +5,12 @@ import { describe, expect, it } from 'vitest';
 import extensions from '../src/assets/game/2d-v03/sunrise-side/extensions-manifest.json';
 
 describe('Version 03 side-profile extensions', () => {
-  it('registers 22 consecutive pose ideas after the canonical twelve', () => {
-    expect(extensions.poseCount).toBe(22);
+  it('registers 23 consecutive pose ideas after the canonical twelve', () => {
+    expect(extensions.poseCount).toBe(23);
     expect(extensions.poses.map(({ index }) => index)).toEqual(
-      Array.from({ length: 22 }, (_, index) => index + 13),
+      Array.from({ length: 23 }, (_, index) => index + 13),
     );
-    expect(new Set(extensions.poses.map(({ filename }) => filename)).size).toBe(22);
+    expect(new Set(extensions.poses.map(({ filename }) => filename)).size).toBe(23);
   });
 
   it('binds every extension to a transparent 512px PNG with a safety gutter', () => {

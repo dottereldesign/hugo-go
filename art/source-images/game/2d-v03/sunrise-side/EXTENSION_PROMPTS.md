@@ -51,6 +51,24 @@ approximately 15 degrees nose-down, with Hugo’s head clearly lower than his
 shoes. Preserve the streamlined arms-back silhouette, identity, Sunrise
 wingsuit, black footwear, and flat `#FF00FF` isolation rules.
 
+## Naruto-run prompt
+
+Create one unmistakable Naruto-style arms-back ninja running pose for the same
+Hugo character in strict screen-right side profile. This must read as running,
+not flying or gliding. Pitch his torso sharply forward, extend both arms
+straight backward behind his torso and hips with elbows almost straight, and
+show a powerful running stride with the forward knee driving and the other leg
+stretched back. Keep one black basketball shoe close to the implied ground
+line. Stream the cape backward separately from the arms and give Hugo a serious,
+focused expression.
+
+Preserve the exact Outfit 03 Sunrise identity, proportions, dark-teal piping,
+yellow cape/backpack, black basketball shoes, and polished stylized game-sprite
+rendering. Use a perfectly flat `#FF00FF` background with generous padding.
+Include exactly two arms and two legs. No floor, cast shadow, contact shadow,
+motion lines, scenery, props, duplicate limbs, cropped hair, cropped hands,
+cropped shoes, text, or watermark.
+
 ## Files
 
 - `hugo-sunrise-side-parkour-poses-magenta.png` — original generated sheet
@@ -59,3 +77,5 @@ wingsuit, black footwear, and flat `#FF00FF` isolation rules.
 - `hugo-sunrise-side-wall-expression-poses-transparent.png` — alpha-processed master
 - `hugo-sunrise-side-shallow-dive-v2-magenta.png` — corrected midpoint-angle source
 - `hugo-sunrise-side-shallow-dive-v2-transparent.png` — corrected alpha master
+- `hugo-sunrise-side-ninja-run-magenta.png` — generated Naruto-run source
+- `hugo-sunrise-side-ninja-run-transparent.png` — alpha-processed Naruto-run master

@@ -10,7 +10,7 @@ test.describe('Outfit 03 reference and V02 animation loops', () => {
     await expect(page.locator('#sandbox-screen')).toBeHidden();
     await expect(page.getByRole('heading', { name: 'Sunrise Hugo is the reference.' })).toBeVisible();
     await expect(page.locator('[data-outfit-03-reference] .sandbox-2d-pose')).toHaveCount(12);
-    await expect(page.locator('.version-03-library--side .version-03-pose-grid figure')).toHaveCount(34);
+    await expect(page.locator('.version-03-library--side .version-03-pose-grid figure')).toHaveCount(35);
     await expect(page.locator('[data-v02-animation]')).toHaveCount(2);
 
     const neutral = page.locator('[data-v02-animation="neutral-idle"]');
