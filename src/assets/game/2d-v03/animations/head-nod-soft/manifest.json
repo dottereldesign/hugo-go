@@ -5,17 +5,17 @@
     "assetDirectory": "head-nod",
     "name": "Neutral Side · Head nod 03",
     "description": "A restrained two-beat nod using only approved source drawings 1–4.",
-    "prompt": "Reuse only complete existing Neutral Side head-nod drawings 1, 2, 3, and 4. Do not regenerate, composite, or alter them. Play exactly this loop: 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1.",
+    "prompt": "Reuse only complete existing Neutral Side head-nod drawings 1, 2, 3, and 4. Do not regenerate, composite, or alter them. Play exactly this loop: 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2.",
     "revisionOf": "head-nod"
   },
   "timing": {
     "baseFps": 12,
-    "runtimeFrameCount": 13,
+    "runtimeFrameCount": 12,
     "drawingCount": 4,
-    "loopDurationSeconds": 1.083,
-    "loopReturnFrame": 13
+    "loopDurationSeconds": 1.0,
+    "loopReturnFrame": 12
   },
-  "productionMethod": "four complete existing generated figures repeated without alteration in the exact runtime sequence 1,2,3,4,3,2,1,2,3,4,3,2,1; no regeneration, masking, compositing, interpolation, or code rotation",
+  "productionMethod": "four complete existing generated figures repeated without alteration in the exact runtime sequence 1,2,3,4,3,2,1,2,3,4,3,2; no regeneration, masking, compositing, interpolation, or code rotation",
   "frames": [
     {
       "index": 1,
@@ -99,13 +99,6 @@
       "sourceFrame": 2,
       "label": "Second return through source frame 2",
       "filename": "hugo-head-nod-02-nod-down-20-percent.png",
-      "runtime": true
-    },
-    {
-      "index": 13,
-      "sourceFrame": 1,
-      "label": "Neutral loop return",
-      "filename": "hugo-head-nod-01-neutral-start.png",
       "runtime": true
     }
   ]
