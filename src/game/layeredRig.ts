@@ -13,7 +13,7 @@ export const WALK_V6_FRAMES_PER_SECOND = 30;
 export const WALK_V6_LEFT_ARM_BEND: 1 | -1 = -1;
 export const WALK_V6_RIGHT_ARM_BEND: 1 | -1 = 1;
 export const HEAD_TURN_FRAME_COUNT = 24;
-export const HEAD_TURN_V3_FRAME_COUNT = 48;
+export const HEAD_TURN_DEGREE_FRAME_COUNT = 24;
 export const HEAD_TURN_FRAMES_PER_SECOND = 30;
 
 export const RigPart = {
@@ -345,10 +345,10 @@ export function getHeadTurnPose(frameIndex: number): HeadTurnPose {
   };
 }
 
-export function getHeadTurnV3Pose(frameIndex: number): HeadTurnPose {
-  const progress = normalizedFrame(frameIndex, HEAD_TURN_V3_FRAME_COUNT);
+export function getHeadTurnDegreePose(frameIndex: number): HeadTurnPose {
+  const progress = normalizedFrame(frameIndex, HEAD_TURN_DEGREE_FRAME_COUNT);
   return {
-    yaw: -Math.PI / 2 + progress * Math.PI * 2,
+    yaw: progress * Math.PI * 2,
     progress,
   };
 }

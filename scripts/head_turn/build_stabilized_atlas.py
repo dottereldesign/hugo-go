@@ -1,4 +1,4 @@
-"""Build a clean, registered Hugo head-turn atlas from the transparent source sheet."""
+"""Build the registered 24-view audit atlas from the transparent source sheet."""
 
 from __future__ import annotations
 
@@ -200,12 +200,18 @@ def main() -> None:
     parser.add_argument(
         "--input",
         type=Path,
-        default=Path("art/source-images/game/hugo-head-turn-source-transparent.png"),
+        default=Path(
+            "art/source-images/game/head-turn/v2/"
+            "hugo-head-turn-source-transparent.png"
+        ),
     )
     parser.add_argument(
         "--output",
         type=Path,
-        default=Path("src/assets/game/hugo-head-turn-stabilized-cycle.png"),
+        default=Path(
+            "src/assets/game/head-turn/v2/"
+            "hugo-head-turn-stabilized-24.png"
+        ),
     )
     args = parser.parse_args()
     build_atlas(args.input, args.output)

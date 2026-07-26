@@ -87,21 +87,31 @@ Each normalized cell is `320 × 320`. The same torso, head, hair, hood, limb
 segments, shoes, and jacket tails are assembled by deterministic canvas
 transforms for both Running V2 and Normal Jump V2.
 
-The head-only 360-degree experiment retains its generation source, transparent
-source, initial grid-sliced review atlas, and corrected registered runtime atlas:
+The head-only 360-degree experiment is organized by role:
 
 ```text
-art/source-images/game/hugo-head-turn-source.png
-art/source-images/game/hugo-head-turn-source-transparent.png
-src/assets/game/hugo-head-turn-cycle.png
-src/assets/game/hugo-head-turn-stabilized-cycle.png
-art/source-images/game/hugo-head-turn-v3-inbetweens-magenta.png
-art/source-images/game/hugo-head-turn-v3-inbetweens-transparent.png
-art/source-images/game/hugo-head-turn-v3-rear-right-bridge-magenta.png
-art/source-images/game/hugo-head-turn-v3-rear-right-bridge-transparent.png
-art/source-images/game/hugo-head-turn-v3-eye-reveal-bridge-magenta.png
-art/source-images/game/hugo-head-turn-v3-eye-reveal-bridge-transparent.png
-src/assets/game/hugo-head-turn-v3/frame-01.png … frame-59.png
+art/source-images/game/head-turn/v2/
+  hugo-head-turn-source-magenta.png
+  hugo-head-turn-source-transparent.png
+art/source-images/game/head-turn/rejected-v3/
+  source-sheets/
+  extracted-interleaved/
+  build_interleaved_sequence.REJECTED.txt
+src/assets/game/head-turn/v1/
+  hugo-head-turn-cycle.png
+src/assets/game/head-turn/v2/
+  hugo-head-turn-stabilized-24.png
+src/assets/game/head-turn/canonical-24/
+  manifest.json
+  frames/
+    hugo-head-yaw-cw-000-front.png
+    hugo-head-yaw-cw-015.png
+    …
+    hugo-head-yaw-cw-180-back.png
+    …
+    hugo-head-yaw-cw-270-right-profile.png
+    …
+    hugo-head-yaw-cw-345.png
 ```
 
 The generated source visually resembles a `6 x 4` atlas, but its complete head
@@ -109,7 +119,7 @@ silhouettes are not contained by those nominal cells. Chroma removal uses the
 same soft-matte/despill settings documented below. The initial `1280 x 1280`
 review atlas is retained as evidence of the failed cell-boundary assumption.
 
-`scripts/process_head_turn_atlas.py` detects the 24 complete connected alpha
+`scripts/head_turn/build_stabilized_atlas.py` detects the 24 complete connected alpha
 silhouettes across the full transparent sheet, orders them by source row and
 horizontal position, isolates each silhouette, normalizes it to 240 pixels
 high, and centres it in a `320 x 320` transparent cell. It writes a `5 x 5`,
@@ -117,25 +127,21 @@ high, and centres it in a `320 x 320` transparent cell. It writes a `5 x 5`,
 of frame 1. Validation rejects missing heads, inconsistent height or centre,
 unsafe gutters, and a mismatched seam bookend.
 
-The Sandbox plays the 24 unique frames. Head-turn previews default to `0.40x`,
-which displays the authored 30 fps sequence at 12 fps over two seconds.
+`scripts/head_turn/extract_degree_frames.py` then rotates the approved source
+ordering so the exact front becomes `0°` and writes each of the 24 clean views
+unchanged as a separate transparent file at 15-degree intervals. It also
+writes the manifest that binds every angle to one filename and SHA-256 digest.
 
-`scripts/build_head_turn_v3_frames.py` builds the V3 painted rotation without
-creating a runtime atlas. It:
+The final Sandbox card imports those 24 individual files. It does not slice an
+atlas, mix generated batches, infer order from directory enumeration, or
+interpolate missing views. Head-turn previews default to `0.40x`, which
+displays 12 fps over two seconds.
 
-1. extracts and registers the 24 generated half-angle candidates;
-2. interleaves them with the approved V2 views;
-3. keeps the verified sequence through frame 45;
-4. replaces the faulty final three-frame face reveal with an eight-view
-   rear-right bridge and a six-view eye-reveal bridge;
-5. writes 59 individually addressable `320 x 320` transparent PNG files; and
-6. rejects empty frames, height or centre drift and unsafe alpha gutters.
-
-Each PNG contains one complete connected head silhouette, normalized to 240
-pixels high. The Vite runtime imports the files by their zero-padded names and
-lazy-loads them only when the V3 painted card approaches the viewport. The
-generated contact sheets remain source/audit material under `art/`; no sheet
-is sliced by the browser.
+The old 59-frame V3 sequence is retained only under
+`art/source-images/game/head-turn/rejected-v3/`. Its dimensions and alpha
+registration passed, but its visual direction failed because independent
+generated sheets were interleaved. Nothing in that archive is imported by the
+application.
 
 ## Processing pipeline
 
@@ -183,7 +189,8 @@ Current runtime sizes are approximately:
 - Walking V5 side-profile torso: 752 KB;
 - legacy 24-view grid-sliced head-turn review atlas: 1,716 KB;
 - stabilized 24-view head-turn atlas plus seam bookend: 1,884 KB;
-- 59 individually registered V3 head-turn PNGs: 4,269 KB, lazy-loaded;
+- 24 individually named canonical head-turn PNGs: approximately 1,800 KB,
+  lazy-loaded;
 - scrolling trail strip: 64 KB.
 
 The old single flight pose, single-pose run WebP, six-frame transition sheet, and full-screen

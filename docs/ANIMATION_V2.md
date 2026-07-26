@@ -337,46 +337,72 @@ This remains an identity and volume experiment, not a gameplay animation. No
 torso, shoulders or limbs appear; the small neck base belongs to the head
 registration silhouette.
 
-## Head Turn V3: labelled geometry and repaired rear-right arc
+## Canonical head turn: individual degree files
 
-V3 adds a new two-card row beneath V2:
+The final two-card row beneath V2 uses one explicit angle contract:
 
-- the geometry card uses 48 deterministic 7.5-degree steps. Its 11
-  plain-language landmarks are Crown, Hairline, Left/Right eye, Left/Right
-  ear, Nose, Left/Right mouth corner, Chin and Nape. Hovering, focusing or
-  clicking a label isolates that node, enlarges it and draws a leader line to
-  its current projected location;
-- the painted card uses **59 separate `320 x 320` transparent PNG files**.
-  Runtime does not slice a sprite sheet. Each file is registered to the same
-  240-pixel source height and centre; and
-- holding the primary pointer and dragging horizontally pauses either V3 card
-  and scrubs its rotation in either direction. Releasing leaves the chosen
-  frame paused for inspection.
+- `0°` is front-facing;
+- angles increase clockwise when Hugo is viewed from above;
+- each next image advances exactly `15°`;
+- `90°` is Hugo's left profile, `180°` is the exact back, and `270°` is
+  Hugo's right profile; and
+- `345°` loops directly to `0°`.
 
-The first 48-view V3 draft exposed a genuine source failure near the loop
-ending. Its last three images alternated rear three-quarter, face-heavy
-three-quarter, profile and face-heavy three-quarter. More playback frames did
-not solve that discontinuity.
+The painted card loads **24 separate `320 x 320` transparent PNG files** from
+`src/assets/game/head-turn/canonical-24/frames/`. Each filename includes its
+angle, for example `hugo-head-yaw-cw-000-front.png`,
+`hugo-head-yaw-cw-090-left-profile.png`, and
+`hugo-head-yaw-cw-180-back.png`. `manifest.json` is the only playback-order
+source. Runtime does not slice a sheet or rely on filesystem enumeration.
 
-The accepted painted sequence therefore keeps verified frames 1–45 and
-replaces the faulty tail with two dedicated generated bridges:
+The geometry card uses the same 24-angle map. Its 11 plain-language landmarks
+are Crown, Hairline, Left/Right eye, Left/Right ear, Nose, Left/Right mouth
+corner, Chin and Nape. Hovering, focusing or clicking a label isolates that
+node, enlarges it and draws a leader line to its current projected location.
+Holding the primary pointer and dragging horizontally pauses either card and
+scrubs the same angle sequence.
 
-1. eight ordered views turn from the rear-right three-quarter endpoint toward
-   the opening right profile without revealing most of the face early; and
-2. six additional micro-views slow the eye/eyelash reveal inside the largest
-   remaining gap.
+### Rejected V3: why the 59-frame sequence reversed
 
-That produces 59 unique runtime files. At the default `0.40x` setting the
-painted card displays 24 frames per second over approximately 2.46 seconds.
-Frames 1–45 retain their real 7.5-degree positions through 330 degrees. The
-14 repaired tail views use denser 2-degree positions from 332 through 358
-degrees, and the on-canvas yaw readout follows that non-uniform angle map.
-The geometry card remains a mathematically even 48-step, two-second reference,
-so the artwork's denser problem quadrant can be compared against ideal yaw.
+The failed V3 files were individually cut out, but that did not make their
+ordering valid. The builder alternated an approved 24-view sequence with a
+separately generated midpoint sheet, then appended two more independently
+generated bridge sheets. Those batches did not share a guaranteed direction,
+angle ledger, identity registration, or spacing model. Alpha bounds, centres,
+and dimensions all passed while frames 1, 2, and 3 visibly rotated right,
+jumped toward front, and rotated right again.
 
-The individual PNGs lazy-load only when the V3 painted card approaches the
-viewport. This preserves responsive Sandbox entry while retaining direct
-per-frame inspection and file-level replacement.
+This was a pipeline error:
+
+1. file-level extraction was incorrectly treated as proof of motion
+   continuity;
+2. independently generated sheets were interleaved as if cell positions
+   represented compatible angles;
+3. corrective bridge batches compounded the mismatch; and
+4. validation checked geometry and transparency but not monotonic yaw.
+
+The entire 59-frame sequence is rejected and archived under
+`art/source-images/game/head-turn/rejected-v3/`. It is no longer imported by
+the application.
+
+### Hard production rules for rotational art
+
+1. A canonical rotation may use only one coherent source sequence.
+2. Never interleave, append, or patch independently generated rotation sheets.
+3. Extract every accepted head into an individual transparent PNG immediately.
+4. Encode direction and degrees in every filename.
+5. Use a manifest as the only playback order.
+6. If the source has 24 clean views, ship 24 clean views. Do not invent or
+   interpolate six damaged images merely to reach a requested round number.
+7. Reject the whole candidate if any transition reverses, skips a quadrant,
+   changes identity, or breaks the fixed centre.
+8. Before release, inspect `000 → 015 → 030`, both profile-to-back arcs, and
+   the `345 → 000` seam manually at slow speed.
+
+The source has 24 valid unique views, so the accepted set uses 24 exact
+15-degree steps. A 30-view optical-flow resample was also rejected because it
+created ghosted facial features. The final individual files are pixel-unchanged
+extractions from the approved registered source.
 
 ## Reusable atlas prompt
 

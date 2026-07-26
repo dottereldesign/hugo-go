@@ -222,6 +222,11 @@
             <p>For every looping animation, generated frame 1 and the generated final frame must be pixel-identical. The motion must arrive cleanly back at that exact opening pose. Keep the matching final frame as the seam-validation bookend, then omit that duplicate endpoint from discrete runtime playback so frame 1 is not held twice.</p>
           </aside>
 
+          <aside class="sandbox-v2-loop-rule">
+            <strong>Rotational sequences use one source and individual degree files</strong>
+            <p>A character sheet may be used only as extraction material. Cut every accepted view into its own transparent PNG, name it by direction and angle, and order it with a manifest. Never alternate or patch frames from independently generated sheets: matching image dimensions do not prove matching rotation. If one coherent source contains 24 good views, keep those 24; do not invent damaged frames merely to reach 30.</p>
+          </aside>
+
           <section class="sandbox-motion-language" aria-labelledby="sandbox-motion-language-title">
             <header>
               <span>FOUNDATIONAL MOTION LANGUAGE</span>
@@ -540,12 +545,12 @@
               <p class="sandbox-rig-caption">24 complete connected silhouettes · identical 240 px source height · common centre · 40 px transparent top and bottom gutters · exact seam bookend</p>
             </article>
 
-            <article class="sandbox-card sandbox-card--v2 sandbox-card--debug sandbox-card--head-v3" data-sandbox-card="head-turn-v3-debug">
+            <article class="sandbox-card sandbox-card--v2 sandbox-card--debug sandbox-card--head-turn" data-sandbox-card="head-turn-degree-debug">
               <header>
-                <div><span>HEAD TURN V3 · LABELLED GEOMETRY</span><h2>360° Head Turn V3 — Explained landmarks</h2></div>
-                <small data-sandbox-metrics>48 frames · 2.00 s total · 24 FPS</small>
+                <div><span>HEAD TURN · DEGREE GEOMETRY</span><h2>360° Head Turn — Angle map</h2></div>
+                <small data-sandbox-metrics>24 frames · 2.00 s total · 12 FPS</small>
               </header>
-              <canvas class="sandbox-canvas" data-sandbox-animation="head-turn-v3-debug" width="600" height="340" role="img" aria-label="Forty-eight-step head rotation geometry with interactive labelled facial and skull landmarks"></canvas>
+              <canvas class="sandbox-canvas" data-sandbox-animation="head-turn-degree-debug" width="600" height="340" role="img" aria-label="Twenty-four-angle head rotation geometry with interactive labelled facial and skull landmarks"></canvas>
               <p class="sandbox-drag-hint"><span aria-hidden="true">↔</span> Hold and drag left or right to rotate manually</p>
               <div class="sandbox-head-landmarks" data-head-landmark-controls aria-label="Head landmark labels">
                 <button class="is-active" type="button" data-head-landmark="all" aria-pressed="true"><i aria-hidden="true"></i><span><b>All nodes</b><small>Complete head rig</small></span></button>
@@ -561,17 +566,17 @@
                 <button type="button" data-head-landmark="chin" aria-pressed="false" style="--landmark-colour:#ffd661"><i aria-hidden="true"></i><span><b>Chin</b><small>Lower jaw-height anchor</small></span></button>
                 <button type="button" data-head-landmark="nape" aria-pressed="false" style="--landmark-colour:#70f0b1"><i aria-hidden="true"></i><span><b>Nape</b><small>Back-of-neck anchor</small></span></button>
               </div>
-              <p class="sandbox-rig-caption">Hover, focus, or click any plain-language label to isolate its node and draw a leader line to its exact rotating position</p>
+              <p class="sandbox-rig-caption">0° front · clockwise in 15° steps · 90° left profile · 180° back · 270° right profile · every geometry frame maps one-to-one to one named PNG</p>
             </article>
 
-            <article class="sandbox-card sandbox-card--v2 sandbox-card--painted sandbox-card--head-v3" data-sandbox-card="head-turn-v3-painted">
+            <article class="sandbox-card sandbox-card--v2 sandbox-card--painted sandbox-card--head-turn" data-sandbox-card="head-turn-degree-painted">
               <header>
-                <div><span>HEAD TURN V3 · INDIVIDUAL ART</span><h2>360° Head Turn V3 — 59 smooth views</h2></div>
-                <small data-sandbox-metrics>59 frames · 2.46 s total · 24 FPS</small>
+                <div><span>HEAD TURN · INDIVIDUAL ART</span><h2>360° Head Turn — Degree-named files</h2></div>
+                <small data-sandbox-metrics>24 frames · 2.00 s total · 12 FPS</small>
               </header>
-              <canvas class="sandbox-canvas" data-sandbox-animation="head-turn-v3-painted" width="600" height="340" role="img" aria-label="Fifty-nine individually cut-out and registered Hugo head images rotating smoothly through 360 degrees"></canvas>
+              <canvas class="sandbox-canvas" data-sandbox-animation="head-turn-degree-painted" width="600" height="340" role="img" aria-label="Twenty-four individually saved Hugo head images ordered clockwise by their degree filenames"></canvas>
               <p class="sandbox-drag-hint"><span aria-hidden="true">↔</span> Hold and drag left or right to rotate manually</p>
-              <p class="sandbox-rig-caption">59 separate transparent PNGs · 14 dedicated bridge views repair the rear-right face reveal · no runtime sheet slicing</p>
+              <p class="sandbox-rig-caption">24 separate transparent PNGs · filenames encode 000° through 345° · one coherent approved source · no runtime sheet slicing, cross-sheet interleaving, or invented bridge frames</p>
             </article>
           </div>
 

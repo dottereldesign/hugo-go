@@ -1,0 +1,191 @@
+{
+  "schemaVersion": 1,
+  "id": "hugo-head-turn-canonical-24",
+  "viewCount": 24,
+  "stepDegrees": 15,
+  "zeroDegrees": "front",
+  "direction": "clockwise-viewed-from-above",
+  "orientationNotes": {
+    "90Degrees": "Hugo's left profile",
+    "180Degrees": "exact back",
+    "270Degrees": "Hugo's right profile"
+  },
+  "source": {
+    "file": "src/assets/game/head-turn/v2/hugo-head-turn-stabilized-24.png",
+    "uniqueViews": 24,
+    "stepDegrees": 15,
+    "frontSourceIndexOneBased": 7,
+    "singleSequenceOnly": true,
+    "pixelChangesDuringExtraction": false
+  },
+  "frames": [
+    {
+      "index": 0,
+      "degrees": 0,
+      "file": "frames/hugo-head-yaw-cw-000-front.png",
+      "sourceAtlasIndex": 6,
+      "sha256": "b384963818b389954b5cb3109f6481107fa6ed14e06e8fb6cd2330baadd58e6e"
+    },
+    {
+      "index": 1,
+      "degrees": 15,
+      "file": "frames/hugo-head-yaw-cw-015.png",
+      "sourceAtlasIndex": 7,
+      "sha256": "861521bda432b1c6df0f6a15dddfab83d8220e33c0b7c55a865b94202eda961e"
+    },
+    {
+      "index": 2,
+      "degrees": 30,
+      "file": "frames/hugo-head-yaw-cw-030.png",
+      "sourceAtlasIndex": 8,
+      "sha256": "f8037f8710fe059b4283caaab01bc56478f082273f3aae984fac52dacaeb5892"
+    },
+    {
+      "index": 3,
+      "degrees": 45,
+      "file": "frames/hugo-head-yaw-cw-045.png",
+      "sourceAtlasIndex": 9,
+      "sha256": "666136a334f36491c80a74d9ddd4b49563c0e696f09e22aaed37b99c2656eab0"
+    },
+    {
+      "index": 4,
+      "degrees": 60,
+      "file": "frames/hugo-head-yaw-cw-060.png",
+      "sourceAtlasIndex": 10,
+      "sha256": "2028aae02f4101e5124b0ac5a308513bb3220b2a4a198e4431a1234201d8c978"
+    },
+    {
+      "index": 5,
+      "degrees": 75,
+      "file": "frames/hugo-head-yaw-cw-075.png",
+      "sourceAtlasIndex": 11,
+      "sha256": "9f9cd3121c6f5026913438c1b31f8edf6edd746d9bfdba6ba825b8723145734e"
+    },
+    {
+      "index": 6,
+      "degrees": 90,
+      "file": "frames/hugo-head-yaw-cw-090-left-profile.png",
+      "sourceAtlasIndex": 12,
+      "sha256": "492002b4608d1ab306cf5d89a4ac462f73ed5b7d4c484dec97ce8b61a41d730f"
+    },
+    {
+      "index": 7,
+      "degrees": 105,
+      "file": "frames/hugo-head-yaw-cw-105.png",
+      "sourceAtlasIndex": 13,
+      "sha256": "ffa6d9d50481bda2c2b2fe0801dc07577b58f30a3c9aed4b9fe36390fab844af"
+    },
+    {
+      "index": 8,
+      "degrees": 120,
+      "file": "frames/hugo-head-yaw-cw-120.png",
+      "sourceAtlasIndex": 14,
+      "sha256": "c0ec26d2bf102968c8f880c69d53ef9ac051d9dc92c552778932250e2ed71162"
+    },
+    {
+      "index": 9,
+      "degrees": 135,
+      "file": "frames/hugo-head-yaw-cw-135.png",
+      "sourceAtlasIndex": 15,
+      "sha256": "847560d8d3e49844b933ec4d2c611c9c45c3b9e8dd6a6edc016e1d2978c65ba6"
+    },
+    {
+      "index": 10,
+      "degrees": 150,
+      "file": "frames/hugo-head-yaw-cw-150.png",
+      "sourceAtlasIndex": 16,
+      "sha256": "319221639b6dc94d56b2dd70dab947e6809e953cf8b5599069f7d580f5908d23"
+    },
+    {
+      "index": 11,
+      "degrees": 165,
+      "file": "frames/hugo-head-yaw-cw-165.png",
+      "sourceAtlasIndex": 17,
+      "sha256": "f894d45b4b8a143137e3a369c8fd962270b3016c6c8f837ba5be928074ea56dc"
+    },
+    {
+      "index": 12,
+      "degrees": 180,
+      "file": "frames/hugo-head-yaw-cw-180-back.png",
+      "sourceAtlasIndex": 18,
+      "sha256": "9fbefae0b00b829da892d0c03e9a2f83c77f55ce5adbd4f51af2e564f92cc940"
+    },
+    {
+      "index": 13,
+      "degrees": 195,
+      "file": "frames/hugo-head-yaw-cw-195.png",
+      "sourceAtlasIndex": 19,
+      "sha256": "3ceb107766413682c906ddc12c41705a41e6edec952f70dfdfe122cbd72f8404"
+    },
+    {
+      "index": 14,
+      "degrees": 210,
+      "file": "frames/hugo-head-yaw-cw-210.png",
+      "sourceAtlasIndex": 20,
+      "sha256": "71fb0751ed18e0d71b08bc1a372c3091dc078b2062628f9b925a663df2a76719"
+    },
+    {
+      "index": 15,
+      "degrees": 225,
+      "file": "frames/hugo-head-yaw-cw-225.png",
+      "sourceAtlasIndex": 21,
+      "sha256": "6f55fdf5dc88cbc1a174422df7468783eef70e92136c376baafd8edbd3bee45b"
+    },
+    {
+      "index": 16,
+      "degrees": 240,
+      "file": "frames/hugo-head-yaw-cw-240.png",
+      "sourceAtlasIndex": 22,
+      "sha256": "ca077141438254c460a6c7bb0feb8da38bc59ba036e1becc2dd47f5bffd31872"
+    },
+    {
+      "index": 17,
+      "degrees": 255,
+      "file": "frames/hugo-head-yaw-cw-255.png",
+      "sourceAtlasIndex": 23,
+      "sha256": "c709fe4aec81f9b5ad7a529bbed2ab050380d8302a1972754f96324462a35e0c"
+    },
+    {
+      "index": 18,
+      "degrees": 270,
+      "file": "frames/hugo-head-yaw-cw-270-right-profile.png",
+      "sourceAtlasIndex": 0,
+      "sha256": "2e0f655d2450774a07ced032782feeb09261d815a02a061356b0f73f7923f56a"
+    },
+    {
+      "index": 19,
+      "degrees": 285,
+      "file": "frames/hugo-head-yaw-cw-285.png",
+      "sourceAtlasIndex": 1,
+      "sha256": "7d2854cce0ed516623916efb965177d627ad8953627c11e4bdf30eca35ca8ca8"
+    },
+    {
+      "index": 20,
+      "degrees": 300,
+      "file": "frames/hugo-head-yaw-cw-300.png",
+      "sourceAtlasIndex": 2,
+      "sha256": "de2be2393752d0ba9be905234d725f3c01c45414a1acaed9acb5614ed3e8dae5"
+    },
+    {
+      "index": 21,
+      "degrees": 315,
+      "file": "frames/hugo-head-yaw-cw-315.png",
+      "sourceAtlasIndex": 3,
+      "sha256": "cc75fa47a21b7bf9fd9e168ff6a89cb30d011027c815cbf279d3b550b37a6449"
+    },
+    {
+      "index": 22,
+      "degrees": 330,
+      "file": "frames/hugo-head-yaw-cw-330.png",
+      "sourceAtlasIndex": 4,
+      "sha256": "438921b01b2b74c0c4b56db35ae581d64985e60190d07d362b428cb71c80bbf2"
+    },
+    {
+      "index": 23,
+      "degrees": 345,
+      "file": "frames/hugo-head-yaw-cw-345.png",
+      "sourceAtlasIndex": 5,
+      "sha256": "104bbde520c69d4d50687f24ecc82b0830c288db049266cb7913bdf981e9cdfc"
+    }
+  ]
+}

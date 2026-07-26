@@ -4,7 +4,8 @@ import hugoFreefallCycleUrl from '../assets/game/hugo-freefall-cycle.webp';
 import hugoFreefallV2CycleUrl from '../assets/game/hugo-freefall-v2-cycle.png';
 import hugoGlideCycleUrl from '../assets/game/hugo-glide-cycle.webp';
 import hugoGrindCycleUrl from '../assets/game/hugo-grind-cycle.webp';
-import hugoHeadTurnStabilizedCycleUrl from '../assets/game/hugo-head-turn-stabilized-cycle.png';
+import hugoHeadTurnStabilizedCycleUrl from '../assets/game/head-turn/v2/hugo-head-turn-stabilized-24.png';
+import headTurnDegreeManifest from '../assets/game/head-turn/canonical-24/manifest.json';
 import hugoJumpLandCycleUrl from '../assets/game/hugo-jump-land-cycle.webp';
 import hugoLayeredRigPartsUrl from '../assets/game/hugo-layered-rig-parts.png';
 import hugoPoweredCycleUrl from '../assets/game/hugo-powered-cycle.webp';
@@ -48,7 +49,7 @@ import {
   RIGGED_JUMP_FRAME_COUNT,
   RIGGED_RUN_FRAME_COUNT,
   HEAD_TURN_FRAME_COUNT,
-  HEAD_TURN_V3_FRAME_COUNT,
+  HEAD_TURN_DEGREE_FRAME_COUNT,
   WALK_V4_FRAME_COUNT,
   WALK_V5_FRAME_COUNT,
   WALK_V6_FRAME_COUNT,
@@ -58,7 +59,7 @@ import {
   getDebugJumpPose,
   getDebugRunPose,
   getHeadTurnPose,
-  getHeadTurnV3Pose,
+  getHeadTurnDegreePose,
   getRiggedJumpPose,
   getRiggedRunPose,
   getWalkV4Pose,
@@ -75,18 +76,26 @@ import {
   type WalkV6Pose,
 } from './layeredRig';
 
-const HEAD_TURN_V3_FRAME_URLS = Object.entries(
-  import.meta.glob('../assets/game/hugo-head-turn-v3/frame-*.png', {
+const HEAD_TURN_DEGREE_FRAME_MODULES = import.meta.glob(
+  '../assets/game/head-turn/canonical-24/frames/*.png',
+  {
     eager: true,
     query: '?url',
     import: 'default',
-  }),
-)
-  .sort(([left], [right]) => left.localeCompare(right))
-  .map(([, url]) => url as string);
-const HEAD_TURN_V3_ART_FRAME_COUNT = HEAD_TURN_V3_FRAME_URLS.length;
+  },
+);
+const HEAD_TURN_DEGREE_FRAME_URLS = headTurnDegreeManifest.frames.map(({ file }) => {
+  const modulePath = `../assets/game/head-turn/canonical-24/${file}`;
+  const url = HEAD_TURN_DEGREE_FRAME_MODULES[modulePath];
+  if (typeof url !== 'string') {
+    throw new Error(`Missing canonical head-turn frame: ${modulePath}`);
+  }
+  return url;
+});
+const HEAD_TURN_DEGREE_ANGLES = headTurnDegreeManifest.frames.map(({ degrees }) => degrees);
+const HEAD_TURN_DEGREE_ART_FRAME_COUNT = HEAD_TURN_DEGREE_FRAME_URLS.length;
 
-type AnimationKind = 'run' | 'jump' | 'rig-run-v2' | 'rig-jump-v2' | 'rig-run-debug' | 'rig-jump-debug' | 'walk-v4-debug' | 'walk-v4-painted' | 'walk-v5-debug' | 'walk-v5-painted' | 'walk-v6-debug' | 'walk-v6-painted' | 'head-turn-debug' | 'head-turn-painted' | 'head-turn-fixed-debug' | 'head-turn-fixed-painted' | 'head-turn-v3-debug' | 'head-turn-v3-painted' | 'double-jump' | 'double-jump-v2' | 'freefall' | 'freefall-v2' | 'powered' | 'glide' | 'grind' | 'wall' | 'flame';
+type AnimationKind = 'run' | 'jump' | 'rig-run-v2' | 'rig-jump-v2' | 'rig-run-debug' | 'rig-jump-debug' | 'walk-v4-debug' | 'walk-v4-painted' | 'walk-v5-debug' | 'walk-v5-painted' | 'walk-v6-debug' | 'walk-v6-painted' | 'head-turn-debug' | 'head-turn-painted' | 'head-turn-fixed-debug' | 'head-turn-fixed-painted' | 'head-turn-degree-debug' | 'head-turn-degree-painted' | 'double-jump' | 'double-jump-v2' | 'freefall' | 'freefall-v2' | 'powered' | 'glide' | 'grind' | 'wall' | 'flame';
 type LoadedSprite = HTMLImageElement & { ready?: boolean };
 type AnatomySprite = 'parts' | 'legs' | 'torso';
 
@@ -257,10 +266,10 @@ const ANIMATION_CONFIG: Record<AnimationKind, { frameCount: number; duration: nu
   'head-turn-painted': { frameCount: HEAD_TURN_FRAME_COUNT, duration: 0.8 },
   'head-turn-fixed-debug': { frameCount: HEAD_TURN_FRAME_COUNT, duration: 0.8 },
   'head-turn-fixed-painted': { frameCount: HEAD_TURN_FRAME_COUNT, duration: 0.8 },
-  'head-turn-v3-debug': { frameCount: HEAD_TURN_V3_FRAME_COUNT, duration: 0.8 },
-  'head-turn-v3-painted': {
-    frameCount: HEAD_TURN_V3_ART_FRAME_COUNT,
-    duration: HEAD_TURN_V3_ART_FRAME_COUNT / 60,
+  'head-turn-degree-debug': { frameCount: HEAD_TURN_DEGREE_FRAME_COUNT, duration: 0.8 },
+  'head-turn-degree-painted': {
+    frameCount: HEAD_TURN_DEGREE_ART_FRAME_COUNT,
+    duration: 0.8,
   },
   'double-jump': { frameCount: 6, duration: 2 },
   'double-jump-v2': { frameCount: 16, duration: DOUBLE_JUMP_V2_DURATION },
@@ -288,7 +297,7 @@ export class AnimationSandbox {
     walkLegs: this.createSprite(),
     walkV5Torso: this.createSprite(),
     headTurnStabilized: this.createSprite(),
-    headTurnV3: HEAD_TURN_V3_FRAME_URLS.map(() => this.createSprite()),
+    headTurnDegrees: HEAD_TURN_DEGREE_FRAME_URLS.map(() => this.createSprite()),
     doubleJump: this.createSprite(),
     doubleJumpV2: this.createSprite(),
     freefall: this.createSprite(),
@@ -300,7 +309,7 @@ export class AnimationSandbox {
     flame: this.createSprite(),
   };
   private assetsStarted = false;
-  private headTurnV3AssetsStarted = false;
+  private headTurnDegreeAssetsStarted = false;
   private running = false;
   private animationFrame = 0;
   private previousTime = 0;
@@ -352,7 +361,7 @@ export class AnimationSandbox {
     });
     for (const preview of this.previews) {
       this.syncControls(preview);
-      if (preview.kind === 'head-turn-v3-debug' || preview.kind === 'head-turn-v3-painted') {
+      if (preview.kind === 'head-turn-degree-debug' || preview.kind === 'head-turn-degree-painted') {
         this.setupHeadTurnScrubbing(preview);
       }
     }
@@ -365,8 +374,8 @@ export class AnimationSandbox {
             if (!preview) continue;
             preview.visible = entry.isIntersecting;
             if (preview.visible) {
-              if (preview.kind === 'head-turn-v3-painted') {
-                this.ensureHeadTurnV3Assets();
+              if (preview.kind === 'head-turn-degree-painted') {
+                this.ensureHeadTurnDegreeAssets();
               }
               this.syncControls(preview);
               this.drawPreview(preview, preview.elapsed, preview.currentFrame);
@@ -487,11 +496,11 @@ export class AnimationSandbox {
       case 'head-turn-fixed-painted':
         this.drawHeadTurnFixedPainted(preview, forcedFrame);
         break;
-      case 'head-turn-v3-debug':
-        this.drawHeadTurnV3Debug(preview, forcedFrame);
+      case 'head-turn-degree-debug':
+        this.drawHeadTurnDegreeDebug(preview, forcedFrame);
         break;
-      case 'head-turn-v3-painted':
-        this.drawHeadTurnV3Painted(preview, forcedFrame);
+      case 'head-turn-degree-painted':
+        this.drawHeadTurnDegreePainted(preview, forcedFrame);
         break;
       case 'double-jump':
         this.drawDoubleJump(preview, elapsed, forcedFrame);
@@ -963,7 +972,7 @@ export class AnimationSandbox {
     labelled = false,
   ): void {
     const frame = forcedFrame ?? 0;
-    const pose = labelled ? getHeadTurnV3Pose(frame) : getHeadTurnPose(frame);
+    const pose = labelled ? getHeadTurnDegreePose(frame) : getHeadTurnPose(frame);
     const { context, canvas } = preview;
     const center = { x: canvas.width / 2, y: canvas.height * 0.54 };
     const cosine = Math.cos(pose.yaw);
@@ -1096,17 +1105,21 @@ export class AnimationSandbox {
     }
 
     preview.canvas.dataset.activeHeadLandmark = labelled ? this.activeHeadLandmark : 'none';
+    if (labelled) {
+      preview.canvas.dataset.angleDegrees = String(frame * 15);
+    }
     this.drawWalkLabel(
       context,
-      labelled ? 'HEAD TURN V3 · LABELLED RIG' : 'HEAD TURN · 3D LANDMARKS',
-      labelled ? '48 STEPS · HOVER OR SELECT A LANDMARK' : 'HEAD ONLY · FIXED PIVOT · 15° STEPS',
+      labelled ? 'HEAD TURN · DEGREE GEOMETRY' : 'HEAD TURN · 3D LANDMARKS',
+      labelled ? '24 NAMED ANGLES · 15° STEPS' : 'HEAD ONLY · FIXED PIVOT · 15° STEPS',
     );
     this.drawHeadTurnReadout(
       context,
       canvas,
       frame,
       pose.yaw,
-      labelled ? HEAD_TURN_V3_FRAME_COUNT : HEAD_TURN_FRAME_COUNT,
+      labelled ? HEAD_TURN_DEGREE_FRAME_COUNT : HEAD_TURN_FRAME_COUNT,
+      labelled ? frame * 15 : undefined,
     );
     this.markFrame(preview, frame);
   }
@@ -1118,7 +1131,7 @@ export class AnimationSandbox {
     this.drawWalkLabel(context, 'HEAD TURN V2 · REGISTRATION', 'FIXED CENTRE · FIXED HEIGHT · SAFE GUTTER');
   }
 
-  private drawHeadTurnV3Debug(preview: Preview, forcedFrame: number | null): void {
+  private drawHeadTurnDegreeDebug(preview: Preview, forcedFrame: number | null): void {
     this.drawHeadTurnDebug(preview, forcedFrame, true);
     const { context, canvas } = preview;
     this.drawHeadRegistrationGuide(context, canvas.width / 2, canvas.height * 0.54);
@@ -1132,14 +1145,13 @@ export class AnimationSandbox {
     this.drawRegisteredHeadTurn(preview, forcedFrame, true);
   }
 
-  private drawHeadTurnV3Painted(preview: Preview, forcedFrame: number | null): void {
+  private drawHeadTurnDegreePainted(preview: Preview, forcedFrame: number | null): void {
     const frame = forcedFrame ?? 0;
-    const angleDegrees = frame <= 44
-      ? frame * 7.5
-      : 330 + (frame - 44) * 2;
-    const yaw = -Math.PI / 2 + angleDegrees * Math.PI / 180;
+    const angleDegrees = HEAD_TURN_DEGREE_ANGLES[frame] ?? 0;
+    const manifestFrame = headTurnDegreeManifest.frames[frame];
+    const yaw = angleDegrees * Math.PI / 180;
     const { context, canvas } = preview;
-    const sprite = this.sprites.headTurnV3[frame];
+    const sprite = this.sprites.headTurnDegrees[frame];
     const drawSize = 304;
     const drawX = (canvas.width - drawSize) / 2;
     const drawY = (canvas.height - drawSize) / 2 + 4;
@@ -1154,17 +1166,19 @@ export class AnimationSandbox {
     this.drawHeadRegistrationGuide(context, canvas.width / 2, canvas.height / 2 + 4);
     this.drawWalkLabel(
       context,
-      'HEAD TURN V3 · 59 INDIVIDUAL FILES',
-      '14 EXTRA VIEWS REPAIR THE REAR-RIGHT TURN',
+      'HEAD TURN · INDIVIDUAL DEGREE FILES',
+      `${angleDegrees.toString().padStart(3, '0')}° · ONE SOURCE · NO SHEET SLICING`,
     );
     this.drawHeadTurnReadout(
       context,
       canvas,
       frame,
       yaw,
-      HEAD_TURN_V3_ART_FRAME_COUNT,
+      HEAD_TURN_DEGREE_ART_FRAME_COUNT,
       angleDegrees,
     );
+    preview.canvas.dataset.angleDegrees = String(angleDegrees);
+    preview.canvas.dataset.angleFile = manifestFrame?.file ?? '';
     this.markFrame(preview, frame);
   }
 
@@ -1258,21 +1272,37 @@ export class AnimationSandbox {
   ): void {
     const degrees = degreesOverride ?? frame * 360 / frameCount;
     const atAngle = (target: number): boolean => Math.abs(degrees - target) < 0.01;
-    const label = atAngle(0)
-      ? 'RIGHT PROFILE'
-      : atAngle(90)
+    const label = degreesOverride !== undefined
+      ? atAngle(0)
         ? 'FRONT'
-        : atAngle(180)
+        : atAngle(90)
           ? 'LEFT PROFILE'
-          : atAngle(270)
+          : atAngle(180)
             ? 'BACK'
-            : degrees < 90
-              ? 'RIGHT → FRONT'
-              : degrees < 180
+            : atAngle(270)
+              ? 'RIGHT PROFILE'
+              : degrees < 90
                 ? 'FRONT → LEFT'
-                : degrees < 270
+                : degrees < 180
                   ? 'LEFT → BACK'
-                  : 'BACK → RIGHT';
+                  : degrees < 270
+                    ? 'BACK → RIGHT'
+                    : 'RIGHT → FRONT'
+      : atAngle(0)
+        ? 'RIGHT PROFILE'
+        : atAngle(90)
+          ? 'FRONT'
+          : atAngle(180)
+            ? 'LEFT PROFILE'
+            : atAngle(270)
+              ? 'BACK'
+              : degrees < 90
+                ? 'RIGHT → FRONT'
+                : degrees < 180
+                  ? 'FRONT → LEFT'
+                  : degrees < 270
+                    ? 'LEFT → BACK'
+                    : 'BACK → RIGHT';
     context.save();
     context.fillStyle = 'rgba(4, 27, 55, .78)';
     context.fillRect(canvas.width - 184, canvas.height - 49, 169, 34);
@@ -2715,7 +2745,7 @@ export class AnimationSandbox {
     ) return;
     this.activeHeadLandmark = landmarkId;
     this.syncHeadLandmarkControls();
-    const preview = this.previews.find(({ kind }) => kind === 'head-turn-v3-debug');
+    const preview = this.previews.find(({ kind }) => kind === 'head-turn-degree-debug');
     if (preview) this.drawPreview(preview, preview.elapsed, preview.currentFrame);
   }
 
@@ -3079,7 +3109,7 @@ export class AnimationSandbox {
     this.sprites.walkLegs.src = hugoWalkV4LegsUrl;
     this.sprites.walkV5Torso.src = hugoWalkV5TorsoUrl;
     this.sprites.headTurnStabilized.src = hugoHeadTurnStabilizedCycleUrl;
-    if (typeof IntersectionObserver === 'undefined') this.ensureHeadTurnV3Assets();
+    if (typeof IntersectionObserver === 'undefined') this.ensureHeadTurnDegreeAssets();
     this.sprites.doubleJump.src = hugoDoubleJumpCycleUrl;
     this.sprites.doubleJumpV2.src = hugoDoubleJumpV2CycleUrl;
     this.sprites.freefall.src = hugoFreefallCycleUrl;
@@ -3091,11 +3121,11 @@ export class AnimationSandbox {
     this.sprites.flame.src = jetFlameCycleUrl;
   }
 
-  private ensureHeadTurnV3Assets(): void {
-    if (this.headTurnV3AssetsStarted) return;
-    this.headTurnV3AssetsStarted = true;
-    this.sprites.headTurnV3.forEach((sprite, index) => {
-      sprite.src = HEAD_TURN_V3_FRAME_URLS[index];
+  private ensureHeadTurnDegreeAssets(): void {
+    if (this.headTurnDegreeAssetsStarted) return;
+    this.headTurnDegreeAssetsStarted = true;
+    this.sprites.headTurnDegrees.forEach((sprite, index) => {
+      sprite.src = HEAD_TURN_DEGREE_FRAME_URLS[index];
     });
   }
 }

@@ -1,4 +1,4 @@
-"""Build the 48-view V3 head turn as individually registered PNG files."""
+"""REJECTED PIPELINE: cross-batch interleaving caused visible yaw reversals."""
 
 from __future__ import annotations
 

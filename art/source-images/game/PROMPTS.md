@@ -771,133 +771,55 @@ stalling at the back. Preserve coherent 3D skull, hair, ears, eyes, nose, jaw
 and face volume. No body, shoulders or extra objects.
 ```
 
-Accepted source: `art/source-images/game/hugo-head-turn-source.png`.
+Accepted source:
+`art/source-images/game/head-turn/v2/hugo-head-turn-source-magenta.png`.
 Transparent source:
-`art/source-images/game/hugo-head-turn-source-transparent.png`.
+`art/source-images/game/head-turn/v2/hugo-head-turn-source-transparent.png`.
 
 The source contains 24 clean disconnected head silhouettes, but several cross
 the nominal `6 x 4` cell boundaries despite the prompt. The initial fixed-cell
-extraction is retained as `src/assets/game/hugo-head-turn-cycle.png` for audit
-history and is not loaded at runtime.
+extraction is retained as
+`src/assets/game/head-turn/v1/hugo-head-turn-cycle.png` for audit history.
 
-`scripts/process_head_turn_atlas.py` extracts the complete connected
+`scripts/head_turn/build_stabilized_atlas.py` extracts the complete connected
 silhouettes from the full transparent source instead of trusting the visual
 grid. It normalizes each head to a 240-pixel height, centres it in a
 `320 x 320` cell, and writes the accepted runtime asset
-`src/assets/game/hugo-head-turn-stabilized-cycle.png`. The first 24 cells are
-the unique rotational views and cell 25 is an exact pixel copy of cell 1.
-Runtime playback omits the duplicate bookend.
+`src/assets/game/head-turn/v2/hugo-head-turn-stabilized-24.png`. The first 24
+cells are the unique rotational views and cell 25 is an exact pixel copy of
+cell 1.
 
-## Head Turn V3 — individual half-angles and repaired rear-right arc
-
-All three batches were created with the built-in image-generation tool in
-image-generation mode. Contact sheets are generation/audit sources only.
-`scripts/build_head_turn_v3_frames.py` extracts the connected silhouettes and
-writes the 59 individual runtime PNGs.
-
-### Twenty-four midpoint views
-
-Reference:
-`src/assets/game/hugo-head-turn-stabilized-cycle.png`.
+`scripts/head_turn/extract_degree_frames.py` uses that single registered source
+only. It makes no visual edits. It reorders the existing 24 clean views so the
+front is `0°`, then saves every head as a separate transparent PNG:
 
 ```text
-Use the supplied image strictly as the approved identity and 24-angle
-head-rotation reference for Hugo. Create exactly 24 NEW missing in-between
-head-only views, one halfway between every adjacent approved view, including
-the final-to-first seam. These are NOT duplicates of the supplied views.
-Arrange the new views in a clean 6 columns × 4 rows contact sheet in reading
-order. The intended midpoint yaw angles are: 7.5°, 22.5°, 37.5°, 52.5°,
-67.5°, 82.5°, 97.5°, 112.5°, 127.5°, 142.5°, 157.5°, 172.5°, 187.5°,
-202.5°, 217.5°, 232.5°, 247.5°, 262.5°, 277.5°, 292.5°, 307.5°, 322.5°,
-337.5°, 352.5°. Preserve Hugo's identity exactly: same 10-year-old
-Japanese/New Zealand boy, same friendly expression, brown eyes, dark layered
-windswept anime hair, warm skin, face proportions, small neck base, painterly
-3D-game illustration style, lighting, and scale. Rotation must be mechanically
-progressive around one fixed vertical axis: each new head is the exact visual
-halfway pose between its two neighbouring supplied heads. Keep identical head
-height, identical visual centre, identical crop and baseline in every cell.
-Head and small neck only; absolutely no shoulders, torso, clothing, body,
-props, text, numbers, angle labels, borders, grid lines, shadows, glow, or
-extra fragments. Put exactly one fully connected silhouette in each of the 24
-regions, with generous clear gutters so no hair or neck crosses a region
-boundary. Use a perfectly flat solid #FF00FF chroma-key background across the
-entire image, with no gradient or texture. Prioritise consistent rotation, no
-skipped angles, no repeated angles, no bobbing, no scale drift, and a seamless
-352.5° to 0° transition.
+src/assets/game/head-turn/canonical-24/frames/
+  hugo-head-yaw-cw-000-front.png
+  hugo-head-yaw-cw-015.png
+  …
+  hugo-head-yaw-cw-090-left-profile.png
+  …
+  hugo-head-yaw-cw-180-back.png
+  …
+  hugo-head-yaw-cw-270-right-profile.png
+  …
+  hugo-head-yaw-cw-345.png
 ```
 
-Outputs:
+The adjacent `manifest.json` records direction, angle, source cell, filename,
+and checksum. It is the only runtime order.
 
-- `hugo-head-turn-v3-inbetweens-magenta.png`
-- `hugo-head-turn-v3-inbetweens-transparent.png`
+## Rejected head-turn generation experiments
 
-### Eight-view rear-right bridge
+The old V3 midpoint and bridge prompts are retained with their source images
+under `art/source-images/game/head-turn/rejected-v3/`. They must not be reused
+for production playback. The mistake was interleaving independently generated
+sheets whose cell positions did not share a guaranteed angle map. The frames
+were separate files, but their motion still reversed.
 
-References: the individually registered draft frames 45 and 1.
-
-```text
-The FIRST supplied image is the exact START endpoint: Hugo seen from the
-rear-right three-quarter angle, with mostly the back of his hair visible and
-only his right ear/edge of cheek beginning to appear. The SECOND supplied
-image is the exact END endpoint: Hugo's clean right-side profile. Create
-exactly 8 NEW intermediate head-only views that rotate progressively and
-smoothly from the first endpoint toward the second endpoint, EXCLUDING both
-supplied endpoints. These eight frames must specifically repair the missing
-rear-right arc: frame 1 should be only a tiny turn beyond the
-rear-three-quarter start; then reveal the right ear, cheek edge, eyelash/eye
-edge, nose silhouette, and profile progressively across frames 2–8. Do not
-reveal most of the face early. No sudden frontal or face-heavy three-quarter
-view. Each frame must be a smaller, mechanically ordered angular step than the
-original gap, with no duplicates, reversals, bobbing, scale changes, or
-identity drift. Preserve Hugo exactly: same 10-year-old Japanese/New Zealand
-boy, same dark layered windswept hair, warm skin, brown eye, friendly subtle
-smile, small neck base, painterly 3D-game illustration style and lighting.
-Arrange the 8 new views in a strict 4 columns × 2 rows contact sheet in reading
-order. One complete connected head silhouette per region, identical head
-height, identical visual centre and baseline, generous gutters. Head and small
-neck only—no torso, shoulders, clothing, props, text, numbers, labels, borders,
-grid lines, shadows, glow, or extra fragments. Use a perfectly flat solid
-#FF00FF chroma-key background over the entire image.
-```
-
-Outputs:
-
-- `hugo-head-turn-v3-rear-right-bridge-magenta.png`
-- `hugo-head-turn-v3-rear-right-bridge-transparent.png`
-
-### Six-view eye-reveal micro-bridge
-
-References: the individually registered bridge frames 49 and 50.
-
-```text
-The FIRST supplied image is the exact START endpoint of a very short head-turn
-interval: Hugo is rear-right/profile-adjacent, with his right ear, cheek edge,
-and tiny nose edge visible but no clearly visible eye. The SECOND supplied
-image is the exact END endpoint: Hugo is at a clearer right profile with his
-eye and nose visible. Create exactly 6 NEW microscopic intermediate head-only
-views between these endpoints, EXCLUDING both endpoints. The sole purpose is
-to prevent the eye and face from appearing in one pop. Progress in tiny
-mechanically ordered steps: frames 1–2 shift the cheek and brow edge almost
-imperceptibly; frames 3–4 reveal only a sliver of eyelash/eye while the nose
-silhouette grows; frames 5–6 approach the supplied endpoint. No sudden face
-reveal, no frontal angle, no duplicates, reversals, bobbing, scale drift,
-hair-shape drift, or identity changes. Preserve Hugo exactly: same 10-year-old
-Japanese/New Zealand boy, same dark layered windswept hair, warm skin, brown
-eye, subtle smile, small neck base, painterly 3D-game illustration style and
-lighting. Arrange the 6 new views in a strict 3 columns × 2 rows contact sheet
-in reading order. One complete connected silhouette per region, identical
-head height, identical centre and baseline, generous gutters. Head and small
-neck only—no torso, shoulders, clothing, props, text, numbers, labels, borders,
-grid lines, shadows, glow, or extra fragments. Use a perfectly flat solid
-#FF00FF chroma-key background across the entire image.
-```
-
-Outputs:
-
-- `hugo-head-turn-v3-eye-reveal-bridge-magenta.png`
-- `hugo-head-turn-v3-eye-reveal-bridge-transparent.png`
-
-The first interleaved V3 draft contained 48 files, but its final three images
-alternated rear view, face-heavy view, profile and face-heavy view. Those
-frames were rejected. The accepted runtime directory contains 59 separate
-files: verified frames 1–45 followed by the 14 purpose-built bridge views.
+A later single-sheet 30-view generation also reversed at a profile-to-back
+transition. A deterministic 24-to-30 optical-flow attempt preserved direction
+but ghosted facial features. Both candidates were rejected whole. The final
+rule is: use the 24 clean existing views rather than manufacture six damaged
+ones to reach a round number.

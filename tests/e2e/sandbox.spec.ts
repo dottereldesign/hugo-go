@@ -17,6 +17,7 @@ test.describe('Animation Sandbox', () => {
     await expect(page.locator('[data-sandbox-speed]')).toHaveCount(27);
     await expect(page.getByRole('heading', { name: 'Animation V2 Framework' })).toBeVisible();
     await expect(page.getByText('Mandatory looping-sheet bookend')).toBeVisible();
+    await expect(page.getByText('Rotational sequences use one source and individual degree files')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'The 12 animation principles, translated for HUGO GO!' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Smooth does not mean evenly spaced' })).toBeVisible();
     await expect(page.locator('[data-sandbox-card="freefall-v2"] button[data-frame]')).toHaveCount(24);
@@ -35,8 +36,8 @@ test.describe('Animation Sandbox', () => {
     await expect(page.locator('[data-sandbox-card="head-turn-painted"] button[data-frame]')).toHaveCount(24);
     await expect(page.locator('[data-sandbox-card="head-turn-fixed-debug"] button[data-frame]')).toHaveCount(24);
     await expect(page.locator('[data-sandbox-card="head-turn-fixed-painted"] button[data-frame]')).toHaveCount(24);
-    await expect(page.locator('[data-sandbox-card="head-turn-v3-debug"] button[data-frame]')).toHaveCount(48);
-    await expect(page.locator('[data-sandbox-card="head-turn-v3-painted"] button[data-frame]')).toHaveCount(59);
+    await expect(page.locator('[data-sandbox-card="head-turn-degree-debug"] button[data-frame]')).toHaveCount(24);
+    await expect(page.locator('[data-sandbox-card="head-turn-degree-painted"] button[data-frame]')).toHaveCount(24);
     await expect(page.getByRole('heading', { name: 'Why the first two layered rigs fail' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'What changed for Walking V4' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'What V5 fixes from the V4 review' })).toBeVisible();
@@ -68,8 +69,8 @@ test.describe('Animation Sandbox', () => {
       'head-turn-painted': '24 frames · 2.00 s total · 12 FPS',
       'head-turn-fixed-debug': '24 frames · 2.00 s total · 12 FPS',
       'head-turn-fixed-painted': '24 frames · 2.00 s total · 12 FPS',
-      'head-turn-v3-debug': '48 frames · 2.00 s total · 24 FPS',
-      'head-turn-v3-painted': '59 frames · 2.46 s total · 24 FPS',
+      'head-turn-degree-debug': '24 frames · 2.00 s total · 12 FPS',
+      'head-turn-degree-painted': '24 frames · 2.00 s total · 12 FPS',
     };
     for (const [animation, metrics] of Object.entries(expectedMetrics)) {
       await expect(page.locator(`[data-sandbox-card="${animation}"] [data-sandbox-metrics]`)).toHaveText(metrics);
@@ -113,10 +114,10 @@ test.describe('Animation Sandbox', () => {
     const headTurnFixedPaintedWidth = await page.locator('[data-sandbox-card="head-turn-fixed-painted"]').evaluate((element) => element.getBoundingClientRect().width);
     expect(Math.abs(headTurnFixedDebugWidth - jumpWidth)).toBeLessThan(2);
     expect(Math.abs(headTurnFixedPaintedWidth - jumpWidth)).toBeLessThan(2);
-    const headTurnV3DebugWidth = await page.locator('[data-sandbox-card="head-turn-v3-debug"]').evaluate((element) => element.getBoundingClientRect().width);
-    const headTurnV3PaintedWidth = await page.locator('[data-sandbox-card="head-turn-v3-painted"]').evaluate((element) => element.getBoundingClientRect().width);
-    expect(Math.abs(headTurnV3DebugWidth - jumpWidth)).toBeLessThan(2);
-    expect(Math.abs(headTurnV3PaintedWidth - jumpWidth)).toBeLessThan(2);
+    const headTurnDegreeDebugWidth = await page.locator('[data-sandbox-card="head-turn-degree-debug"]').evaluate((element) => element.getBoundingClientRect().width);
+    const headTurnDegreePaintedWidth = await page.locator('[data-sandbox-card="head-turn-degree-painted"]').evaluate((element) => element.getBoundingClientRect().width);
+    expect(Math.abs(headTurnDegreeDebugWidth - jumpWidth)).toBeLessThan(2);
+    expect(Math.abs(headTurnDegreePaintedWidth - jumpWidth)).toBeLessThan(2);
     await expect.poll(async () => page.evaluate(() => (
       performance.getEntriesByType('resource').some((entry) => entry.name.includes('hugo-layered-rig-parts'))
     ))).toBe(true);
@@ -127,12 +128,12 @@ test.describe('Animation Sandbox', () => {
       performance.getEntriesByType('resource').some((entry) => entry.name.includes('hugo-walk-v5-torso'))
     ))).toBe(true);
     await expect.poll(async () => page.evaluate(() => (
-      performance.getEntriesByType('resource').some((entry) => entry.name.includes('hugo-head-turn-stabilized-cycle'))
+      performance.getEntriesByType('resource').some((entry) => entry.name.includes('hugo-head-turn-stabilized-24'))
     ))).toBe(true);
     const headTurnAtlasSize = await page.evaluate(async () => {
       const source = performance.getEntriesByType('resource')
         .map((entry) => entry.name)
-        .find((name) => name.includes('hugo-head-turn-stabilized-cycle') && !name.includes('?import'));
+        .find((name) => name.includes('hugo-head-turn-stabilized-24') && !name.includes('?import'));
       if (!source) throw new Error('Head-turn atlas did not load.');
       const image = new Image();
       image.src = source;
@@ -143,7 +144,7 @@ test.describe('Animation Sandbox', () => {
     const headRegistration = await page.evaluate(async () => {
       const source = performance.getEntriesByType('resource')
         .map((entry) => entry.name)
-        .find((name) => name.includes('hugo-head-turn-stabilized-cycle') && !name.includes('?import'));
+        .find((name) => name.includes('hugo-head-turn-stabilized-24') && !name.includes('?import'));
       if (!source) throw new Error('Stabilized head-turn atlas did not load.');
       const image = new Image();
       image.src = source;
@@ -209,21 +210,21 @@ test.describe('Animation Sandbox', () => {
     expect(headRegistration.heightSpread).toBe(0);
     expect(headRegistration.minimumGutter).toBeGreaterThanOrEqual(32);
     expect(headRegistration.bookendMatches).toBe(true);
-    await page.locator('[data-sandbox-card="head-turn-v3-painted"]').scrollIntoViewIfNeeded();
+    await page.locator('[data-sandbox-card="head-turn-degree-painted"]').scrollIntoViewIfNeeded();
     await expect.poll(
       async () => page.evaluate(() => (
         performance.getEntriesByType('resource')
           .filter((entry) => (
-            entry.name.includes('/hugo-head-turn-v3/frame-')
+            entry.name.includes('hugo-head-yaw-cw-')
             && !entry.name.includes('?import')
           )).length
       )),
       { timeout: 25_000 },
-    ).toBe(59);
-    const headTurnV3Files = await page.evaluate(async () => {
+    ).toBe(24);
+    const headTurnDegreeFiles = await page.evaluate(async () => {
       const sources = performance.getEntriesByType('resource')
         .map((entry) => entry.name)
-        .filter((name) => name.includes('/hugo-head-turn-v3/frame-') && !name.includes('?import'));
+        .filter((name) => name.includes('hugo-head-yaw-cw-') && !name.includes('?import'));
       const dimensions = await Promise.all(sources.map(async (source) => {
         const image = new Image();
         image.src = source;
@@ -235,8 +236,8 @@ test.describe('Animation Sandbox', () => {
         dimensions: [...new Set(dimensions)],
       };
     });
-    expect(headTurnV3Files).toEqual({
-      sourceCount: 59,
+    expect(headTurnDegreeFiles).toEqual({
+      sourceCount: 24,
       dimensions: ['320x320'],
     });
 
@@ -270,13 +271,23 @@ test.describe('Animation Sandbox', () => {
     expect(await page.evaluate(() => document.body.scrollWidth)).toBe(390);
   });
 
-  test('scrubs both V3 head turns by dragging and explains every geometry node', async ({ page }) => {
+  test('scrubs both degree-mapped head turns by dragging and explains every geometry node', async ({ page }) => {
     await page.goto('/#/sandbox');
-    const artCard = page.locator('[data-sandbox-card="head-turn-v3-painted"]');
+    const artCard = page.locator('[data-sandbox-card="head-turn-degree-painted"]');
     const artCanvas = artCard.locator('canvas');
     await artCard.scrollIntoViewIfNeeded();
     await expect(artCanvas).toHaveAttribute('data-scrubbable', 'true');
     await expect(artCanvas).toHaveAttribute('data-frame', /\d+/);
+    await artCard.getByRole('button', { name: 'Show frame 1', exact: true }).click();
+    await expect(artCanvas).toHaveAttribute('data-angle-degrees', '0');
+    await expect(artCanvas).toHaveAttribute(
+      'data-angle-file',
+      'frames/hugo-head-yaw-cw-000-front.png',
+    );
+    await artCard.getByRole('button', { name: 'Show frame 2', exact: true }).click();
+    await expect(artCanvas).toHaveAttribute('data-angle-degrees', '15');
+    await artCard.getByRole('button', { name: 'Show frame 3', exact: true }).click();
+    await expect(artCanvas).toHaveAttribute('data-angle-degrees', '30');
 
     const box = await artCanvas.boundingBox();
     expect(box).not.toBeNull();
@@ -290,7 +301,9 @@ test.describe('Animation Sandbox', () => {
     await expect(artCanvas).toHaveAttribute('data-scrubbing', 'false');
     await expect(artCard.getByRole('button', { name: 'Resume' })).toBeVisible();
 
-    const geometryCard = page.locator('[data-sandbox-card="head-turn-v3-debug"]');
+    const geometryCard = page.locator('[data-sandbox-card="head-turn-degree-debug"]');
+    await geometryCard.getByRole('button', { name: 'Show frame 7', exact: true }).click();
+    await expect(geometryCard.locator('canvas')).toHaveAttribute('data-angle-degrees', '90');
     const noseLabel = geometryCard.locator('button[data-head-landmark="nose"]');
     await noseLabel.click();
     await expect(noseLabel).toHaveAttribute('aria-pressed', 'true');

@@ -3,7 +3,7 @@ import {
   RIGGED_JUMP_FRAME_COUNT,
   RIGGED_RUN_FRAME_COUNT,
   HEAD_TURN_FRAME_COUNT,
-  HEAD_TURN_V3_FRAME_COUNT,
+  HEAD_TURN_DEGREE_FRAME_COUNT,
   WALK_V4_FRAME_COUNT,
   WALK_V5_FRAME_COUNT,
   WALK_V6_FRAME_COUNT,
@@ -12,7 +12,7 @@ import {
   getDebugJumpPose,
   getDebugRunPose,
   getHeadTurnPose,
-  getHeadTurnV3Pose,
+  getHeadTurnDegreePose,
   getRiggedJumpPose,
   getRiggedRunPose,
   getWalkV4Pose,
@@ -174,21 +174,22 @@ describe('deterministic layered Hugo rig', () => {
     expect(getHeadTurnPose(HEAD_TURN_FRAME_COUNT)).toEqual(rightProfile);
   });
 
-  it('adds a registered half-angle between every V2 head view', () => {
-    const rightProfile = getHeadTurnV3Pose(0);
-    const firstHalfAngle = getHeadTurnV3Pose(1);
-    const front = getHeadTurnV3Pose(12);
-    const leftProfile = getHeadTurnV3Pose(24);
-    const back = getHeadTurnV3Pose(36);
-    const finalHalfAngle = getHeadTurnV3Pose(47);
+  it('maps the degree-addressed head turn from front through exact 15-degree views', () => {
+    const front = getHeadTurnDegreePose(0);
+    const firstStep = getHeadTurnDegreePose(1);
+    const leftProfile = getHeadTurnDegreePose(6);
+    const back = getHeadTurnDegreePose(12);
+    const rightProfile = getHeadTurnDegreePose(18);
+    const finalView = getHeadTurnDegreePose(23);
 
-    expect(HEAD_TURN_V3_FRAME_COUNT).toBe(48);
-    expect(firstHalfAngle.yaw - rightProfile.yaw).toBeCloseTo(Math.PI / 24);
+    expect(HEAD_TURN_DEGREE_FRAME_COUNT).toBe(24);
     expect(front.yaw).toBeCloseTo(0);
+    expect(firstStep.yaw - front.yaw).toBeCloseTo(Math.PI / 12);
     expect(leftProfile.yaw).toBeCloseTo(Math.PI / 2);
     expect(back.yaw).toBeCloseTo(Math.PI);
-    expect(finalHalfAngle.progress).toBeCloseTo(47 / 48);
-    expect(getHeadTurnV3Pose(HEAD_TURN_V3_FRAME_COUNT)).toEqual(rightProfile);
+    expect(rightProfile.yaw).toBeCloseTo(3 * Math.PI / 2);
+    expect(finalView.progress).toBeCloseTo(23 / 24);
+    expect(getHeadTurnDegreePose(HEAD_TURN_DEGREE_FRAME_COUNT)).toEqual(front);
   });
 
   it('alternates planted and swinging feet through a natural walking gait', () => {
