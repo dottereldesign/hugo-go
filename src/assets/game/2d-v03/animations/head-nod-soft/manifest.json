@@ -9,10 +9,10 @@
     "revisionOf": "head-nod"
   },
   "timing": {
-    "baseFps": 12,
+    "baseFps": 6,
     "runtimeFrameCount": 12,
     "drawingCount": 4,
-    "loopDurationSeconds": 1.0,
+    "loopDurationSeconds": 2.0,
     "loopReturnFrame": 12
   },
   "productionMethod": "four complete existing generated figures repeated without alteration in the exact runtime sequence 1,2,3,4,3,2,1,2,3,4,3,2; no regeneration, masking, compositing, interpolation, or code rotation",
