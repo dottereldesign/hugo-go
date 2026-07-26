@@ -14,6 +14,7 @@ const FRAME_MODULES = import.meta.glob(
 
 interface FrameDefinition {
   index: number;
+  sourceFrame?: number;
   label: string;
   filename: string;
   runtime: boolean;
@@ -105,6 +106,8 @@ export class Version03AnimationGallery {
   ): AnimationPreview {
     const isHeadNod = manifest.animation.id.startsWith('head-nod');
     const isSoftHeadNod = manifest.animation.id === 'head-nod-soft';
+    const usesRepeatedDrawings =
+      manifest.timing.runtimeFrameCount !== manifest.timing.drawingCount;
     const frameControls = isSoftHeadNod
       ? `
         <div class="v03-animation-frames" aria-label="${manifest.animation.name} frame selector">
@@ -112,8 +115,8 @@ export class Version03AnimationGallery {
             <button
               type="button"
               data-v03-frame="${index}"
-              aria-label="Pause on frame ${frame.index}: ${frame.label}"
-            >${frame.index}</button>
+              aria-label="Pause on step ${index + 1}, source frame ${frame.sourceFrame ?? frame.index}: ${frame.label}"
+            >${frame.sourceFrame ?? frame.index}</button>
           `).join('')}
         </div>
       `
@@ -145,8 +148,8 @@ export class Version03AnimationGallery {
       </div>
       ${frameControls}
       <footer class="v03-animation-notes">
-        <span><b>Full drawings:</b> all ${manifest.timing.runtimeFrameCount} generated characters</span>
-        <span><b>Motion:</b> ${isSoftHeadNod ? 'lowest dip removed · restrained head nod only' : isHeadNod ? 'six down · six back up · head only' : 'head · hand · shoe groove'}</span>
+        <span>${usesRepeatedDrawings ? `<b>Source drawings:</b> ${manifest.timing.drawingCount} complete figures · ${manifest.timing.runtimeFrameCount}-step loop` : `<b>Full drawings:</b> all ${manifest.timing.runtimeFrameCount} generated characters`}</span>
+        <span><b>Motion:</b> ${isSoftHeadNod ? 'frames 1–4 · mirrored beat loop' : isHeadNod ? 'six down · six back up · head only' : 'head · hand · shoe groove'}</span>
         <span><b>Processing:</b> chroma cleanup · whole-body registration only</span>
       </footer>
       <div class="v03-animation-prompt">
@@ -249,8 +252,9 @@ export class Version03AnimationGallery {
     preview.image.src = preview.urls[preview.currentFrame];
     preview.image.alt =
       `${preview.manifest.animation.name}, frame ${frame.index}: ${frame.label}`;
-    preview.frameReadout.textContent =
-      `Frame ${frame.index} / ${preview.manifest.timing.runtimeFrameCount}`;
+    preview.frameReadout.textContent = frame.sourceFrame === undefined
+      ? `Frame ${frame.index} / ${preview.manifest.timing.runtimeFrameCount}`
+      : `Step ${preview.currentFrame + 1} / ${preview.manifest.timing.runtimeFrameCount} · source ${frame.sourceFrame}`;
     const buttonLabel = preview.playButton.querySelector('span');
     if (buttonLabel) buttonLabel.textContent = preview.playing ? 'Pause' : 'Resume';
     preview.playButton.dataset.playing = String(preview.playing);

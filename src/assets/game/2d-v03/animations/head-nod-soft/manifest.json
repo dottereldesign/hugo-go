@@ -4,83 +4,108 @@
     "id": "head-nod-soft",
     "assetDirectory": "head-nod",
     "name": "Neutral Side · Head nod 03",
-    "description": "A restrained musical nod with the over-deep lowest drawing removed.",
-    "prompt": "Reuse the approved Neutral Side head-nod sequence without regenerating or compositing the character. Remove only the over-deep lowest nod drawing, preserve every other complete generated figure in its original order, and play the remaining restrained head movement as a seamless review loop.",
+    "description": "A restrained two-beat nod using only approved source drawings 1–4.",
+    "prompt": "Reuse only complete existing Neutral Side head-nod drawings 1, 2, 3, and 4. Do not regenerate, composite, or alter them. Play exactly this loop: 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2, 1.",
     "revisionOf": "head-nod"
   },
   "timing": {
     "baseFps": 12,
-    "runtimeFrameCount": 11,
-    "drawingCount": 11,
-    "loopDurationSeconds": 0.917,
-    "loopReturnFrame": 11
+    "runtimeFrameCount": 13,
+    "drawingCount": 4,
+    "loopDurationSeconds": 1.083,
+    "loopReturnFrame": 13
   },
-  "productionMethod": "eleven complete generated figures retained from head-nod in original order; source frame 06 (the over-deep lowest nod) is intentionally omitted; no regeneration, masking, compositing, or code rotation",
+  "productionMethod": "four complete existing generated figures repeated without alteration in the exact runtime sequence 1,2,3,4,3,2,1,2,3,4,3,2,1; no regeneration, masking, compositing, interpolation, or code rotation",
   "frames": [
     {
       "index": 1,
+      "sourceFrame": 1,
       "label": "Neutral start",
       "filename": "hugo-head-nod-01-neutral-start.png",
       "runtime": true
     },
     {
       "index": 2,
+      "sourceFrame": 2,
       "label": "Nod down 20 percent",
       "filename": "hugo-head-nod-02-nod-down-20-percent.png",
       "runtime": true
     },
     {
       "index": 3,
+      "sourceFrame": 3,
       "label": "Nod down 40 percent",
       "filename": "hugo-head-nod-03-nod-down-40-percent.png",
       "runtime": true
     },
     {
       "index": 4,
+      "sourceFrame": 4,
       "label": "Nod down 60 percent",
       "filename": "hugo-head-nod-04-nod-down-60-percent.png",
       "runtime": true
     },
     {
       "index": 5,
-      "label": "Nod down 80 percent",
-      "filename": "hugo-head-nod-05-nod-down-80-percent.png",
+      "sourceFrame": 3,
+      "label": "Nod returns through source frame 3",
+      "filename": "hugo-head-nod-03-nod-down-40-percent.png",
       "runtime": true
     },
     {
       "index": 6,
-      "label": "Nod return begins",
-      "filename": "hugo-head-nod-07-nod-return-20-percent.png",
+      "sourceFrame": 2,
+      "label": "Nod returns through source frame 2",
+      "filename": "hugo-head-nod-02-nod-down-20-percent.png",
       "runtime": true
     },
     {
       "index": 7,
-      "label": "Nod return 40 percent",
-      "filename": "hugo-head-nod-08-nod-return-40-percent.png",
+      "sourceFrame": 1,
+      "label": "Neutral midpoint",
+      "filename": "hugo-head-nod-01-neutral-start.png",
       "runtime": true
     },
     {
       "index": 8,
-      "label": "Nod return 60 percent",
-      "filename": "hugo-head-nod-09-nod-return-60-percent.png",
+      "sourceFrame": 2,
+      "label": "Second nod through source frame 2",
+      "filename": "hugo-head-nod-02-nod-down-20-percent.png",
       "runtime": true
     },
     {
       "index": 9,
-      "label": "Nod return 80 percent",
-      "filename": "hugo-head-nod-10-nod-return-80-percent.png",
+      "sourceFrame": 3,
+      "label": "Second nod through source frame 3",
+      "filename": "hugo-head-nod-03-nod-down-40-percent.png",
       "runtime": true
     },
     {
       "index": 10,
-      "label": "Almost neutral",
-      "filename": "hugo-head-nod-11-almost-neutral.png",
+      "sourceFrame": 4,
+      "label": "Second nod peak",
+      "filename": "hugo-head-nod-04-nod-down-60-percent.png",
       "runtime": true
     },
     {
       "index": 11,
-      "label": "Neutral return",
-      "filename": "hugo-head-nod-12-neutral-return.png",
+      "sourceFrame": 3,
+      "label": "Second return through source frame 3",
+      "filename": "hugo-head-nod-03-nod-down-40-percent.png",
+      "runtime": true
+    },
+    {
+      "index": 12,
+      "sourceFrame": 2,
+      "label": "Second return through source frame 2",
+      "filename": "hugo-head-nod-02-nod-down-20-percent.png",
+      "runtime": true
+    },
+    {
+      "index": 13,
+      "sourceFrame": 1,
+      "label": "Neutral loop return",
+      "filename": "hugo-head-nod-01-neutral-start.png",
       "runtime": true
     }
   ]
