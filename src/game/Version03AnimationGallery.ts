@@ -1,12 +1,8 @@
-import headNodSoftManifestJson from '../assets/game/2d-v03/animations/head-nod-soft/manifest.json';
 import headNodSoftInbetweensManifestJson from '../assets/game/2d-v03/animations/head-nod-soft-inbetweens/manifest.json';
 import { refreshIcons } from '../icons';
 
 const FRAME_MODULES = import.meta.glob(
-  [
-    '../assets/game/2d-v03/animations/head-nod-soft/frames/*.png',
-    '../assets/game/2d-v03/animations/head-nod-soft-inbetweens/frames/*.png',
-  ],
+  '../assets/game/2d-v03/animations/head-nod-soft-inbetweens/frames/*.png',
   {
     eager: true,
     query: '?url',
@@ -66,7 +62,6 @@ const SPEED_STEP = 0.05;
 const SPEED_STORAGE_KEY = 'hugo-go:version-03-speed-v2';
 
 const MANIFESTS = [
-  headNodSoftManifestJson as AnimationManifest,
   headNodSoftInbetweensManifestJson as AnimationManifest,
 ];
 

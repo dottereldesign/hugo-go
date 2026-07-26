@@ -97,11 +97,13 @@ test.describe('Outfit 03 reference and V02 animation loops', () => {
     await expect(page).toHaveURL(/#\/outfit-03$/);
   });
 
-  test('keeps the complete Version 03 nod figures inside their preview stages', async ({ page }) => {
+  test('keeps the complete Version 03 nod figure inside its preview stage', async ({ page }) => {
     await page.goto('/#/version-03');
 
     const previews = page.locator('[data-v03-animation]');
-    await expect(previews).toHaveCount(2);
+    await expect(previews).toHaveCount(1);
+    await expect(previews).toContainText('01 · NEUTRAL SIDE');
+    await expect(page.locator('[data-v03-animation="head-nod-soft"]')).toHaveCount(0);
 
     const previewSizes = await previews.evaluateAll((cards) => cards.map((card) => {
       const stage = card.querySelector<HTMLElement>('.v03-animation-stage');
