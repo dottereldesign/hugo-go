@@ -3536,6 +3536,55 @@ body.outfit-03-page-open {
   color: #ffd06a;
 }
 
+.v02-size-compare {
+  margin: 0 1rem 1rem;
+  padding: .85rem;
+  border: 1px solid rgba(116, 230, 255, .32);
+  border-radius: 16px;
+  background: rgba(7, 22, 43, .76);
+}
+
+.v02-size-compare > header {
+  display: flex;
+  align-items: baseline;
+  gap: .55rem;
+  margin-bottom: .65rem;
+}
+
+.v02-size-compare > header span {
+  color: #74e6ff;
+  font: 700 .68rem/1 var(--font-mono);
+  letter-spacing: .08em;
+}
+
+.v02-size-compare > header b { color: #f8fbff; font-size: .82rem; }
+
+.v02-size-compare > div {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: .55rem;
+  align-items: end;
+}
+
+.v02-size-compare figure {
+  min-width: 0;
+  margin: 0;
+  display: grid;
+  justify-items: center;
+  align-content: end;
+  min-height: 150px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #173d61, #102d4b);
+  overflow: hidden;
+}
+
+.v02-size-compare img { display: block; width: calc(var(--size) * 1%); height: auto; object-fit: contain; }
+.v02-size-compare figure[data-size="100"] { --size: 100; }
+.v02-size-compare figure[data-size="78"] { --size: 78; }
+.v02-size-compare figure[data-size="60"] { --size: 60; }
+.v02-size-compare figure[data-size="45"] { --size: 45; }
+.v02-size-compare figcaption { width: 100%; padding: .4rem .25rem; color: #dcecff; background: rgba(4, 16, 32, .72); text-align: center; font: 700 .62rem/1.2 var(--font-mono); }
+
 .outfit-03-framework {
   margin-bottom: 20px;
 }
@@ -3658,6 +3707,8 @@ body.outfit-03-page-open {
 }
 
 @media (max-width: 700px) {
+  .v02-size-compare > div { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .v02-size-compare figure { min-height: 122px; }
   .sandbox-header {
     grid-template-columns: auto 1fr;
     gap: 12px;

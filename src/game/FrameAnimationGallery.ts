@@ -39,6 +39,7 @@ interface GalleryPreview {
   root: HTMLElement;
   manifest: AnimationManifest;
   image: HTMLImageElement;
+  comparisonImages: HTMLImageElement[];
   playButton: HTMLButtonElement;
   loopButton: HTMLButtonElement;
   readout: HTMLElement;
@@ -129,6 +130,16 @@ export class FrameAnimationGallery {
         <span><b>${manifest.timing.bookendFrame}</b> exact copied seam · review only</span>
         <span><b>640 px</b> registered transparent PNGs</span>
       </footer>
+      ${manifest.animation.id === 'neutral-idle' ? `
+        <section class="v02-size-compare" aria-label="Neutral Front size comparison">
+          <header><span>SIZE REVIEW</span><b>Same frame · four display scales</b></header>
+          <div>
+            <figure data-size="100"><img width="640" height="640" alt=""><figcaption>Current · 100%</figcaption></figure>
+            <figure data-size="78"><img width="640" height="640" alt=""><figcaption>Compact · 78%</figcaption></figure>
+            <figure data-size="60"><img width="640" height="640" alt=""><figcaption>Small · 60%</figcaption></figure>
+            <figure data-size="45"><img width="640" height="640" alt=""><figcaption>Mini · 45%</figcaption></figure>
+          </div>
+        </section>` : ''}
     `;
 
     const urls = manifest.frames.map((frame) => {
@@ -154,6 +165,7 @@ export class FrameAnimationGallery {
       root,
       manifest,
       image: this.required<HTMLImageElement>(root, '.v02-animation-stage img'),
+      comparisonImages: Array.from(root.querySelectorAll<HTMLImageElement>('.v02-size-compare img')),
       playButton: this.required<HTMLButtonElement>(root, '[data-action="pause"]'),
       loopButton: this.required<HTMLButtonElement>(root, '[data-action="loop"]'),
       readout: this.required<HTMLElement>(root, '[data-frame-readout]'),
@@ -267,6 +279,10 @@ export class FrameAnimationGallery {
     const frame = preview.manifest.frames[preview.currentFrame];
     preview.image.src = preview.urls[preview.currentFrame];
     preview.image.alt = `${preview.manifest.animation.name}, frame ${frame.index}: ${frame.label}`;
+    preview.comparisonImages.forEach((image) => {
+      image.src = preview.urls[preview.currentFrame];
+      image.alt = `${preview.manifest.animation.name}, frame ${frame.index}: ${frame.label}`;
+    });
     preview.root.dataset.frame = String(frame.index);
     preview.root.dataset.playing = String(preview.playing);
     preview.playButton.textContent = preview.playing ? 'Pause' : 'Resume';

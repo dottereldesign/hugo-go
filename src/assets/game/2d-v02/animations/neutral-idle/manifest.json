@@ -109,7 +109,7 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "cbdaf0cc7c0829a6c52f9a3e701d171d17e4a9924e4ed7474b52161d18cc7c89",
+        "sha256": "6620ac7002ba75cda0e80107ed366eb9946aab15de503777ee5787e9bd9789bc",
         "alphaBounds": [
           230,
           95,
@@ -127,6 +127,25 @@
         "afterRootX": 319.601,
         "afterRootY": 288.397,
         "afterTorsoHeight": 97.0
+      },
+      "cleanup": {
+        "method": "removed disconnected alpha fragments smaller than 80 pixels",
+        "removedComponents": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          4,
+          1,
+          1,
+          2,
+          1,
+          4,
+          1,
+          2,
+          1
+        ]
       }
     },
     {
