@@ -38,6 +38,17 @@
           407,
           540
         ]
+      },
+      "rootRegistration": {
+        "beforeRootX": 319.635,
+        "beforeRootY": 288.453,
+        "beforeTorsoHeight": 96.0,
+        "translationX": 0.0,
+        "translationY": 0.0,
+        "uniformScale": 1.0,
+        "afterRootX": 319.635,
+        "afterRootY": 288.453,
+        "afterTorsoHeight": 96.0
       }
     },
     {
@@ -60,21 +71,21 @@
         "fraction": "50% temporal midpoint"
       },
       "rootRegistration": {
-        "beforeRootX": 319.763,
-        "beforeRootY": 284.307,
+        "beforeRootX": 319.645,
+        "beforeRootY": 288.568,
         "beforeTorsoHeight": 96.0,
-        "translationX": -0.128,
-        "translationY": 4.145,
+        "translationX": -0.011,
+        "translationY": -0.116,
         "uniformScale": 1.0,
-        "afterRootX": 319.645,
-        "afterRootY": 288.568,
+        "afterRootX": 319.65,
+        "afterRootY": 288.447,
         "afterTorsoHeight": 96.0
       },
       "output": {
-        "sha256": "d3969b98bfed9e5d59dc545764bcf4122420a81931fa1008a29eacc73e853670",
+        "sha256": "08c5246acbe38a59164d87ef91d5940a1cd1f023450dcb1533269e6a951edb4a",
         "alphaBounds": [
           229,
-          104,
+          103,
           407,
           547
         ]
@@ -98,13 +109,24 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "8bfe988dc018c347d250439748f7823b9a01a4c5a956773ed4c69f864e1c60cd",
+        "sha256": "cbdaf0cc7c0829a6c52f9a3e701d171d17e4a9924e4ed7474b52161d18cc7c89",
         "alphaBounds": [
-          231,
-          98,
-          408,
-          543
+          230,
+          95,
+          409,
+          546
         ]
+      },
+      "rootRegistration": {
+        "beforeRootX": 319.577,
+        "beforeRootY": 288.584,
+        "beforeTorsoHeight": 95.0,
+        "translationX": 0.057,
+        "translationY": -0.131,
+        "uniformScale": 1.010526,
+        "afterRootX": 319.601,
+        "afterRootY": 288.397,
+        "afterTorsoHeight": 97.0
       }
     },
     {
@@ -127,23 +149,23 @@
         "fraction": "50% temporal midpoint"
       },
       "rootRegistration": {
-        "beforeRootX": 313.075,
-        "beforeRootY": 284.906,
-        "beforeTorsoHeight": 97.0,
-        "translationX": 6.56,
-        "translationY": 3.546,
-        "uniformScale": 0.989691,
-        "afterRootX": 319.508,
-        "afterRootY": 288.372,
-        "afterTorsoHeight": 96.0
+        "beforeRootX": 319.508,
+        "beforeRootY": 288.372,
+        "beforeTorsoHeight": 96.0,
+        "translationX": 0.127,
+        "translationY": 0.08,
+        "uniformScale": 1.0,
+        "afterRootX": 319.642,
+        "afterRootY": 288.402,
+        "afterTorsoHeight": 95.0
       },
       "output": {
-        "sha256": "233936a14022db7d5e6a3a8e417a1c442da141af0d59edfe9a11e9c0e2929902",
+        "sha256": "46d9db6db6213753967fe846c4cd08c4751751a8811e3dc9d3c9af2e7c379f48",
         "alphaBounds": [
           236,
           103,
           418,
-          543
+          544
         ]
       }
     },
@@ -165,13 +187,24 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "0e7da6f6881520b34852e7f4350d05b408b67d8da73635aba7201f4113b991c7",
+        "sha256": "577c8b07042245ddd89bdbc6fb45ecbd5ddeaec842f1c5eb720a023f02442395",
         "alphaBounds": [
           230,
           95,
           412,
-          546
+          547
         ]
+      },
+      "rootRegistration": {
+        "beforeRootX": 319.643,
+        "beforeRootY": 288.154,
+        "beforeTorsoHeight": 96.0,
+        "translationX": -0.008,
+        "translationY": 0.298,
+        "uniformScale": 1.0,
+        "afterRootX": 319.62,
+        "afterRootY": 288.48,
+        "afterTorsoHeight": 96.0
       }
     },
     {
@@ -194,7 +227,7 @@
         "fraction": "50% temporal midpoint"
       },
       "rootRegistration": {
-        "method": "fixed-canvas registration; torso detector unavailable"
+        "method": "common-canvas fallback; cream panels not detectable"
       },
       "output": {
         "sha256": "6e52d2a893b70787527b6d14b45284076decb5ce70d724751236f02608bfb40d",
@@ -228,13 +261,24 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "5e6f1ea0f93cd580ec61bcbfe30eed5faa0115e176065db97d37b956514f93b8",
+        "sha256": "16cad3f56726c952bc029e5809ceea5bec82f33eccd6e884b87db628b96d6b54",
         "alphaBounds": [
-          233,
-          106,
-          413,
-          544
+          232,
+          103,
+          414,
+          547
         ]
+      },
+      "rootRegistration": {
+        "beforeRootX": 319.708,
+        "beforeRootY": 288.439,
+        "beforeTorsoHeight": 95.0,
+        "translationX": -0.074,
+        "translationY": 0.014,
+        "uniformScale": 1.010526,
+        "afterRootX": 319.654,
+        "afterRootY": 288.45,
+        "afterTorsoHeight": 97.0
       }
     },
     {
@@ -257,20 +301,20 @@
         "fraction": "50% temporal midpoint"
       },
       "rootRegistration": {
-        "beforeRootX": 310.15,
-        "beforeRootY": 284.33,
-        "beforeTorsoHeight": 97.0,
-        "translationX": 9.484,
-        "translationY": 4.123,
-        "uniformScale": 0.989691,
-        "afterRootX": 319.759,
-        "afterRootY": 288.444,
-        "afterTorsoHeight": 96.0
+        "beforeRootX": 319.759,
+        "beforeRootY": 288.444,
+        "beforeTorsoHeight": 96.0,
+        "translationX": -0.124,
+        "translationY": 0.009,
+        "uniformScale": 1.0,
+        "afterRootX": 319.662,
+        "afterRootY": 288.526,
+        "afterTorsoHeight": 95.0
       },
       "output": {
-        "sha256": "747784e67073faed996bef9d4b823eef3437c7b9f91e3414a875d834e0e578da",
+        "sha256": "586f5e0653a5373e5fd466a2e56af2b6961e91c427446daf4060a3240e285714",
         "alphaBounds": [
-          238,
+          237,
           106,
           420,
           544
@@ -295,13 +339,24 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "052786e29726e659346ede831e6d167b9d491f7c4dc997e271a34b0014a4cadf",
+        "sha256": "33052fda807bf1ca15991bbbedaf44a5ff5c8a0247f335f07a5842147d59cdb3",
         "alphaBounds": [
-          231,
-          102,
+          230,
+          101,
           416,
           542
         ]
+      },
+      "rootRegistration": {
+        "beforeRootX": 319.653,
+        "beforeRootY": 288.685,
+        "beforeTorsoHeight": 96.0,
+        "translationX": -0.018,
+        "translationY": -0.232,
+        "uniformScale": 1.0,
+        "afterRootX": 319.608,
+        "afterRootY": 288.521,
+        "afterTorsoHeight": 96.0
       }
     },
     {
@@ -324,23 +379,23 @@
         "fraction": "50% temporal midpoint"
       },
       "rootRegistration": {
-        "beforeRootX": 318.274,
-        "beforeRootY": 281.659,
-        "beforeTorsoHeight": 97.0,
-        "translationX": 1.36,
-        "translationY": 6.793,
-        "uniformScale": 0.989691,
-        "afterRootX": 319.672,
-        "afterRootY": 288.485,
-        "afterTorsoHeight": 95.0
+        "beforeRootX": 319.672,
+        "beforeRootY": 288.485,
+        "beforeTorsoHeight": 95.0,
+        "translationX": -0.038,
+        "translationY": -0.032,
+        "uniformScale": 1.010526,
+        "afterRootX": 319.626,
+        "afterRootY": 288.489,
+        "afterTorsoHeight": 96.0
       },
       "output": {
-        "sha256": "4774f51938a56ef77d532c0d7362bd8bd2b8d5086299505af4befde84c631fa6",
+        "sha256": "9c8f2b7106a99e08698f116ba1255d0bf5400481bbbc17cb5b847ac03e5e3bb8",
         "alphaBounds": [
-          235,
-          108,
-          408,
-          546
+          234,
+          106,
+          409,
+          548
         ]
       }
     },
@@ -362,13 +417,24 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "7b1a41e4a8ee640599ec36f9fbf565307f6a869b16df87cc1d3dc600fcb0ac2e",
+        "sha256": "832fc417e16413e117035d92a9c444a921ccd3d77f7edd154a4e8643f2b28266",
         "alphaBounds": [
           229,
-          101,
+          98,
           408,
-          548
+          547
         ]
+      },
+      "rootRegistration": {
+        "beforeRootX": 319.702,
+        "beforeRootY": 288.64,
+        "beforeTorsoHeight": 96.0,
+        "translationX": -0.067,
+        "translationY": -0.187,
+        "uniformScale": 1.0,
+        "afterRootX": 319.635,
+        "afterRootY": 288.453,
+        "afterTorsoHeight": 97.0
       }
     },
     {
@@ -391,20 +457,20 @@
         "fraction": "50% temporal midpoint"
       },
       "rootRegistration": {
-        "beforeRootX": 318.059,
-        "beforeRootY": 283.637,
+        "beforeRootX": 319.791,
+        "beforeRootY": 288.461,
         "beforeTorsoHeight": 96.0,
-        "translationX": 1.576,
-        "translationY": 4.816,
+        "translationX": -0.156,
+        "translationY": -0.009,
         "uniformScale": 1.0,
-        "afterRootX": 319.791,
+        "afterRootX": 319.675,
         "afterRootY": 288.461,
         "afterTorsoHeight": 96.0
       },
       "output": {
-        "sha256": "f54544bfa125497df13466ff0c7de7d998009ae0866f47566c04b17084e97962",
+        "sha256": "47e29247e2d9c5541b3a1dd0965e3d6031cac24f9bdc5d4aba8c0d076fc6fe65",
         "alphaBounds": [
-          234,
+          233,
           104,
           408,
           547
@@ -429,13 +495,24 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "162b520e52876c1ecad2429715531b54579063f925adcac8a468a8943ee7b8a0",
+        "sha256": "4f7c95dcd22a2419b52b75fe31448edddab9df93073092b3d148770aa8859b77",
         "alphaBounds": [
           231,
           97,
           406,
           545
         ]
+      },
+      "rootRegistration": {
+        "beforeRootX": 319.679,
+        "beforeRootY": 288.469,
+        "beforeTorsoHeight": 96.0,
+        "translationX": -0.044,
+        "translationY": -0.016,
+        "uniformScale": 1.0,
+        "afterRootX": 319.629,
+        "afterRootY": 288.397,
+        "afterTorsoHeight": 96.0
       }
     },
     {
@@ -458,23 +535,23 @@
         "fraction": "50% temporal midpoint"
       },
       "rootRegistration": {
-        "beforeRootX": 318.832,
-        "beforeRootY": 282.111,
-        "beforeTorsoHeight": 96.0,
-        "translationX": 0.803,
-        "translationY": 6.341,
-        "uniformScale": 1.0,
-        "afterRootX": 319.7,
-        "afterRootY": 288.586,
-        "afterTorsoHeight": 97.0
+        "beforeRootX": 319.7,
+        "beforeRootY": 288.586,
+        "beforeTorsoHeight": 97.0,
+        "translationX": -0.066,
+        "translationY": -0.133,
+        "uniformScale": 0.989691,
+        "afterRootX": 319.72,
+        "afterRootY": 288.36,
+        "afterTorsoHeight": 95.0
       },
       "output": {
-        "sha256": "9f0129091bcfddd08c01a8e36c89e41ab82c76b722b39d6ae9c4b4c970b4fcbd",
+        "sha256": "5e238fc80eec90a9957c85cd6b18a5d07baadb3a0fd1dcf99e6fda67db5c89f5",
         "alphaBounds": [
-          233,
-          104,
-          408,
-          548
+          234,
+          105,
+          407,
+          545
         ]
       }
     },
@@ -500,13 +577,24 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "f88a7ca7cd690420517aa3f18fdcb38247d7d43e980e18ffd939003eef5e6ab1",
+        "sha256": "618ccbcf16e73705ca6d3a11619414f7a23f765d9c552f2f78b65caf2f293060",
         "alphaBounds": [
-          232,
-          102,
+          231,
+          101,
           410,
           547
         ]
+      },
+      "rootRegistration": {
+        "beforeRootX": 319.722,
+        "beforeRootY": 288.615,
+        "beforeTorsoHeight": 96.0,
+        "translationX": -0.088,
+        "translationY": -0.162,
+        "uniformScale": 1.0,
+        "afterRootX": 319.584,
+        "afterRootY": 288.308,
+        "afterTorsoHeight": 96.0
       }
     },
     {
@@ -529,21 +617,21 @@
         "fraction": "50% temporal midpoint"
       },
       "rootRegistration": {
-        "beforeRootX": 319.169,
-        "beforeRootY": 284.949,
+        "beforeRootX": 319.628,
+        "beforeRootY": 288.743,
         "beforeTorsoHeight": 96.0,
-        "translationX": 0.466,
-        "translationY": 3.504,
+        "translationX": 0.007,
+        "translationY": -0.291,
         "uniformScale": 1.0,
-        "afterRootX": 319.628,
-        "afterRootY": 288.743,
-        "afterTorsoHeight": 96.0
+        "afterRootX": 319.605,
+        "afterRootY": 288.458,
+        "afterTorsoHeight": 97.0
       },
       "output": {
-        "sha256": "5422ebb6b02dcf652e6e5601f8a03a333863ccaf7e1513de8d17f2cc82bc5a39",
+        "sha256": "4193842a1d915dae7f7fb2351863c310ea388a589da591e65fe005c794e67796",
         "alphaBounds": [
           234,
-          101,
+          100,
           406,
           546
         ]
@@ -567,13 +655,24 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "82dcf94c844e46303a0fee9b6d4635a2bca50ca80349ede5fe1a9a4424583907",
+        "sha256": "1111323ef8e0b8ec1556f581389044c7c72252edd00910bafe20ecee89fd6ead",
         "alphaBounds": [
           231,
           99,
-          409,
+          410,
           543
         ]
+      },
+      "rootRegistration": {
+        "beforeRootX": 319.572,
+        "beforeRootY": 288.697,
+        "beforeTorsoHeight": 96.0,
+        "translationX": 0.062,
+        "translationY": -0.244,
+        "uniformScale": 1.0,
+        "afterRootX": 319.617,
+        "afterRootY": 288.472,
+        "afterTorsoHeight": 96.0
       }
     },
     {
@@ -596,18 +695,18 @@
         "fraction": "50% temporal midpoint"
       },
       "rootRegistration": {
-        "beforeRootX": 319.056,
-        "beforeRootY": 284.029,
+        "beforeRootX": 319.661,
+        "beforeRootY": 288.259,
         "beforeTorsoHeight": 96.0,
-        "translationX": 0.579,
-        "translationY": 4.423,
+        "translationX": -0.027,
+        "translationY": 0.194,
         "uniformScale": 1.0,
-        "afterRootX": 319.661,
-        "afterRootY": 288.259,
+        "afterRootX": 319.639,
+        "afterRootY": 288.488,
         "afterTorsoHeight": 96.0
       },
       "output": {
-        "sha256": "25a82810d49d25693cd2ede991e59768283753ee4c175c78b4c0ccedac1a66be",
+        "sha256": "70a59c6beb6116b81d27a86970ef765bca557abe9b4285755bf5ffd6f7b953b9",
         "alphaBounds": [
           232,
           102,
@@ -634,13 +733,24 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "4e54b016460027ad6ccf0e7d67f4b451d62115253f8af62bb80763b544a56c8f",
+        "sha256": "db2dc93d2a5f3ac6ca12a6bb3f8efe524cae3931d4e96d502d4d7f6e4ea48305",
         "alphaBounds": [
-          231,
+          230,
           97,
           410,
           546
         ]
+      },
+      "rootRegistration": {
+        "beforeRootX": 319.659,
+        "beforeRootY": 288.484,
+        "beforeTorsoHeight": 96.0,
+        "translationX": -0.025,
+        "translationY": -0.032,
+        "uniformScale": 1.0,
+        "afterRootX": 319.641,
+        "afterRootY": 288.444,
+        "afterTorsoHeight": 96.0
       }
     },
     {
@@ -663,23 +773,23 @@
         "fraction": "50% temporal midpoint"
       },
       "rootRegistration": {
-        "beforeRootX": 318.909,
-        "beforeRootY": 283.885,
-        "beforeTorsoHeight": 95.0,
-        "translationX": 0.726,
-        "translationY": 4.568,
-        "uniformScale": 1.010526,
-        "afterRootX": 319.623,
-        "afterRootY": 288.754,
-        "afterTorsoHeight": 97.0
+        "beforeRootX": 319.623,
+        "beforeRootY": 288.754,
+        "beforeTorsoHeight": 97.0,
+        "translationX": 0.012,
+        "translationY": -0.302,
+        "uniformScale": 0.989691,
+        "afterRootX": 319.632,
+        "afterRootY": 288.443,
+        "afterTorsoHeight": 96.0
       },
       "output": {
-        "sha256": "a1b94ebdefe6e7dbf5cb9407d2941ed2a6867a6d0f7599fab9577c06071c4522",
+        "sha256": "db8cb1cb74ca90ee625886d50a2f1d76490e5e977b344a8f8468e7ec9648f5be",
         "alphaBounds": [
-          230,
-          100,
-          410,
-          550
+          231,
+          101,
+          409,
+          547
         ]
       }
     },
@@ -701,13 +811,24 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "ef13395389891e91ef218dd026efed9f7b30f5e9618d65de05d9b3a24370be96",
+        "sha256": "d976729c4baa156a1f6ac83b923276736d3a904292d9ffbd15c395315d76eb07",
         "alphaBounds": [
           227,
           97,
           413,
           543
         ]
+      },
+      "rootRegistration": {
+        "beforeRootX": 319.51,
+        "beforeRootY": 288.38,
+        "beforeTorsoHeight": 96.0,
+        "translationX": 0.124,
+        "translationY": 0.072,
+        "uniformScale": 1.0,
+        "afterRootX": 319.66,
+        "afterRootY": 288.247,
+        "afterTorsoHeight": 96.0
       }
     },
     {
@@ -730,18 +851,18 @@
         "fraction": "50% temporal midpoint"
       },
       "rootRegistration": {
-        "beforeRootX": 319.73,
-        "beforeRootY": 284.762,
+        "beforeRootX": 319.65,
+        "beforeRootY": 288.458,
         "beforeTorsoHeight": 96.0,
-        "translationX": -0.095,
-        "translationY": 3.691,
+        "translationX": -0.016,
+        "translationY": -0.005,
         "uniformScale": 1.0,
-        "afterRootX": 319.65,
-        "afterRootY": 288.458,
+        "afterRootX": 319.637,
+        "afterRootY": 288.423,
         "afterTorsoHeight": 96.0
       },
       "output": {
-        "sha256": "1a82851e54f6c7f81e1955335d50e6b8351403c9595c8331842280b36e61e06d",
+        "sha256": "77e2b827ba2ce3691f9c3245ea5adab4be8d122342d801dea403c81d3e3ddbc1",
         "alphaBounds": [
           230,
           102,
@@ -768,13 +889,24 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "bf30d23348b14d13b12c34c0aff65f85582237521e9db3fd0ef9ad2738024e59",
+        "sha256": "8592e6bcde4e12b26c40b78193a3a7ffda75ace364048aff2b417e1609213d15",
         "alphaBounds": [
-          231,
-          97,
+          230,
+          98,
           414,
           543
         ]
+      },
+      "rootRegistration": {
+        "beforeRootX": 319.683,
+        "beforeRootY": 288.474,
+        "beforeTorsoHeight": 96.0,
+        "translationX": -0.048,
+        "translationY": -0.022,
+        "uniformScale": 1.0,
+        "afterRootX": 319.635,
+        "afterRootY": 288.439,
+        "afterTorsoHeight": 96.0
       }
     },
     {
@@ -797,23 +929,23 @@
         "fraction": "50% temporal midpoint"
       },
       "rootRegistration": {
-        "beforeRootX": 317.936,
-        "beforeRootY": 282.963,
-        "beforeTorsoHeight": 96.0,
-        "translationX": 1.698,
-        "translationY": 5.49,
-        "uniformScale": 1.0,
-        "afterRootX": 319.676,
-        "afterRootY": 288.208,
-        "afterTorsoHeight": 97.0
+        "beforeRootX": 319.676,
+        "beforeRootY": 288.208,
+        "beforeTorsoHeight": 97.0,
+        "translationX": -0.041,
+        "translationY": 0.244,
+        "uniformScale": 0.989691,
+        "afterRootX": 319.621,
+        "afterRootY": 288.449,
+        "afterTorsoHeight": 95.0
       },
       "output": {
-        "sha256": "b9448faee0de2fdbd5af249a9621282c4210baf26a33ab423573d1cb59baf0e3",
+        "sha256": "60701891183c81f39468c2bcd4df488554bd2ce5a9a1f991566b1a41a843ef15",
         "alphaBounds": [
           231,
-          103,
-          409,
-          548
+          105,
+          408,
+          546
         ]
       }
     },
@@ -839,13 +971,24 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "e94914aa3b40ec07e7335f74f409e85fead7b8642d466c767a8269a839521671",
+        "sha256": "d887de3036fceb4ba293739aae9a7da81704f3615ed152fb112ca0a5985f526f",
         "alphaBounds": [
           231,
-          103,
-          413,
-          544
+          105,
+          412,
+          542
         ]
+      },
+      "rootRegistration": {
+        "beforeRootX": 319.69,
+        "beforeRootY": 288.566,
+        "beforeTorsoHeight": 97.0,
+        "translationX": -0.055,
+        "translationY": -0.113,
+        "uniformScale": 0.989691,
+        "afterRootX": 319.639,
+        "afterRootY": 288.567,
+        "afterTorsoHeight": 96.0
       }
     },
     {
@@ -868,23 +1011,23 @@
         "fraction": "50% temporal midpoint"
       },
       "rootRegistration": {
-        "beforeRootX": 316.202,
-        "beforeRootY": 282.183,
-        "beforeTorsoHeight": 98.0,
-        "translationX": 3.433,
-        "translationY": 6.27,
-        "uniformScale": 0.979592,
-        "afterRootX": 319.642,
-        "afterRootY": 288.514,
+        "beforeRootX": 319.642,
+        "beforeRootY": 288.514,
+        "beforeTorsoHeight": 96.0,
+        "translationX": -0.008,
+        "translationY": -0.062,
+        "uniformScale": 1.0,
+        "afterRootX": 319.641,
+        "afterRootY": 288.479,
         "afterTorsoHeight": 96.0
       },
       "output": {
-        "sha256": "7a5d5a3bf1ecc5c10ddc9aa0b468c5d00399538f1926bc47e61b238e8e59bb29",
+        "sha256": "152d5b8025c65c63f6deee72e862570998992889e3b0e614987f99bc0badde30",
         "alphaBounds": [
           233,
-          110,
+          109,
           413,
-          541
+          543
         ]
       }
     },
@@ -906,13 +1049,24 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "3fbe9ff9872dd6eaadcb70e05247d93295d37ab12f6028c5787f98bf0f7d1d6d",
+        "sha256": "bd8958f41a999ef307f067083b2e23526d775f11842f5b7812a504b1012fa060",
         "alphaBounds": [
           232,
-          108,
+          107,
           419,
-          541
+          543
         ]
+      },
+      "rootRegistration": {
+        "beforeRootX": 319.673,
+        "beforeRootY": 288.63,
+        "beforeTorsoHeight": 96.0,
+        "translationX": -0.039,
+        "translationY": -0.177,
+        "uniformScale": 1.0,
+        "afterRootX": 319.636,
+        "afterRootY": 288.405,
+        "afterTorsoHeight": 97.0
       }
     },
     {
@@ -935,23 +1089,23 @@
         "fraction": "50% temporal midpoint"
       },
       "rootRegistration": {
-        "beforeRootX": 317.819,
-        "beforeRootY": 289.07,
-        "beforeTorsoHeight": 98.0,
-        "translationX": 1.815,
-        "translationY": -0.618,
-        "uniformScale": 0.979592,
-        "afterRootX": 319.622,
-        "afterRootY": 288.359,
-        "afterTorsoHeight": 96.0
+        "beforeRootX": 319.622,
+        "beforeRootY": 288.359,
+        "beforeTorsoHeight": 96.0,
+        "translationX": 0.013,
+        "translationY": 0.094,
+        "uniformScale": 1.0,
+        "afterRootX": 319.638,
+        "afterRootY": 288.444,
+        "afterTorsoHeight": 95.0
       },
       "output": {
-        "sha256": "1de48f66da0f1c3e2c08c7441568c9954e7d3aa8c7a2c457cd3fc8881c6c0e7e",
+        "sha256": "bb9f3676841427d2709fc09eb5cd2625d7e5423ae4122623c1608f282d660aa9",
         "alphaBounds": [
           231,
           102,
           409,
-          537
+          538
         ]
       }
     },
@@ -973,13 +1127,24 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "f87862ac23101aa8dcdb80e4a61756b0db9767726b797b98c2ca63d83190a89b",
+        "sha256": "2dcbaf11f4a588aaef2ea8282d18fbcc972c5297ce74164e2067bb382c916e71",
         "alphaBounds": [
           227,
           96,
           413,
           541
         ]
+      },
+      "rootRegistration": {
+        "beforeRootX": 319.642,
+        "beforeRootY": 288.58,
+        "beforeTorsoHeight": 96.0,
+        "translationX": -0.008,
+        "translationY": -0.128,
+        "uniformScale": 1.0,
+        "afterRootX": 319.649,
+        "afterRootY": 288.458,
+        "afterTorsoHeight": 96.0
       }
     },
     {
@@ -1002,23 +1167,23 @@
         "fraction": "50% temporal midpoint"
       },
       "rootRegistration": {
-        "beforeRootX": 319.706,
-        "beforeRootY": 332.086,
-        "beforeTorsoHeight": 80.0,
-        "translationX": -0.072,
-        "translationY": -43.634,
+        "beforeRootX": 319.741,
+        "beforeRootY": 288.55,
+        "beforeTorsoHeight": 83.0,
+        "translationX": -0.106,
+        "translationY": -0.097,
         "uniformScale": 1.04,
-        "afterRootX": 319.741,
-        "afterRootY": 288.55,
-        "afterTorsoHeight": 83.0
+        "afterRootX": 319.629,
+        "afterRootY": 288.436,
+        "afterTorsoHeight": 86.0
       },
       "output": {
-        "sha256": "341d9131576427d5a5ad3de1b8e299545721e9c11e904e9877423f57599c1e43",
+        "sha256": "b67fc63c61dfd0fd89f6eb59b3a6720891f567626894c1ab03af6107bbd864ac",
         "alphaBounds": [
-          238,
-          44,
-          399,
-          507
+          235,
+          35,
+          404,
+          518
         ]
       }
     },
@@ -1040,13 +1205,24 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "099dccfed85eada68bda7feb2b6dc838b81dff9355276eda55bf15c0b2e2d628",
+        "sha256": "24eebddaed1b1c74bdde66f3f4a87ca2b54dcb090ac5e0094bad53e3e18a0b7a",
         "alphaBounds": [
-          229,
-          95,
-          412,
-          549
+          230,
+          97,
+          411,
+          547
         ]
+      },
+      "rootRegistration": {
+        "beforeRootX": 319.671,
+        "beforeRootY": 288.446,
+        "beforeTorsoHeight": 97.0,
+        "translationX": -0.037,
+        "translationY": 0.006,
+        "uniformScale": 0.989691,
+        "afterRootX": 319.646,
+        "afterRootY": 288.295,
+        "afterTorsoHeight": 96.0
       }
     },
     {
@@ -1069,23 +1245,23 @@
         "fraction": "50% temporal midpoint"
       },
       "rootRegistration": {
-        "beforeRootX": 318.341,
-        "beforeRootY": 317.209,
-        "beforeTorsoHeight": 83.0,
-        "translationX": 1.294,
-        "translationY": -28.756,
+        "beforeRootX": 319.651,
+        "beforeRootY": 288.489,
+        "beforeTorsoHeight": 86.0,
+        "translationX": -0.016,
+        "translationY": -0.036,
         "uniformScale": 1.04,
-        "afterRootX": 319.651,
-        "afterRootY": 288.489,
-        "afterTorsoHeight": 86.0
+        "afterRootX": 319.533,
+        "afterRootY": 288.459,
+        "afterTorsoHeight": 89.0
       },
       "output": {
-        "sha256": "183a8c3080274963125340c3d2c26927db67f887b19448378b8878d1fd0a70e3",
+        "sha256": "24c8f5dfa9697347ef1f32f7ee545c5b6e31b4654f7ea49beb209fd6284706b5",
         "alphaBounds": [
-          241,
-          60,
-          402,
-          523
+          237,
+          50,
+          406,
+          533
         ]
       }
     },
@@ -1107,13 +1283,24 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "d33b820b9f53a9fde8f5b5d42585cf33b071534b4e74b518cf58089815bbdb9f",
+        "sha256": "3bd9f24d8d84cb0a542fe30d8e77a6e219b6aa8be2917b8acfd110ac9a02d064",
         "alphaBounds": [
-          230,
-          97,
+          229,
+          96,
           409,
           547
         ]
+      },
+      "rootRegistration": {
+        "beforeRootX": 319.659,
+        "beforeRootY": 288.541,
+        "beforeTorsoHeight": 96.0,
+        "translationX": -0.024,
+        "translationY": -0.088,
+        "uniformScale": 1.0,
+        "afterRootX": 319.651,
+        "afterRootY": 288.518,
+        "afterTorsoHeight": 96.0
       }
     },
     {
@@ -1136,18 +1323,18 @@
         "fraction": "50% temporal midpoint"
       },
       "rootRegistration": {
-        "beforeRootX": 318.829,
-        "beforeRootY": 285.244,
-        "beforeTorsoHeight": 95.0,
-        "translationX": 0.806,
-        "translationY": 3.208,
-        "uniformScale": 1.010526,
-        "afterRootX": 319.654,
-        "afterRootY": 288.478,
+        "beforeRootX": 319.654,
+        "beforeRootY": 288.478,
+        "beforeTorsoHeight": 96.0,
+        "translationX": -0.019,
+        "translationY": -0.026,
+        "uniformScale": 1.0,
+        "afterRootX": 319.64,
+        "afterRootY": 288.474,
         "afterTorsoHeight": 96.0
       },
       "output": {
-        "sha256": "b105a713501575adcf569e535a8c31405bc9193a1d5ea5a869457f39c3e0f026",
+        "sha256": "e39745cfaf9bec10159687d587ec3d8772e7b221d24b2e4a5c4636a895623a96",
         "alphaBounds": [
           231,
           99,
@@ -1178,13 +1365,24 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "97945ae572a25b3f401cb578c423206d2f95a8cb3abb8e2a5915511700fa6fba",
+        "sha256": "a5b13a4e9fabe92ad42e34a6437cf1b44b6da06e8c88483e31b6f2cb7e80b16b",
         "alphaBounds": [
-          236,
+          235,
           100,
           407,
           544
         ]
+      },
+      "rootRegistration": {
+        "beforeRootX": 319.659,
+        "beforeRootY": 288.426,
+        "beforeTorsoHeight": 96.0,
+        "translationX": -0.024,
+        "translationY": 0.026,
+        "uniformScale": 1.0,
+        "afterRootX": 319.636,
+        "afterRootY": 288.456,
+        "afterTorsoHeight": 96.0
       }
     },
     {
@@ -1207,23 +1405,23 @@
         "fraction": "50% temporal midpoint"
       },
       "rootRegistration": {
-        "beforeRootX": 317.669,
-        "beforeRootY": 280.711,
+        "beforeRootX": 319.595,
+        "beforeRootY": 288.354,
         "beforeTorsoHeight": 97.0,
-        "translationX": 1.966,
-        "translationY": 7.742,
+        "translationX": 0.039,
+        "translationY": 0.098,
         "uniformScale": 0.989691,
-        "afterRootX": 319.595,
-        "afterRootY": 288.354,
-        "afterTorsoHeight": 97.0
+        "afterRootX": 319.658,
+        "afterRootY": 288.45,
+        "afterTorsoHeight": 95.0
       },
       "output": {
-        "sha256": "a1693cde75a0c2723322085bab29bb29c6883d6a1ea5187b88f2c88dcef59667",
+        "sha256": "b11b65205ad8bd46534811a6592b373d41007bdb85d910daf3b7a1298ccebf22",
         "alphaBounds": [
-          234,
-          107,
+          235,
+          109,
           407,
-          546
+          545
         ]
       }
     },
@@ -1245,13 +1443,24 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "7a3287a71ac0dd30a92f85cafbe9f18faf80f9e5770a5479fbc295ec71619e01",
+        "sha256": "a165b0c9f72fd66abba6aa9abbd47dc30b9d1c3ab0d513be09022321f2bc5643",
         "alphaBounds": [
-          232,
-          103,
-          407,
-          539
+          231,
+          101,
+          408,
+          542
         ]
+      },
+      "rootRegistration": {
+        "beforeRootX": 319.655,
+        "beforeRootY": 288.38,
+        "beforeTorsoHeight": 95.0,
+        "translationX": -0.02,
+        "translationY": 0.073,
+        "uniformScale": 1.010526,
+        "afterRootX": 319.625,
+        "afterRootY": 288.352,
+        "afterTorsoHeight": 97.0
       }
     },
     {
@@ -1274,23 +1483,23 @@
         "fraction": "50% temporal midpoint"
       },
       "rootRegistration": {
-        "beforeRootX": 319.204,
-        "beforeRootY": 281.82,
-        "beforeTorsoHeight": 96.0,
-        "translationX": 0.43,
-        "translationY": 6.632,
-        "uniformScale": 1.0,
-        "afterRootX": 319.572,
-        "afterRootY": 288.52,
-        "afterTorsoHeight": 97.0
+        "beforeRootX": 319.572,
+        "beforeRootY": 288.52,
+        "beforeTorsoHeight": 97.0,
+        "translationX": 0.063,
+        "translationY": -0.067,
+        "uniformScale": 0.989691,
+        "afterRootX": 319.649,
+        "afterRootY": 288.516,
+        "afterTorsoHeight": 95.0
       },
       "output": {
-        "sha256": "1ea747d6e3512785cdd704346ea8dc235bad12be8b36e182732206076a0b4844",
+        "sha256": "af353c60a68639dc7f114261ce082391dfd6f51e23b34b075519f5e755f812ed",
         "alphaBounds": [
-          233,
-          104,
+          234,
+          106,
           408,
-          548
+          546
         ]
       }
     },
@@ -1316,13 +1525,24 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "651b0e61fc8bbb2204b87c3dcee466c85456ff4248688d4af2ae7767a00627be",
+        "sha256": "1849f4f65e4ee0455e719c105922b2cb6b00239eb123ed5e8b16373ae59d71fd",
         "alphaBounds": [
           231,
           101,
           408,
           545
         ]
+      },
+      "rootRegistration": {
+        "beforeRootX": 319.665,
+        "beforeRootY": 288.558,
+        "beforeTorsoHeight": 96.0,
+        "translationX": -0.031,
+        "translationY": -0.106,
+        "uniformScale": 1.0,
+        "afterRootX": 319.624,
+        "afterRootY": 288.373,
+        "afterTorsoHeight": 96.0
       }
     },
     {
@@ -1345,23 +1565,23 @@
         "fraction": "50% temporal midpoint"
       },
       "rootRegistration": {
-        "beforeRootX": 318.773,
-        "beforeRootY": 283.707,
-        "beforeTorsoHeight": 97.0,
-        "translationX": 0.862,
-        "translationY": 4.745,
-        "uniformScale": 0.989691,
-        "afterRootX": 319.659,
-        "afterRootY": 288.544,
-        "afterTorsoHeight": 95.0
+        "beforeRootX": 319.659,
+        "beforeRootY": 288.544,
+        "beforeTorsoHeight": 95.0,
+        "translationX": -0.025,
+        "translationY": -0.092,
+        "uniformScale": 1.010526,
+        "afterRootX": 319.617,
+        "afterRootY": 288.428,
+        "afterTorsoHeight": 97.0
       },
       "output": {
-        "sha256": "b82d03d6d500f59b131d10f29f4bf8970c3823be99ca9c1898029904965b300c",
+        "sha256": "3b7599e4aacbfd6cabb5c8ddd63908d90a986cd4dc878cc1e2de1886b46341dc",
         "alphaBounds": [
-          233,
-          104,
-          405,
-          545
+          232,
+          102,
+          408,
+          547
         ]
       }
     },
@@ -1383,13 +1603,24 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "d4e808b6cd737058353b46e71c0d3fdd3f91c60f2776b8cce5fc8eb6348aeb81",
+        "sha256": "703f1d0155fdb28bc6bdf3de2500b95a9cfb6e83f79727d89da376ce6b6a2b7d",
         "alphaBounds": [
           230,
-          96,
-          411,
-          546
+          98,
+          410,
+          544
         ]
+      },
+      "rootRegistration": {
+        "beforeRootX": 319.799,
+        "beforeRootY": 288.453,
+        "beforeTorsoHeight": 97.0,
+        "translationX": -0.164,
+        "translationY": -0.0,
+        "uniformScale": 0.989691,
+        "afterRootX": 319.581,
+        "afterRootY": 288.382,
+        "afterTorsoHeight": 95.0
       }
     },
     {
@@ -1412,23 +1643,23 @@
         "fraction": "50% temporal midpoint"
       },
       "rootRegistration": {
-        "beforeRootX": 317.888,
-        "beforeRootY": 282.039,
-        "beforeTorsoHeight": 97.0,
-        "translationX": 1.746,
-        "translationY": 6.413,
-        "uniformScale": 0.989691,
-        "afterRootX": 319.546,
-        "afterRootY": 288.17,
-        "afterTorsoHeight": 95.0
+        "beforeRootX": 319.546,
+        "beforeRootY": 288.17,
+        "beforeTorsoHeight": 95.0,
+        "translationX": 0.088,
+        "translationY": 0.283,
+        "uniformScale": 1.010526,
+        "afterRootX": 319.694,
+        "afterRootY": 288.571,
+        "afterTorsoHeight": 96.0
       },
       "output": {
-        "sha256": "4fee8b30fc645cff98ee3103b9fb1525c4bf70a43f1ae5a30cc72696f9d2f7f7",
+        "sha256": "93721165ee168404327891926fafdcc3fbcf047e03391964d77b5e7585e1c46f",
         "alphaBounds": [
-          226,
-          108,
-          417,
-          545
+          225,
+          106,
+          419,
+          548
         ]
       }
     },
@@ -1454,13 +1685,24 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "7c1b8b90f5c230edf0aab8740917a0efc119a1a8ceaaecb0d7cd8c17c7c39c60",
+        "sha256": "72d7dfc5fdc9e89e1548869d5430750f7d8f326b108de5cfdf4f9334feeca680",
         "alphaBounds": [
-          232,
-          102,
-          409,
-          546
+          231,
+          100,
+          410,
+          549
         ]
+      },
+      "rootRegistration": {
+        "beforeRootX": 319.609,
+        "beforeRootY": 288.474,
+        "beforeTorsoHeight": 95.0,
+        "translationX": 0.026,
+        "translationY": -0.021,
+        "uniformScale": 1.010526,
+        "afterRootX": 319.647,
+        "afterRootY": 288.445,
+        "afterTorsoHeight": 97.0
       }
     },
     {
@@ -1483,23 +1725,23 @@
         "fraction": "50% temporal midpoint"
       },
       "rootRegistration": {
-        "beforeRootX": 319.584,
-        "beforeRootY": 282.585,
-        "beforeTorsoHeight": 95.0,
-        "translationX": 0.051,
-        "translationY": 5.867,
-        "uniformScale": 1.010526,
-        "afterRootX": 319.6,
-        "afterRootY": 288.472,
-        "afterTorsoHeight": 97.0
+        "beforeRootX": 319.6,
+        "beforeRootY": 288.472,
+        "beforeTorsoHeight": 97.0,
+        "translationX": 0.034,
+        "translationY": -0.02,
+        "uniformScale": 0.989691,
+        "afterRootX": 319.642,
+        "afterRootY": 288.412,
+        "afterTorsoHeight": 96.0
       },
       "output": {
-        "sha256": "9a3127573c1823db7415fae8b79bb58615708b9815531e5d78bee2623a94f33e",
+        "sha256": "c8ed317d3b4eb2400e66334301dcfd0bd854fb5f9ec5a237d71ad47f79c34875",
         "alphaBounds": [
-          231,
-          103,
+          232,
+          105,
           407,
-          551
+          549
         ]
       }
     },
@@ -1521,13 +1763,24 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "fc1267f12e0d1a9eb0463394af98ae67c6d247f0af2e3ab4f5f714e1cc24c4a1",
+        "sha256": "81a52f860103295b590890b4d5c680584b51044d8ddc4859cd5ba361f1477c4c",
         "alphaBounds": [
           229,
-          97,
+          96,
           411,
           547
         ]
+      },
+      "rootRegistration": {
+        "beforeRootX": 319.72,
+        "beforeRootY": 288.551,
+        "beforeTorsoHeight": 96.0,
+        "translationX": -0.085,
+        "translationY": -0.098,
+        "uniformScale": 1.0,
+        "afterRootX": 319.648,
+        "afterRootY": 288.399,
+        "afterTorsoHeight": 96.0
       }
     },
     {
@@ -1550,23 +1803,23 @@
         "fraction": "50% temporal midpoint"
       },
       "rootRegistration": {
-        "beforeRootX": 302.719,
-        "beforeRootY": 281.549,
-        "beforeTorsoHeight": 98.0,
-        "translationX": 16.916,
-        "translationY": 6.903,
-        "uniformScale": 0.979592,
-        "afterRootX": 319.625,
-        "afterRootY": 288.256,
+        "beforeRootX": 319.625,
+        "beforeRootY": 288.256,
+        "beforeTorsoHeight": 96.0,
+        "translationX": 0.009,
+        "translationY": 0.196,
+        "uniformScale": 1.0,
+        "afterRootX": 319.648,
+        "afterRootY": 288.502,
         "afterTorsoHeight": 96.0
       },
       "output": {
-        "sha256": "10da168e4d6228d1aac83d5f56893a707af6df20403c44b5b687dddc9f378d10",
+        "sha256": "0a5e97326b931742114a60e8bb244167b1801fb805fc92c4017a25cb98adedb3",
         "alphaBounds": [
           233,
           110,
           440,
-          544
+          545
         ]
       }
     },
@@ -1592,13 +1845,24 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "c11696a9509bb9e2326017508a4bbe62c0f689acd02c0d2c9177ed784cc66ca5",
+        "sha256": "2666f484c8c45eabdd2a5b76ff7e75906cde1701e900fd9e03aa9a149fc9a724",
         "alphaBounds": [
-          232,
+          230,
           99,
           443,
           549
         ]
+      },
+      "rootRegistration": {
+        "beforeRootX": 319.684,
+        "beforeRootY": 288.391,
+        "beforeTorsoHeight": 96.0,
+        "translationX": -0.049,
+        "translationY": 0.061,
+        "uniformScale": 1.0,
+        "afterRootX": 319.657,
+        "afterRootY": 288.493,
+        "afterTorsoHeight": 97.0
       }
     },
     {
@@ -1621,18 +1885,18 @@
         "fraction": "50% temporal midpoint"
       },
       "rootRegistration": {
-        "beforeRootX": 289.984,
-        "beforeRootY": 281.994,
-        "beforeTorsoHeight": 98.0,
-        "translationX": 29.651,
-        "translationY": 6.459,
-        "uniformScale": 0.979592,
-        "afterRootX": 319.695,
-        "afterRootY": 288.254,
+        "beforeRootX": 319.695,
+        "beforeRootY": 288.254,
+        "beforeTorsoHeight": 96.0,
+        "translationX": -0.06,
+        "translationY": 0.198,
+        "uniformScale": 1.0,
+        "afterRootX": 319.655,
+        "afterRootY": 288.415,
         "afterTorsoHeight": 96.0
       },
       "output": {
-        "sha256": "f4b196db16198e2cf630a911170956ea7a6c12deab5a7ce904724bf20cd0349b",
+        "sha256": "f6ae7594de658372cc37f230a20fa70029b347b1694e337aec8a842c43cd0321",
         "alphaBounds": [
           233,
           108,
@@ -1659,13 +1923,24 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "22f804195b00fc1cd9c0a2ec94051c76877f856bcba67121494e08259cf6a37e",
+        "sha256": "be321d92b2fda19e1549c479fd61dec960b1130683a54f1ae90aea75cf4c2be0",
         "alphaBounds": [
-          229,
-          96,
+          228,
+          95,
           436,
           547
         ]
+      },
+      "rootRegistration": {
+        "beforeRootX": 319.694,
+        "beforeRootY": 288.826,
+        "beforeTorsoHeight": 96.0,
+        "translationX": -0.059,
+        "translationY": -0.374,
+        "uniformScale": 1.0,
+        "afterRootX": 319.62,
+        "afterRootY": 288.251,
+        "afterTorsoHeight": 96.0
       }
     },
     {
@@ -1688,18 +1963,18 @@
         "fraction": "50% temporal midpoint"
       },
       "rootRegistration": {
-        "beforeRootX": 304.864,
-        "beforeRootY": 283.755,
+        "beforeRootX": 319.749,
+        "beforeRootY": 288.497,
         "beforeTorsoHeight": 96.0,
-        "translationX": 14.771,
-        "translationY": 4.698,
+        "translationX": -0.115,
+        "translationY": -0.044,
         "uniformScale": 1.0,
-        "afterRootX": 319.749,
-        "afterRootY": 288.497,
-        "afterTorsoHeight": 96.0
+        "afterRootX": 319.509,
+        "afterRootY": 288.402,
+        "afterTorsoHeight": 95.0
       },
       "output": {
-        "sha256": "a3c63ffd08caaad95333249c42bbf01245da8c1f1e29c1e0b3e7d5b463fd5f82",
+        "sha256": "ae4cd9ef5c4abf256e5a80e49299d12f1603956d427d8b793d11805a1835bfa0",
         "alphaBounds": [
           229,
           104,
@@ -1730,13 +2005,24 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "19ec91a7d81ac52a346ec0eb87099db83a26ea58297662a65af3fb2d0e604998",
+        "sha256": "fdb0afde79486c9d98ceb1772b487461384c0902e3143117925a1814b945b232",
         "alphaBounds": [
-          229,
-          99,
-          478,
-          549
+          230,
+          101,
+          477,
+          547
         ]
+      },
+      "rootRegistration": {
+        "beforeRootX": 319.734,
+        "beforeRootY": 288.365,
+        "beforeTorsoHeight": 97.0,
+        "translationX": -0.099,
+        "translationY": 0.087,
+        "uniformScale": 0.989691,
+        "afterRootX": 319.698,
+        "afterRootY": 288.527,
+        "afterTorsoHeight": 96.0
       }
     },
     {
@@ -1759,23 +2045,23 @@
         "fraction": "50% temporal midpoint"
       },
       "rootRegistration": {
-        "beforeRootX": 267.342,
-        "beforeRootY": 283.018,
-        "beforeTorsoHeight": 96.0,
-        "translationX": 52.293,
-        "translationY": 5.435,
-        "uniformScale": 1.0,
-        "afterRootX": 319.658,
-        "afterRootY": 288.5,
-        "afterTorsoHeight": 97.0
+        "beforeRootX": 319.658,
+        "beforeRootY": 288.5,
+        "beforeTorsoHeight": 97.0,
+        "translationX": -0.023,
+        "translationY": -0.048,
+        "uniformScale": 0.989691,
+        "afterRootX": 319.636,
+        "afterRootY": 288.44,
+        "afterTorsoHeight": 95.0
       },
       "output": {
-        "sha256": "07b11bd5c9031cf628adf8548244013ad12911207ef4e5f28339416953b316a4",
+        "sha256": "4143cef32f5c527201fe9cd8609f704cf679d935b1ed5c868b23655f2d832d41",
         "alphaBounds": [
           230,
-          103,
-          514,
-          548
+          105,
+          512,
+          546
         ]
       }
     },
@@ -1797,13 +2083,24 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "06f60a9ccf85ca5e0033ddd49097dc394d63d57fd3433c2f24a6e7ac9c85b1f7",
+        "sha256": "30d4c5fdb0b875c89730727468442ad4eebbda7ce413ac85b2fdac0db4682181",
         "alphaBounds": [
-          233,
-          99,
+          232,
+          98,
           483,
           545
         ]
+      },
+      "rootRegistration": {
+        "beforeRootX": 319.667,
+        "beforeRootY": 288.525,
+        "beforeTorsoHeight": 96.0,
+        "translationX": -0.032,
+        "translationY": -0.072,
+        "uniformScale": 1.0,
+        "afterRootX": 319.65,
+        "afterRootY": 288.49,
+        "afterTorsoHeight": 96.0
       }
     },
     {
@@ -1826,23 +2123,23 @@
         "fraction": "50% temporal midpoint"
       },
       "rootRegistration": {
-        "beforeRootX": 286.146,
-        "beforeRootY": 283.072,
-        "beforeTorsoHeight": 96.0,
-        "translationX": 33.489,
-        "translationY": 5.381,
-        "uniformScale": 1.0,
-        "afterRootX": 319.669,
-        "afterRootY": 288.462,
-        "afterTorsoHeight": 97.0
+        "beforeRootX": 319.669,
+        "beforeRootY": 288.462,
+        "beforeTorsoHeight": 97.0,
+        "translationX": -0.035,
+        "translationY": -0.009,
+        "uniformScale": 0.989691,
+        "afterRootX": 319.618,
+        "afterRootY": 288.487,
+        "afterTorsoHeight": 95.0
       },
       "output": {
-        "sha256": "afcd9649eca8d127d6ead88d0db5d3e1a8f7802ab4daf13c87f540bfcefe0bc6",
+        "sha256": "d033faa7dc043c638c13b55e23f3a5c5b6a8c24607fd8e0e00eea3bad76e8571",
         "alphaBounds": [
           230,
-          103,
-          476,
-          548
+          105,
+          477,
+          546
         ]
       }
     },
@@ -1868,13 +2165,24 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "f1c669fd06996374d0342d6f69df4b848c2583db4561ff2bbd80663c2dd79e05",
+        "sha256": "13e8bc9c9f989215686ff3b2205151f692fd6e3d0cfb469fbdcc374099a3dfe6",
         "alphaBounds": [
-          229,
-          100,
-          453,
-          549
+          230,
+          101,
+          452,
+          546
         ]
+      },
+      "rootRegistration": {
+        "beforeRootX": 319.626,
+        "beforeRootY": 288.78,
+        "beforeTorsoHeight": 97.0,
+        "translationX": 0.008,
+        "translationY": -0.327,
+        "uniformScale": 0.989691,
+        "afterRootX": 319.635,
+        "afterRootY": 288.462,
+        "afterTorsoHeight": 96.0
       }
     },
     {
@@ -1897,23 +2205,23 @@
         "fraction": "50% temporal midpoint"
       },
       "rootRegistration": {
-        "beforeRootX": 298.256,
-        "beforeRootY": 282.586,
-        "beforeTorsoHeight": 96.0,
-        "translationX": 21.378,
-        "translationY": 5.866,
-        "uniformScale": 1.0,
-        "afterRootX": 319.683,
-        "afterRootY": 288.717,
-        "afterTorsoHeight": 95.0
+        "beforeRootX": 319.683,
+        "beforeRootY": 288.717,
+        "beforeTorsoHeight": 95.0,
+        "translationX": -0.048,
+        "translationY": -0.265,
+        "uniformScale": 1.010526,
+        "afterRootX": 319.593,
+        "afterRootY": 288.377,
+        "afterTorsoHeight": 97.0
       },
       "output": {
-        "sha256": "402685c10a8445ad9c77542394fd00cebe067d34a2e8b23b496696f997e48a16",
+        "sha256": "ac32ca3bb1b6a110f310b3885ad5e2ffb82ad6a96023003245df4c2f9ecdafe2",
         "alphaBounds": [
-          229,
-          105,
-          454,
-          548
+          228,
+          103,
+          456,
+          551
         ]
       }
     },
@@ -1935,13 +2243,24 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "7591051d6eb7b3463146f0b4b435d1cf919f2fd538314378bce83eaaa913731a",
+        "sha256": "956e05e9292b0366d36892d612254e370b6d1cc6c16edd7ee604f86311ea40e3",
         "alphaBounds": [
-          230,
-          96,
-          430,
-          547
+          229,
+          93,
+          432,
+          550
         ]
+      },
+      "rootRegistration": {
+        "beforeRootX": 319.687,
+        "beforeRootY": 288.727,
+        "beforeTorsoHeight": 95.0,
+        "translationX": -0.053,
+        "translationY": -0.274,
+        "uniformScale": 1.010526,
+        "afterRootX": 319.64,
+        "afterRootY": 288.464,
+        "afterTorsoHeight": 96.0
       }
     },
     {
@@ -1964,18 +2283,18 @@
         "fraction": "50% temporal midpoint"
       },
       "rootRegistration": {
-        "beforeRootX": 308.522,
-        "beforeRootY": 283.067,
-        "beforeTorsoHeight": 95.0,
-        "translationX": 11.112,
-        "translationY": 5.386,
-        "uniformScale": 1.010526,
-        "afterRootX": 319.628,
-        "afterRootY": 288.332,
+        "beforeRootX": 319.628,
+        "beforeRootY": 288.332,
+        "beforeTorsoHeight": 96.0,
+        "translationX": 0.007,
+        "translationY": 0.121,
+        "uniformScale": 1.0,
+        "afterRootX": 319.633,
+        "afterRootY": 288.458,
         "afterTorsoHeight": 96.0
       },
       "output": {
-        "sha256": "2eb676eccbf58cd46e1a5ea5b71e66c88bb0ad5ee2efaa0abfbf9c43188f352c",
+        "sha256": "db9ff3b7faf83314752e308f56e12cc521e1f1f055c34e689fcc4d07091d0ff9",
         "alphaBounds": [
           231,
           102,
@@ -2006,13 +2325,24 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "8826411b0d8920de5590871ded942c4d19632593c1eef075778a93eb8a21fc20",
+        "sha256": "deabd2c8c2826d5f1f3aa5ff131aff55e0bc0f0a53e91b951a5d2a87e4eecedc",
         "alphaBounds": [
           230,
-          98,
-          430,
-          548
+          100,
+          429,
+          545
         ]
+      },
+      "rootRegistration": {
+        "beforeRootX": 319.66,
+        "beforeRootY": 288.89,
+        "beforeTorsoHeight": 97.0,
+        "translationX": -0.025,
+        "translationY": -0.438,
+        "uniformScale": 0.989691,
+        "afterRootX": 319.626,
+        "afterRootY": 288.347,
+        "afterTorsoHeight": 96.0
       }
     },
     {
@@ -2035,18 +2365,18 @@
         "fraction": "50% temporal midpoint"
       },
       "rootRegistration": {
-        "beforeRootX": 308.97,
-        "beforeRootY": 281.825,
-        "beforeTorsoHeight": 95.0,
-        "translationX": 10.665,
-        "translationY": 6.628,
-        "uniformScale": 1.010526,
-        "afterRootX": 319.64,
-        "afterRootY": 288.656,
-        "afterTorsoHeight": 96.0
+        "beforeRootX": 319.64,
+        "beforeRootY": 288.656,
+        "beforeTorsoHeight": 96.0,
+        "translationX": -0.005,
+        "translationY": -0.203,
+        "uniformScale": 1.0,
+        "afterRootX": 319.628,
+        "afterRootY": 288.472,
+        "afterTorsoHeight": 97.0
       },
       "output": {
-        "sha256": "88af5f0793fd2f7fa6b749b0307726bd8865f8b34fe90952d516b2c46f90ed44",
+        "sha256": "925a81745da29a9ba7fc79e71af1109a0661d8dd755807617718ab3f622f2944",
         "alphaBounds": [
           230,
           102,
@@ -2073,13 +2403,24 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "41303707ce61970abecbdaae3ea69e31e5aa0e872232917ec451345bf11381e3",
+        "sha256": "31bc545d65a710ac45a1754cde7038631f3026cc69bd5c46c31e766eedbad0d7",
         "alphaBounds": [
           228,
           95,
           435,
           548
         ]
+      },
+      "rootRegistration": {
+        "beforeRootX": 319.591,
+        "beforeRootY": 288.471,
+        "beforeTorsoHeight": 96.0,
+        "translationX": 0.044,
+        "translationY": -0.018,
+        "uniformScale": 1.0,
+        "afterRootX": 319.617,
+        "afterRootY": 288.459,
+        "afterTorsoHeight": 96.0
       }
     },
     {
@@ -2102,23 +2443,23 @@
         "fraction": "50% temporal midpoint"
       },
       "rootRegistration": {
-        "beforeRootX": 306.394,
-        "beforeRootY": 282.831,
-        "beforeTorsoHeight": 95.0,
-        "translationX": 13.241,
-        "translationY": 5.622,
-        "uniformScale": 1.010526,
-        "afterRootX": 319.613,
-        "afterRootY": 288.36,
-        "afterTorsoHeight": 97.0
+        "beforeRootX": 319.613,
+        "beforeRootY": 288.36,
+        "beforeTorsoHeight": 97.0,
+        "translationX": 0.021,
+        "translationY": 0.093,
+        "uniformScale": 0.989691,
+        "afterRootX": 319.629,
+        "afterRootY": 288.457,
+        "afterTorsoHeight": 95.0
       },
       "output": {
-        "sha256": "9dfb44edbd08b56092b4d38a4fe7c15de4ea91a8813936714811594389c383ff",
+        "sha256": "dbdef0b2da6e0fce1ebf75cb0386c0c609120eb1497acda18dd344d63c449dd2",
         "alphaBounds": [
-          231,
-          101,
-          437,
-          551
+          232,
+          103,
+          436,
+          549
         ]
       }
     },
@@ -2144,13 +2485,24 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "2033aa883fcf42f5aacab1c81f74c35e603b06e4b99ef2814d0ebd5d215d7e05",
+        "sha256": "711f8364714292d6c3c9f931af0aff57a262545a25f95ac99fa13dc2adf5dca6",
         "alphaBounds": [
           232,
           102,
           452,
           546
         ]
+      },
+      "rootRegistration": {
+        "beforeRootX": 319.645,
+        "beforeRootY": 288.471,
+        "beforeTorsoHeight": 96.0,
+        "translationX": -0.01,
+        "translationY": -0.018,
+        "uniformScale": 1.0,
+        "afterRootX": 319.643,
+        "afterRootY": 288.431,
+        "afterTorsoHeight": 96.0
       }
     },
     {
@@ -2173,23 +2525,23 @@
         "fraction": "50% temporal midpoint"
       },
       "rootRegistration": {
-        "beforeRootX": 307.443,
-        "beforeRootY": 280.221,
-        "beforeTorsoHeight": 97.0,
-        "translationX": 12.191,
-        "translationY": 8.232,
-        "uniformScale": 0.989691,
-        "afterRootX": 319.621,
-        "afterRootY": 288.262,
-        "afterTorsoHeight": 95.0
+        "beforeRootX": 319.621,
+        "beforeRootY": 288.262,
+        "beforeTorsoHeight": 95.0,
+        "translationX": 0.014,
+        "translationY": 0.19,
+        "uniformScale": 1.010526,
+        "afterRootX": 319.663,
+        "afterRootY": 288.435,
+        "afterTorsoHeight": 97.0
       },
       "output": {
-        "sha256": "6508b2c69d33de7228d9e05cb772322ff96d48856a74f5ac5b4a25187c500e7a",
+        "sha256": "eb3fe599861e76a7172db5a3681171214e9a9a8e72785f9f9724fdcbb15f9e9d",
         "alphaBounds": [
-          232,
-          108,
-          431,
-          548
+          231,
+          106,
+          434,
+          551
         ]
       }
     },
@@ -2215,13 +2567,24 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "974a3516bccdf28cc24bb4a183bf57f03d8e5c609e772d0f9f7e07fb5608f3c1",
+        "sha256": "4d1bfa92d356322d4cd72d0dd0a693f5b6cfd82fec9224d11cacc15dcd10066d",
         "alphaBounds": [
           231,
           101,
           429,
           545
         ]
+      },
+      "rootRegistration": {
+        "beforeRootX": 319.626,
+        "beforeRootY": 288.42,
+        "beforeTorsoHeight": 96.0,
+        "translationX": 0.008,
+        "translationY": 0.032,
+        "uniformScale": 1.0,
+        "afterRootX": 319.636,
+        "afterRootY": 288.459,
+        "afterTorsoHeight": 96.0
       }
     },
     {
@@ -2244,23 +2607,23 @@
         "fraction": "50% temporal midpoint"
       },
       "rootRegistration": {
-        "beforeRootX": 318.382,
-        "beforeRootY": 280.897,
-        "beforeTorsoHeight": 97.0,
-        "translationX": 1.253,
-        "translationY": 7.556,
-        "uniformScale": 0.989691,
-        "afterRootX": 319.66,
-        "afterRootY": 288.846,
+        "beforeRootX": 319.66,
+        "beforeRootY": 288.846,
+        "beforeTorsoHeight": 96.0,
+        "translationX": -0.025,
+        "translationY": -0.393,
+        "uniformScale": 1.0,
+        "afterRootX": 319.679,
+        "afterRootY": 288.374,
         "afterTorsoHeight": 96.0
       },
       "output": {
-        "sha256": "8991025db608d74f50a4f837a870a4620c440bbc3f2fd542e4ac01414bf9051a",
+        "sha256": "62e9d8d4667e0a30d53522b01be4eefee8fabf127d22d4061b907772c26defe9",
         "alphaBounds": [
           187,
-          107,
+          106,
           454,
-          545
+          546
         ]
       }
     },
@@ -2282,13 +2645,24 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "aa419a8f3e07c208def107000f001f997f9a97603a5907633abaa2f19a765407",
+        "sha256": "37bcdd8ad728cf8fca7323bf89f0c072f3aec858d7e94bec7984c42badf95851",
         "alphaBounds": [
           229,
           95,
           415,
-          548
+          549
         ]
+      },
+      "rootRegistration": {
+        "beforeRootX": 319.633,
+        "beforeRootY": 288.34,
+        "beforeTorsoHeight": 96.0,
+        "translationX": 0.002,
+        "translationY": 0.113,
+        "uniformScale": 1.0,
+        "afterRootX": 319.645,
+        "afterRootY": 288.488,
+        "afterTorsoHeight": 97.0
       }
     },
     {
@@ -2311,23 +2685,23 @@
         "fraction": "50% temporal midpoint"
       },
       "rootRegistration": {
-        "beforeRootX": 318.648,
-        "beforeRootY": 283.702,
-        "beforeTorsoHeight": 96.0,
-        "translationX": 0.987,
-        "translationY": 4.751,
-        "uniformScale": 1.0,
-        "afterRootX": 319.623,
-        "afterRootY": 288.409,
-        "afterTorsoHeight": 95.0
+        "beforeRootX": 319.623,
+        "beforeRootY": 288.409,
+        "beforeTorsoHeight": 95.0,
+        "translationX": 0.012,
+        "translationY": 0.044,
+        "uniformScale": 1.010526,
+        "afterRootX": 319.658,
+        "afterRootY": 288.462,
+        "afterTorsoHeight": 96.0
       },
       "output": {
-        "sha256": "183107a0606b6f33783adbded268566a6226935e37913de3cfde3ab1d9edd5d7",
+        "sha256": "45105c61627c0ffbd936b68b4abb7e62e1c299b0edf8849b2b8c295eabdf5a5f",
         "alphaBounds": [
-          191,
-          102,
-          451,
-          547
+          187,
+          100,
+          454,
+          550
         ]
       }
     },
@@ -2355,5 +2729,18 @@
         ]
       }
     }
-  ]
+  ],
+  "registration": {
+    "method": "cream-chest-panel opacity-mask root; uniform transform only",
+    "targetFrame": 1,
+    "targetRoot": {
+      "x": 319.63467805220296,
+      "y": 288.4525607066986,
+      "torsoHeight": 96.0
+    },
+    "correctedRuntimeFrames": 67,
+    "fallbackRuntimeFrames": [
+      6
+    ]
+  }
 }

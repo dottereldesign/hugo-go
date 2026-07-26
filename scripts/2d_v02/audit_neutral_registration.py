@@ -37,7 +37,7 @@ def tint_alpha(
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--label", required=True, choices=("before", "after"))
+    parser.add_argument("--label", required=True, choices=("before", "after", "24fps-before", "24fps-after"))
     args = parser.parse_args()
 
     manifest = json.loads((ANIMATION_ROOT / "manifest.json").read_text(encoding="utf-8"))
