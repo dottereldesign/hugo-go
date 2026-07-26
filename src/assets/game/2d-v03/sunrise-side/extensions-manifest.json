@@ -1,0 +1,469 @@
+{
+  "schemaVersion": 1,
+  "library": "Version 03 Sunrise side-profile extensions",
+  "poseCount": 22,
+  "poses": [
+    {
+      "index": 13,
+      "slug": "arms-back-dash",
+      "label": "Arms-back dash",
+      "filename": "hugo-sunrise-side-13-arms-back-dash.png",
+      "source": "art/source-images/game/2d-v03/sunrise-side/hugo-sunrise-side-parkour-poses-transparent.png",
+      "sourceCell": 1,
+      "row": 1,
+      "column": 1,
+      "outputCanvas": [
+        512,
+        512
+      ],
+      "alphaBounds": [
+        111,
+        154,
+        401,
+        358
+      ],
+      "sha256": "c9d871d1eecdadfeaff361ba2976e2874571b3f5fffbc9a85cd0816843851a28"
+    },
+    {
+      "index": 14,
+      "slug": "stealth-crouch",
+      "label": "Stealth crouch",
+      "filename": "hugo-sunrise-side-14-stealth-crouch.png",
+      "source": "art/source-images/game/2d-v03/sunrise-side/hugo-sunrise-side-parkour-poses-transparent.png",
+      "sourceCell": 2,
+      "row": 1,
+      "column": 2,
+      "outputCanvas": [
+        512,
+        512
+      ],
+      "alphaBounds": [
+        124,
+        158,
+        387,
+        354
+      ],
+      "sha256": "2c04f63e86c4a34d0642994afc2de2be7eba22451d6125386095f8a595c5f054"
+    },
+    {
+      "index": 15,
+      "slug": "knee-slide",
+      "label": "Knee slide",
+      "filename": "hugo-sunrise-side-15-knee-slide.png",
+      "source": "art/source-images/game/2d-v03/sunrise-side/hugo-sunrise-side-parkour-poses-transparent.png",
+      "sourceCell": 3,
+      "row": 1,
+      "column": 3,
+      "outputCanvas": [
+        512,
+        512
+      ],
+      "alphaBounds": [
+        91,
+        143,
+        425,
+        368
+      ],
+      "sha256": "8534c7dbded9a4e67f29dde4d2b51791e00245e56a384bf7a8e2e5c8dc4e02ee"
+    },
+    {
+      "index": 16,
+      "slug": "ground-slide",
+      "label": "Ground slide",
+      "filename": "hugo-sunrise-side-16-ground-slide.png",
+      "source": "art/source-images/game/2d-v03/sunrise-side/hugo-sunrise-side-parkour-poses-transparent.png",
+      "sourceCell": 4,
+      "row": 1,
+      "column": 4,
+      "outputCanvas": [
+        512,
+        512
+      ],
+      "alphaBounds": [
+        82,
+        208,
+        425,
+        304
+      ],
+      "sha256": "b41553f474c9aa391d1f845e180e7e6b7c7782d3e51fed3494f79e35d39c0a4c"
+    },
+    {
+      "index": 17,
+      "slug": "roll-entry",
+      "label": "Roll entry",
+      "filename": "hugo-sunrise-side-17-roll-entry.png",
+      "source": "art/source-images/game/2d-v03/sunrise-side/hugo-sunrise-side-parkour-poses-transparent.png",
+      "sourceCell": 5,
+      "row": 2,
+      "column": 1,
+      "outputCanvas": [
+        512,
+        512
+      ],
+      "alphaBounds": [
+        148,
+        125,
+        364,
+        392
+      ],
+      "sha256": "9a252b3f233911762d18da1dfdf50b29a7438a0038468a9022d4d3b890b9f4a4"
+    },
+    {
+      "index": 18,
+      "slug": "somersault-tuck",
+      "label": "Somersault tuck",
+      "filename": "hugo-sunrise-side-18-somersault-tuck.png",
+      "source": "art/source-images/game/2d-v03/sunrise-side/hugo-sunrise-side-parkour-poses-transparent.png",
+      "sourceCell": 6,
+      "row": 2,
+      "column": 2,
+      "outputCanvas": [
+        512,
+        512
+      ],
+      "alphaBounds": [
+        170,
+        158,
+        341,
+        353
+      ],
+      "sha256": "03da5181cd4028f7d55a692f18ba7cfa59c50fc985738ccff7ed2023c1c05505"
+    },
+    {
+      "index": 19,
+      "slug": "roll-recovery",
+      "label": "Roll recovery",
+      "filename": "hugo-sunrise-side-19-roll-recovery.png",
+      "source": "art/source-images/game/2d-v03/sunrise-side/hugo-sunrise-side-parkour-poses-transparent.png",
+      "sourceCell": 7,
+      "row": 2,
+      "column": 3,
+      "outputCanvas": [
+        512,
+        512
+      ],
+      "alphaBounds": [
+        132,
+        103,
+        380,
+        414
+      ],
+      "sha256": "58326613bf73a95454719269297b343db4a17c00218193175c92608386ec4f11"
+    },
+    {
+      "index": 20,
+      "slug": "shoulder-roll",
+      "label": "Shoulder roll",
+      "filename": "hugo-sunrise-side-20-shoulder-roll.png",
+      "source": "art/source-images/game/2d-v03/sunrise-side/hugo-sunrise-side-parkour-poses-transparent.png",
+      "sourceCell": 8,
+      "row": 2,
+      "column": 4,
+      "outputCanvas": [
+        512,
+        512
+      ],
+      "alphaBounds": [
+        177,
+        183,
+        335,
+        328
+      ],
+      "sha256": "a1ce50c3166639f57e3a4c016a1d49ce86b6d7d874dec57f657d24996a4c3fc5"
+    },
+    {
+      "index": 21,
+      "slug": "speed-vault",
+      "label": "Speed vault",
+      "filename": "hugo-sunrise-side-21-speed-vault.png",
+      "source": "art/source-images/game/2d-v03/sunrise-side/hugo-sunrise-side-parkour-poses-transparent.png",
+      "sourceCell": 9,
+      "row": 3,
+      "column": 1,
+      "outputCanvas": [
+        512,
+        512
+      ],
+      "alphaBounds": [
+        126,
+        143,
+        385,
+        363
+      ],
+      "sha256": "1110ad7c236b92a4ef898c49b863493d34a372a24fa3327aa79e00f1b6e8fb5a"
+    },
+    {
+      "index": 22,
+      "slug": "lazy-vault",
+      "label": "Lazy vault",
+      "filename": "hugo-sunrise-side-22-lazy-vault.png",
+      "source": "art/source-images/game/2d-v03/sunrise-side/hugo-sunrise-side-parkour-poses-transparent.png",
+      "sourceCell": 10,
+      "row": 3,
+      "column": 2,
+      "outputCanvas": [
+        512,
+        512
+      ],
+      "alphaBounds": [
+        109,
+        136,
+        402,
+        376
+      ],
+      "sha256": "29ea9d0a2554645d05fd3676bccfc5d6cf0a606046a798f5b4e1bff60ebaecbe"
+    },
+    {
+      "index": 23,
+      "slug": "kong-vault",
+      "label": "Kong vault",
+      "filename": "hugo-sunrise-side-23-kong-vault.png",
+      "source": "art/source-images/game/2d-v03/sunrise-side/hugo-sunrise-side-parkour-poses-transparent.png",
+      "sourceCell": 11,
+      "row": 3,
+      "column": 3,
+      "outputCanvas": [
+        512,
+        512
+      ],
+      "alphaBounds": [
+        152,
+        147,
+        359,
+        359
+      ],
+      "sha256": "9e16501de0ee908f44e913e81c486aeace6b4790fd2310e2346bef452ecea669"
+    },
+    {
+      "index": 24,
+      "slug": "precision-landing",
+      "label": "Precision landing",
+      "filename": "hugo-sunrise-side-24-precision-landing.png",
+      "source": "art/source-images/game/2d-v03/sunrise-side/hugo-sunrise-side-parkour-poses-transparent.png",
+      "sourceCell": 12,
+      "row": 3,
+      "column": 4,
+      "outputCanvas": [
+        512,
+        512
+      ],
+      "alphaBounds": [
+        145,
+        165,
+        366,
+        347
+      ],
+      "sha256": "2f281b76604924dfa76973a7644315311c5936587e3554e6c40494f8e869a245"
+    },
+    {
+      "index": 25,
+      "slug": "wall-run",
+      "label": "Wall run",
+      "filename": "hugo-sunrise-side-25-wall-run.png",
+      "source": "art/source-images/game/2d-v03/sunrise-side/hugo-sunrise-side-wall-expression-poses-transparent.png",
+      "sourceCell": 1,
+      "row": 1,
+      "column": 1,
+      "outputCanvas": [
+        512,
+        512
+      ],
+      "alphaBounds": [
+        148,
+        105,
+        364,
+        407
+      ],
+      "sha256": "715ddba9685a27d0c8f9cfa8fd498c08519e339c25dfe551e1bdcc7e9dbe9bb3"
+    },
+    {
+      "index": 26,
+      "slug": "ledge-reach",
+      "label": "Ledge reach",
+      "filename": "hugo-sunrise-side-26-ledge-reach.png",
+      "source": "art/source-images/game/2d-v03/sunrise-side/hugo-sunrise-side-wall-expression-poses-transparent.png",
+      "sourceCell": 2,
+      "row": 1,
+      "column": 2,
+      "outputCanvas": [
+        512,
+        512
+      ],
+      "alphaBounds": [
+        146,
+        99,
+        366,
+        412
+      ],
+      "sha256": "377dc3baa115c8c74098f3275bd79d5a3d52e9163518b97ee3a5da58ea9767e2"
+    },
+    {
+      "index": 27,
+      "slug": "wall-brace",
+      "label": "Wall brace",
+      "filename": "hugo-sunrise-side-27-wall-brace.png",
+      "source": "art/source-images/game/2d-v03/sunrise-side/hugo-sunrise-side-wall-expression-poses-transparent.png",
+      "sourceCell": 3,
+      "row": 1,
+      "column": 3,
+      "outputCanvas": [
+        512,
+        512
+      ],
+      "alphaBounds": [
+        82,
+        116,
+        434,
+        395
+      ],
+      "sha256": "aed4cc3b06bf3773d0230f1c2e68bc7fa88255a598ace9eb26e1b6e44bfd582c"
+    },
+    {
+      "index": 28,
+      "slug": "wall-collision",
+      "label": "Wall collision",
+      "filename": "hugo-sunrise-side-28-wall-collision.png",
+      "source": "art/source-images/game/2d-v03/sunrise-side/hugo-sunrise-side-wall-expression-poses-transparent.png",
+      "sourceCell": 4,
+      "row": 1,
+      "column": 4,
+      "outputCanvas": [
+        512,
+        512
+      ],
+      "alphaBounds": [
+        109,
+        130,
+        398,
+        381
+      ],
+      "sha256": "829830dd0e23bbdaa04838d956d82908deb52e11ef6e059b2bc9247123ef9e9e"
+    },
+    {
+      "index": 29,
+      "slug": "cheeky-wall-peek",
+      "label": "Cheeky wall peek",
+      "filename": "hugo-sunrise-side-29-cheeky-wall-peek.png",
+      "source": "art/source-images/game/2d-v03/sunrise-side/hugo-sunrise-side-wall-expression-poses-transparent.png",
+      "sourceCell": 7,
+      "row": 2,
+      "column": 3,
+      "outputCanvas": [
+        512,
+        512
+      ],
+      "alphaBounds": [
+        110,
+        106,
+        407,
+        410
+      ],
+      "sha256": "cdb7671f73aa64c693e86ce7ace2de65de3137003d7206c286299206aff11040"
+    },
+    {
+      "index": 30,
+      "slug": "guarded-wall-charge",
+      "label": "Guarded wall charge",
+      "filename": "hugo-sunrise-side-30-guarded-wall-charge.png",
+      "source": "art/source-images/game/2d-v03/sunrise-side/hugo-sunrise-side-wall-expression-poses-transparent.png",
+      "sourceCell": 8,
+      "row": 2,
+      "column": 4,
+      "outputCanvas": [
+        512,
+        512
+      ],
+      "alphaBounds": [
+        134,
+        122,
+        372,
+        395
+      ],
+      "sha256": "4ead267e2b4ce9aac0ae16e9fd25fba54c30f225c0124e941300d4e70a9768f8"
+    },
+    {
+      "index": 31,
+      "slug": "shallow-dive",
+      "label": "Shallow dive",
+      "filename": "hugo-sunrise-side-31-shallow-dive.png",
+      "source": "art/source-images/game/2d-v03/sunrise-side/hugo-sunrise-side-shallow-dive-v2-transparent.png",
+      "sourceCell": null,
+      "row": null,
+      "column": null,
+      "outputCanvas": [
+        512,
+        512
+      ],
+      "alphaBounds": [
+        108,
+        174,
+        404,
+        336
+      ],
+      "sha256": "ed940a18b58a95b06d7662223b72725633a41efb36ec4406a6bc0f8356b81585"
+    },
+    {
+      "index": 32,
+      "slug": "air-recovery-curl",
+      "label": "Air recovery curl",
+      "filename": "hugo-sunrise-side-32-air-recovery-curl.png",
+      "source": "art/source-images/game/2d-v03/sunrise-side/hugo-sunrise-side-wall-expression-poses-transparent.png",
+      "sourceCell": 10,
+      "row": 3,
+      "column": 2,
+      "outputCanvas": [
+        512,
+        512
+      ],
+      "alphaBounds": [
+        191,
+        165,
+        321,
+        347
+      ],
+      "sha256": "c3b1a0cc4a8c515c6c1785d8e702dec2488da5e18d85d0fda3aaa214e3ef9ae4"
+    },
+    {
+      "index": 33,
+      "slug": "thumbs-up",
+      "label": "Thumbs up",
+      "filename": "hugo-sunrise-side-33-thumbs-up.png",
+      "source": "art/source-images/game/2d-v03/sunrise-side/hugo-sunrise-side-wall-expression-poses-transparent.png",
+      "sourceCell": 11,
+      "row": 3,
+      "column": 3,
+      "outputCanvas": [
+        512,
+        512
+      ],
+      "alphaBounds": [
+        181,
+        105,
+        330,
+        402
+      ],
+      "sha256": "c25a28ab8b48bdcf6271e6a68d0a5e91065fa070e7ff46ad6725766b3b4d0c14"
+    },
+    {
+      "index": 34,
+      "slug": "finger-guns",
+      "label": "Finger guns",
+      "filename": "hugo-sunrise-side-34-finger-guns.png",
+      "source": "art/source-images/game/2d-v03/sunrise-side/hugo-sunrise-side-wall-expression-poses-transparent.png",
+      "sourceCell": 12,
+      "row": 3,
+      "column": 4,
+      "outputCanvas": [
+        512,
+        512
+      ],
+      "alphaBounds": [
+        180,
+        105,
+        332,
+        402
+      ],
+      "sha256": "8b9287097e42441a905318b1288c9e684dde66854ae3d50c57aa7576b0f13ee7"
+    }
+  ]
+}
