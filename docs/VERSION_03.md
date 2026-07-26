@@ -85,3 +85,11 @@ The second animation is a single 12-drawing sheet played at 12 FPS:
 - only the generated head angle should change; and
 - production may clean chroma and register the complete figure, but may not
   rotate the head in code or composite it over a frozen body.
+
+### Neutral Side head nod 03
+
+Animation 03 is the restrained review version. It reuses the complete generated
+figures from animation 02 but omits its lowest, over-deep nod drawing. The
+remaining 11 drawings play in their original order at 12 FPS. Numbered frame
+buttons pause the loop on the selected complete drawing so each pose can be
+inspected directly.

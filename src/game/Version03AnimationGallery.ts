@@ -1,4 +1,5 @@
 import headNodManifestJson from '../assets/game/2d-v03/animations/head-nod/manifest.json';
+import headNodSoftManifestJson from '../assets/game/2d-v03/animations/head-nod-soft/manifest.json';
 import neutralGrooveManifestJson from '../assets/game/2d-v03/animations/neutral-groove/manifest.json';
 import { refreshIcons } from '../icons';
 
@@ -21,6 +22,7 @@ interface FrameDefinition {
 interface AnimationManifest {
   animation: {
     id: string;
+    assetDirectory?: string;
     name: string;
     description: string;
     prompt: string;
@@ -45,6 +47,7 @@ interface AnimationPreview {
   playButton: HTMLButtonElement;
   copyButton: HTMLButtonElement;
   copyStatus: HTMLElement;
+  frameButtons: HTMLButtonElement[];
   urls: string[];
   currentFrame: number;
   elapsedMs: number;
@@ -54,6 +57,7 @@ interface AnimationPreview {
 const MANIFESTS = [
   neutralGrooveManifestJson as AnimationManifest,
   headNodManifestJson as AnimationManifest,
+  headNodSoftManifestJson as AnimationManifest,
 ];
 
 export class Version03AnimationGallery {
@@ -99,7 +103,21 @@ export class Version03AnimationGallery {
     manifest: AnimationManifest,
     libraryIndex: number,
   ): AnimationPreview {
-    const isHeadNod = manifest.animation.id === 'head-nod';
+    const isHeadNod = manifest.animation.id.startsWith('head-nod');
+    const isSoftHeadNod = manifest.animation.id === 'head-nod-soft';
+    const frameControls = isSoftHeadNod
+      ? `
+        <div class="v03-animation-frames" aria-label="${manifest.animation.name} frame selector">
+          ${manifest.frames.map((frame, index) => `
+            <button
+              type="button"
+              data-v03-frame="${index}"
+              aria-label="Pause on frame ${frame.index}: ${frame.label}"
+            >${frame.index}</button>
+          `).join('')}
+        </div>
+      `
+      : '';
     root.innerHTML = `
       <header>
         <div>
@@ -125,9 +143,10 @@ export class Version03AnimationGallery {
         </button>
         <strong data-v03-frame-readout></strong>
       </div>
+      ${frameControls}
       <footer class="v03-animation-notes">
         <span><b>Full drawings:</b> all ${manifest.timing.runtimeFrameCount} generated characters</span>
-        <span><b>Motion:</b> ${isHeadNod ? 'six down · six back up · head only' : 'head · hand · shoe groove'}</span>
+        <span><b>Motion:</b> ${isSoftHeadNod ? 'lowest dip removed · restrained head nod only' : isHeadNod ? 'six down · six back up · head only' : 'head · hand · shoe groove'}</span>
         <span><b>Processing:</b> chroma cleanup · whole-body registration only</span>
       </footer>
       <div class="v03-animation-prompt">
@@ -144,8 +163,9 @@ export class Version03AnimationGallery {
     `;
 
     const urls = manifest.frames.map((frame) => {
+      const assetDirectory = manifest.animation.assetDirectory ?? manifest.animation.id;
       const modulePath =
-        `../assets/game/2d-v03/animations/${manifest.animation.id}/frames/${frame.filename}`;
+        `../assets/game/2d-v03/animations/${assetDirectory}/frames/${frame.filename}`;
       const url = FRAME_MODULES[modulePath];
       if (typeof url !== 'string') {
         throw new Error(`Missing Version 03 frame asset: ${modulePath}`);
@@ -160,6 +180,9 @@ export class Version03AnimationGallery {
       playButton: this.required<HTMLButtonElement>(root, '[data-v03-action="pause"]'),
       copyButton: this.required<HTMLButtonElement>(root, '[data-v03-copy-prompt]'),
       copyStatus: this.required<HTMLElement>(root, '[data-v03-copy-status]'),
+      frameButtons: Array.from(
+        root.querySelectorAll<HTMLButtonElement>('[data-v03-frame]'),
+      ),
       urls,
       currentFrame: 0,
       elapsedMs: 0,
@@ -182,6 +205,16 @@ export class Version03AnimationGallery {
     preview.copyButton.addEventListener('click', () => {
       void this.copyPrompt(preview);
     });
+    for (const button of preview.frameButtons) {
+      button.addEventListener('click', () => {
+        const frameIndex = Number(button.dataset.v03Frame);
+        if (!Number.isInteger(frameIndex)) return;
+        preview.currentFrame = frameIndex;
+        preview.elapsedMs = 0;
+        preview.playing = false;
+        this.sync(preview);
+      });
+    }
     return preview;
   }
 
@@ -221,6 +254,11 @@ export class Version03AnimationGallery {
     const buttonLabel = preview.playButton.querySelector('span');
     if (buttonLabel) buttonLabel.textContent = preview.playing ? 'Pause' : 'Resume';
     preview.playButton.dataset.playing = String(preview.playing);
+    for (const [index, button] of preview.frameButtons.entries()) {
+      const isCurrent = index === preview.currentFrame;
+      button.classList.toggle('is-current', isCurrent);
+      button.setAttribute('aria-pressed', String(isCurrent));
+    }
   }
 
   private async copyPrompt(preview: AnimationPreview): Promise<void> {
