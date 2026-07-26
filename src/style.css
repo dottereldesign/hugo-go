@@ -3469,6 +3469,196 @@ body.version-03-page-open {
   white-space: nowrap;
 }
 
+.version-03-library--animation {
+  border-color: rgba(255, 197, 100, .36);
+  background:
+    radial-gradient(circle at 16% 0%, rgba(255, 144, 70, .12), transparent 32rem),
+    rgba(9, 30, 57, .92);
+}
+
+.version-03-animation-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.v03-animation-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid rgba(120, 233, 255, .24);
+  border-radius: 19px;
+  background: #0b2442;
+  box-shadow: 0 16px 34px rgba(0, 5, 24, .24);
+}
+
+.v03-animation-card > header {
+  min-height: 142px;
+  padding: 18px 19px 16px;
+  border-bottom: 1px solid rgba(120, 233, 255, .16);
+}
+
+.v03-animation-card > header span,
+.v03-animation-prompt > div > span {
+  color: #72eaff;
+  font: 800 .62rem/1.2 'IBM Plex Mono', monospace;
+  letter-spacing: .13em;
+}
+
+.v03-animation-card > header h3 {
+  margin: 6px 0 7px;
+  color: #fff;
+  font: 400 clamp(1.25rem, 1.8vw, 1.75rem)/1.05 'Titan One', sans-serif;
+}
+
+.v03-animation-card > header p {
+  margin: 0;
+  color: #b9c9dc;
+  font-size: .8rem;
+  line-height: 1.5;
+}
+
+.v03-animation-card > header small {
+  display: block;
+  margin-top: 11px;
+  color: #ffd06a;
+  font: 700 .65rem/1.3 'IBM Plex Mono', monospace;
+}
+
+.v03-animation-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 13;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 50% 43%, rgba(83, 229, 247, .16), transparent 39%),
+    linear-gradient(180deg, #0d3155, #071c36);
+}
+
+.v03-animation-stage-grid {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: .3;
+  background-image:
+    linear-gradient(rgba(113, 230, 251, .16) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(113, 230, 251, .16) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: linear-gradient(transparent 0%, #000 25%, #000 100%);
+}
+
+.v03-animation-stage img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform: translateX(9%) scale(1.06);
+  transform-origin: center;
+}
+
+.v03-animation-stage > span {
+  position: absolute;
+  top: 12px;
+  left: 13px;
+  padding: 6px 8px;
+  border: 1px solid rgba(117, 234, 255, .2);
+  border-radius: 7px;
+  color: #80edff;
+  background: rgba(4, 21, 43, .82);
+  font: 800 .55rem/1 'IBM Plex Mono', monospace;
+  letter-spacing: .08em;
+}
+
+.v03-animation-controls {
+  display: grid;
+  grid-template-columns: auto auto minmax(100px, 1fr);
+  gap: 8px;
+  align-items: center;
+  padding: 12px;
+  border-top: 1px solid rgba(117, 234, 255, .14);
+}
+
+.v03-animation-controls button,
+.v03-animation-prompt button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 38px;
+  padding: 8px 12px;
+  border: 1px solid rgba(112, 231, 255, .35);
+  border-radius: 10px;
+  color: #effcff;
+  background: linear-gradient(180deg, #195384, #103b65);
+  font: 800 .66rem/1 'Inter', sans-serif;
+  cursor: pointer;
+}
+
+.v03-animation-controls button:hover,
+.v03-animation-controls button:focus-visible,
+.v03-animation-prompt button:hover,
+.v03-animation-prompt button:focus-visible {
+  border-color: #7becff;
+  outline: none;
+  filter: brightness(1.12);
+}
+
+.v03-animation-controls strong {
+  justify-self: end;
+  color: #ffe082;
+  font: 700 .64rem/1.2 'IBM Plex Mono', monospace;
+}
+
+.v03-animation-notes {
+  display: grid;
+  gap: 5px;
+  padding: 0 13px 13px;
+  color: #aebed1;
+  font: 500 .62rem/1.35 'IBM Plex Mono', monospace;
+}
+
+.v03-animation-notes b {
+  color: #fff;
+}
+
+.v03-animation-prompt {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px 14px;
+  align-items: center;
+  padding: 14px;
+  border-top: 1px solid rgba(255, 195, 92, .2);
+  background: rgba(4, 18, 37, .58);
+}
+
+.v03-animation-prompt p {
+  margin: 4px 0 0;
+  color: #aebed1;
+  font-size: .68rem;
+  line-height: 1.35;
+}
+
+.v03-animation-prompt button {
+  border-color: rgba(255, 197, 100, .46);
+  color: #10223b;
+  background: linear-gradient(180deg, #ffd979, #ffad55);
+}
+
+.v03-animation-prompt button.is-copied {
+  border-color: #7cffba;
+  background: linear-gradient(180deg, #8fffc5, #4ad793);
+}
+
+.v03-copy-status {
+  position: absolute;
+  right: 14px;
+  bottom: 2px;
+  color: #8fffc5;
+  font: 700 .55rem/1 'IBM Plex Mono', monospace;
+}
+
 @media (min-width: 1800px) {
   .version-03-pose-grid {
     grid-template-columns: repeat(8, minmax(0, 1fr));
@@ -3502,6 +3692,10 @@ body.version-03-page-open {
 @media (max-width: 900px) {
   .version-03-pose-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .version-03-animation-grid {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 

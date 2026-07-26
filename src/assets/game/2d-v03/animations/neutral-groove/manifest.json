@@ -1,0 +1,502 @@
+{
+  "schemaVersion": 1,
+  "animation": {
+    "id": "neutral-groove",
+    "name": "Neutral Side \u00b7 Groove idle",
+    "description": "Hugo nods, taps one shoe, and clicks his fingers to an unheard beat.",
+    "prompt": "Create a two-sheet, 4-column \u00d7 3-row neutral-side groove loop. Lock Hugo's torso, hips, standing leg, back foot, wingsuit, back arm, scale, lighting, and registration. Animate only a gentle head nod, one restrained front-shoe toe tap with its heel anchored, and one tiny front-hand finger click. Use 1\u20133 pixel or 1\u20132 degree changes between adjacent drawings. Sheet A starts from the approved neutral side pose and ends at the groove peak. Sheet B must begin from Sheet A's exact final drawing, ease all three actions back to neutral, and finish on an exact copy of the opening pose. Exactly 12 drawings per sheet; flat #FF00FF chroma background; no body sway, torso lean, clothing flutter, hair motion, crop, extra limbs, detached parts, text, borders, shadows, or watermark."
+  },
+  "timing": {
+    "baseFps": 18,
+    "runtimeFrameCount": 22,
+    "drawingCount": 23,
+    "loopDurationSeconds": 1.222,
+    "bookendFrame": 23
+  },
+  "productionMethod": "two sequential generated 4 x 3 source sheets; Sheet B was rejected for a large A-to-B head jump; approved locked Sheet B starts from exact Sheet A frame 12 and reverses A11 through A01; deterministic torso registration; only head, front hand, and front shoe regions are composited over the exact base body",
+  "frames": [
+    {
+      "index": 1,
+      "label": "Neutral side",
+      "filename": "hugo-neutral-groove-01-neutral-side.png",
+      "runtime": true,
+      "sourceSheet": "A",
+      "sourceCell": 1,
+      "registration": {
+        "sourceRootX": 260.384,
+        "sourceRootY": 219.334,
+        "sourceTorsoHeight": 80.0,
+        "uniformScale": 0.8875
+      },
+      "alphaBounds": [
+        202,
+        94,
+        309,
+        417
+      ],
+      "sha256": "f50c410426bae099887d46eeca863a810ebe7067863d10b588bc4aafffb404ed"
+    },
+    {
+      "index": 2,
+      "label": "Groove anticipation 1",
+      "filename": "hugo-neutral-groove-02-groove-anticipation-1.png",
+      "runtime": true,
+      "sourceSheet": "A",
+      "sourceCell": 2,
+      "registration": {
+        "sourceRootX": 260.054,
+        "sourceRootY": 220.216,
+        "sourceTorsoHeight": 80.0,
+        "uniformScale": 0.8875
+      },
+      "alphaBounds": [
+        202,
+        94,
+        308,
+        417
+      ],
+      "sha256": "12ed9e2f12b6105b99512179d033c19135377896bcaa71f5f123e1592560b614"
+    },
+    {
+      "index": 3,
+      "label": "Groove anticipation 2",
+      "filename": "hugo-neutral-groove-03-groove-anticipation-2.png",
+      "runtime": true,
+      "sourceSheet": "A",
+      "sourceCell": 3,
+      "registration": {
+        "sourceRootX": 258.534,
+        "sourceRootY": 218.559,
+        "sourceTorsoHeight": 79.0,
+        "uniformScale": 0.898734
+      },
+      "alphaBounds": [
+        202,
+        97,
+        313,
+        417
+      ],
+      "sha256": "262f134dff9c908dc8dbf4663e63a77ecc8d069e10eec39c51f0a970b5547445"
+    },
+    {
+      "index": 4,
+      "label": "Groove anticipation 3",
+      "filename": "hugo-neutral-groove-04-groove-anticipation-3.png",
+      "runtime": true,
+      "sourceSheet": "A",
+      "sourceCell": 4,
+      "registration": {
+        "sourceRootX": 252.458,
+        "sourceRootY": 219.231,
+        "sourceTorsoHeight": 78.0,
+        "uniformScale": 0.910256
+      },
+      "alphaBounds": [
+        202,
+        94,
+        322,
+        420
+      ],
+      "sha256": "8be5c618cffd10993f2e55a2c45d2ba5cd1cf6acbc17df0faac0dabf5106f959"
+    },
+    {
+      "index": 5,
+      "label": "Head and toe begin",
+      "filename": "hugo-neutral-groove-05-head-and-toe-begin.png",
+      "runtime": true,
+      "sourceSheet": "A",
+      "sourceCell": 5,
+      "registration": {
+        "sourceRootX": 253.474,
+        "sourceRootY": 219.072,
+        "sourceTorsoHeight": 79.0,
+        "uniformScale": 0.898734
+      },
+      "alphaBounds": [
+        202,
+        98,
+        319,
+        417
+      ],
+      "sha256": "adae3b7582f50d15cf81d6cbae78b9fb4e2ad692a443df9be0ecb77bcdcaae10"
+    },
+    {
+      "index": 6,
+      "label": "Finger prepares",
+      "filename": "hugo-neutral-groove-06-finger-prepares.png",
+      "runtime": true,
+      "sourceSheet": "A",
+      "sourceCell": 6,
+      "registration": {
+        "sourceRootX": 250.919,
+        "sourceRootY": 216.038,
+        "sourceTorsoHeight": 77.0,
+        "uniformScale": 0.922078
+      },
+      "alphaBounds": [
+        202,
+        102,
+        327,
+        420
+      ],
+      "sha256": "d0c3c0ce665e900cdbede0c31bce5df7ba4924a7f9b299fd8339a60527118a17"
+    },
+    {
+      "index": 7,
+      "label": "Nod deepens",
+      "filename": "hugo-neutral-groove-07-nod-deepens.png",
+      "runtime": true,
+      "sourceSheet": "A",
+      "sourceCell": 7,
+      "registration": {
+        "sourceRootX": 249.113,
+        "sourceRootY": 215.796,
+        "sourceTorsoHeight": 77.0,
+        "uniformScale": 0.922078
+      },
+      "alphaBounds": [
+        202,
+        101,
+        329,
+        419
+      ],
+      "sha256": "c97976fa9a395dd8b344701fbe1bd40286be43549dd3f532c37ccedfc6d9be62"
+    },
+    {
+      "index": 8,
+      "label": "Toe rises",
+      "filename": "hugo-neutral-groove-08-toe-rises.png",
+      "runtime": true,
+      "sourceSheet": "A",
+      "sourceCell": 8,
+      "registration": {
+        "sourceRootX": 248.368,
+        "sourceRootY": 215.427,
+        "sourceTorsoHeight": 77.0,
+        "uniformScale": 0.922078
+      },
+      "alphaBounds": [
+        202,
+        102,
+        330,
+        420
+      ],
+      "sha256": "cccfba62595a6fe2e6e15629a5aa381ff95628a27d6688b0fd36e48f471d8ef6"
+    },
+    {
+      "index": 9,
+      "label": "Click anticipation",
+      "filename": "hugo-neutral-groove-09-click-anticipation.png",
+      "runtime": true,
+      "sourceSheet": "A",
+      "sourceCell": 9,
+      "registration": {
+        "sourceRootX": 247.754,
+        "sourceRootY": 215.264,
+        "sourceTorsoHeight": 77.0,
+        "uniformScale": 0.922078
+      },
+      "alphaBounds": [
+        202,
+        102,
+        331,
+        419
+      ],
+      "sha256": "4837508280e5f23f874f2104403e32fed83ee57b30b2a66508c2cd6ce97d2d6d"
+    },
+    {
+      "index": 10,
+      "label": "Near groove peak",
+      "filename": "hugo-neutral-groove-10-near-groove-peak.png",
+      "runtime": true,
+      "sourceSheet": "A",
+      "sourceCell": 10,
+      "registration": {
+        "sourceRootX": 250.38,
+        "sourceRootY": 213.032,
+        "sourceTorsoHeight": 77.0,
+        "uniformScale": 0.922078
+      },
+      "alphaBounds": [
+        202,
+        106,
+        329,
+        419
+      ],
+      "sha256": "fb1401cc7e663eb5747dafcea28b8216acd09eb0d939122be222cfca13990ff9"
+    },
+    {
+      "index": 11,
+      "label": "Finger click",
+      "filename": "hugo-neutral-groove-11-finger-click.png",
+      "runtime": true,
+      "sourceSheet": "A",
+      "sourceCell": 11,
+      "registration": {
+        "sourceRootX": 248.538,
+        "sourceRootY": 212.977,
+        "sourceTorsoHeight": 77.0,
+        "uniformScale": 0.922078
+      },
+      "alphaBounds": [
+        202,
+        107,
+        333,
+        419
+      ],
+      "sha256": "68829609d6f82b56cf1db981b99199c4498a92d9c4de1b8ce38e5b3d01e3adae"
+    },
+    {
+      "index": 12,
+      "label": "Groove peak",
+      "filename": "hugo-neutral-groove-12-groove-peak.png",
+      "runtime": true,
+      "sourceSheet": "A",
+      "sourceCell": 12,
+      "registration": {
+        "sourceRootX": 247.949,
+        "sourceRootY": 211.362,
+        "sourceTorsoHeight": 77.0,
+        "uniformScale": 0.922078
+      },
+      "alphaBounds": [
+        202,
+        108,
+        331,
+        420
+      ],
+      "sha256": "316c455a2673ec4ce751d2465ee9ad9e3e39b26f3ee12adb908629b78f2906b2"
+    },
+    {
+      "index": 13,
+      "label": "Release begins",
+      "filename": "hugo-neutral-groove-13-release-begins.png",
+      "runtime": true,
+      "sourceSheet": "B-locked-reverse-of-A",
+      "sourceCell": 11,
+      "registration": {
+        "sourceRootX": 248.538,
+        "sourceRootY": 212.977,
+        "sourceTorsoHeight": 77.0,
+        "uniformScale": 0.922078
+      },
+      "alphaBounds": [
+        202,
+        107,
+        333,
+        419
+      ],
+      "sha256": "68829609d6f82b56cf1db981b99199c4498a92d9c4de1b8ce38e5b3d01e3adae"
+    },
+    {
+      "index": 14,
+      "label": "Head rises 1",
+      "filename": "hugo-neutral-groove-14-head-rises-1.png",
+      "runtime": true,
+      "sourceSheet": "B-locked-reverse-of-A",
+      "sourceCell": 10,
+      "registration": {
+        "sourceRootX": 250.38,
+        "sourceRootY": 213.032,
+        "sourceTorsoHeight": 77.0,
+        "uniformScale": 0.922078
+      },
+      "alphaBounds": [
+        202,
+        106,
+        329,
+        419
+      ],
+      "sha256": "fb1401cc7e663eb5747dafcea28b8216acd09eb0d939122be222cfca13990ff9"
+    },
+    {
+      "index": 15,
+      "label": "Toe lowers 1",
+      "filename": "hugo-neutral-groove-15-toe-lowers-1.png",
+      "runtime": true,
+      "sourceSheet": "B-locked-reverse-of-A",
+      "sourceCell": 9,
+      "registration": {
+        "sourceRootX": 247.754,
+        "sourceRootY": 215.264,
+        "sourceTorsoHeight": 77.0,
+        "uniformScale": 0.922078
+      },
+      "alphaBounds": [
+        202,
+        102,
+        331,
+        419
+      ],
+      "sha256": "4837508280e5f23f874f2104403e32fed83ee57b30b2a66508c2cd6ce97d2d6d"
+    },
+    {
+      "index": 16,
+      "label": "Finger releases",
+      "filename": "hugo-neutral-groove-16-finger-releases.png",
+      "runtime": true,
+      "sourceSheet": "B-locked-reverse-of-A",
+      "sourceCell": 8,
+      "registration": {
+        "sourceRootX": 248.368,
+        "sourceRootY": 215.427,
+        "sourceTorsoHeight": 77.0,
+        "uniformScale": 0.922078
+      },
+      "alphaBounds": [
+        202,
+        102,
+        330,
+        420
+      ],
+      "sha256": "cccfba62595a6fe2e6e15629a5aa381ff95628a27d6688b0fd36e48f471d8ef6"
+    },
+    {
+      "index": 17,
+      "label": "Head rises 2",
+      "filename": "hugo-neutral-groove-17-head-rises-2.png",
+      "runtime": true,
+      "sourceSheet": "B-locked-reverse-of-A",
+      "sourceCell": 7,
+      "registration": {
+        "sourceRootX": 249.113,
+        "sourceRootY": 215.796,
+        "sourceTorsoHeight": 77.0,
+        "uniformScale": 0.922078
+      },
+      "alphaBounds": [
+        202,
+        101,
+        329,
+        419
+      ],
+      "sha256": "c97976fa9a395dd8b344701fbe1bd40286be43549dd3f532c37ccedfc6d9be62"
+    },
+    {
+      "index": 18,
+      "label": "Toe lowers 2",
+      "filename": "hugo-neutral-groove-18-toe-lowers-2.png",
+      "runtime": true,
+      "sourceSheet": "B-locked-reverse-of-A",
+      "sourceCell": 6,
+      "registration": {
+        "sourceRootX": 250.919,
+        "sourceRootY": 216.038,
+        "sourceTorsoHeight": 77.0,
+        "uniformScale": 0.922078
+      },
+      "alphaBounds": [
+        202,
+        102,
+        327,
+        420
+      ],
+      "sha256": "d0c3c0ce665e900cdbede0c31bce5df7ba4924a7f9b299fd8339a60527118a17"
+    },
+    {
+      "index": 19,
+      "label": "Return easing 1",
+      "filename": "hugo-neutral-groove-19-return-easing-1.png",
+      "runtime": true,
+      "sourceSheet": "B-locked-reverse-of-A",
+      "sourceCell": 5,
+      "registration": {
+        "sourceRootX": 253.474,
+        "sourceRootY": 219.072,
+        "sourceTorsoHeight": 79.0,
+        "uniformScale": 0.898734
+      },
+      "alphaBounds": [
+        202,
+        98,
+        319,
+        417
+      ],
+      "sha256": "adae3b7582f50d15cf81d6cbae78b9fb4e2ad692a443df9be0ecb77bcdcaae10"
+    },
+    {
+      "index": 20,
+      "label": "Return easing 2",
+      "filename": "hugo-neutral-groove-20-return-easing-2.png",
+      "runtime": true,
+      "sourceSheet": "B-locked-reverse-of-A",
+      "sourceCell": 4,
+      "registration": {
+        "sourceRootX": 252.458,
+        "sourceRootY": 219.231,
+        "sourceTorsoHeight": 78.0,
+        "uniformScale": 0.910256
+      },
+      "alphaBounds": [
+        202,
+        94,
+        322,
+        420
+      ],
+      "sha256": "8be5c618cffd10993f2e55a2c45d2ba5cd1cf6acbc17df0faac0dabf5106f959"
+    },
+    {
+      "index": 21,
+      "label": "Near neutral",
+      "filename": "hugo-neutral-groove-21-near-neutral.png",
+      "runtime": true,
+      "sourceSheet": "B-locked-reverse-of-A",
+      "sourceCell": 3,
+      "registration": {
+        "sourceRootX": 258.534,
+        "sourceRootY": 218.559,
+        "sourceTorsoHeight": 79.0,
+        "uniformScale": 0.898734
+      },
+      "alphaBounds": [
+        202,
+        97,
+        313,
+        417
+      ],
+      "sha256": "262f134dff9c908dc8dbf4663e63a77ecc8d069e10eec39c51f0a970b5547445"
+    },
+    {
+      "index": 22,
+      "label": "Neutral settle",
+      "filename": "hugo-neutral-groove-22-neutral-settle.png",
+      "runtime": true,
+      "sourceSheet": "B-locked-reverse-of-A",
+      "sourceCell": 2,
+      "registration": {
+        "sourceRootX": 260.054,
+        "sourceRootY": 220.216,
+        "sourceTorsoHeight": 80.0,
+        "uniformScale": 0.8875
+      },
+      "alphaBounds": [
+        202,
+        94,
+        308,
+        417
+      ],
+      "sha256": "12ed9e2f12b6105b99512179d033c19135377896bcaa71f5f123e1592560b614"
+    },
+    {
+      "index": 23,
+      "label": "Exact neutral loop bookend",
+      "filename": "hugo-neutral-groove-23-exact-neutral-loop-bookend.png",
+      "runtime": false,
+      "sourceSheet": "B-locked-reverse-of-A",
+      "sourceCell": 1,
+      "registration": {
+        "sourceRootX": 260.384,
+        "sourceRootY": 219.334,
+        "sourceTorsoHeight": 80.0,
+        "uniformScale": 0.8875
+      },
+      "alphaBounds": [
+        202,
+        94,
+        309,
+        417
+      ],
+      "sha256": "f50c410426bae099887d46eeca863a810ebe7067863d10b588bc4aafffb404ed"
+    }
+  ]
+}

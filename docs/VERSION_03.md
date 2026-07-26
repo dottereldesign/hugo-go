@@ -52,3 +52,26 @@ shoe shape supplied for this version:
 
 Source sheets live under `art/source-images/game/2d-v03/`. Individually
 extracted production PNGs live under `src/assets/game/2d-v03/`.
+
+## Version 03 animation rule
+
+Keep idle animation deliberately restrained. Choose no more than two or three
+moving regions and lock every other part of the approved pose. A generated
+sheet is source material, not an automatic production atlas:
+
+1. Generate exactly 12 drawings on a 4 × 3 sheet.
+2. Extract every drawing to an individual transparent PNG.
+3. Register every drawing to the approved base pose.
+4. Composite only the named moving regions over the exact base body.
+5. Inspect the A-to-B hand-off before accepting a second sheet.
+6. Reject any sheet that introduces a jump, even when its standalone drawings
+   look good.
+7. End with an exact copy of the opening pose as a review-only loop bookend.
+
+The Neutral Side groove moves only Hugo's head, front hand, and front shoe.
+Its approved runtime uses 22 individual frames at 18 FPS. Sheet A eases from
+neutral to the groove peak. The generated Sheet B introduced an unacceptable
+head jump, so the locked production Sheet B begins on A12 and uses the
+registered A11–A01 sequence in reverse. This preserves pixel-perfect body
+registration and a clean loop while keeping both generated sheets archived for
+review.
