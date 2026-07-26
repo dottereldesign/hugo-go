@@ -3482,6 +3482,68 @@ body.version-03-page-open {
   gap: 16px;
 }
 
+.version-03-page-open .global-audio-toggle {
+  display: none;
+}
+
+.version-03-music-controls {
+  position: fixed;
+  right: calc(16px + env(safe-area-inset-right, 0px));
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  z-index: 140;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.version-03-music-controls button {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 15px;
+  border: 2px solid #ffe5a0;
+  border-radius: 14px;
+  color: #17233b;
+  background: linear-gradient(180deg, #ffe580, #ffae48);
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, .56),
+    0 5px 0 #a84b20,
+    0 12px 28px rgba(0, 3, 18, .36);
+  font: 800 .72rem/1 'Inter', sans-serif;
+  cursor: pointer;
+  transition: translate .14s ease, filter .14s ease, box-shadow .14s ease;
+}
+
+.version-03-music-controls button:hover,
+.version-03-music-controls button:focus-visible {
+  outline: none;
+  filter: brightness(1.08);
+  translate: 0 -2px;
+}
+
+.version-03-music-controls button:focus-visible {
+  box-shadow:
+    0 0 0 3px #07152f,
+    0 0 0 6px #79edff,
+    0 5px 0 #a84b20,
+    0 12px 28px rgba(0, 3, 18, .36);
+}
+
+.version-03-music-controls button:active {
+  translate: 0 3px;
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, .44),
+    0 2px 0 #a84b20,
+    0 7px 18px rgba(0, 3, 18, .3);
+}
+
+.version-03-music-controls svg {
+  width: 18px;
+  height: 18px;
+}
+
 .v03-animation-card {
   min-width: 0;
   overflow: hidden;

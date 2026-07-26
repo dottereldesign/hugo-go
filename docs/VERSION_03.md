@@ -92,3 +92,11 @@ Animation 03 is the restrained review version. It uses only the first four
 complete drawings from animation 02 and plays this exact 12-step sequence at
 12 FPS: `1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2`. The numbered buttons show
 the source drawing used by each runtime step and pause the loop on selection.
+
+### Music reference
+
+Version 03 includes the `Sleepy.mp3` reference track imported from the sibling
+`dottereldesign/jetpack_beats` repository. Its fixed Play/Pause and Restart
+controls sit 16 px from the bottom-right safe area. Sleepy loops on this page,
+stops when the page closes, and cannot overlap the normal Hugo Go background
+music.

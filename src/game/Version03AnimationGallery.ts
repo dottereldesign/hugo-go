@@ -63,12 +63,22 @@ const MANIFESTS = [
 
 export class Version03AnimationGallery {
   private readonly previews: AnimationPreview[];
+  private readonly sleepyAudio: HTMLAudioElement;
+  private readonly sleepyPlayButton: HTMLButtonElement;
+  private readonly sleepyRestartButton: HTMLButtonElement;
   private assetsStarted = false;
   private active = false;
   private raf = 0;
   private lastTimestamp = 0;
 
   constructor(root: HTMLElement) {
+    this.sleepyAudio = this.required<HTMLAudioElement>(root, '#version-03-sleepy-audio');
+    this.sleepyPlayButton = this.required<HTMLButtonElement>(root, '#version-03-music-play');
+    this.sleepyRestartButton = this.required<HTMLButtonElement>(
+      root,
+      '#version-03-music-restart',
+    );
+    this.sleepyAudio.volume = 0.55;
     this.previews = MANIFESTS.map((manifest, index) => {
       const card = root.querySelector<HTMLElement>(
         `[data-v03-animation="${manifest.animation.id}"]`,
@@ -78,7 +88,12 @@ export class Version03AnimationGallery {
       }
       return this.createPreview(card, manifest, index + 1);
     });
+    this.sleepyPlayButton.addEventListener('click', () => this.toggleSleepy());
+    this.sleepyRestartButton.addEventListener('click', () => this.restartSleepy());
+    this.sleepyAudio.addEventListener('play', () => this.syncSleepyControls());
+    this.sleepyAudio.addEventListener('pause', () => this.syncSleepyControls());
     this.syncAll();
+    this.syncSleepyControls();
     refreshIcons();
   }
 
@@ -97,6 +112,33 @@ export class Version03AnimationGallery {
     cancelAnimationFrame(this.raf);
     this.raf = 0;
     this.lastTimestamp = 0;
+    this.sleepyAudio.pause();
+    this.sleepyAudio.currentTime = 0;
+    this.syncSleepyControls();
+  }
+
+  private toggleSleepy(): void {
+    if (this.sleepyAudio.paused) {
+      void this.sleepyAudio.play().catch(() => this.syncSleepyControls());
+    } else {
+      this.sleepyAudio.pause();
+    }
+  }
+
+  private restartSleepy(): void {
+    this.sleepyAudio.currentTime = 0;
+    void this.sleepyAudio.play().catch(() => this.syncSleepyControls());
+  }
+
+  private syncSleepyControls(): void {
+    const paused = this.sleepyAudio.paused;
+    this.sleepyPlayButton.setAttribute('aria-label', paused ? 'Play Sleepy' : 'Pause Sleepy');
+    this.sleepyPlayButton.setAttribute('aria-pressed', String(!paused));
+    this.sleepyPlayButton.innerHTML = `
+      <i data-lucide="${paused ? 'play' : 'pause'}" aria-hidden="true"></i>
+      <span>${paused ? 'Play Sleepy' : 'Pause Sleepy'}</span>
+    `;
+    refreshIcons();
   }
 
   private createPreview(

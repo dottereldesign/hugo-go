@@ -53,8 +53,19 @@ export class AudioEngine {
   unlock(): void {
     if (!this.context) this.context = new AudioContext();
     if (this.context.state === 'suspended') void this.context.resume();
-    if (!this.muted && this.musicEnabled && this.music?.paused) void this.music.play().catch(() => undefined);
+    if (
+      !this.muted
+      && this.musicEnabled
+      && !document.body.classList.contains('version-03-page-open')
+      && this.music?.paused
+    ) {
+      void this.music.play().catch(() => undefined);
+    }
     if (this.effectsEnabled) void this.preloadEffects();
+  }
+
+  pauseMusic(): void {
+    this.music?.pause();
   }
 
   configure(channels: AudioChannels): void {

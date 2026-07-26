@@ -203,6 +203,7 @@ class HugoGoApp {
     this.version03Screen.hidden = false;
     document.body.classList.remove('game-page-open', 'sandbox-page-open', 'outfit-03-page-open', 'character-sheets-page-open');
     document.body.classList.add('version-03-page-open');
+    this.audio.pauseMusic();
     if (updateRoute) this.pushRoute('#/version-03');
     document.title = 'HUGO GO! — Version 03';
     this.version03Scroll.scrollTop = 0;
