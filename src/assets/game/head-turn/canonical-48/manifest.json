@@ -1,0 +1,567 @@
+{
+  "schemaVersion": 1,
+  "id": "hugo-head-turn-paired-midpoints-48",
+  "viewCount": 48,
+  "stepDegrees": 7.5,
+  "playbackFps": 60,
+  "loopDurationSeconds": 0.8,
+  "zeroDegrees": "front",
+  "direction": "clockwise-viewed-from-above",
+  "orientationNotes": {
+    "90Degrees": "Hugo's left profile",
+    "180Degrees": "exact back",
+    "270Degrees": "Hugo's right profile"
+  },
+  "derivation": {
+    "approvedAnchorCount": 24,
+    "generatedMidpointCount": 24,
+    "anchorStepDegrees": 15,
+    "midpointStepDegrees": 7.5,
+    "pairSpecificGeneration": true,
+    "sheetSlicing": false,
+    "independentSheetInterleaving": false,
+    "anchorsCopiedByteForByte": true
+  },
+  "registration": {
+    "canvas": [
+      320,
+      320
+    ],
+    "alphaHeight": 240,
+    "topGutter": 40,
+    "centreXSpread": 0.5,
+    "centreYSpread": 0.0,
+    "alphaHeightSpread": 0,
+    "minimumGutter": 33
+  },
+  "frames": [
+    {
+      "index": 0,
+      "degrees": 0.0,
+      "file": "frames/hugo-head-yaw-cw-000-front.png",
+      "kind": "approved-anchor",
+      "sourceFile": "src/assets/game/head-turn/canonical-24/frames/hugo-head-yaw-cw-000-front.png",
+      "canonical24Index": 0,
+      "sha256": "b384963818b389954b5cb3109f6481107fa6ed14e06e8fb6cd2330baadd58e6e"
+    },
+    {
+      "index": 1,
+      "degrees": 7.5,
+      "file": "frames/hugo-head-yaw-cw-007p5.png",
+      "kind": "generated-midpoint",
+      "sourceFile": "art/source-images/game/head-turn/canonical-48/midpoint-transparent/hugo-head-yaw-cw-007p5.png",
+      "generatedFromDegrees": [
+        0.0,
+        15.0
+      ],
+      "generationContract": "one-adjacent-pair-per-call",
+      "sha256": "b0cc386f1b836b0501356c5e79feecf28a6e1aa791736a657518acdbce39f19a"
+    },
+    {
+      "index": 2,
+      "degrees": 15.0,
+      "file": "frames/hugo-head-yaw-cw-015.png",
+      "kind": "approved-anchor",
+      "sourceFile": "src/assets/game/head-turn/canonical-24/frames/hugo-head-yaw-cw-015.png",
+      "canonical24Index": 1,
+      "sha256": "861521bda432b1c6df0f6a15dddfab83d8220e33c0b7c55a865b94202eda961e"
+    },
+    {
+      "index": 3,
+      "degrees": 22.5,
+      "file": "frames/hugo-head-yaw-cw-022p5.png",
+      "kind": "generated-midpoint",
+      "sourceFile": "art/source-images/game/head-turn/canonical-48/midpoint-transparent/hugo-head-yaw-cw-022p5.png",
+      "generatedFromDegrees": [
+        15.0,
+        30.0
+      ],
+      "generationContract": "one-adjacent-pair-per-call",
+      "sha256": "6ca6f3f8a114c4fd6048fa3e99bfbde118aa980fda093eb46182a68c70d84960"
+    },
+    {
+      "index": 4,
+      "degrees": 30.0,
+      "file": "frames/hugo-head-yaw-cw-030.png",
+      "kind": "approved-anchor",
+      "sourceFile": "src/assets/game/head-turn/canonical-24/frames/hugo-head-yaw-cw-030.png",
+      "canonical24Index": 2,
+      "sha256": "f8037f8710fe059b4283caaab01bc56478f082273f3aae984fac52dacaeb5892"
+    },
+    {
+      "index": 5,
+      "degrees": 37.5,
+      "file": "frames/hugo-head-yaw-cw-037p5.png",
+      "kind": "generated-midpoint",
+      "sourceFile": "art/source-images/game/head-turn/canonical-48/midpoint-transparent/hugo-head-yaw-cw-037p5.png",
+      "generatedFromDegrees": [
+        30.0,
+        45.0
+      ],
+      "generationContract": "one-adjacent-pair-per-call",
+      "sha256": "c352fb654e1a78cff5b93a83baf8f3cc36948e9150c8190728a4370513fde983"
+    },
+    {
+      "index": 6,
+      "degrees": 45.0,
+      "file": "frames/hugo-head-yaw-cw-045.png",
+      "kind": "approved-anchor",
+      "sourceFile": "src/assets/game/head-turn/canonical-24/frames/hugo-head-yaw-cw-045.png",
+      "canonical24Index": 3,
+      "sha256": "666136a334f36491c80a74d9ddd4b49563c0e696f09e22aaed37b99c2656eab0"
+    },
+    {
+      "index": 7,
+      "degrees": 52.5,
+      "file": "frames/hugo-head-yaw-cw-052p5.png",
+      "kind": "generated-midpoint",
+      "sourceFile": "art/source-images/game/head-turn/canonical-48/midpoint-transparent/hugo-head-yaw-cw-052p5.png",
+      "generatedFromDegrees": [
+        45.0,
+        60.0
+      ],
+      "generationContract": "one-adjacent-pair-per-call",
+      "sha256": "2f22c9d2ae731f132cdc234d05be5b40d9043a868ce146bf723c1d4a098c6c2a"
+    },
+    {
+      "index": 8,
+      "degrees": 60.0,
+      "file": "frames/hugo-head-yaw-cw-060.png",
+      "kind": "approved-anchor",
+      "sourceFile": "src/assets/game/head-turn/canonical-24/frames/hugo-head-yaw-cw-060.png",
+      "canonical24Index": 4,
+      "sha256": "2028aae02f4101e5124b0ac5a308513bb3220b2a4a198e4431a1234201d8c978"
+    },
+    {
+      "index": 9,
+      "degrees": 67.5,
+      "file": "frames/hugo-head-yaw-cw-067p5.png",
+      "kind": "generated-midpoint",
+      "sourceFile": "art/source-images/game/head-turn/canonical-48/midpoint-transparent/hugo-head-yaw-cw-067p5.png",
+      "generatedFromDegrees": [
+        60.0,
+        75.0
+      ],
+      "generationContract": "one-adjacent-pair-per-call",
+      "sha256": "c04321c4929cc2fa4bb2a6ac3265da08805ade9b9ad9bc4141f441d57db02b85"
+    },
+    {
+      "index": 10,
+      "degrees": 75.0,
+      "file": "frames/hugo-head-yaw-cw-075.png",
+      "kind": "approved-anchor",
+      "sourceFile": "src/assets/game/head-turn/canonical-24/frames/hugo-head-yaw-cw-075.png",
+      "canonical24Index": 5,
+      "sha256": "9f9cd3121c6f5026913438c1b31f8edf6edd746d9bfdba6ba825b8723145734e"
+    },
+    {
+      "index": 11,
+      "degrees": 82.5,
+      "file": "frames/hugo-head-yaw-cw-082p5.png",
+      "kind": "generated-midpoint",
+      "sourceFile": "art/source-images/game/head-turn/canonical-48/midpoint-transparent/hugo-head-yaw-cw-082p5.png",
+      "generatedFromDegrees": [
+        75.0,
+        90.0
+      ],
+      "generationContract": "one-adjacent-pair-per-call",
+      "sha256": "ad1d168f4aaaf7d41a574eacb8ce990bde9a5940ae4956dcee2c0d74668cceef"
+    },
+    {
+      "index": 12,
+      "degrees": 90.0,
+      "file": "frames/hugo-head-yaw-cw-090-left-profile.png",
+      "kind": "approved-anchor",
+      "sourceFile": "src/assets/game/head-turn/canonical-24/frames/hugo-head-yaw-cw-090-left-profile.png",
+      "canonical24Index": 6,
+      "sha256": "492002b4608d1ab306cf5d89a4ac462f73ed5b7d4c484dec97ce8b61a41d730f"
+    },
+    {
+      "index": 13,
+      "degrees": 97.5,
+      "file": "frames/hugo-head-yaw-cw-097p5.png",
+      "kind": "generated-midpoint",
+      "sourceFile": "art/source-images/game/head-turn/canonical-48/midpoint-transparent/hugo-head-yaw-cw-097p5.png",
+      "generatedFromDegrees": [
+        90.0,
+        105.0
+      ],
+      "generationContract": "one-adjacent-pair-per-call",
+      "sha256": "fe48778d47cfa19d16aac2b3b0893916bb6c154754a0065b638fafa5a6034e74"
+    },
+    {
+      "index": 14,
+      "degrees": 105.0,
+      "file": "frames/hugo-head-yaw-cw-105.png",
+      "kind": "approved-anchor",
+      "sourceFile": "src/assets/game/head-turn/canonical-24/frames/hugo-head-yaw-cw-105.png",
+      "canonical24Index": 7,
+      "sha256": "ffa6d9d50481bda2c2b2fe0801dc07577b58f30a3c9aed4b9fe36390fab844af"
+    },
+    {
+      "index": 15,
+      "degrees": 112.5,
+      "file": "frames/hugo-head-yaw-cw-112p5.png",
+      "kind": "generated-midpoint",
+      "sourceFile": "art/source-images/game/head-turn/canonical-48/midpoint-transparent/hugo-head-yaw-cw-112p5.png",
+      "generatedFromDegrees": [
+        105.0,
+        120.0
+      ],
+      "generationContract": "one-adjacent-pair-per-call",
+      "sha256": "90d21c676b8a5369297e68f91d4c621eb9849440e84f1cb9506f61f3e714d74b"
+    },
+    {
+      "index": 16,
+      "degrees": 120.0,
+      "file": "frames/hugo-head-yaw-cw-120.png",
+      "kind": "approved-anchor",
+      "sourceFile": "src/assets/game/head-turn/canonical-24/frames/hugo-head-yaw-cw-120.png",
+      "canonical24Index": 8,
+      "sha256": "c0ec26d2bf102968c8f880c69d53ef9ac051d9dc92c552778932250e2ed71162"
+    },
+    {
+      "index": 17,
+      "degrees": 127.5,
+      "file": "frames/hugo-head-yaw-cw-127p5.png",
+      "kind": "generated-midpoint",
+      "sourceFile": "art/source-images/game/head-turn/canonical-48/midpoint-transparent/hugo-head-yaw-cw-127p5.png",
+      "generatedFromDegrees": [
+        120.0,
+        135.0
+      ],
+      "generationContract": "one-adjacent-pair-per-call",
+      "sha256": "01cfe387b4c482c0c9db9aabe539003bcc2ccf32cf5cda208b75f69a5c25926d"
+    },
+    {
+      "index": 18,
+      "degrees": 135.0,
+      "file": "frames/hugo-head-yaw-cw-135.png",
+      "kind": "approved-anchor",
+      "sourceFile": "src/assets/game/head-turn/canonical-24/frames/hugo-head-yaw-cw-135.png",
+      "canonical24Index": 9,
+      "sha256": "847560d8d3e49844b933ec4d2c611c9c45c3b9e8dd6a6edc016e1d2978c65ba6"
+    },
+    {
+      "index": 19,
+      "degrees": 142.5,
+      "file": "frames/hugo-head-yaw-cw-142p5.png",
+      "kind": "generated-midpoint",
+      "sourceFile": "art/source-images/game/head-turn/canonical-48/midpoint-transparent/hugo-head-yaw-cw-142p5.png",
+      "generatedFromDegrees": [
+        135.0,
+        150.0
+      ],
+      "generationContract": "one-adjacent-pair-per-call",
+      "sha256": "76a27a6e6de6e795076a7cb73a26932dfb6df0336c909d15a2e4a680601a97d2"
+    },
+    {
+      "index": 20,
+      "degrees": 150.0,
+      "file": "frames/hugo-head-yaw-cw-150.png",
+      "kind": "approved-anchor",
+      "sourceFile": "src/assets/game/head-turn/canonical-24/frames/hugo-head-yaw-cw-150.png",
+      "canonical24Index": 10,
+      "sha256": "319221639b6dc94d56b2dd70dab947e6809e953cf8b5599069f7d580f5908d23"
+    },
+    {
+      "index": 21,
+      "degrees": 157.5,
+      "file": "frames/hugo-head-yaw-cw-157p5.png",
+      "kind": "generated-midpoint",
+      "sourceFile": "art/source-images/game/head-turn/canonical-48/midpoint-transparent/hugo-head-yaw-cw-157p5.png",
+      "generatedFromDegrees": [
+        150.0,
+        165.0
+      ],
+      "generationContract": "one-adjacent-pair-per-call",
+      "sha256": "80324a028a3983e2a53c564cba3b13f0dea56cea7741379d0fd13441d730786a"
+    },
+    {
+      "index": 22,
+      "degrees": 165.0,
+      "file": "frames/hugo-head-yaw-cw-165.png",
+      "kind": "approved-anchor",
+      "sourceFile": "src/assets/game/head-turn/canonical-24/frames/hugo-head-yaw-cw-165.png",
+      "canonical24Index": 11,
+      "sha256": "f894d45b4b8a143137e3a369c8fd962270b3016c6c8f837ba5be928074ea56dc"
+    },
+    {
+      "index": 23,
+      "degrees": 172.5,
+      "file": "frames/hugo-head-yaw-cw-172p5.png",
+      "kind": "generated-midpoint",
+      "sourceFile": "art/source-images/game/head-turn/canonical-48/midpoint-transparent/hugo-head-yaw-cw-172p5.png",
+      "generatedFromDegrees": [
+        165.0,
+        180.0
+      ],
+      "generationContract": "one-adjacent-pair-per-call",
+      "sha256": "3ef07df704f69bebc7fda4d31ef2e6fbff04cd998ef13a6ff920d8755d3d34eb"
+    },
+    {
+      "index": 24,
+      "degrees": 180.0,
+      "file": "frames/hugo-head-yaw-cw-180-back.png",
+      "kind": "approved-anchor",
+      "sourceFile": "src/assets/game/head-turn/canonical-24/frames/hugo-head-yaw-cw-180-back.png",
+      "canonical24Index": 12,
+      "sha256": "9fbefae0b00b829da892d0c03e9a2f83c77f55ce5adbd4f51af2e564f92cc940"
+    },
+    {
+      "index": 25,
+      "degrees": 187.5,
+      "file": "frames/hugo-head-yaw-cw-187p5.png",
+      "kind": "generated-midpoint",
+      "sourceFile": "art/source-images/game/head-turn/canonical-48/midpoint-transparent/hugo-head-yaw-cw-187p5.png",
+      "generatedFromDegrees": [
+        180.0,
+        195.0
+      ],
+      "generationContract": "one-adjacent-pair-per-call",
+      "sha256": "8bb41d8c9b4e90c1ff8c05095d60938076a8c61dd95fcc2cc100d51719543060"
+    },
+    {
+      "index": 26,
+      "degrees": 195.0,
+      "file": "frames/hugo-head-yaw-cw-195.png",
+      "kind": "approved-anchor",
+      "sourceFile": "src/assets/game/head-turn/canonical-24/frames/hugo-head-yaw-cw-195.png",
+      "canonical24Index": 13,
+      "sha256": "3ceb107766413682c906ddc12c41705a41e6edec952f70dfdfe122cbd72f8404"
+    },
+    {
+      "index": 27,
+      "degrees": 202.5,
+      "file": "frames/hugo-head-yaw-cw-202p5.png",
+      "kind": "generated-midpoint",
+      "sourceFile": "art/source-images/game/head-turn/canonical-48/midpoint-transparent/hugo-head-yaw-cw-202p5.png",
+      "generatedFromDegrees": [
+        195.0,
+        210.0
+      ],
+      "generationContract": "one-adjacent-pair-per-call",
+      "sha256": "e0fa320e1b6c3a966ca18e84c1825b290374bd47ed71705f3a4c3eabcb5bb4b5"
+    },
+    {
+      "index": 28,
+      "degrees": 210.0,
+      "file": "frames/hugo-head-yaw-cw-210.png",
+      "kind": "approved-anchor",
+      "sourceFile": "src/assets/game/head-turn/canonical-24/frames/hugo-head-yaw-cw-210.png",
+      "canonical24Index": 14,
+      "sha256": "71fb0751ed18e0d71b08bc1a372c3091dc078b2062628f9b925a663df2a76719"
+    },
+    {
+      "index": 29,
+      "degrees": 217.5,
+      "file": "frames/hugo-head-yaw-cw-217p5.png",
+      "kind": "generated-midpoint",
+      "sourceFile": "art/source-images/game/head-turn/canonical-48/midpoint-transparent/hugo-head-yaw-cw-217p5.png",
+      "generatedFromDegrees": [
+        210.0,
+        225.0
+      ],
+      "generationContract": "one-adjacent-pair-per-call",
+      "sha256": "422ac888a40f3528fca2d9153693300b1a91ac54c23da43095e94a15355ce7f7"
+    },
+    {
+      "index": 30,
+      "degrees": 225.0,
+      "file": "frames/hugo-head-yaw-cw-225.png",
+      "kind": "approved-anchor",
+      "sourceFile": "src/assets/game/head-turn/canonical-24/frames/hugo-head-yaw-cw-225.png",
+      "canonical24Index": 15,
+      "sha256": "6f55fdf5dc88cbc1a174422df7468783eef70e92136c376baafd8edbd3bee45b"
+    },
+    {
+      "index": 31,
+      "degrees": 232.5,
+      "file": "frames/hugo-head-yaw-cw-232p5.png",
+      "kind": "generated-midpoint",
+      "sourceFile": "art/source-images/game/head-turn/canonical-48/midpoint-transparent/hugo-head-yaw-cw-232p5.png",
+      "generatedFromDegrees": [
+        225.0,
+        240.0
+      ],
+      "generationContract": "one-adjacent-pair-per-call",
+      "sha256": "9e476e853bb34fc647c297327f70e744162c5320b44a2b07e3579f1f6afd6f0f"
+    },
+    {
+      "index": 32,
+      "degrees": 240.0,
+      "file": "frames/hugo-head-yaw-cw-240.png",
+      "kind": "approved-anchor",
+      "sourceFile": "src/assets/game/head-turn/canonical-24/frames/hugo-head-yaw-cw-240.png",
+      "canonical24Index": 16,
+      "sha256": "ca077141438254c460a6c7bb0feb8da38bc59ba036e1becc2dd47f5bffd31872"
+    },
+    {
+      "index": 33,
+      "degrees": 247.5,
+      "file": "frames/hugo-head-yaw-cw-247p5.png",
+      "kind": "generated-midpoint",
+      "sourceFile": "art/source-images/game/head-turn/canonical-48/midpoint-transparent/hugo-head-yaw-cw-247p5.png",
+      "generatedFromDegrees": [
+        240.0,
+        255.0
+      ],
+      "generationContract": "one-adjacent-pair-per-call",
+      "sha256": "880d13dfcaf0a4a84a7bd1acb151c07bb9431b11c248b95c446803c4f752787e"
+    },
+    {
+      "index": 34,
+      "degrees": 255.0,
+      "file": "frames/hugo-head-yaw-cw-255.png",
+      "kind": "approved-anchor",
+      "sourceFile": "src/assets/game/head-turn/canonical-24/frames/hugo-head-yaw-cw-255.png",
+      "canonical24Index": 17,
+      "sha256": "c709fe4aec81f9b5ad7a529bbed2ab050380d8302a1972754f96324462a35e0c"
+    },
+    {
+      "index": 35,
+      "degrees": 262.5,
+      "file": "frames/hugo-head-yaw-cw-262p5.png",
+      "kind": "generated-midpoint",
+      "sourceFile": "art/source-images/game/head-turn/canonical-48/midpoint-transparent/hugo-head-yaw-cw-262p5.png",
+      "generatedFromDegrees": [
+        255.0,
+        270.0
+      ],
+      "generationContract": "one-adjacent-pair-per-call",
+      "sha256": "b1f857aa4422a87e91e59a9e8aef8c6ad928e83e20c31d3babbaa334eb92422e"
+    },
+    {
+      "index": 36,
+      "degrees": 270.0,
+      "file": "frames/hugo-head-yaw-cw-270-right-profile.png",
+      "kind": "approved-anchor",
+      "sourceFile": "src/assets/game/head-turn/canonical-24/frames/hugo-head-yaw-cw-270-right-profile.png",
+      "canonical24Index": 18,
+      "sha256": "2e0f655d2450774a07ced032782feeb09261d815a02a061356b0f73f7923f56a"
+    },
+    {
+      "index": 37,
+      "degrees": 277.5,
+      "file": "frames/hugo-head-yaw-cw-277p5.png",
+      "kind": "generated-midpoint",
+      "sourceFile": "art/source-images/game/head-turn/canonical-48/midpoint-transparent/hugo-head-yaw-cw-277p5.png",
+      "generatedFromDegrees": [
+        270.0,
+        285.0
+      ],
+      "generationContract": "one-adjacent-pair-per-call",
+      "sha256": "2d2089c24daa78d5945e62ad8c797d73722c95ba8e5d1a9fc0d7942b8262b6f2"
+    },
+    {
+      "index": 38,
+      "degrees": 285.0,
+      "file": "frames/hugo-head-yaw-cw-285.png",
+      "kind": "approved-anchor",
+      "sourceFile": "src/assets/game/head-turn/canonical-24/frames/hugo-head-yaw-cw-285.png",
+      "canonical24Index": 19,
+      "sha256": "7d2854cce0ed516623916efb965177d627ad8953627c11e4bdf30eca35ca8ca8"
+    },
+    {
+      "index": 39,
+      "degrees": 292.5,
+      "file": "frames/hugo-head-yaw-cw-292p5.png",
+      "kind": "generated-midpoint",
+      "sourceFile": "art/source-images/game/head-turn/canonical-48/midpoint-transparent/hugo-head-yaw-cw-292p5.png",
+      "generatedFromDegrees": [
+        285.0,
+        300.0
+      ],
+      "generationContract": "one-adjacent-pair-per-call",
+      "sha256": "49e4d6280d93161448eb09e1db67de955780a2b7be54ad89ad182cd5677945bd"
+    },
+    {
+      "index": 40,
+      "degrees": 300.0,
+      "file": "frames/hugo-head-yaw-cw-300.png",
+      "kind": "approved-anchor",
+      "sourceFile": "src/assets/game/head-turn/canonical-24/frames/hugo-head-yaw-cw-300.png",
+      "canonical24Index": 20,
+      "sha256": "de2be2393752d0ba9be905234d725f3c01c45414a1acaed9acb5614ed3e8dae5"
+    },
+    {
+      "index": 41,
+      "degrees": 307.5,
+      "file": "frames/hugo-head-yaw-cw-307p5.png",
+      "kind": "generated-midpoint",
+      "sourceFile": "art/source-images/game/head-turn/canonical-48/midpoint-transparent/hugo-head-yaw-cw-307p5.png",
+      "generatedFromDegrees": [
+        300.0,
+        315.0
+      ],
+      "generationContract": "one-adjacent-pair-per-call",
+      "sha256": "0d75cd1563841942afd46fd276c7f5c511490ad0f8ae95f3cd04f6dc9a3fe7ac"
+    },
+    {
+      "index": 42,
+      "degrees": 315.0,
+      "file": "frames/hugo-head-yaw-cw-315.png",
+      "kind": "approved-anchor",
+      "sourceFile": "src/assets/game/head-turn/canonical-24/frames/hugo-head-yaw-cw-315.png",
+      "canonical24Index": 21,
+      "sha256": "cc75fa47a21b7bf9fd9e168ff6a89cb30d011027c815cbf279d3b550b37a6449"
+    },
+    {
+      "index": 43,
+      "degrees": 322.5,
+      "file": "frames/hugo-head-yaw-cw-322p5.png",
+      "kind": "generated-midpoint",
+      "sourceFile": "art/source-images/game/head-turn/canonical-48/midpoint-transparent/hugo-head-yaw-cw-322p5.png",
+      "generatedFromDegrees": [
+        315.0,
+        330.0
+      ],
+      "generationContract": "one-adjacent-pair-per-call",
+      "sha256": "9a4f249718516b7888a72e7a12d0fa8bda6eed4faa850c30737992bce51fccc8"
+    },
+    {
+      "index": 44,
+      "degrees": 330.0,
+      "file": "frames/hugo-head-yaw-cw-330.png",
+      "kind": "approved-anchor",
+      "sourceFile": "src/assets/game/head-turn/canonical-24/frames/hugo-head-yaw-cw-330.png",
+      "canonical24Index": 22,
+      "sha256": "438921b01b2b74c0c4b56db35ae581d64985e60190d07d362b428cb71c80bbf2"
+    },
+    {
+      "index": 45,
+      "degrees": 337.5,
+      "file": "frames/hugo-head-yaw-cw-337p5.png",
+      "kind": "generated-midpoint",
+      "sourceFile": "art/source-images/game/head-turn/canonical-48/midpoint-transparent/hugo-head-yaw-cw-337p5.png",
+      "generatedFromDegrees": [
+        330.0,
+        345.0
+      ],
+      "generationContract": "one-adjacent-pair-per-call",
+      "sha256": "548b614029fff44544f968bf9382510c8224b94c0e257180c1c059f0d918f52f"
+    },
+    {
+      "index": 46,
+      "degrees": 345.0,
+      "file": "frames/hugo-head-yaw-cw-345.png",
+      "kind": "approved-anchor",
+      "sourceFile": "src/assets/game/head-turn/canonical-24/frames/hugo-head-yaw-cw-345.png",
+      "canonical24Index": 23,
+      "sha256": "104bbde520c69d4d50687f24ecc82b0830c288db049266cb7913bdf981e9cdfc"
+    },
+    {
+      "index": 47,
+      "degrees": 352.5,
+      "file": "frames/hugo-head-yaw-cw-352p5.png",
+      "kind": "generated-midpoint",
+      "sourceFile": "art/source-images/game/head-turn/canonical-48/midpoint-transparent/hugo-head-yaw-cw-352p5.png",
+      "generatedFromDegrees": [
+        345.0,
+        0.0
+      ],
+      "generationContract": "one-adjacent-pair-per-call",
+      "sha256": "70d8f53e5bc353a41ef6943d603f84ab8a042b79516b26dfb494c80343892c30"
+    }
+  ]
+}

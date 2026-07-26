@@ -6,6 +6,7 @@ import hugoGlideCycleUrl from '../assets/game/hugo-glide-cycle.webp';
 import hugoGrindCycleUrl from '../assets/game/hugo-grind-cycle.webp';
 import hugoHeadTurnStabilizedCycleUrl from '../assets/game/head-turn/v2/hugo-head-turn-stabilized-24.png';
 import headTurnDegreeManifest from '../assets/game/head-turn/canonical-24/manifest.json';
+import headTurnSmoothManifest from '../assets/game/head-turn/canonical-48/manifest.json';
 import hugoJumpLandCycleUrl from '../assets/game/hugo-jump-land-cycle.webp';
 import hugoLayeredRigPartsUrl from '../assets/game/hugo-layered-rig-parts.png';
 import hugoPoweredCycleUrl from '../assets/game/hugo-powered-cycle.webp';
@@ -50,6 +51,7 @@ import {
   RIGGED_RUN_FRAME_COUNT,
   HEAD_TURN_FRAME_COUNT,
   HEAD_TURN_DEGREE_FRAME_COUNT,
+  HEAD_TURN_SMOOTH_FRAME_COUNT,
   WALK_V4_FRAME_COUNT,
   WALK_V5_FRAME_COUNT,
   WALK_V6_FRAME_COUNT,
@@ -60,6 +62,7 @@ import {
   getDebugRunPose,
   getHeadTurnPose,
   getHeadTurnDegreePose,
+  getHeadTurnSmoothPose,
   getRiggedJumpPose,
   getRiggedRunPose,
   getWalkV4Pose,
@@ -95,7 +98,26 @@ const HEAD_TURN_DEGREE_FRAME_URLS = headTurnDegreeManifest.frames.map(({ file })
 const HEAD_TURN_DEGREE_ANGLES = headTurnDegreeManifest.frames.map(({ degrees }) => degrees);
 const HEAD_TURN_DEGREE_ART_FRAME_COUNT = HEAD_TURN_DEGREE_FRAME_URLS.length;
 
-type AnimationKind = 'run' | 'jump' | 'rig-run-v2' | 'rig-jump-v2' | 'rig-run-debug' | 'rig-jump-debug' | 'walk-v4-debug' | 'walk-v4-painted' | 'walk-v5-debug' | 'walk-v5-painted' | 'walk-v6-debug' | 'walk-v6-painted' | 'head-turn-debug' | 'head-turn-painted' | 'head-turn-fixed-debug' | 'head-turn-fixed-painted' | 'head-turn-degree-debug' | 'head-turn-degree-painted' | 'double-jump' | 'double-jump-v2' | 'freefall' | 'freefall-v2' | 'powered' | 'glide' | 'grind' | 'wall' | 'flame';
+const HEAD_TURN_SMOOTH_FRAME_MODULES = import.meta.glob(
+  '../assets/game/head-turn/canonical-48/frames/*.png',
+  {
+    eager: true,
+    query: '?url',
+    import: 'default',
+  },
+);
+const HEAD_TURN_SMOOTH_FRAME_URLS = headTurnSmoothManifest.frames.map(({ file }) => {
+  const modulePath = `../assets/game/head-turn/canonical-48/${file}`;
+  const url = HEAD_TURN_SMOOTH_FRAME_MODULES[modulePath];
+  if (typeof url !== 'string') {
+    throw new Error(`Missing paired-midpoint head-turn frame: ${modulePath}`);
+  }
+  return url;
+});
+const HEAD_TURN_SMOOTH_ANGLES = headTurnSmoothManifest.frames.map(({ degrees }) => degrees);
+const HEAD_TURN_SMOOTH_ART_FRAME_COUNT = HEAD_TURN_SMOOTH_FRAME_URLS.length;
+
+type AnimationKind = 'run' | 'jump' | 'rig-run-v2' | 'rig-jump-v2' | 'rig-run-debug' | 'rig-jump-debug' | 'walk-v4-debug' | 'walk-v4-painted' | 'walk-v5-debug' | 'walk-v5-painted' | 'walk-v6-debug' | 'walk-v6-painted' | 'head-turn-debug' | 'head-turn-painted' | 'head-turn-fixed-debug' | 'head-turn-fixed-painted' | 'head-turn-degree-debug' | 'head-turn-degree-painted' | 'head-turn-smooth-debug' | 'head-turn-smooth-painted' | 'double-jump' | 'double-jump-v2' | 'freefall' | 'freefall-v2' | 'powered' | 'glide' | 'grind' | 'wall' | 'flame';
 type LoadedSprite = HTMLImageElement & { ready?: boolean };
 type AnatomySprite = 'parts' | 'legs' | 'torso';
 
@@ -271,6 +293,14 @@ const ANIMATION_CONFIG: Record<AnimationKind, { frameCount: number; duration: nu
     frameCount: HEAD_TURN_DEGREE_ART_FRAME_COUNT,
     duration: 0.8,
   },
+  'head-turn-smooth-debug': {
+    frameCount: HEAD_TURN_SMOOTH_FRAME_COUNT,
+    duration: 0.8,
+  },
+  'head-turn-smooth-painted': {
+    frameCount: HEAD_TURN_SMOOTH_ART_FRAME_COUNT,
+    duration: 0.8,
+  },
   'double-jump': { frameCount: 6, duration: 2 },
   'double-jump-v2': { frameCount: 16, duration: DOUBLE_JUMP_V2_DURATION },
   freefall: { frameCount: 6, duration: 0.6 },
@@ -298,6 +328,7 @@ export class AnimationSandbox {
     walkV5Torso: this.createSprite(),
     headTurnStabilized: this.createSprite(),
     headTurnDegrees: HEAD_TURN_DEGREE_FRAME_URLS.map(() => this.createSprite()),
+    headTurnSmooth: HEAD_TURN_SMOOTH_FRAME_URLS.map(() => this.createSprite()),
     doubleJump: this.createSprite(),
     doubleJumpV2: this.createSprite(),
     freefall: this.createSprite(),
@@ -310,6 +341,7 @@ export class AnimationSandbox {
   };
   private assetsStarted = false;
   private headTurnDegreeAssetsStarted = false;
+  private headTurnSmoothAssetsStarted = false;
   private running = false;
   private animationFrame = 0;
   private previousTime = 0;
@@ -361,7 +393,12 @@ export class AnimationSandbox {
     });
     for (const preview of this.previews) {
       this.syncControls(preview);
-      if (preview.kind === 'head-turn-degree-debug' || preview.kind === 'head-turn-degree-painted') {
+      if (
+        preview.kind === 'head-turn-degree-debug'
+        || preview.kind === 'head-turn-degree-painted'
+        || preview.kind === 'head-turn-smooth-debug'
+        || preview.kind === 'head-turn-smooth-painted'
+      ) {
         this.setupHeadTurnScrubbing(preview);
       }
     }
@@ -376,6 +413,9 @@ export class AnimationSandbox {
             if (preview.visible) {
               if (preview.kind === 'head-turn-degree-painted') {
                 this.ensureHeadTurnDegreeAssets();
+              }
+              if (preview.kind === 'head-turn-smooth-painted') {
+                this.ensureHeadTurnSmoothAssets();
               }
               this.syncControls(preview);
               this.drawPreview(preview, preview.elapsed, preview.currentFrame);
@@ -501,6 +541,12 @@ export class AnimationSandbox {
         break;
       case 'head-turn-degree-painted':
         this.drawHeadTurnDegreePainted(preview, forcedFrame);
+        break;
+      case 'head-turn-smooth-debug':
+        this.drawHeadTurnSmoothDebug(preview, forcedFrame);
+        break;
+      case 'head-turn-smooth-painted':
+        this.drawHeadTurnSmoothPainted(preview, forcedFrame);
         break;
       case 'double-jump':
         this.drawDoubleJump(preview, elapsed, forcedFrame);
@@ -970,9 +1016,16 @@ export class AnimationSandbox {
     preview: Preview,
     forcedFrame: number | null,
     labelled = false,
+    labelledFrameCount = HEAD_TURN_DEGREE_FRAME_COUNT,
+    labelledStepDegrees = 15,
   ): void {
     const frame = forcedFrame ?? 0;
-    const pose = labelled ? getHeadTurnDegreePose(frame) : getHeadTurnPose(frame);
+    const angleDegrees = frame * labelledStepDegrees;
+    const pose = !labelled
+      ? getHeadTurnPose(frame)
+      : labelledFrameCount === HEAD_TURN_SMOOTH_FRAME_COUNT
+        ? getHeadTurnSmoothPose(frame)
+        : getHeadTurnDegreePose(frame);
     const { context, canvas } = preview;
     const center = { x: canvas.width / 2, y: canvas.height * 0.54 };
     const cosine = Math.cos(pose.yaw);
@@ -1106,20 +1159,22 @@ export class AnimationSandbox {
 
     preview.canvas.dataset.activeHeadLandmark = labelled ? this.activeHeadLandmark : 'none';
     if (labelled) {
-      preview.canvas.dataset.angleDegrees = String(frame * 15);
+      preview.canvas.dataset.angleDegrees = String(angleDegrees);
     }
     this.drawWalkLabel(
       context,
       labelled ? 'HEAD TURN · DEGREE GEOMETRY' : 'HEAD TURN · 3D LANDMARKS',
-      labelled ? '24 NAMED ANGLES · 15° STEPS' : 'HEAD ONLY · FIXED PIVOT · 15° STEPS',
+      labelled
+        ? `${labelledFrameCount} NAMED ANGLES · ${labelledStepDegrees}° STEPS`
+        : 'HEAD ONLY · FIXED PIVOT · 15° STEPS',
     );
     this.drawHeadTurnReadout(
       context,
       canvas,
       frame,
       pose.yaw,
-      labelled ? HEAD_TURN_DEGREE_FRAME_COUNT : HEAD_TURN_FRAME_COUNT,
-      labelled ? frame * 15 : undefined,
+      labelled ? labelledFrameCount : HEAD_TURN_FRAME_COUNT,
+      labelled ? angleDegrees : undefined,
     );
     this.markFrame(preview, frame);
   }
@@ -1135,6 +1190,23 @@ export class AnimationSandbox {
     this.drawHeadTurnDebug(preview, forcedFrame, true);
     const { context, canvas } = preview;
     this.drawHeadRegistrationGuide(context, canvas.width / 2, canvas.height * 0.54);
+  }
+
+  private drawHeadTurnSmoothDebug(preview: Preview, forcedFrame: number | null): void {
+    this.drawHeadTurnDebug(
+      preview,
+      forcedFrame,
+      true,
+      HEAD_TURN_SMOOTH_FRAME_COUNT,
+      7.5,
+    );
+    const { context, canvas } = preview;
+    this.drawHeadRegistrationGuide(context, canvas.width / 2, canvas.height * 0.54);
+    this.drawWalkLabel(
+      context,
+      'HEAD TURN 60 FPS · GEOMETRY',
+      '48 NAMED VIEWS · 7.5° STEPS · 0.80 S LOOP',
+    );
   }
 
   private drawHeadTurnPainted(preview: Preview, forcedFrame: number | null): void {
@@ -1179,6 +1251,44 @@ export class AnimationSandbox {
     );
     preview.canvas.dataset.angleDegrees = String(angleDegrees);
     preview.canvas.dataset.angleFile = manifestFrame?.file ?? '';
+    this.markFrame(preview, frame);
+  }
+
+  private drawHeadTurnSmoothPainted(preview: Preview, forcedFrame: number | null): void {
+    const frame = forcedFrame ?? 0;
+    const angleDegrees = HEAD_TURN_SMOOTH_ANGLES[frame] ?? 0;
+    const manifestFrame = headTurnSmoothManifest.frames[frame];
+    const yaw = angleDegrees * Math.PI / 180;
+    const { context, canvas } = preview;
+    const sprite = this.sprites.headTurnSmooth[frame];
+    const drawSize = 304;
+    const drawX = (canvas.width - drawSize) / 2;
+    const drawY = (canvas.height - drawSize) / 2 + 4;
+
+    context.save();
+    context.imageSmoothingEnabled = true;
+    context.imageSmoothingQuality = 'high';
+    if (sprite?.ready) {
+      context.drawImage(sprite, drawX, drawY, drawSize, drawSize);
+    }
+    context.restore();
+    this.drawHeadRegistrationGuide(context, canvas.width / 2, canvas.height / 2 + 4);
+    this.drawWalkLabel(
+      context,
+      'HEAD TURN 60 FPS · PAIRED ART',
+      `${angleDegrees.toFixed(1).padStart(5, '0')}° · ${manifestFrame?.kind === 'approved-anchor' ? 'APPROVED ANCHOR' : 'PAIRED MIDPOINT'}`,
+    );
+    this.drawHeadTurnReadout(
+      context,
+      canvas,
+      frame,
+      yaw,
+      HEAD_TURN_SMOOTH_ART_FRAME_COUNT,
+      angleDegrees,
+    );
+    preview.canvas.dataset.angleDegrees = String(angleDegrees);
+    preview.canvas.dataset.angleFile = manifestFrame?.file ?? '';
+    preview.canvas.dataset.angleKind = manifestFrame?.kind ?? '';
     this.markFrame(preview, frame);
   }
 
@@ -2745,8 +2855,14 @@ export class AnimationSandbox {
     ) return;
     this.activeHeadLandmark = landmarkId;
     this.syncHeadLandmarkControls();
-    const preview = this.previews.find(({ kind }) => kind === 'head-turn-degree-debug');
-    if (preview) this.drawPreview(preview, preview.elapsed, preview.currentFrame);
+    this.previews
+      .filter(({ kind }) => (
+        kind === 'head-turn-degree-debug'
+        || kind === 'head-turn-smooth-debug'
+      ))
+      .forEach((preview) => {
+        this.drawPreview(preview, preview.elapsed, preview.currentFrame);
+      });
   }
 
   private syncHeadLandmarkControls(): void {
@@ -2864,6 +2980,9 @@ export class AnimationSandbox {
       }
     } catch {
       // Storage can be unavailable in restrictive browser contexts.
+    }
+    if (kind === 'head-turn-smooth-debug' || kind === 'head-turn-smooth-painted') {
+      return 1;
     }
     return kind.startsWith('head-turn') ? HEAD_TURN_DEFAULT_SPEED : 1;
   }
@@ -3109,7 +3228,10 @@ export class AnimationSandbox {
     this.sprites.walkLegs.src = hugoWalkV4LegsUrl;
     this.sprites.walkV5Torso.src = hugoWalkV5TorsoUrl;
     this.sprites.headTurnStabilized.src = hugoHeadTurnStabilizedCycleUrl;
-    if (typeof IntersectionObserver === 'undefined') this.ensureHeadTurnDegreeAssets();
+    if (typeof IntersectionObserver === 'undefined') {
+      this.ensureHeadTurnDegreeAssets();
+      this.ensureHeadTurnSmoothAssets();
+    }
     this.sprites.doubleJump.src = hugoDoubleJumpCycleUrl;
     this.sprites.doubleJumpV2.src = hugoDoubleJumpV2CycleUrl;
     this.sprites.freefall.src = hugoFreefallCycleUrl;
@@ -3126,6 +3248,14 @@ export class AnimationSandbox {
     this.headTurnDegreeAssetsStarted = true;
     this.sprites.headTurnDegrees.forEach((sprite, index) => {
       sprite.src = HEAD_TURN_DEGREE_FRAME_URLS[index];
+    });
+  }
+
+  private ensureHeadTurnSmoothAssets(): void {
+    if (this.headTurnSmoothAssetsStarted) return;
+    this.headTurnSmoothAssetsStarted = true;
+    this.sprites.headTurnSmooth.forEach((sprite, index) => {
+      sprite.src = HEAD_TURN_SMOOTH_FRAME_URLS[index];
     });
   }
 }

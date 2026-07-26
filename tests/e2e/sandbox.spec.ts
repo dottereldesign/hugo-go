@@ -12,9 +12,9 @@ test.describe('Animation Sandbox', () => {
     await expect(page.locator('#sandbox-screen')).toBeVisible();
     await expect(page.locator('#home-screen')).not.toHaveClass(/is-open/);
     await expect(page.locator('#game-screen')).toBeHidden();
-    await expect(page.locator('[data-sandbox-card]')).toHaveCount(27);
-    await expect(page.locator('[data-sandbox-animation]')).toHaveCount(27);
-    await expect(page.locator('[data-sandbox-speed]')).toHaveCount(27);
+    await expect(page.locator('[data-sandbox-card]')).toHaveCount(29);
+    await expect(page.locator('[data-sandbox-animation]')).toHaveCount(29);
+    await expect(page.locator('[data-sandbox-speed]')).toHaveCount(29);
     await expect(page.getByRole('heading', { name: 'Animation V2 Framework' })).toBeVisible();
     await expect(page.getByText('Mandatory looping-sheet bookend')).toBeVisible();
     await expect(page.getByText('Rotational sequences use one source and individual degree files')).toBeVisible();
@@ -38,6 +38,8 @@ test.describe('Animation Sandbox', () => {
     await expect(page.locator('[data-sandbox-card="head-turn-fixed-painted"] button[data-frame]')).toHaveCount(24);
     await expect(page.locator('[data-sandbox-card="head-turn-degree-debug"] button[data-frame]')).toHaveCount(24);
     await expect(page.locator('[data-sandbox-card="head-turn-degree-painted"] button[data-frame]')).toHaveCount(24);
+    await expect(page.locator('[data-sandbox-card="head-turn-smooth-debug"] button[data-frame]')).toHaveCount(48);
+    await expect(page.locator('[data-sandbox-card="head-turn-smooth-painted"] button[data-frame]')).toHaveCount(48);
     await expect(page.getByRole('heading', { name: 'Why the first two layered rigs fail' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'What changed for Walking V4' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'What V5 fixes from the V4 review' })).toBeVisible();
@@ -71,6 +73,8 @@ test.describe('Animation Sandbox', () => {
       'head-turn-fixed-painted': '24 frames · 2.00 s total · 12 FPS',
       'head-turn-degree-debug': '24 frames · 2.00 s total · 12 FPS',
       'head-turn-degree-painted': '24 frames · 2.00 s total · 12 FPS',
+      'head-turn-smooth-debug': '48 frames · 0.80 s total · 60 FPS',
+      'head-turn-smooth-painted': '48 frames · 0.80 s total · 60 FPS',
     };
     for (const [animation, metrics] of Object.entries(expectedMetrics)) {
       await expect(page.locator(`[data-sandbox-card="${animation}"] [data-sandbox-metrics]`)).toHaveText(metrics);
@@ -118,6 +122,10 @@ test.describe('Animation Sandbox', () => {
     const headTurnDegreePaintedWidth = await page.locator('[data-sandbox-card="head-turn-degree-painted"]').evaluate((element) => element.getBoundingClientRect().width);
     expect(Math.abs(headTurnDegreeDebugWidth - jumpWidth)).toBeLessThan(2);
     expect(Math.abs(headTurnDegreePaintedWidth - jumpWidth)).toBeLessThan(2);
+    const headTurnSmoothDebugWidth = await page.locator('[data-sandbox-card="head-turn-smooth-debug"]').evaluate((element) => element.getBoundingClientRect().width);
+    const headTurnSmoothPaintedWidth = await page.locator('[data-sandbox-card="head-turn-smooth-painted"]').evaluate((element) => element.getBoundingClientRect().width);
+    expect(Math.abs(headTurnSmoothDebugWidth - jumpWidth)).toBeLessThan(2);
+    expect(Math.abs(headTurnSmoothPaintedWidth - jumpWidth)).toBeLessThan(2);
     await expect.poll(async () => page.evaluate(() => (
       performance.getEntriesByType('resource').some((entry) => entry.name.includes('hugo-layered-rig-parts'))
     ))).toBe(true);
@@ -210,21 +218,26 @@ test.describe('Animation Sandbox', () => {
     expect(headRegistration.heightSpread).toBe(0);
     expect(headRegistration.minimumGutter).toBeGreaterThanOrEqual(32);
     expect(headRegistration.bookendMatches).toBe(true);
-    await page.locator('[data-sandbox-card="head-turn-degree-painted"]').scrollIntoViewIfNeeded();
+    await page.locator('[data-sandbox-card="head-turn-smooth-painted"]').scrollIntoViewIfNeeded();
     await expect.poll(
       async () => page.evaluate(() => (
         performance.getEntriesByType('resource')
           .filter((entry) => (
             entry.name.includes('hugo-head-yaw-cw-')
+            && entry.name.includes('p5')
             && !entry.name.includes('?import')
           )).length
       )),
       { timeout: 25_000 },
     ).toBe(24);
-    const headTurnDegreeFiles = await page.evaluate(async () => {
+    const headTurnMidpointFiles = await page.evaluate(async () => {
       const sources = performance.getEntriesByType('resource')
         .map((entry) => entry.name)
-        .filter((name) => name.includes('hugo-head-yaw-cw-') && !name.includes('?import'));
+        .filter((name) => (
+          name.includes('hugo-head-yaw-cw-')
+          && name.includes('p5')
+          && !name.includes('?import')
+        ));
       const dimensions = await Promise.all(sources.map(async (source) => {
         const image = new Image();
         image.src = source;
@@ -236,7 +249,7 @@ test.describe('Animation Sandbox', () => {
         dimensions: [...new Set(dimensions)],
       };
     });
-    expect(headTurnDegreeFiles).toEqual({
+    expect(headTurnMidpointFiles).toEqual({
       sourceCount: 24,
       dimensions: ['320x320'],
     });
@@ -271,7 +284,7 @@ test.describe('Animation Sandbox', () => {
     expect(await page.evaluate(() => document.body.scrollWidth)).toBe(390);
   });
 
-  test('scrubs both degree-mapped head turns by dragging and explains every geometry node', async ({ page }) => {
+  test('scrubs both degree-mapped head-turn versions and explains every geometry node', async ({ page }) => {
     await page.goto('/#/sandbox');
     const artCard = page.locator('[data-sandbox-card="head-turn-degree-painted"]');
     const artCanvas = artCard.locator('canvas');
@@ -312,6 +325,28 @@ test.describe('Animation Sandbox', () => {
     await geometryCard.locator('button[data-head-landmark="left-ear"]').hover();
     await expect(geometryCard.locator('canvas')).toHaveAttribute('data-active-head-landmark', 'left-ear');
     await expect(geometryCard.locator('[data-head-landmark]')).toHaveCount(12);
+
+    const smoothArtCard = page.locator('[data-sandbox-card="head-turn-smooth-painted"]');
+    const smoothArtCanvas = smoothArtCard.locator('canvas');
+    await smoothArtCard.scrollIntoViewIfNeeded();
+    await smoothArtCard.getByRole('button', { name: 'Show frame 1', exact: true }).click();
+    await expect(smoothArtCanvas).toHaveAttribute('data-angle-degrees', '0');
+    await expect(smoothArtCanvas).toHaveAttribute('data-angle-kind', 'approved-anchor');
+    await smoothArtCard.getByRole('button', { name: 'Show frame 2', exact: true }).click();
+    await expect(smoothArtCanvas).toHaveAttribute('data-angle-degrees', '7.5');
+    await expect(smoothArtCanvas).toHaveAttribute('data-angle-kind', 'generated-midpoint');
+    await expect(smoothArtCanvas).toHaveAttribute(
+      'data-angle-file',
+      'frames/hugo-head-yaw-cw-007p5.png',
+    );
+    await smoothArtCard.getByRole('button', { name: 'Show frame 3', exact: true }).click();
+    await expect(smoothArtCanvas).toHaveAttribute('data-angle-degrees', '15');
+    await expect(smoothArtCanvas).toHaveAttribute('data-angle-kind', 'approved-anchor');
+
+    const smoothGeometryCard = page.locator('[data-sandbox-card="head-turn-smooth-debug"]');
+    await smoothGeometryCard.getByRole('button', { name: 'Show frame 13', exact: true }).click();
+    await expect(smoothGeometryCard.locator('canvas')).toHaveAttribute('data-angle-degrees', '90');
+    await expect(smoothGeometryCard.locator('[data-head-landmark]')).toHaveCount(12);
   });
 
   test('lets each preview pause, seek by number, step, resume, restart, and toggle looping', async ({ page }) => {
@@ -350,11 +385,14 @@ test.describe('Animation Sandbox', () => {
     const runSpeed = runCard.locator('[data-sandbox-speed]');
     const runOutput = runCard.locator('[data-sandbox-speed-output]');
     const headCard = page.locator('[data-sandbox-card="head-turn-fixed-painted"]');
+    const smoothHeadCard = page.locator('[data-sandbox-card="head-turn-smooth-painted"]');
 
     await expect(runSpeed).toHaveValue('1');
     await expect(runOutput).toHaveText('1.00× · 30.00 FPS · 2.00 s loop');
     await expect(headCard.locator('[data-sandbox-speed]')).toHaveValue('0.4');
     await expect(headCard.locator('[data-sandbox-speed-output]')).toHaveText('0.40× · 12.00 FPS · 2.00 s loop');
+    await expect(smoothHeadCard.locator('[data-sandbox-speed]')).toHaveValue('1');
+    await expect(smoothHeadCard.locator('[data-sandbox-speed-output]')).toHaveText('1.00× · 60.00 FPS · 0.80 s loop');
 
     await headCard.scrollIntoViewIfNeeded();
     await page.waitForTimeout(220);

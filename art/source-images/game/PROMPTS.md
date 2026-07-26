@@ -823,3 +823,49 @@ transition. A deterministic 24-to-30 optical-flow attempt preserved direction
 but ghosted facial features. Both candidates were rejected whole. The final
 rule is: use the 24 clean existing views rather than manufacture six damaged
 ones to reach a round number.
+
+## Head Turn paired midpoints — 48 individual views at 60 FPS
+
+The approved 24 views remain immutable anchors. The built-in image workflow
+was called once per adjacent pair to create exactly one candidate midpoint:
+24 calls, 24 outputs, no multi-frame sheet.
+
+Prompt template used for every pair:
+
+```text
+Use case: identity-preserve
+Asset type: one production game-character head-turn in-between frame
+Input images: Image 1 is the approved START anchor at [START] degrees; Image 2
+is the approved END anchor at [END] degrees clockwise viewed from above.
+Primary request: create exactly ONE Hugo head at [MIDPOINT] degrees, precisely
+halfway in yaw between only these two anchors. This is a geometric in-between,
+not a redesign and not a blend/crossfade.
+Invariants: preserve Hugo's exact identity, age, facial proportions, smile,
+eyes, layered dark-brown hair, short neck, lighting, materials, color palette,
+and polished stylized 3D game-art finish.
+Registration: head and short neck only; same apparent height, centre, crown
+height, eye line, and neck baseline as the anchors; generous padding; no crop.
+Backdrop: perfectly flat solid #FF00FF chroma-key background with no shadows,
+gradients, texture, reflections, floor, glow, or lighting variation.
+Constraints: exactly one connected silhouette; continue clockwise only; no
+body, shoulders, props, text, labels, borders, extra heads, duplicated facial
+features, watermark, or #FF00FF inside Hugo.
+```
+
+For profile, back, and seam pairs the prompt added explicit visible-feature
+limits, such as “keep exactly one eye”, “show only a thin left-ear sliver”, or
+“retain half the 345-degree yaw rather than duplicating front”. Overshooting
+candidates were rejected and only that pair was regenerated.
+
+Raw built-in results:
+`art/source-images/game/head-turn/canonical-48/midpoint-magenta/`.
+
+Locally keyed transparent sources:
+`art/source-images/game/head-turn/canonical-48/midpoint-transparent/`.
+
+Registered runtime files:
+`src/assets/game/head-turn/canonical-48/frames/`.
+
+The manifest records `approved-anchor` or `generated-midpoint` for every frame.
+Each midpoint also records its exact two source degrees. The resulting
+48-image loop plays at 60 FPS for `0.80 seconds`.

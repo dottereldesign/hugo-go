@@ -4,6 +4,7 @@ import {
   RIGGED_RUN_FRAME_COUNT,
   HEAD_TURN_FRAME_COUNT,
   HEAD_TURN_DEGREE_FRAME_COUNT,
+  HEAD_TURN_SMOOTH_FRAME_COUNT,
   WALK_V4_FRAME_COUNT,
   WALK_V5_FRAME_COUNT,
   WALK_V6_FRAME_COUNT,
@@ -13,6 +14,7 @@ import {
   getDebugRunPose,
   getHeadTurnPose,
   getHeadTurnDegreePose,
+  getHeadTurnSmoothPose,
   getRiggedJumpPose,
   getRiggedRunPose,
   getWalkV4Pose,
@@ -190,6 +192,24 @@ describe('deterministic layered Hugo rig', () => {
     expect(rightProfile.yaw).toBeCloseTo(3 * Math.PI / 2);
     expect(finalView.progress).toBeCloseTo(23 / 24);
     expect(getHeadTurnDegreePose(HEAD_TURN_DEGREE_FRAME_COUNT)).toEqual(front);
+  });
+
+  it('maps the paired-midpoint geometry through exact 7.5-degree views', () => {
+    const front = getHeadTurnSmoothPose(0);
+    const midpoint = getHeadTurnSmoothPose(1);
+    const firstAnchor = getHeadTurnSmoothPose(2);
+    const leftProfile = getHeadTurnSmoothPose(12);
+    const back = getHeadTurnSmoothPose(24);
+    const rightProfile = getHeadTurnSmoothPose(36);
+
+    expect(HEAD_TURN_SMOOTH_FRAME_COUNT).toBe(48);
+    expect(front.yaw).toBeCloseTo(0);
+    expect(midpoint.yaw - front.yaw).toBeCloseTo(Math.PI / 24);
+    expect(firstAnchor.yaw).toBeCloseTo(Math.PI / 12);
+    expect(leftProfile.yaw).toBeCloseTo(Math.PI / 2);
+    expect(back.yaw).toBeCloseTo(Math.PI);
+    expect(rightProfile.yaw).toBeCloseTo(3 * Math.PI / 2);
+    expect(getHeadTurnSmoothPose(HEAD_TURN_SMOOTH_FRAME_COUNT)).toEqual(front);
   });
 
   it('alternates planted and swinging feet through a natural walking gait', () => {

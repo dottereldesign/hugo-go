@@ -224,7 +224,7 @@
 
           <aside class="sandbox-v2-loop-rule">
             <strong>Rotational sequences use one source and individual degree files</strong>
-            <p>A character sheet may be used only as extraction material. Cut every accepted view into its own transparent PNG, name it by direction and angle, and order it with a manifest. Never alternate or patch frames from independently generated sheets: matching image dimensions do not prove matching rotation. If one coherent source contains 24 good views, keep those 24; do not invent damaged frames merely to reach 30.</p>
+            <p>Approved anchors must come from one coherent sequence. Cut every accepted view into its own transparent PNG, name it by direction and angle, and order it with a manifest. A new midpoint is allowed only when one generation uses exactly two adjacent approved anchors and produces their one named halfway angle; review it between those same anchors and record its pair in the manifest. Never alternate or patch cells from independent sheets. “60 FPS” is playback: this 48-view rotation lasts 0.80 seconds at 60 FPS.</p>
           </aside>
 
           <section class="sandbox-motion-language" aria-labelledby="sandbox-motion-language-title">
@@ -577,6 +577,40 @@
               <canvas class="sandbox-canvas" data-sandbox-animation="head-turn-degree-painted" width="600" height="340" role="img" aria-label="Twenty-four individually saved Hugo head images ordered clockwise by their degree filenames"></canvas>
               <p class="sandbox-drag-hint"><span aria-hidden="true">↔</span> Hold and drag left or right to rotate manually</p>
               <p class="sandbox-rig-caption">24 separate transparent PNGs · filenames encode 000° through 345° · one coherent approved source · no runtime sheet slicing, cross-sheet interleaving, or invented bridge frames</p>
+            </article>
+
+            <article class="sandbox-card sandbox-card--v2 sandbox-card--debug sandbox-card--head-turn" data-sandbox-card="head-turn-smooth-debug">
+              <header>
+                <div><span>HEAD TURN 60 FPS · GEOMETRY</span><h2>360° Head Turn — 7.5° angle map</h2></div>
+                <small data-sandbox-metrics>48 frames · 0.80 s total · 60 FPS</small>
+              </header>
+              <canvas class="sandbox-canvas" data-sandbox-animation="head-turn-smooth-debug" width="600" height="340" role="img" aria-label="Forty-eight-angle head rotation geometry in exact seven-and-a-half-degree steps"></canvas>
+              <p class="sandbox-drag-hint"><span aria-hidden="true">↔</span> Hold and drag left or right to rotate manually</p>
+              <div class="sandbox-head-landmarks" data-head-landmark-controls aria-label="60 FPS head landmark labels">
+                <button class="is-active" type="button" data-head-landmark="all" aria-pressed="true"><i aria-hidden="true"></i><span><b>All nodes</b><small>Complete head rig</small></span></button>
+                <button type="button" data-head-landmark="crown" aria-pressed="false" style="--landmark-colour:#ffd661"><i aria-hidden="true"></i><span><b>Crown</b><small>Top-of-head height anchor</small></span></button>
+                <button type="button" data-head-landmark="hairline" aria-pressed="false" style="--landmark-colour:#70f0b1"><i aria-hidden="true"></i><span><b>Hairline</b><small>Front hair and forehead</small></span></button>
+                <button type="button" data-head-landmark="left-eye" aria-pressed="false" style="--landmark-colour:#5ce9ff"><i aria-hidden="true"></i><span><b>Left eye</b><small>Hugo’s anatomical left</small></span></button>
+                <button type="button" data-head-landmark="right-eye" aria-pressed="false" style="--landmark-colour:#5ce9ff"><i aria-hidden="true"></i><span><b>Right eye</b><small>Hugo’s anatomical right</small></span></button>
+                <button type="button" data-head-landmark="left-ear" aria-pressed="false" style="--landmark-colour:#9a8bff"><i aria-hidden="true"></i><span><b>Left ear</b><small>Left-side skull anchor</small></span></button>
+                <button type="button" data-head-landmark="right-ear" aria-pressed="false" style="--landmark-colour:#9a8bff"><i aria-hidden="true"></i><span><b>Right ear</b><small>Right-side skull anchor</small></span></button>
+                <button type="button" data-head-landmark="nose" aria-pressed="false" style="--landmark-colour:#ff8e6e"><i aria-hidden="true"></i><span><b>Nose</b><small>Forward facial anchor</small></span></button>
+                <button type="button" data-head-landmark="left-mouth" aria-pressed="false" style="--landmark-colour:#ff8e6e"><i aria-hidden="true"></i><span><b>Left mouth corner</b><small>Left end of mouth line</small></span></button>
+                <button type="button" data-head-landmark="right-mouth" aria-pressed="false" style="--landmark-colour:#ff8e6e"><i aria-hidden="true"></i><span><b>Right mouth corner</b><small>Right end of mouth line</small></span></button>
+                <button type="button" data-head-landmark="chin" aria-pressed="false" style="--landmark-colour:#ffd661"><i aria-hidden="true"></i><span><b>Chin</b><small>Lower jaw-height anchor</small></span></button>
+                <button type="button" data-head-landmark="nape" aria-pressed="false" style="--landmark-colour:#70f0b1"><i aria-hidden="true"></i><span><b>Nape</b><small>Back-of-neck anchor</small></span></button>
+              </div>
+              <p class="sandbox-rig-caption">0° front · clockwise in 7.5° steps · every green anchor is preserved · every yellow midpoint belongs only to its two neighbouring approved views</p>
+            </article>
+
+            <article class="sandbox-card sandbox-card--v2 sandbox-card--painted sandbox-card--head-turn" data-sandbox-card="head-turn-smooth-painted">
+              <header>
+                <div><span>HEAD TURN 60 FPS · PAIRED ART</span><h2>360° Head Turn — 48 individual views</h2></div>
+                <small data-sandbox-metrics>48 frames · 0.80 s total · 60 FPS</small>
+              </header>
+              <canvas class="sandbox-canvas" data-sandbox-animation="head-turn-smooth-painted" width="600" height="340" role="img" aria-label="Forty-eight individually saved Hugo heads alternating approved anchors and pair-generated midpoint views"></canvas>
+              <p class="sandbox-drag-hint"><span aria-hidden="true">↔</span> Hold and drag left or right to rotate manually</p>
+              <p class="sandbox-rig-caption">48 separate transparent PNGs · 24 byte-identical approved anchors + 24 pair-specific midpoint images · filenames encode every 7.5° angle · no runtime sheet slicing</p>
             </article>
           </div>
 

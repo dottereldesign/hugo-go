@@ -387,22 +387,53 @@ the application.
 
 ### Hard production rules for rotational art
 
-1. A canonical rotation may use only one coherent source sequence.
+1. Canonical anchors may use only one coherent source sequence.
 2. Never interleave, append, or patch independently generated rotation sheets.
-3. Extract every accepted head into an individual transparent PNG immediately.
-4. Encode direction and degrees in every filename.
-5. Use a manifest as the only playback order.
-6. If the source has 24 clean views, ship 24 clean views. Do not invent or
-   interpolate six damaged images merely to reach a requested round number.
-7. Reject the whole candidate if any transition reverses, skips a quadrant,
-   changes identity, or breaks the fixed centre.
-8. Before release, inspect `000 → 015 → 030`, both profile-to-back arcs, and
-   the `345 → 000` seam manually at slow speed.
+3. A derivative midpoint is allowed only when one generation uses exactly two
+   adjacent approved anchors and produces exactly their named halfway angle.
+   It must be reviewed between those same anchors before acceptance.
+4. Extract every accepted head into an individual transparent PNG immediately.
+5. Encode direction and degrees in every filename. Use `p5` for half degrees:
+   `007p5` means `7.5°`.
+6. Use a manifest as the only playback order. Record whether each file is an
+   approved anchor or a generated midpoint, plus the midpoint's two source
+   angles.
+7. If the source has 24 clean views, keep those 24 anchors byte-identical. Do
+   not replace them merely to reach a requested round number.
+8. Reject any midpoint that overshoots either anchor, reverses, flips sides,
+   changes identity, or breaks the fixed centre. Regenerate that pair alone;
+   never repair it with another sheet.
+9. Before release, inspect the first three views, both profile-to-back arcs,
+   the exact `180°` side change, and the `345 → 352.5 → 000` seam at slow speed.
 
 The source has 24 valid unique views, so the accepted set uses 24 exact
 15-degree steps. A 30-view optical-flow resample was also rejected because it
 created ghosted facial features. The final individual files are pixel-unchanged
 extractions from the approved registered source.
+
+## Paired-midpoint 60 FPS derivative
+
+The 60 FPS row beneath the canonical cards preserves all 24 approved anchors
+and inserts one separately generated midpoint into every adjacent pair:
+
+`000 → 007.5 → 015 → 022.5 → 030 ... 345 → 352.5 → 000`.
+
+This is **48 distinct individual files**, not a 48-cell sheet. Every whole
+15-degree anchor is copied byte-for-byte from `canonical-24`. Every half-degree
+file was generated from only its two neighbours, saved separately, recorded in
+`canonical-48/manifest.json`, and registered to a `320 × 320` transparent
+canvas with a `240 px` alpha height and permanent centre.
+
+The loop is played at 60 FPS, so 48 frames last `48 ÷ 60 = 0.80 seconds`.
+Frame rate describes how quickly images are presented; it does not mean every
+loop must contain exactly 60 unique images. The Sandbox exposes all 48 numbers,
+their exact degree labels, anchor/midpoint provenance, pause/seek controls, speed
+dial, and drag-to-rotate inspection.
+
+This derivative does not weaken the no-sheet rule. It is valid because each
+new view has one explicit pair contract and one exact angle. The rejected V3
+failed because unrelated multi-view sheets were interleaved by cell position
+without compatible angles or directions.
 
 ## Reusable atlas prompt
 
