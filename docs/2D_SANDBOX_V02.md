@@ -241,6 +241,17 @@ The duplicate is **not** played at runtime:
 
 ## Current Outfit 03 loops
 
+## Jamie's notes
+
+- Keep generated character sheets to **12 poses maximum**. Larger sheets make
+  each figure too small, increase cell bleed/cropping risk, and make the model
+  lose limb continuity between poses.
+- For fast arm actions, generate 33% and 66% in-betweens from one exact
+  adjacent pair rather than jumping from start directly to end. This keeps the
+  elbow and wrist arc legible at 24 FPS.
+- Use flat chroma green when bubble-gum pink must survive background removal;
+  magenta is too close to pink/purple gum and risks colour damage.
+
 ### Neutral Front · Bubble-gum idle
 
 Neutral hold, eyelid relaxation, weight shift, toe-tap anticipation/contact,

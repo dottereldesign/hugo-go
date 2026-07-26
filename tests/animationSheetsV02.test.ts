@@ -29,11 +29,11 @@ describe('2D Sandbox Version 02 Outfit 03 animations', () => {
 
     expect(neutralIdle.timing).toMatchObject({
       baseFps: 24,
-      drawingCount: 69,
-      runtimeFrameCount: 68,
-      runtimeTicks: 68,
-      loopDurationSeconds: 68 / 24,
-      bookendFrame: 69,
+      drawingCount: 75,
+      runtimeFrameCount: 74,
+      runtimeTicks: 74,
+      loopDurationSeconds: 74 / 24,
+      bookendFrame: 75,
     });
     expect(readyProfile.timing).toMatchObject({
       baseFps: 12,
@@ -78,7 +78,7 @@ describe('2D Sandbox Version 02 Outfit 03 animations', () => {
 
   it('binds every entry to a named transparent 640px PNG and exact seam copy', () => {
     const files = animations.flatMap(({ frames }) => frames.map(({ file }) => file));
-    expect(new Set(files).size).toBe(93);
+    expect(new Set(files).size).toBe(99);
 
     for (const animation of animations) {
       for (const frame of animation.frames) {

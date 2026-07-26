@@ -20,3 +20,6 @@ Process:
 5. Validate every adjacent pair and retain the exact final-to-first seam.
 
 Never build a bridge by interleaving frames from unrelated character sheets.
+Keep every generated character sheet to a maximum of **12 poses**: more cells
+makes figures too small and causes unreliable limbs, crop bleed, and weak
+in-between continuity.

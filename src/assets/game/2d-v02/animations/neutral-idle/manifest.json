@@ -7,14 +7,14 @@
   },
   "timing": {
     "baseFps": 24,
-    "runtimeFrameCount": 68,
-    "drawingCount": 69,
-    "runtimeTicks": 68,
-    "loopDurationSeconds": 2.8333333333333335,
-    "bookendFrame": 69,
+    "runtimeFrameCount": 74,
+    "drawingCount": 75,
+    "runtimeTicks": 74,
+    "loopDurationSeconds": 3.0833333333333335,
+    "bookendFrame": 75,
     "bookendRuntime": false
   },
-  "generationStrategy": "34 approved stabilized key drawings plus 34 exact adjacent-pair 50% bridge drawings; uniform one-tick timing at 24 FPS; exact frame-01 bookend",
+  "generationStrategy": "uniform 24 FPS sequence; adjacent bridges plus two 33%/66% arm-motion in-betweens for each fast right-arm transition; exact frame-01 bookend",
   "frames": [
     {
       "index": 1,
@@ -31,7 +31,7 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "bcc2000e49170a1393785f1ae384555cb0469f181fef31d03b2f637d151175b7",
+        "sha256": "8916e61667e9694809c43bf04de61074f87abef2dcd6cea625d13d70f0332006",
         "alphaBounds": [
           232,
           100,
@@ -82,7 +82,7 @@
         "afterTorsoHeight": 96.0
       },
       "output": {
-        "sha256": "08c5246acbe38a59164d87ef91d5940a1cd1f023450dcb1533269e6a951edb4a",
+        "sha256": "f4a4d204eaa2d6285cc4089ccb91951f301fe7a19313f93b9cd40ead0511553f",
         "alphaBounds": [
           229,
           103,
@@ -109,7 +109,7 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "6620ac7002ba75cda0e80107ed366eb9946aab15de503777ee5787e9bd9789bc",
+        "sha256": "038a29e026a9169a9ecb0ad73659a14d7b223b2c25d64fe68383b90aae89f010",
         "alphaBounds": [
           230,
           95,
@@ -179,7 +179,7 @@
         "afterTorsoHeight": 95.0
       },
       "output": {
-        "sha256": "46d9db6db6213753967fe846c4cd08c4751751a8811e3dc9d3c9af2e7c379f48",
+        "sha256": "240d7754270495943761880afd055cf435b5495c9bf7166f3bf13df9cc6fafa5",
         "alphaBounds": [
           236,
           103,
@@ -206,7 +206,7 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "577c8b07042245ddd89bdbc6fb45ecbd5ddeaec842f1c5eb720a023f02442395",
+        "sha256": "86ec641908d874289a68e86c548f91a75587f2ca6b5dde5759e467ab4a334994",
         "alphaBounds": [
           230,
           95,
@@ -249,7 +249,7 @@
         "method": "common-canvas fallback; cream panels not detectable"
       },
       "output": {
-        "sha256": "6e52d2a893b70787527b6d14b45284076decb5ce70d724751236f02608bfb40d",
+        "sha256": "e6c6c8d9bbb7890521b69000081b8bf823a799b3a2a8f079b87f62101e4344e6",
         "alphaBounds": [
           224,
           100,
@@ -280,7 +280,7 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "16cad3f56726c952bc029e5809ceea5bec82f33eccd6e884b87db628b96d6b54",
+        "sha256": "a62e3687224d6bca09ef64f08bb41c30d5e9bd40fc654e74700e274215e2b89e",
         "alphaBounds": [
           232,
           103,
@@ -331,7 +331,7 @@
         "afterTorsoHeight": 95.0
       },
       "output": {
-        "sha256": "586f5e0653a5373e5fd466a2e56af2b6961e91c427446daf4060a3240e285714",
+        "sha256": "38ebccfe8b5c5fb1edf5262ec2e00a6331e7250120d3b1d357bc681cba7d31a7",
         "alphaBounds": [
           237,
           106,
@@ -358,7 +358,7 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "33052fda807bf1ca15991bbbedaf44a5ff5c8a0247f335f07a5842147d59cdb3",
+        "sha256": "0d90481d8739bbb61ae687837a1cc0f16101f21eed50def149e8325b8184d088",
         "alphaBounds": [
           230,
           101,
@@ -409,7 +409,7 @@
         "afterTorsoHeight": 96.0
       },
       "output": {
-        "sha256": "9c8f2b7106a99e08698f116ba1255d0bf5400481bbbc17cb5b847ac03e5e3bb8",
+        "sha256": "65d03c5c3d58196ee24f775965095e95c513ca6733dd249969cb42a12aadb267",
         "alphaBounds": [
           234,
           106,
@@ -436,7 +436,7 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "832fc417e16413e117035d92a9c444a921ccd3d77f7edd154a4e8643f2b28266",
+        "sha256": "c293fa09cbaecf0c833117f74aeaf2cb3b29005c2850663b517fe836635193a9",
         "alphaBounds": [
           229,
           98,
@@ -487,7 +487,7 @@
         "afterTorsoHeight": 96.0
       },
       "output": {
-        "sha256": "47e29247e2d9c5541b3a1dd0965e3d6031cac24f9bdc5d4aba8c0d076fc6fe65",
+        "sha256": "0714d4ea447ec7413ebc02acf637adcf34d4cf83cf02f358d2a5d141037658d1",
         "alphaBounds": [
           233,
           104,
@@ -514,7 +514,7 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "4f7c95dcd22a2419b52b75fe31448edddab9df93073092b3d148770aa8859b77",
+        "sha256": "340a3ef6de93f9e55110c9ddb36ee3c85b7339b22fceb16a0c92b18112810dc8",
         "alphaBounds": [
           231,
           97,
@@ -565,7 +565,7 @@
         "afterTorsoHeight": 95.0
       },
       "output": {
-        "sha256": "5e238fc80eec90a9957c85cd6b18a5d07baadb3a0fd1dcf99e6fda67db5c89f5",
+        "sha256": "c7995072a4ed45a125d2a43ec8e362f3ec4a34a9c87af871914f7b3c7e03f2aa",
         "alphaBounds": [
           234,
           105,
@@ -596,7 +596,7 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "618ccbcf16e73705ca6d3a11619414f7a23f765d9c552f2f78b65caf2f293060",
+        "sha256": "ae8603c7e169d1fe82e644c8329d12cf02500aef12ffda633e3adf6db4186980",
         "alphaBounds": [
           231,
           101,
@@ -647,7 +647,7 @@
         "afterTorsoHeight": 97.0
       },
       "output": {
-        "sha256": "4193842a1d915dae7f7fb2351863c310ea388a589da591e65fe005c794e67796",
+        "sha256": "f4cb57c34a11c94a42dae3df124e3b6a670464caf0adc107fc5058b336b208d8",
         "alphaBounds": [
           234,
           100,
@@ -674,7 +674,7 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "1111323ef8e0b8ec1556f581389044c7c72252edd00910bafe20ecee89fd6ead",
+        "sha256": "878ce0799793f900240f0f462d37d426d39ceb223ca399e610c14cb2c7669fc0",
         "alphaBounds": [
           231,
           99,
@@ -725,7 +725,7 @@
         "afterTorsoHeight": 96.0
       },
       "output": {
-        "sha256": "70a59c6beb6116b81d27a86970ef765bca557abe9b4285755bf5ffd6f7b953b9",
+        "sha256": "fb1713a606e2bd3658d4c10f6d1a2ae88ce84694f9e4389a700169aaaf487c47",
         "alphaBounds": [
           232,
           102,
@@ -752,7 +752,7 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "db2dc93d2a5f3ac6ca12a6bb3f8efe524cae3931d4e96d502d4d7f6e4ea48305",
+        "sha256": "443e0f4d93437dc18a08ed3d6cbfe6f7b2e77b0ec4f21a6b1deb057207800e39",
         "alphaBounds": [
           230,
           97,
@@ -803,7 +803,7 @@
         "afterTorsoHeight": 96.0
       },
       "output": {
-        "sha256": "db8cb1cb74ca90ee625886d50a2f1d76490e5e977b344a8f8468e7ec9648f5be",
+        "sha256": "77b3e9cc04082986ce209b5c54fee6debcc5b3cd2ea6d8e13aaddedb1c94b274",
         "alphaBounds": [
           231,
           101,
@@ -830,7 +830,7 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "d976729c4baa156a1f6ac83b923276736d3a904292d9ffbd15c395315d76eb07",
+        "sha256": "8c4713512fe68dea00c7aa400219e6213f99166f7f0aeb0867bdd8b86e48e2df",
         "alphaBounds": [
           227,
           97,
@@ -881,7 +881,7 @@
         "afterTorsoHeight": 96.0
       },
       "output": {
-        "sha256": "77e2b827ba2ce3691f9c3245ea5adab4be8d122342d801dea403c81d3e3ddbc1",
+        "sha256": "84faddce191e7106219f13df9fe43a58ba4734c872b0aa452b5f4133aa7d358a",
         "alphaBounds": [
           230,
           102,
@@ -908,7 +908,7 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "8592e6bcde4e12b26c40b78193a3a7ffda75ace364048aff2b417e1609213d15",
+        "sha256": "f88b939ba2519ed81c52a2bf65a5fc2cba15605544c2f1c267d9d74e0bfc290c",
         "alphaBounds": [
           230,
           98,
@@ -959,7 +959,7 @@
         "afterTorsoHeight": 95.0
       },
       "output": {
-        "sha256": "60701891183c81f39468c2bcd4df488554bd2ce5a9a1f991566b1a41a843ef15",
+        "sha256": "00df5948241546e67e0f5a30339443c52ec41f1f4b099bdf4adb5444ca88df1a",
         "alphaBounds": [
           231,
           105,
@@ -990,7 +990,7 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "d887de3036fceb4ba293739aae9a7da81704f3615ed152fb112ca0a5985f526f",
+        "sha256": "41469403bddaa3661f70400b9f9242c720921e55ea3a700e36ab26a463a949a9",
         "alphaBounds": [
           231,
           105,
@@ -1041,7 +1041,7 @@
         "afterTorsoHeight": 96.0
       },
       "output": {
-        "sha256": "152d5b8025c65c63f6deee72e862570998992889e3b0e614987f99bc0badde30",
+        "sha256": "cee7de5ff67c29aa74824eddeecd45b2603d7da3c16158f0da39117a75e04607",
         "alphaBounds": [
           233,
           109,
@@ -1068,7 +1068,7 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "bd8958f41a999ef307f067083b2e23526d775f11842f5b7812a504b1012fa060",
+        "sha256": "8c029e474fe66588a933393448f5d1d4cf775c53b846a1c2ca99622f607cb766",
         "alphaBounds": [
           232,
           107,
@@ -1119,7 +1119,7 @@
         "afterTorsoHeight": 95.0
       },
       "output": {
-        "sha256": "bb9f3676841427d2709fc09eb5cd2625d7e5423ae4122623c1608f282d660aa9",
+        "sha256": "d8414166310892bdbfb5bbec22f9ca840d7e4a03eef2293c58d180509fb36c74",
         "alphaBounds": [
           231,
           102,
@@ -1146,7 +1146,7 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "2dcbaf11f4a588aaef2ea8282d18fbcc972c5297ce74164e2067bb382c916e71",
+        "sha256": "1cb281796b7124972a18587c4a49b769536ce1ebad2e725a183dc87819385828",
         "alphaBounds": [
           227,
           96,
@@ -1197,7 +1197,7 @@
         "afterTorsoHeight": 86.0
       },
       "output": {
-        "sha256": "b67fc63c61dfd0fd89f6eb59b3a6720891f567626894c1ab03af6107bbd864ac",
+        "sha256": "be3f99f08a18d28c55178ad83b447f4e3b4f350a82b6f5cbc3a6ca13df49e62a",
         "alphaBounds": [
           235,
           35,
@@ -1224,7 +1224,7 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "24eebddaed1b1c74bdde66f3f4a87ca2b54dcb090ac5e0094bad53e3e18a0b7a",
+        "sha256": "9070b822a2d543ef1e4064d27d40c8ac7a3664f63650550c7dc95fc32c62b14b",
         "alphaBounds": [
           230,
           97,
@@ -1275,7 +1275,7 @@
         "afterTorsoHeight": 89.0
       },
       "output": {
-        "sha256": "24c8f5dfa9697347ef1f32f7ee545c5b6e31b4654f7ea49beb209fd6284706b5",
+        "sha256": "4db2bb026fcab68c5d08de2454ffae1c9cfb5d9d07c6649426ee79db9f64334a",
         "alphaBounds": [
           237,
           50,
@@ -1302,7 +1302,7 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "3bd9f24d8d84cb0a542fe30d8e77a6e219b6aa8be2917b8acfd110ac9a02d064",
+        "sha256": "277cd6297dae0a46e050409c508527ff27f8b955389037490cf39a638d34747a",
         "alphaBounds": [
           229,
           96,
@@ -1353,7 +1353,7 @@
         "afterTorsoHeight": 96.0
       },
       "output": {
-        "sha256": "e39745cfaf9bec10159687d587ec3d8772e7b221d24b2e4a5c4636a895623a96",
+        "sha256": "684a5abb716a722135e2acc0fc11419625f7455dc87ad9f33d23c1ac1436d593",
         "alphaBounds": [
           231,
           99,
@@ -1384,7 +1384,7 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "a5b13a4e9fabe92ad42e34a6437cf1b44b6da06e8c88483e31b6f2cb7e80b16b",
+        "sha256": "3c8d55cea14ae6a67bdcc5aa9c7b46ec7db9aaaf8885b4039fdfd8b8f9352fe7",
         "alphaBounds": [
           235,
           100,
@@ -1435,7 +1435,7 @@
         "afterTorsoHeight": 95.0
       },
       "output": {
-        "sha256": "b11b65205ad8bd46534811a6592b373d41007bdb85d910daf3b7a1298ccebf22",
+        "sha256": "7e2bbe9b4e1101952d9571b2aa9ed2016c471f49e73be78ae6ef802cb7abdd9a",
         "alphaBounds": [
           235,
           109,
@@ -1462,7 +1462,7 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "a165b0c9f72fd66abba6aa9abbd47dc30b9d1c3ab0d513be09022321f2bc5643",
+        "sha256": "fdd07c1564e2b9a3a32bfcc9dbd023752c652b2979abe73f565eac2e216f30de",
         "alphaBounds": [
           231,
           101,
@@ -1513,7 +1513,7 @@
         "afterTorsoHeight": 95.0
       },
       "output": {
-        "sha256": "af353c60a68639dc7f114261ce082391dfd6f51e23b34b075519f5e755f812ed",
+        "sha256": "df158008017fde73d0b653621f5a9e1adff0c9068d1308941b046b50d112507e",
         "alphaBounds": [
           234,
           106,
@@ -1544,7 +1544,7 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "1849f4f65e4ee0455e719c105922b2cb6b00239eb123ed5e8b16373ae59d71fd",
+        "sha256": "bb66d562d09cbb5bf3ca1cc0a17d43ad0acbd4d77ac733f4f7ed05079658a071",
         "alphaBounds": [
           231,
           101,
@@ -1565,13 +1565,85 @@
       }
     },
     {
-      "index": 40,
-      "slug": "mid-20-21",
-      "label": "Midpoint 20 to 21",
-      "filename": "hugo-neutral-idle-40-mid-20-21.png",
+      "slug": "arm-smooth-39-1",
+      "label": "Arm motion 1/2 after 39",
       "runtime": true,
       "durationTicks": 1,
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-40-mid-20-21.png",
+      "source": {
+        "type": "arm-motion-33-66-inbetween",
+        "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/arm-smooth-v2/hugo-neutral-idle-arm-smooth-transparent.png",
+        "row": 1,
+        "column": 2,
+        "maxSheetPoses": 12
+      },
+      "rootRegistration": {
+        "beforeRootX": 315.594,
+        "beforeRootY": 296.233,
+        "beforeTorsoHeight": 103.0,
+        "translationX": 4.041,
+        "translationY": -7.781,
+        "uniformScale": 0.96,
+        "afterRootX": 319.576,
+        "afterRootY": 288.352,
+        "afterTorsoHeight": 99.0
+      },
+      "index": 40,
+      "filename": "hugo-neutral-idle-40-arm-smooth-39-1.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-40-arm-smooth-39-1.png",
+      "output": {
+        "sha256": "21d3d189822f08e300c96c7f65729cdc2beb01582c2093dae0754401199c00d1",
+        "alphaBounds": [
+          239,
+          98,
+          408,
+          525
+        ]
+      }
+    },
+    {
+      "slug": "arm-smooth-39-2",
+      "label": "Arm motion 2/2 after 39",
+      "runtime": true,
+      "durationTicks": 1,
+      "source": {
+        "type": "arm-motion-33-66-inbetween",
+        "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/arm-smooth-v2/hugo-neutral-idle-arm-smooth-transparent.png",
+        "row": 1,
+        "column": 3,
+        "maxSheetPoses": 12
+      },
+      "rootRegistration": {
+        "beforeRootX": 315.386,
+        "beforeRootY": 297.237,
+        "beforeTorsoHeight": 103.0,
+        "translationX": 4.249,
+        "translationY": -8.784,
+        "uniformScale": 0.96,
+        "afterRootX": 319.612,
+        "afterRootY": 288.323,
+        "afterTorsoHeight": 99.0
+      },
+      "index": 41,
+      "filename": "hugo-neutral-idle-41-arm-smooth-39-2.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-41-arm-smooth-39-2.png",
+      "output": {
+        "sha256": "1aa4b8dcd10b8ff8baec11cba4114bb56984ff0280604634091321ed63c8c36b",
+        "alphaBounds": [
+          239,
+          97,
+          408,
+          524
+        ]
+      }
+    },
+    {
+      "index": 42,
+      "slug": "mid-20-21",
+      "label": "Midpoint 20 to 21",
+      "filename": "hugo-neutral-idle-42-mid-20-21.png",
+      "runtime": true,
+      "durationTicks": 1,
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-42-mid-20-21.png",
       "source": {
         "type": "24fps-adjacent-pair-inbetween",
         "board": "art/source-images/game/2d-v02/animations/neutral-idle/24fps-bridges/hugo-neutral-idle-24fps-bridge-board-e-transparent.png",
@@ -1595,7 +1667,7 @@
         "afterTorsoHeight": 97.0
       },
       "output": {
-        "sha256": "3b7599e4aacbfd6cabb5c8ddd63908d90a986cd4dc878cc1e2de1886b46341dc",
+        "sha256": "9815b6b491aa5dcacb22f2a03e0ec0ebae148da5a71e4de74ed677b0eaba61c6",
         "alphaBounds": [
           232,
           102,
@@ -1605,13 +1677,13 @@
       }
     },
     {
-      "index": 41,
+      "index": 43,
       "slug": "hand-rise",
       "label": "Hand rises",
-      "filename": "hugo-neutral-idle-41-hand-rise.png",
+      "filename": "hugo-neutral-idle-43-hand-rise.png",
       "runtime": true,
       "durationTicks": 1,
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-41-hand-rise.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-43-hand-rise.png",
       "source": {
         "type": "generated-sheet-frame",
         "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-b-transparent.png",
@@ -1622,7 +1694,7 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "703f1d0155fdb28bc6bdf3de2500b95a9cfb6e83f79727d89da376ce6b6a2b7d",
+        "sha256": "f3222d144f78b7d7ef2c361234bbe39bd4934284af26eb501e1fc49275671f52",
         "alphaBounds": [
           230,
           98,
@@ -1643,13 +1715,85 @@
       }
     },
     {
-      "index": 42,
-      "slug": "mid-21-22",
-      "label": "Midpoint 21 to 22",
-      "filename": "hugo-neutral-idle-42-mid-21-22.png",
+      "slug": "arm-smooth-41-1",
+      "label": "Arm motion 1/2 after 41",
       "runtime": true,
       "durationTicks": 1,
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-42-mid-21-22.png",
+      "source": {
+        "type": "arm-motion-33-66-inbetween",
+        "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/arm-smooth-v2/hugo-neutral-idle-arm-smooth-transparent.png",
+        "row": 2,
+        "column": 2,
+        "maxSheetPoses": 12
+      },
+      "rootRegistration": {
+        "beforeRootX": 319.788,
+        "beforeRootY": 349.32,
+        "beforeTorsoHeight": 81.0,
+        "translationX": -0.154,
+        "translationY": -60.868,
+        "uniformScale": 1.04,
+        "afterRootX": 319.707,
+        "afterRootY": 288.573,
+        "afterTorsoHeight": 85.0
+      },
+      "index": 44,
+      "filename": "hugo-neutral-idle-44-arm-smooth-41-1.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-44-arm-smooth-41-1.png",
+      "output": {
+        "sha256": "4ebb5a9604e09e2dfa9df7dee276b994e85a3487a0ed6e7135b58ce00b464c6e",
+        "alphaBounds": [
+          241,
+          27,
+          397,
+          489
+        ]
+      }
+    },
+    {
+      "slug": "arm-smooth-41-2",
+      "label": "Arm motion 2/2 after 41",
+      "runtime": true,
+      "durationTicks": 1,
+      "source": {
+        "type": "arm-motion-33-66-inbetween",
+        "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/arm-smooth-v2/hugo-neutral-idle-arm-smooth-transparent.png",
+        "row": 2,
+        "column": 3,
+        "maxSheetPoses": 12
+      },
+      "rootRegistration": {
+        "beforeRootX": 315.942,
+        "beforeRootY": 347.914,
+        "beforeTorsoHeight": 81.0,
+        "translationX": 3.692,
+        "translationY": -59.462,
+        "uniformScale": 1.04,
+        "afterRootX": 319.734,
+        "afterRootY": 288.531,
+        "afterTorsoHeight": 85.0
+      },
+      "index": 45,
+      "filename": "hugo-neutral-idle-45-arm-smooth-41-2.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-45-arm-smooth-41-2.png",
+      "output": {
+        "sha256": "dba44123f199c6c13036614ccefc976741f7cacb2722911f0ceba7bff3eec0cc",
+        "alphaBounds": [
+          245,
+          28,
+          401,
+          491
+        ]
+      }
+    },
+    {
+      "index": 46,
+      "slug": "mid-21-22",
+      "label": "Midpoint 21 to 22",
+      "filename": "hugo-neutral-idle-46-mid-21-22.png",
+      "runtime": true,
+      "durationTicks": 1,
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-46-mid-21-22.png",
       "source": {
         "type": "24fps-adjacent-pair-inbetween",
         "board": "art/source-images/game/2d-v02/animations/neutral-idle/24fps-bridges/hugo-neutral-idle-24fps-bridge-board-f-transparent.png",
@@ -1673,7 +1817,7 @@
         "afterTorsoHeight": 96.0
       },
       "output": {
-        "sha256": "93721165ee168404327891926fafdcc3fbcf047e03391964d77b5e7585e1c46f",
+        "sha256": "d66febf1d8a34c806fc6fc0f1a03e005175ce458f0321a5dc1e2ea267b4cc9a2",
         "alphaBounds": [
           225,
           106,
@@ -1683,13 +1827,13 @@
       }
     },
     {
-      "index": 43,
+      "index": 47,
       "slug": "reach-close",
       "label": "Reach closes",
-      "filename": "hugo-neutral-idle-43-reach-close.png",
+      "filename": "hugo-neutral-idle-47-reach-close.png",
       "runtime": true,
       "durationTicks": 1,
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-43-reach-close.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-47-reach-close.png",
       "source": {
         "type": "adjacent-pair-inbetween",
         "board": "art/source-images/game/2d-v02/animations/neutral-idle/inbetween-v2/hugo-neutral-idle-inbetween-board-b-transparent.png",
@@ -1704,7 +1848,7 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "72d7dfc5fdc9e89e1548869d5430750f7d8f326b108de5cfdf4f9334feeca680",
+        "sha256": "e3be153f41926d6e9338d378e425ce0a2fbbc5950b7ed0a11e56bad271ef682a",
         "alphaBounds": [
           231,
           100,
@@ -1725,13 +1869,85 @@
       }
     },
     {
-      "index": 44,
-      "slug": "mid-22-23",
-      "label": "Midpoint 22 to 23",
-      "filename": "hugo-neutral-idle-44-mid-22-23.png",
+      "slug": "arm-smooth-43-1",
+      "label": "Arm motion 1/2 after 43",
       "runtime": true,
       "durationTicks": 1,
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-44-mid-22-23.png",
+      "source": {
+        "type": "arm-motion-33-66-inbetween",
+        "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/arm-smooth-v2/hugo-neutral-idle-arm-smooth-transparent.png",
+        "row": 3,
+        "column": 2,
+        "maxSheetPoses": 12
+      },
+      "rootRegistration": {
+        "beforeRootX": 319.231,
+        "beforeRootY": 347.909,
+        "beforeTorsoHeight": 81.0,
+        "translationX": 0.404,
+        "translationY": -59.457,
+        "uniformScale": 1.04,
+        "afterRootX": 319.601,
+        "afterRootY": 288.292,
+        "afterTorsoHeight": 84.0
+      },
+      "index": 48,
+      "filename": "hugo-neutral-idle-48-arm-smooth-43-1.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-48-arm-smooth-43-1.png",
+      "output": {
+        "sha256": "0902ea312968e39d2f7b229699928d7f69c3680900f71dc841989a0a18d01919",
+        "alphaBounds": [
+          242,
+          28,
+          398,
+          491
+        ]
+      }
+    },
+    {
+      "slug": "arm-smooth-43-2",
+      "label": "Arm motion 2/2 after 43",
+      "runtime": true,
+      "durationTicks": 1,
+      "source": {
+        "type": "arm-motion-33-66-inbetween",
+        "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/arm-smooth-v2/hugo-neutral-idle-arm-smooth-transparent.png",
+        "row": 3,
+        "column": 3,
+        "maxSheetPoses": 12
+      },
+      "rootRegistration": {
+        "beforeRootX": 318.482,
+        "beforeRootY": 347.58,
+        "beforeTorsoHeight": 81.0,
+        "translationX": 1.153,
+        "translationY": -59.128,
+        "uniformScale": 1.04,
+        "afterRootX": 319.694,
+        "afterRootY": 288.311,
+        "afterTorsoHeight": 85.0
+      },
+      "index": 49,
+      "filename": "hugo-neutral-idle-49-arm-smooth-43-2.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-49-arm-smooth-43-2.png",
+      "output": {
+        "sha256": "996ecfbfc48cf9db7d9e1dac132dc096145f6bd148827a61293d6774a92c4435",
+        "alphaBounds": [
+          243,
+          28,
+          398,
+          491
+        ]
+      }
+    },
+    {
+      "index": 50,
+      "slug": "mid-22-23",
+      "label": "Midpoint 22 to 23",
+      "filename": "hugo-neutral-idle-50-mid-22-23.png",
+      "runtime": true,
+      "durationTicks": 1,
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-50-mid-22-23.png",
       "source": {
         "type": "24fps-adjacent-pair-inbetween",
         "board": "art/source-images/game/2d-v02/animations/neutral-idle/24fps-bridges/hugo-neutral-idle-24fps-bridge-board-f-transparent.png",
@@ -1755,7 +1971,7 @@
         "afterTorsoHeight": 96.0
       },
       "output": {
-        "sha256": "c8ed317d3b4eb2400e66334301dcfd0bd854fb5f9ec5a237d71ad47f79c34875",
+        "sha256": "2d70fe2ca8a7f5795d23067a7338d8125b2ba03c4423e9d204e085de148909f4",
         "alphaBounds": [
           232,
           105,
@@ -1765,13 +1981,13 @@
       }
     },
     {
-      "index": 45,
+      "index": 51,
       "slug": "gum-contact",
       "label": "Purple gum contact",
-      "filename": "hugo-neutral-idle-45-gum-contact.png",
+      "filename": "hugo-neutral-idle-51-gum-contact.png",
       "runtime": true,
       "durationTicks": 1,
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-45-gum-contact.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-51-gum-contact.png",
       "source": {
         "type": "generated-sheet-frame",
         "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-b-transparent.png",
@@ -1782,7 +1998,7 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "81a52f860103295b590890b4d5c680584b51044d8ddc4859cd5ba361f1477c4c",
+        "sha256": "6f1b0d85d22f5b6d952d3f2fff63868e709309920691f62e06e3674d3f090975",
         "alphaBounds": [
           229,
           96,
@@ -1803,13 +2019,13 @@
       }
     },
     {
-      "index": 46,
+      "index": 52,
       "slug": "mid-23-24",
       "label": "Midpoint 23 to 24",
-      "filename": "hugo-neutral-idle-46-mid-23-24.png",
+      "filename": "hugo-neutral-idle-52-mid-23-24.png",
       "runtime": true,
       "durationTicks": 1,
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-46-mid-23-24.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-52-mid-23-24.png",
       "source": {
         "type": "24fps-adjacent-pair-inbetween",
         "board": "art/source-images/game/2d-v02/animations/neutral-idle/24fps-bridges/hugo-neutral-idle-24fps-bridge-board-f-transparent.png",
@@ -1833,7 +2049,7 @@
         "afterTorsoHeight": 96.0
       },
       "output": {
-        "sha256": "0a5e97326b931742114a60e8bb244167b1801fb805fc92c4017a25cb98adedb3",
+        "sha256": "635a70e2b1a7015a6f203b27cb12f81a032493ba8b9458edce738e78c278b434",
         "alphaBounds": [
           233,
           110,
@@ -1843,13 +2059,13 @@
       }
     },
     {
-      "index": 47,
+      "index": 53,
       "slug": "peel-start",
       "label": "Peel starts",
-      "filename": "hugo-neutral-idle-47-peel-start.png",
+      "filename": "hugo-neutral-idle-53-peel-start.png",
       "runtime": true,
       "durationTicks": 1,
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-47-peel-start.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-53-peel-start.png",
       "source": {
         "type": "adjacent-pair-inbetween",
         "board": "art/source-images/game/2d-v02/animations/neutral-idle/inbetween-v2/hugo-neutral-idle-inbetween-board-b-transparent.png",
@@ -1864,7 +2080,7 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "2666f484c8c45eabdd2a5b76ff7e75906cde1701e900fd9e03aa9a149fc9a724",
+        "sha256": "c9ccc4a35f92b801664cbd8c736611ca52bbb2fc9e1532174bc01164f4ea2c79",
         "alphaBounds": [
           230,
           99,
@@ -1885,13 +2101,13 @@
       }
     },
     {
-      "index": 48,
+      "index": 54,
       "slug": "mid-24-25",
       "label": "Midpoint 24 to 25",
-      "filename": "hugo-neutral-idle-48-mid-24-25.png",
+      "filename": "hugo-neutral-idle-54-mid-24-25.png",
       "runtime": true,
       "durationTicks": 1,
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-48-mid-24-25.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-54-mid-24-25.png",
       "source": {
         "type": "24fps-adjacent-pair-inbetween",
         "board": "art/source-images/game/2d-v02/animations/neutral-idle/24fps-bridges/hugo-neutral-idle-24fps-bridge-board-f-transparent.png",
@@ -1915,7 +2131,7 @@
         "afterTorsoHeight": 96.0
       },
       "output": {
-        "sha256": "f6ae7594de658372cc37f230a20fa70029b347b1694e337aec8a842c43cd0321",
+        "sha256": "c15f6d75f682e6c54551dce25b0ac40a8024fd47cc6cfaa576005694e0499f28",
         "alphaBounds": [
           233,
           108,
@@ -1925,13 +2141,13 @@
       }
     },
     {
-      "index": 49,
+      "index": 55,
       "slug": "gum-peel",
       "label": "Purple gum peel",
-      "filename": "hugo-neutral-idle-49-gum-peel.png",
+      "filename": "hugo-neutral-idle-55-gum-peel.png",
       "runtime": true,
       "durationTicks": 1,
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-49-gum-peel.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-55-gum-peel.png",
       "source": {
         "type": "generated-sheet-frame",
         "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-b-transparent.png",
@@ -1942,7 +2158,7 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "be321d92b2fda19e1549c479fd61dec960b1130683a54f1ae90aea75cf4c2be0",
+        "sha256": "60009d1867abe0c5eddf2238ca85e15d15987d7bf0827f204b01ed02a5b57b8a",
         "alphaBounds": [
           228,
           95,
@@ -1963,13 +2179,13 @@
       }
     },
     {
-      "index": 50,
+      "index": 56,
       "slug": "mid-25-26",
       "label": "Midpoint 25 to 26",
-      "filename": "hugo-neutral-idle-50-mid-25-26.png",
+      "filename": "hugo-neutral-idle-56-mid-25-26.png",
       "runtime": true,
       "durationTicks": 1,
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-50-mid-25-26.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-56-mid-25-26.png",
       "source": {
         "type": "24fps-adjacent-pair-inbetween",
         "board": "art/source-images/game/2d-v02/animations/neutral-idle/24fps-bridges/hugo-neutral-idle-24fps-bridge-board-g-transparent.png",
@@ -1993,7 +2209,7 @@
         "afterTorsoHeight": 95.0
       },
       "output": {
-        "sha256": "ae4cd9ef5c4abf256e5a80e49299d12f1603956d427d8b793d11805a1835bfa0",
+        "sha256": "008e9e3538f25be95f02d8dc26c85281848d218bc9ef6c0b453c4eb4887a808a",
         "alphaBounds": [
           229,
           104,
@@ -2003,13 +2219,13 @@
       }
     },
     {
-      "index": 51,
+      "index": 57,
       "slug": "stretch-mid",
       "label": "Stretch midpoint",
-      "filename": "hugo-neutral-idle-51-stretch-mid.png",
+      "filename": "hugo-neutral-idle-57-stretch-mid.png",
       "runtime": true,
       "durationTicks": 1,
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-51-stretch-mid.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-57-stretch-mid.png",
       "source": {
         "type": "adjacent-pair-inbetween",
         "board": "art/source-images/game/2d-v02/animations/neutral-idle/inbetween-v2/hugo-neutral-idle-inbetween-board-b-transparent.png",
@@ -2024,7 +2240,7 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "fdb0afde79486c9d98ceb1772b487461384c0902e3143117925a1814b945b232",
+        "sha256": "ce4e0efd8b20ed6f6ac80ff96ab2c6479c0932fa655643fe160c23715c662c6c",
         "alphaBounds": [
           230,
           101,
@@ -2045,13 +2261,13 @@
       }
     },
     {
-      "index": 52,
+      "index": 58,
       "slug": "mid-26-27",
       "label": "Midpoint 26 to 27",
-      "filename": "hugo-neutral-idle-52-mid-26-27.png",
+      "filename": "hugo-neutral-idle-58-mid-26-27.png",
       "runtime": true,
       "durationTicks": 1,
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-52-mid-26-27.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-58-mid-26-27.png",
       "source": {
         "type": "24fps-adjacent-pair-inbetween",
         "board": "art/source-images/game/2d-v02/animations/neutral-idle/24fps-bridges/hugo-neutral-idle-24fps-bridge-board-g-transparent.png",
@@ -2075,7 +2291,7 @@
         "afterTorsoHeight": 95.0
       },
       "output": {
-        "sha256": "4143cef32f5c527201fe9cd8609f704cf679d935b1ed5c868b23655f2d832d41",
+        "sha256": "3289205479dbabc9b11c21c42314dbd41f2e712930b05675a75bfaa17de59ec1",
         "alphaBounds": [
           230,
           105,
@@ -2085,13 +2301,13 @@
       }
     },
     {
-      "index": 53,
+      "index": 59,
       "slug": "gum-stretch",
       "label": "Purple gum stretch",
-      "filename": "hugo-neutral-idle-53-gum-stretch.png",
+      "filename": "hugo-neutral-idle-59-gum-stretch.png",
       "runtime": true,
       "durationTicks": 1,
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-53-gum-stretch.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-59-gum-stretch.png",
       "source": {
         "type": "generated-sheet-frame",
         "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-b-transparent.png",
@@ -2102,7 +2318,7 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "30d4c5fdb0b875c89730727468442ad4eebbda7ce413ac85b2fdac0db4682181",
+        "sha256": "5d88df7adba9ce0ea1fbfcc681e6f97d8009825a6f225fbb42f63e4fd4f0d37d",
         "alphaBounds": [
           232,
           98,
@@ -2123,13 +2339,13 @@
       }
     },
     {
-      "index": 54,
+      "index": 60,
       "slug": "mid-27-28",
       "label": "Midpoint 27 to 28",
-      "filename": "hugo-neutral-idle-54-mid-27-28.png",
+      "filename": "hugo-neutral-idle-60-mid-27-28.png",
       "runtime": true,
       "durationTicks": 1,
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-54-mid-27-28.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-60-mid-27-28.png",
       "source": {
         "type": "24fps-adjacent-pair-inbetween",
         "board": "art/source-images/game/2d-v02/animations/neutral-idle/24fps-bridges/hugo-neutral-idle-24fps-bridge-board-g-transparent.png",
@@ -2153,7 +2369,7 @@
         "afterTorsoHeight": 95.0
       },
       "output": {
-        "sha256": "d033faa7dc043c638c13b55e23f3a5c5b6a8c24607fd8e0e00eea3bad76e8571",
+        "sha256": "5bdb507a017b5bd38717e010aba71277f726382c2004aab93b61c94a801d02f8",
         "alphaBounds": [
           230,
           105,
@@ -2163,13 +2379,13 @@
       }
     },
     {
-      "index": 55,
+      "index": 61,
       "slug": "detach-recoil",
       "label": "Detach and recoil",
-      "filename": "hugo-neutral-idle-55-detach-recoil.png",
+      "filename": "hugo-neutral-idle-61-detach-recoil.png",
       "runtime": true,
       "durationTicks": 1,
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-55-detach-recoil.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-61-detach-recoil.png",
       "source": {
         "type": "adjacent-pair-inbetween",
         "board": "art/source-images/game/2d-v02/animations/neutral-idle/inbetween-v2/hugo-neutral-idle-inbetween-board-c-transparent.png",
@@ -2184,7 +2400,7 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "13e8bc9c9f989215686ff3b2205151f692fd6e3d0cfb469fbdcc374099a3dfe6",
+        "sha256": "5c366893dc5533a7e00cee9d187a78d853bba16c1fad4950a98c99cf96c455f9",
         "alphaBounds": [
           230,
           101,
@@ -2205,13 +2421,13 @@
       }
     },
     {
-      "index": 56,
+      "index": 62,
       "slug": "mid-28-29",
       "label": "Midpoint 28 to 29",
-      "filename": "hugo-neutral-idle-56-mid-28-29.png",
+      "filename": "hugo-neutral-idle-62-mid-28-29.png",
       "runtime": true,
       "durationTicks": 1,
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-56-mid-28-29.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-62-mid-28-29.png",
       "source": {
         "type": "24fps-adjacent-pair-inbetween",
         "board": "art/source-images/game/2d-v02/animations/neutral-idle/24fps-bridges/hugo-neutral-idle-24fps-bridge-board-g-transparent.png",
@@ -2235,7 +2451,7 @@
         "afterTorsoHeight": 97.0
       },
       "output": {
-        "sha256": "ac32ca3bb1b6a110f310b3885ad5e2ffb82ad6a96023003245df4c2f9ecdafe2",
+        "sha256": "53a2bc9f85331f1043fe65d71bdcac6b654d8456cab3ffdd4a098735d6fe0265",
         "alphaBounds": [
           228,
           103,
@@ -2245,13 +2461,13 @@
       }
     },
     {
-      "index": 57,
+      "index": 63,
       "slug": "gum-free",
       "label": "Purple gum free",
-      "filename": "hugo-neutral-idle-57-gum-free.png",
+      "filename": "hugo-neutral-idle-63-gum-free.png",
       "runtime": true,
       "durationTicks": 1,
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-57-gum-free.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-63-gum-free.png",
       "source": {
         "type": "generated-sheet-frame",
         "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-b-transparent.png",
@@ -2262,7 +2478,7 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "956e05e9292b0366d36892d612254e370b6d1cc6c16edd7ee604f86311ea40e3",
+        "sha256": "06603b706777710724bc38aaba59616542f47ece871a3176ef28d954d644964f",
         "alphaBounds": [
           229,
           93,
@@ -2283,13 +2499,13 @@
       }
     },
     {
-      "index": 58,
+      "index": 64,
       "slug": "mid-29-30",
       "label": "Midpoint 29 to 30",
-      "filename": "hugo-neutral-idle-58-mid-29-30.png",
+      "filename": "hugo-neutral-idle-64-mid-29-30.png",
       "runtime": true,
       "durationTicks": 1,
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-58-mid-29-30.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-64-mid-29-30.png",
       "source": {
         "type": "24fps-adjacent-pair-inbetween",
         "board": "art/source-images/game/2d-v02/animations/neutral-idle/24fps-bridges/hugo-neutral-idle-24fps-bridge-board-h-transparent.png",
@@ -2313,7 +2529,7 @@
         "afterTorsoHeight": 96.0
       },
       "output": {
-        "sha256": "db9ff3b7faf83314752e308f56e12cc521e1f1f055c34e689fcc4d07091d0ff9",
+        "sha256": "27232f640bd326df23449827749dcd9b2b41e7d01cb4cb650d1922a9c9baf11e",
         "alphaBounds": [
           231,
           102,
@@ -2323,13 +2539,13 @@
       }
     },
     {
-      "index": 59,
+      "index": 65,
       "slug": "inspect-to-eye-roll",
       "label": "Inspect to eye roll",
-      "filename": "hugo-neutral-idle-59-inspect-to-eye-roll.png",
+      "filename": "hugo-neutral-idle-65-inspect-to-eye-roll.png",
       "runtime": true,
       "durationTicks": 1,
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-59-inspect-to-eye-roll.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-65-inspect-to-eye-roll.png",
       "source": {
         "type": "adjacent-pair-inbetween",
         "board": "art/source-images/game/2d-v02/animations/neutral-idle/inbetween-v2/hugo-neutral-idle-inbetween-board-c-transparent.png",
@@ -2344,7 +2560,7 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "deabd2c8c2826d5f1f3aa5ff131aff55e0bc0f0a53e91b951a5d2a87e4eecedc",
+        "sha256": "4b6d6c302da071b288c8f8d7cc0973e963c2d8c52df3552c1ed4f56e71629693",
         "alphaBounds": [
           230,
           100,
@@ -2365,13 +2581,13 @@
       }
     },
     {
-      "index": 60,
+      "index": 66,
       "slug": "mid-30-31",
       "label": "Midpoint 30 to 31",
-      "filename": "hugo-neutral-idle-60-mid-30-31.png",
+      "filename": "hugo-neutral-idle-66-mid-30-31.png",
       "runtime": true,
       "durationTicks": 1,
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-60-mid-30-31.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-66-mid-30-31.png",
       "source": {
         "type": "24fps-adjacent-pair-inbetween",
         "board": "art/source-images/game/2d-v02/animations/neutral-idle/24fps-bridges/hugo-neutral-idle-24fps-bridge-board-h-transparent.png",
@@ -2395,7 +2611,7 @@
         "afterTorsoHeight": 97.0
       },
       "output": {
-        "sha256": "925a81745da29a9ba7fc79e71af1109a0661d8dd755807617718ab3f622f2944",
+        "sha256": "54890e8857de90d39083cf71f46dc76ef0d64501d80fef327d0c2a6c8c6a003e",
         "alphaBounds": [
           230,
           102,
@@ -2405,13 +2621,13 @@
       }
     },
     {
-      "index": 61,
+      "index": 67,
       "slug": "bored-eye-roll",
       "label": "Bored eye roll",
-      "filename": "hugo-neutral-idle-61-bored-eye-roll.png",
+      "filename": "hugo-neutral-idle-67-bored-eye-roll.png",
       "runtime": true,
       "durationTicks": 1,
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-61-bored-eye-roll.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-67-bored-eye-roll.png",
       "source": {
         "type": "generated-sheet-frame",
         "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-b-transparent.png",
@@ -2422,7 +2638,7 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "31bc545d65a710ac45a1754cde7038631f3026cc69bd5c46c31e766eedbad0d7",
+        "sha256": "a4ccac277042d402354beccc9c3e70c51c236354e9679e8d1034b11f8307e197",
         "alphaBounds": [
           228,
           95,
@@ -2443,13 +2659,13 @@
       }
     },
     {
-      "index": 62,
+      "index": 68,
       "slug": "mid-31-32",
       "label": "Midpoint 31 to 32",
-      "filename": "hugo-neutral-idle-62-mid-31-32.png",
+      "filename": "hugo-neutral-idle-68-mid-31-32.png",
       "runtime": true,
       "durationTicks": 1,
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-62-mid-31-32.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-68-mid-31-32.png",
       "source": {
         "type": "24fps-adjacent-pair-inbetween",
         "board": "art/source-images/game/2d-v02/animations/neutral-idle/24fps-bridges/hugo-neutral-idle-24fps-bridge-board-h-transparent.png",
@@ -2473,7 +2689,7 @@
         "afterTorsoHeight": 95.0
       },
       "output": {
-        "sha256": "dbdef0b2da6e0fce1ebf75cb0386c0c609120eb1497acda18dd344d63c449dd2",
+        "sha256": "644f4bb36e6bf841aafbe12ede5c6218bfb38b8d08b6af4dee3a51483f15ceb1",
         "alphaBounds": [
           232,
           103,
@@ -2483,13 +2699,13 @@
       }
     },
     {
-      "index": 63,
+      "index": 69,
       "slug": "gum-flick",
       "label": "Purple gum flick",
-      "filename": "hugo-neutral-idle-63-gum-flick.png",
+      "filename": "hugo-neutral-idle-69-gum-flick.png",
       "runtime": true,
       "durationTicks": 1,
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-63-gum-flick.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-69-gum-flick.png",
       "source": {
         "type": "adjacent-pair-inbetween",
         "board": "art/source-images/game/2d-v02/animations/neutral-idle/inbetween-v2/hugo-neutral-idle-inbetween-board-c-transparent.png",
@@ -2504,7 +2720,7 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "711f8364714292d6c3c9f931af0aff57a262545a25f95ac99fa13dc2adf5dca6",
+        "sha256": "85e8ac02ee6d9483bf3f8dce409dd87752bf7c6412f9c09de92e6049107e9976",
         "alphaBounds": [
           232,
           102,
@@ -2525,13 +2741,13 @@
       }
     },
     {
-      "index": 64,
+      "index": 70,
       "slug": "mid-32-33",
       "label": "Midpoint 32 to 33",
-      "filename": "hugo-neutral-idle-64-mid-32-33.png",
+      "filename": "hugo-neutral-idle-70-mid-32-33.png",
       "runtime": true,
       "durationTicks": 1,
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-64-mid-32-33.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-70-mid-32-33.png",
       "source": {
         "type": "24fps-adjacent-pair-inbetween",
         "board": "art/source-images/game/2d-v02/animations/neutral-idle/24fps-bridges/hugo-neutral-idle-24fps-bridge-board-h-transparent.png",
@@ -2555,7 +2771,7 @@
         "afterTorsoHeight": 97.0
       },
       "output": {
-        "sha256": "eb3fe599861e76a7172db5a3681171214e9a9a8e72785f9f9724fdcbb15f9e9d",
+        "sha256": "3dfae8f1c0b43529b96cc93130f5e2323f85530638bb3421585b2597dc00cd0e",
         "alphaBounds": [
           231,
           106,
@@ -2565,13 +2781,13 @@
       }
     },
     {
-      "index": 65,
+      "index": 71,
       "slug": "arm-lower",
       "label": "Arm lowers",
-      "filename": "hugo-neutral-idle-65-arm-lower.png",
+      "filename": "hugo-neutral-idle-71-arm-lower.png",
       "runtime": true,
       "durationTicks": 1,
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-65-arm-lower.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-71-arm-lower.png",
       "source": {
         "type": "adjacent-pair-inbetween",
         "board": "art/source-images/game/2d-v02/animations/neutral-idle/inbetween-v2/hugo-neutral-idle-inbetween-board-c-transparent.png",
@@ -2586,7 +2802,7 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "4d1bfa92d356322d4cd72d0dd0a693f5b6cfd82fec9224d11cacc15dcd10066d",
+        "sha256": "f79e64f360f79f8056b5e42790a568c88fdbad9c83c828ff6537c08091ad8c14",
         "alphaBounds": [
           231,
           101,
@@ -2607,13 +2823,13 @@
       }
     },
     {
-      "index": 66,
+      "index": 72,
       "slug": "mid-33-34",
       "label": "Midpoint 33 to 34",
-      "filename": "hugo-neutral-idle-66-mid-33-34.png",
+      "filename": "hugo-neutral-idle-72-mid-33-34.png",
       "runtime": true,
       "durationTicks": 1,
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-66-mid-33-34.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-72-mid-33-34.png",
       "source": {
         "type": "24fps-adjacent-pair-inbetween",
         "board": "art/source-images/game/2d-v02/animations/neutral-idle/24fps-bridges/hugo-neutral-idle-24fps-bridge-board-i-transparent.png",
@@ -2637,7 +2853,7 @@
         "afterTorsoHeight": 96.0
       },
       "output": {
-        "sha256": "62e9d8d4667e0a30d53522b01be4eefee8fabf127d22d4061b907772c26defe9",
+        "sha256": "ce12069dc9cd71ccba9d522b795944537abda8eae7f080e04c003773c3cfc381",
         "alphaBounds": [
           187,
           106,
@@ -2647,13 +2863,13 @@
       }
     },
     {
-      "index": 67,
+      "index": 73,
       "slug": "settle",
       "label": "Settle",
-      "filename": "hugo-neutral-idle-67-settle.png",
+      "filename": "hugo-neutral-idle-73-settle.png",
       "runtime": true,
       "durationTicks": 1,
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-67-settle.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-73-settle.png",
       "source": {
         "type": "generated-sheet-frame",
         "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-b-transparent.png",
@@ -2664,7 +2880,7 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "37bcdd8ad728cf8fca7323bf89f0c072f3aec858d7e94bec7984c42badf95851",
+        "sha256": "78651b9bb8972a21f55a3e99cb306d29a8c739fb0debd4e494e28fbaeb44cede",
         "alphaBounds": [
           229,
           95,
@@ -2685,13 +2901,13 @@
       }
     },
     {
-      "index": 68,
+      "index": 74,
       "slug": "mid-34-01",
       "label": "Midpoint 34 to 01",
-      "filename": "hugo-neutral-idle-68-mid-34-01.png",
+      "filename": "hugo-neutral-idle-74-mid-34-01.png",
       "runtime": true,
       "durationTicks": 1,
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-68-mid-34-01.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-74-mid-34-01.png",
       "source": {
         "type": "24fps-adjacent-pair-inbetween",
         "board": "art/source-images/game/2d-v02/animations/neutral-idle/24fps-bridges/hugo-neutral-idle-24fps-bridge-board-i-transparent.png",
@@ -2715,7 +2931,7 @@
         "afterTorsoHeight": 96.0
       },
       "output": {
-        "sha256": "45105c61627c0ffbd936b68b4abb7e62e1c299b0edf8849b2b8c295eabdf5a5f",
+        "sha256": "c55613b4c2e00ad55e4c308aeefbbef7329b59b49b86bbbc192e235604cfe0ac",
         "alphaBounds": [
           187,
           100,
@@ -2725,13 +2941,13 @@
       }
     },
     {
-      "index": 69,
+      "index": 75,
       "slug": "loop-bookend",
       "label": "Exact frame 01 loop bookend",
-      "filename": "hugo-neutral-idle-69-loop-bookend.png",
+      "filename": "hugo-neutral-idle-75-loop-bookend.png",
       "runtime": false,
       "durationTicks": 0,
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-69-loop-bookend.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-75-loop-bookend.png",
       "source": {
         "type": "canonical-outfit-pose",
         "file": "src/assets/game/2d-v02/sunrise/poses/hugo-2d-sunrise-01-neutral-front.png",
@@ -2739,7 +2955,7 @@
         "refinement": "24fps-preserved-base-drawing"
       },
       "output": {
-        "sha256": "bcc2000e49170a1393785f1ae384555cb0469f181fef31d03b2f637d151175b7",
+        "sha256": "8916e61667e9694809c43bf04de61074f87abef2dcd6cea625d13d70f0332006",
         "alphaBounds": [
           232,
           100,
