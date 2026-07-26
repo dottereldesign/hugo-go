@@ -55,12 +55,11 @@ extracted production PNGs live under `src/assets/game/2d-v03/`.
 
 ## Version 03 animation rule
 
-Keep idle animation deliberately restrained by asking the generation for only
-two or three small actions. Once the complete poses have been generated, keep
-each pose intact. Never freeze the body by compositing isolated moving regions
-over a different base drawing:
+Keep idle animation deliberately restrained. Once the complete poses have been
+generated, keep each pose intact. Never freeze the body by compositing isolated
+moving regions over a different base drawing:
 
-1. Generate exactly 12 drawings on a 4 × 3 sheet.
+1. Generate no more than 12 drawings on a sheet.
 2. Extract every drawing to an individual transparent PNG.
 3. Remove chroma spill from each complete figure.
 4. Register each complete figure to one consistent whole-body anchor.
@@ -68,31 +67,17 @@ over a different base drawing:
 6. Never cut up, interleave, reverse, or mask the drawings unless Jamie asks.
 7. End with an exact copy of the opening pose as a review-only loop bookend.
 
-The Neutral Side groove moves only Hugo's head, front hand, and front shoe.
-That restraint comes from the generated drawings themselves—not from an
-overlay. Its runtime uses all 24 complete characters at 18 FPS: Sheet A cells
-1–12 followed by Sheet B cells 1–12. Only whole-figure chroma cleanup, uniform
-scale, and torso-anchor translation are allowed. Frame 25 is an exact copy of
-frame 01 for seam review and is not played at runtime.
-
-### Neutral Side head nod
-
-The second animation is a single 12-drawing sheet played at 12 FPS:
-
-- frames 1–6 move the head from neutral to the lowest nod;
-- frames 7–12 bring the head back to neutral;
-- the full character is redrawn and retained in every frame;
-- only the generated head angle should change; and
-- production may clean chroma and register the complete figure, but may not
-  rotate the head in code or composite it over a frozen body.
-
 ### Neutral Side head nod 03
 
-Animation 03 is the restrained review version. It uses only the first four
-complete drawings from animation 02 and plays this exact 12-step sequence at
-6 FPS over exactly 2 seconds at `1.00×`:
+Neutral Side 03 is the approved Version 03 animation. It uses four complete
+canonically coloured Outfit 03 Sunrise drawings and plays this exact 12-step
+sequence at 6 FPS over exactly 2 seconds at `1.00×`:
 `1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2`. The numbered buttons show
 the source drawing used by each runtime step and pause the loop on selection.
+
+The earlier Groove Idle and 12-frame Head Nod experiments remain archived as
+source material, but they are not displayed or bundled in the active Version
+03 animation library.
 
 ### Music reference
 

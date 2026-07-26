@@ -1,10 +1,8 @@
-import headNodManifestJson from '../assets/game/2d-v03/animations/head-nod/manifest.json';
 import headNodSoftManifestJson from '../assets/game/2d-v03/animations/head-nod-soft/manifest.json';
-import neutralGrooveManifestJson from '../assets/game/2d-v03/animations/neutral-groove/manifest.json';
 import { refreshIcons } from '../icons';
 
 const FRAME_MODULES = import.meta.glob(
-  '../assets/game/2d-v03/animations/*/frames/*.png',
+  '../assets/game/2d-v03/animations/head-nod-soft/frames/*.png',
   {
     eager: true,
     query: '?url',
@@ -63,8 +61,6 @@ const SPEED_MAX = 2;
 const SPEED_STEP = 0.05;
 
 const MANIFESTS = [
-  neutralGrooveManifestJson as AnimationManifest,
-  headNodManifestJson as AnimationManifest,
   headNodSoftManifestJson as AnimationManifest,
 ];
 
