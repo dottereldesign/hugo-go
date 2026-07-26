@@ -55,23 +55,22 @@ extracted production PNGs live under `src/assets/game/2d-v03/`.
 
 ## Version 03 animation rule
 
-Keep idle animation deliberately restrained. Choose no more than two or three
-moving regions and lock every other part of the approved pose. A generated
-sheet is source material, not an automatic production atlas:
+Keep idle animation deliberately restrained by asking the generation for only
+two or three small actions. Once the complete poses have been generated, keep
+each pose intact. Never freeze the body by compositing isolated moving regions
+over a different base drawing:
 
 1. Generate exactly 12 drawings on a 4 × 3 sheet.
 2. Extract every drawing to an individual transparent PNG.
-3. Register every drawing to the approved base pose.
-4. Composite only the named moving regions over the exact base body.
-5. Inspect the A-to-B hand-off before accepting a second sheet.
-6. Reject any sheet that introduces a jump, even when its standalone drawings
-   look good.
+3. Remove chroma spill from each complete figure.
+4. Register each complete figure to one consistent whole-body anchor.
+5. Keep every generated figure in sheet and cell order.
+6. Never cut up, interleave, reverse, or mask the drawings unless Jamie asks.
 7. End with an exact copy of the opening pose as a review-only loop bookend.
 
 The Neutral Side groove moves only Hugo's head, front hand, and front shoe.
-Its approved runtime uses 22 individual frames at 18 FPS. Sheet A eases from
-neutral to the groove peak. The generated Sheet B introduced an unacceptable
-head jump, so the locked production Sheet B begins on A12 and uses the
-registered A11–A01 sequence in reverse. This preserves pixel-perfect body
-registration and a clean loop while keeping both generated sheets archived for
-review.
+That restraint comes from the generated drawings themselves—not from an
+overlay. Its runtime uses all 24 complete characters at 18 FPS: Sheet A cells
+1–12 followed by Sheet B cells 1–12. Only whole-figure chroma cleanup, uniform
+scale, and torso-anchor translation are allowed. Frame 25 is an exact copy of
+frame 01 for seam review and is not played at runtime.

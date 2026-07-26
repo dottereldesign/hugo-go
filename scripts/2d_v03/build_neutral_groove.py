@@ -1,8 +1,8 @@
 """Build the Version 03 neutral-side groove from two sequential 4 x 3 sheets.
 
-The model supplies subtle head, hand, and shoe variants. The production pass
-registers every drawing to the cream torso panel, then composites only those
-three motion regions over the exact approved neutral-side body.
+Every generated character is kept as one complete drawing. The production pass
+only removes chroma spill and registers each whole figure to a common torso
+anchor; it never composites generated body parts over a frozen base pose.
 """
 from __future__ import annotations
 
@@ -13,15 +13,15 @@ from pathlib import Path
 
 import cv2
 import numpy as np
-from PIL import Image, ImageDraw, ImageFilter
+from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE_ROOT = ROOT / "art/source-images/game/2d-v03/animations/neutral-groove"
 SHEET_A = SOURCE_ROOT / "hugo-neutral-groove-sheet-a-transparent.png"
 SHEET_B = SOURCE_ROOT / "hugo-neutral-groove-sheet-b-transparent.png"
 CONTINUITY = SOURCE_ROOT / "hugo-neutral-groove-a12-continuity.png"
-LOCKED_A = SOURCE_ROOT / "hugo-neutral-groove-sheet-a-locked.png"
-LOCKED_B = SOURCE_ROOT / "hugo-neutral-groove-sheet-b-locked.png"
+REGISTERED_A = SOURCE_ROOT / "hugo-neutral-groove-sheet-a-registered.png"
+REGISTERED_B = SOURCE_ROOT / "hugo-neutral-groove-sheet-b-registered.png"
 BASE = (
     ROOT
     / "src/assets/game/2d-v03/sunrise-side/poses"
@@ -45,6 +45,7 @@ FRAME_LABELS = (
     "Near groove peak",
     "Finger click",
     "Groove peak",
+    "Groove peak continuation",
     "Release begins",
     "Head rises 1",
     "Toe lowers 1",
@@ -55,6 +56,7 @@ FRAME_LABELS = (
     "Return easing 2",
     "Near neutral",
     "Neutral settle",
+    "Neutral hold",
     "Exact neutral loop bookend",
 )
 
@@ -196,18 +198,24 @@ def register(image: Image.Image, target: TorsoRoot) -> tuple[Image.Image, dict[s
     }
 
 
-def motion_mask() -> Image.Image:
-    mask = Image.new("L", (CANVAS, CANVAS))
-    draw = ImageDraw.Draw(mask)
-    # Head/neck, front clicking hand/wrist, and front tapping shoe/ankle only.
-    draw.rounded_rectangle((184, 72, 319, 195), radius=24, fill=255)
-    draw.rounded_rectangle((258, 204, 337, 316), radius=20, fill=255)
-    draw.rounded_rectangle((236, 338, 344, 448), radius=24, fill=255)
-    return mask.filter(ImageFilter.GaussianBlur(2.0))
-
-
-def lock_body(base: Image.Image, generated: Image.Image, mask: Image.Image) -> Image.Image:
-    return Image.composite(generated, base, mask)
+def remove_magenta_fringe(image: Image.Image) -> Image.Image:
+    """Neutralize opaque chroma spill without changing the figure silhouette."""
+    rgba = np.asarray(image.convert("RGBA")).copy()
+    red = rgba[:, :, 0].astype(np.int16)
+    green = rgba[:, :, 1].astype(np.int16)
+    blue = rgba[:, :, 2].astype(np.int16)
+    alpha = rgba[:, :, 3]
+    spill = (
+        (alpha > 0)
+        & (red > green + 22)
+        & (blue > green + 22)
+        & (red > 70)
+        & (blue > 70)
+    )
+    neutral = np.clip(green + 12, 0, 255).astype(np.uint8)
+    rgba[:, :, 0][spill] = np.minimum(rgba[:, :, 0][spill], neutral[spill])
+    rgba[:, :, 2][spill] = np.minimum(rgba[:, :, 2][spill], neutral[spill])
+    return Image.fromarray(rgba)
 
 
 def make_sheet(frames: list[Image.Image], path: Path) -> None:
@@ -243,6 +251,7 @@ def main() -> None:
     registered_a: list[Image.Image] = []
     registrations_a: list[dict[str, float]] = []
     for frame in extract_sheet(SHEET_A):
+        frame = remove_magenta_fringe(frame)
         registered, metadata = register(frame, target)
         registered_a.append(registered)
         registrations_a.append(metadata)
@@ -255,23 +264,19 @@ def main() -> None:
     registered_b: list[Image.Image] = []
     registrations_b: list[dict[str, float]] = []
     for frame in extract_sheet(SHEET_B):
+        frame = remove_magenta_fringe(frame)
         registered, metadata = register(frame, target)
         registered_b.append(registered)
         registrations_b.append(metadata)
 
-    mask = motion_mask()
-    locked_a = [base if index == 0 else lock_body(base, frame, mask) for index, frame in enumerate(registered_a)]
-    # The generated B exploration introduced too large a head jump after its
-    # first cell. Build the approved B sheet from A in exact reverse instead:
-    # A12, A11 ... A01. This preserves every adjacent spacing decision and
-    # guarantees both the A→B join and the loop seam.
-    locked_b = list(reversed(locked_a))
-    make_sheet(locked_a, LOCKED_A)
-    make_sheet(locked_b, LOCKED_B)
+    make_sheet(registered_a, REGISTERED_A)
+    make_sheet(registered_b, REGISTERED_B)
 
-    runtime = [*locked_a, *locked_b[1:11]]
-    review = [*runtime, base]
+    runtime = [*registered_a, *registered_b]
+    review = [*runtime, registered_a[0]]
     FRAME_ROOT.mkdir(parents=True, exist_ok=True)
+    for existing in FRAME_ROOT.glob("hugo-neutral-groove-*.png"):
+        existing.unlink()
     frames: list[dict[str, object]] = []
     for index, (image, label) in enumerate(zip(review, FRAME_LABELS, strict=True), 1):
         validate_frame(image, index)
@@ -279,9 +284,18 @@ def main() -> None:
         filename = f"hugo-neutral-groove-{index:02d}-{slug}.png"
         path = FRAME_ROOT / filename
         image.save(path, optimize=True)
-        source_sheet = "A" if index <= 12 else "B-locked-reverse-of-A"
-        source_cell = index if index <= 12 else 24 - index
-        registration_index = index - 1 if index <= 12 else max(0, 23 - index)
+        if index <= 12:
+            source_sheet = "A"
+            source_cell = index
+            registration = registrations_a[index - 1]
+        elif index <= 24:
+            source_sheet = "B"
+            source_cell = index - 12
+            registration = registrations_b[index - 13]
+        else:
+            source_sheet = "A-exact-loop-bookend"
+            source_cell = 1
+            registration = registrations_a[0]
         frames.append(
             {
                 "index": index,
@@ -290,7 +304,7 @@ def main() -> None:
                 "runtime": index <= len(runtime),
                 "sourceSheet": source_sheet,
                 "sourceCell": source_cell,
-                "registration": registrations_a[registration_index],
+                "registration": registration,
                 "alphaBounds": list(alpha_bounds(image)),
                 "sha256": sha256(path),
             }
@@ -325,11 +339,10 @@ def main() -> None:
             "bookendFrame": len(review),
         },
         "productionMethod": (
-            "two sequential generated 4 x 3 source sheets; Sheet B was rejected "
-            "for a large A-to-B head jump; approved locked Sheet B starts from "
-            "exact Sheet A frame 12 and reverses A11 through A01; deterministic "
-            "torso registration; only head, front hand, and front shoe regions "
-            "are composited over the exact base body"
+            "all 24 complete character drawings from the two sequential 4 x 3 "
+            "source sheets; whole-figure chroma cleanup and deterministic torso "
+            "registration only; no body-part masks, frozen-body compositing, "
+            "interleaving, or omitted generated characters"
         ),
         "frames": frames,
     }

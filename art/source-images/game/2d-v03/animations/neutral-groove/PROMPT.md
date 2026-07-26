@@ -19,13 +19,11 @@ watermark.
 
 ## Production decision
 
-The raw generated Sheet B is retained here for audit, but it was rejected for
-the runtime because its second drawing jumped too far from Sheet A's final
-drawing. The approved locked Sheet B starts with the exact A12 groove peak and
-then uses registered A11 through A01. The result is 22 runtime drawings at
-18 FPS plus an exact copied opening pose as frame 23 for seam review.
+The runtime uses all 24 complete generated characters in their original order:
+Sheet A cells 1–12, then Sheet B cells 1–12. Each figure is extracted intact,
+cleaned of chroma spill, uniformly scaled, and translated to a shared torso
+anchor. There are no body-part masks, frozen-base overlays, reversed sequences,
+interleaved sheets, or discarded generated characters.
 
-Only the head/neck, front hand/wrist, and front shoe/ankle regions are taken
-from generated motion drawings. The torso, hips, standing leg, back foot,
-wingsuit, and back arm are the exact approved neutral-side base pixels in every
-production frame.
+Frame 25 is an exact copy of frame 01 for loop-seam review and is not played at
+runtime.

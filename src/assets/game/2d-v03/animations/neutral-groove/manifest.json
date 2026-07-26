@@ -8,12 +8,12 @@
   },
   "timing": {
     "baseFps": 18,
-    "runtimeFrameCount": 22,
-    "drawingCount": 23,
-    "loopDurationSeconds": 1.222,
-    "bookendFrame": 23
+    "runtimeFrameCount": 24,
+    "drawingCount": 25,
+    "loopDurationSeconds": 1.333,
+    "bookendFrame": 25
   },
-  "productionMethod": "two sequential generated 4 x 3 source sheets; Sheet B was rejected for a large A-to-B head jump; approved locked Sheet B starts from exact Sheet A frame 12 and reverses A11 through A01; deterministic torso registration; only head, front hand, and front shoe regions are composited over the exact base body",
+  "productionMethod": "all 24 complete character drawings from the two sequential 4 x 3 source sheets; whole-figure chroma cleanup and deterministic torso registration only; no body-part masks, frozen-body compositing, interleaving, or omitted generated characters",
   "frames": [
     {
       "index": 1,
@@ -29,12 +29,12 @@
         "uniformScale": 0.8875
       },
       "alphaBounds": [
-        202,
-        94,
-        309,
-        417
+        199,
+        95,
+        308,
+        416
       ],
-      "sha256": "f50c410426bae099887d46eeca863a810ebe7067863d10b588bc4aafffb404ed"
+      "sha256": "1feabaaf10daf326a2668f240c8bcd265675c8aa49f59987130ac8ab132a6770"
     },
     {
       "index": 2,
@@ -50,12 +50,12 @@
         "uniformScale": 0.8875
       },
       "alphaBounds": [
-        202,
+        199,
         94,
         308,
-        417
+        416
       ],
-      "sha256": "12ed9e2f12b6105b99512179d033c19135377896bcaa71f5f123e1592560b614"
+      "sha256": "961af6c383d2b99ffb279ae2b7ca7d77e82d980f582b6180501fd27576e703c4"
     },
     {
       "index": 3,
@@ -71,12 +71,12 @@
         "uniformScale": 0.898734
       },
       "alphaBounds": [
-        202,
+        201,
         97,
         313,
         417
       ],
-      "sha256": "262f134dff9c908dc8dbf4663e63a77ecc8d069e10eec39c51f0a970b5547445"
+      "sha256": "49b2b7b704f185c4d9a5f902da00ee19819b47ebfbac6b37bd92b45fb4164054"
     },
     {
       "index": 4,
@@ -92,12 +92,12 @@
         "uniformScale": 0.910256
       },
       "alphaBounds": [
-        202,
+        199,
         94,
         322,
         420
       ],
-      "sha256": "8be5c618cffd10993f2e55a2c45d2ba5cd1cf6acbc17df0faac0dabf5106f959"
+      "sha256": "f2ab8921b0ac1c4566675b86b11b748dbbb139710606aa05d79cac10a6beeb6b"
     },
     {
       "index": 5,
@@ -113,12 +113,12 @@
         "uniformScale": 0.898734
       },
       "alphaBounds": [
-        202,
+        200,
         98,
         319,
-        417
+        416
       ],
-      "sha256": "adae3b7582f50d15cf81d6cbae78b9fb4e2ad692a443df9be0ecb77bcdcaae10"
+      "sha256": "3d895418a252cc4149795f9c01dbbcd97652cbff04f80c46d5a029419ec6fcb9"
     },
     {
       "index": 6,
@@ -134,12 +134,12 @@
         "uniformScale": 0.922078
       },
       "alphaBounds": [
-        202,
+        198,
         102,
         327,
         420
       ],
-      "sha256": "d0c3c0ce665e900cdbede0c31bce5df7ba4924a7f9b299fd8339a60527118a17"
+      "sha256": "380d45c7742342ca811a77c3b1d7c6bd114cda60336191b06f3d1eea82bb434d"
     },
     {
       "index": 7,
@@ -155,12 +155,12 @@
         "uniformScale": 0.922078
       },
       "alphaBounds": [
-        202,
+        200,
         101,
         329,
         419
       ],
-      "sha256": "c97976fa9a395dd8b344701fbe1bd40286be43549dd3f532c37ccedfc6d9be62"
+      "sha256": "6e5fbdf2e1b0d0e325f70fe5f6cc05609e16e6bb5bb7d8f6bbd746e560f45f5e"
     },
     {
       "index": 8,
@@ -176,12 +176,12 @@
         "uniformScale": 0.922078
       },
       "alphaBounds": [
-        202,
+        200,
         102,
         330,
         420
       ],
-      "sha256": "cccfba62595a6fe2e6e15629a5aa381ff95628a27d6688b0fd36e48f471d8ef6"
+      "sha256": "ed387537a5ee0fa9cfc173426caf7ce221f08d1de9120cb7c0698b8b8afe6e0c"
     },
     {
       "index": 9,
@@ -197,12 +197,12 @@
         "uniformScale": 0.922078
       },
       "alphaBounds": [
-        202,
+        199,
         102,
         331,
         419
       ],
-      "sha256": "4837508280e5f23f874f2104403e32fed83ee57b30b2a66508c2cd6ce97d2d6d"
+      "sha256": "0edfe09faa56625be81c729335a0a364340ba3ba42d649e7d9f2452488718c84"
     },
     {
       "index": 10,
@@ -218,12 +218,12 @@
         "uniformScale": 0.922078
       },
       "alphaBounds": [
-        202,
+        197,
         106,
         329,
-        419
+        420
       ],
-      "sha256": "fb1401cc7e663eb5747dafcea28b8216acd09eb0d939122be222cfca13990ff9"
+      "sha256": "07bfcbfcb9cd9aa27c012a69725847e639115d911b2fefed301f45840674167c"
     },
     {
       "index": 11,
@@ -239,12 +239,12 @@
         "uniformScale": 0.922078
       },
       "alphaBounds": [
-        202,
+        199,
         107,
         333,
         419
       ],
-      "sha256": "68829609d6f82b56cf1db981b99199c4498a92d9c4de1b8ce38e5b3d01e3adae"
+      "sha256": "c26856876492a13bca6eec90a7c8e6e60c352237ad967f42be4e25f7328f245e"
     },
     {
       "index": 12,
@@ -260,229 +260,271 @@
         "uniformScale": 0.922078
       },
       "alphaBounds": [
-        202,
+        198,
         108,
         331,
         420
       ],
-      "sha256": "316c455a2673ec4ce751d2465ee9ad9e3e39b26f3ee12adb908629b78f2906b2"
+      "sha256": "29e3d6e1cac17c05383b653c0512ffc39781a073f85f9ccf543f352f5c517e73"
     },
     {
       "index": 13,
-      "label": "Release begins",
-      "filename": "hugo-neutral-groove-13-release-begins.png",
+      "label": "Groove peak continuation",
+      "filename": "hugo-neutral-groove-13-groove-peak-continuation.png",
       "runtime": true,
-      "sourceSheet": "B-locked-reverse-of-A",
-      "sourceCell": 11,
+      "sourceSheet": "B",
+      "sourceCell": 1,
       "registration": {
-        "sourceRootX": 248.538,
-        "sourceRootY": 212.977,
-        "sourceTorsoHeight": 77.0,
-        "uniformScale": 0.922078
+        "sourceRootX": 251.87,
+        "sourceRootY": 213.727,
+        "sourceTorsoHeight": 81.0,
+        "uniformScale": 0.876543
       },
       "alphaBounds": [
-        202,
-        107,
-        333,
-        419
+        200,
+        108,
+        324,
+        411
       ],
-      "sha256": "68829609d6f82b56cf1db981b99199c4498a92d9c4de1b8ce38e5b3d01e3adae"
+      "sha256": "cdcace20f6e83db6955ea78a83d61b7c54cbdaa48599c80a992ffd0ff5f0fae3"
     },
     {
       "index": 14,
-      "label": "Head rises 1",
-      "filename": "hugo-neutral-groove-14-head-rises-1.png",
+      "label": "Release begins",
+      "filename": "hugo-neutral-groove-14-release-begins.png",
       "runtime": true,
-      "sourceSheet": "B-locked-reverse-of-A",
-      "sourceCell": 10,
-      "registration": {
-        "sourceRootX": 250.38,
-        "sourceRootY": 213.032,
-        "sourceTorsoHeight": 77.0,
-        "uniformScale": 0.922078
-      },
-      "alphaBounds": [
-        202,
-        106,
-        329,
-        419
-      ],
-      "sha256": "fb1401cc7e663eb5747dafcea28b8216acd09eb0d939122be222cfca13990ff9"
-    },
-    {
-      "index": 15,
-      "label": "Toe lowers 1",
-      "filename": "hugo-neutral-groove-15-toe-lowers-1.png",
-      "runtime": true,
-      "sourceSheet": "B-locked-reverse-of-A",
-      "sourceCell": 9,
-      "registration": {
-        "sourceRootX": 247.754,
-        "sourceRootY": 215.264,
-        "sourceTorsoHeight": 77.0,
-        "uniformScale": 0.922078
-      },
-      "alphaBounds": [
-        202,
-        102,
-        331,
-        419
-      ],
-      "sha256": "4837508280e5f23f874f2104403e32fed83ee57b30b2a66508c2cd6ce97d2d6d"
-    },
-    {
-      "index": 16,
-      "label": "Finger releases",
-      "filename": "hugo-neutral-groove-16-finger-releases.png",
-      "runtime": true,
-      "sourceSheet": "B-locked-reverse-of-A",
-      "sourceCell": 8,
-      "registration": {
-        "sourceRootX": 248.368,
-        "sourceRootY": 215.427,
-        "sourceTorsoHeight": 77.0,
-        "uniformScale": 0.922078
-      },
-      "alphaBounds": [
-        202,
-        102,
-        330,
-        420
-      ],
-      "sha256": "cccfba62595a6fe2e6e15629a5aa381ff95628a27d6688b0fd36e48f471d8ef6"
-    },
-    {
-      "index": 17,
-      "label": "Head rises 2",
-      "filename": "hugo-neutral-groove-17-head-rises-2.png",
-      "runtime": true,
-      "sourceSheet": "B-locked-reverse-of-A",
-      "sourceCell": 7,
-      "registration": {
-        "sourceRootX": 249.113,
-        "sourceRootY": 215.796,
-        "sourceTorsoHeight": 77.0,
-        "uniformScale": 0.922078
-      },
-      "alphaBounds": [
-        202,
-        101,
-        329,
-        419
-      ],
-      "sha256": "c97976fa9a395dd8b344701fbe1bd40286be43549dd3f532c37ccedfc6d9be62"
-    },
-    {
-      "index": 18,
-      "label": "Toe lowers 2",
-      "filename": "hugo-neutral-groove-18-toe-lowers-2.png",
-      "runtime": true,
-      "sourceSheet": "B-locked-reverse-of-A",
-      "sourceCell": 6,
-      "registration": {
-        "sourceRootX": 250.919,
-        "sourceRootY": 216.038,
-        "sourceTorsoHeight": 77.0,
-        "uniformScale": 0.922078
-      },
-      "alphaBounds": [
-        202,
-        102,
-        327,
-        420
-      ],
-      "sha256": "d0c3c0ce665e900cdbede0c31bce5df7ba4924a7f9b299fd8339a60527118a17"
-    },
-    {
-      "index": 19,
-      "label": "Return easing 1",
-      "filename": "hugo-neutral-groove-19-return-easing-1.png",
-      "runtime": true,
-      "sourceSheet": "B-locked-reverse-of-A",
-      "sourceCell": 5,
-      "registration": {
-        "sourceRootX": 253.474,
-        "sourceRootY": 219.072,
-        "sourceTorsoHeight": 79.0,
-        "uniformScale": 0.898734
-      },
-      "alphaBounds": [
-        202,
-        98,
-        319,
-        417
-      ],
-      "sha256": "adae3b7582f50d15cf81d6cbae78b9fb4e2ad692a443df9be0ecb77bcdcaae10"
-    },
-    {
-      "index": 20,
-      "label": "Return easing 2",
-      "filename": "hugo-neutral-groove-20-return-easing-2.png",
-      "runtime": true,
-      "sourceSheet": "B-locked-reverse-of-A",
-      "sourceCell": 4,
-      "registration": {
-        "sourceRootX": 252.458,
-        "sourceRootY": 219.231,
-        "sourceTorsoHeight": 78.0,
-        "uniformScale": 0.910256
-      },
-      "alphaBounds": [
-        202,
-        94,
-        322,
-        420
-      ],
-      "sha256": "8be5c618cffd10993f2e55a2c45d2ba5cd1cf6acbc17df0faac0dabf5106f959"
-    },
-    {
-      "index": 21,
-      "label": "Near neutral",
-      "filename": "hugo-neutral-groove-21-near-neutral.png",
-      "runtime": true,
-      "sourceSheet": "B-locked-reverse-of-A",
-      "sourceCell": 3,
-      "registration": {
-        "sourceRootX": 258.534,
-        "sourceRootY": 218.559,
-        "sourceTorsoHeight": 79.0,
-        "uniformScale": 0.898734
-      },
-      "alphaBounds": [
-        202,
-        97,
-        313,
-        417
-      ],
-      "sha256": "262f134dff9c908dc8dbf4663e63a77ecc8d069e10eec39c51f0a970b5547445"
-    },
-    {
-      "index": 22,
-      "label": "Neutral settle",
-      "filename": "hugo-neutral-groove-22-neutral-settle.png",
-      "runtime": true,
-      "sourceSheet": "B-locked-reverse-of-A",
+      "sourceSheet": "B",
       "sourceCell": 2,
       "registration": {
-        "sourceRootX": 260.054,
-        "sourceRootY": 220.216,
+        "sourceRootX": 250.591,
+        "sourceRootY": 213.428,
         "sourceTorsoHeight": 80.0,
         "uniformScale": 0.8875
       },
       "alphaBounds": [
         202,
-        94,
-        308,
-        417
+        106,
+        323,
+        415
       ],
-      "sha256": "12ed9e2f12b6105b99512179d033c19135377896bcaa71f5f123e1592560b614"
+      "sha256": "e4bf1d285ee16b74781dfda4e460c9bce857b7b12d05fe8271d91a9de1d321a9"
+    },
+    {
+      "index": 15,
+      "label": "Head rises 1",
+      "filename": "hugo-neutral-groove-15-head-rises-1.png",
+      "runtime": true,
+      "sourceSheet": "B",
+      "sourceCell": 3,
+      "registration": {
+        "sourceRootX": 260.243,
+        "sourceRootY": 214.139,
+        "sourceTorsoHeight": 79.0,
+        "uniformScale": 0.898734
+      },
+      "alphaBounds": [
+        198,
+        104,
+        311,
+        416
+      ],
+      "sha256": "47480e36cfa0d29b100323247d654902518e15625c375e352bb08c5786f499d3"
+    },
+    {
+      "index": 16,
+      "label": "Toe lowers 1",
+      "filename": "hugo-neutral-groove-16-toe-lowers-1.png",
+      "runtime": true,
+      "sourceSheet": "B",
+      "sourceCell": 4,
+      "registration": {
+        "sourceRootX": 259.723,
+        "sourceRootY": 214.546,
+        "sourceTorsoHeight": 79.0,
+        "uniformScale": 0.898734
+      },
+      "alphaBounds": [
+        197,
+        104,
+        312,
+        415
+      ],
+      "sha256": "b1a5499be7b70064347655f7332743061db52c6051a93eb33c4c95b6bc1fea1b"
+    },
+    {
+      "index": 17,
+      "label": "Finger releases",
+      "filename": "hugo-neutral-groove-17-finger-releases.png",
+      "runtime": true,
+      "sourceSheet": "B",
+      "sourceCell": 5,
+      "registration": {
+        "sourceRootX": 261.731,
+        "sourceRootY": 213.702,
+        "sourceTorsoHeight": 80.0,
+        "uniformScale": 0.8875
+      },
+      "alphaBounds": [
+        199,
+        108,
+        307,
+        413
+      ],
+      "sha256": "a8fcbf462a240eadf3c296e9a52a89744753d0787be9dde8b317a0e71d7983a7"
+    },
+    {
+      "index": 18,
+      "label": "Head rises 2",
+      "filename": "hugo-neutral-groove-18-head-rises-2.png",
+      "runtime": true,
+      "sourceSheet": "B",
+      "sourceCell": 6,
+      "registration": {
+        "sourceRootX": 260.838,
+        "sourceRootY": 213.36,
+        "sourceTorsoHeight": 79.0,
+        "uniformScale": 0.898734
+      },
+      "alphaBounds": [
+        200,
+        106,
+        307,
+        416
+      ],
+      "sha256": "89babee9ab8e95edba9fc4cc5e4630ad99e6ca2a97a1578c9efe0e4d3643bba4"
+    },
+    {
+      "index": 19,
+      "label": "Toe lowers 2",
+      "filename": "hugo-neutral-groove-19-toe-lowers-2.png",
+      "runtime": true,
+      "sourceSheet": "B",
+      "sourceCell": 7,
+      "registration": {
+        "sourceRootX": 260.194,
+        "sourceRootY": 212.881,
+        "sourceTorsoHeight": 78.0,
+        "uniformScale": 0.910256
+      },
+      "alphaBounds": [
+        202,
+        104,
+        307,
+        419
+      ],
+      "sha256": "6662bbd00627e66026c5614c021f4d1c6b86a445d6ef9db6636e892d9f97f298"
+    },
+    {
+      "index": 20,
+      "label": "Return easing 1",
+      "filename": "hugo-neutral-groove-20-return-easing-1.png",
+      "runtime": true,
+      "sourceSheet": "B",
+      "sourceCell": 8,
+      "registration": {
+        "sourceRootX": 259.654,
+        "sourceRootY": 214.358,
+        "sourceTorsoHeight": 79.0,
+        "uniformScale": 0.898734
+      },
+      "alphaBounds": [
+        203,
+        106,
+        307,
+        415
+      ],
+      "sha256": "f4f7f9ebdfa0c7b8ef629a556f351bea78fa5db25e6a80e62165bc5ff001563e"
+    },
+    {
+      "index": 21,
+      "label": "Return easing 2",
+      "filename": "hugo-neutral-groove-21-return-easing-2.png",
+      "runtime": true,
+      "sourceSheet": "B",
+      "sourceCell": 9,
+      "registration": {
+        "sourceRootX": 260.047,
+        "sourceRootY": 213.441,
+        "sourceTorsoHeight": 78.0,
+        "uniformScale": 0.910256
+      },
+      "alphaBounds": [
+        202,
+        104,
+        307,
+        419
+      ],
+      "sha256": "602a6cfb89df077fc0458d8c213cbb4862355f6b231342898fa3b9b9b9841737"
+    },
+    {
+      "index": 22,
+      "label": "Near neutral",
+      "filename": "hugo-neutral-groove-22-near-neutral.png",
+      "runtime": true,
+      "sourceSheet": "B",
+      "sourceCell": 10,
+      "registration": {
+        "sourceRootX": 260.13,
+        "sourceRootY": 213.791,
+        "sourceTorsoHeight": 78.0,
+        "uniformScale": 0.910256
+      },
+      "alphaBounds": [
+        202,
+        105,
+        307,
+        418
+      ],
+      "sha256": "5e36e889c34ed777d110542027c79b170f065ab027fa948f615bde9f5dd32a9d"
     },
     {
       "index": 23,
+      "label": "Neutral settle",
+      "filename": "hugo-neutral-groove-23-neutral-settle.png",
+      "runtime": true,
+      "sourceSheet": "B",
+      "sourceCell": 11,
+      "registration": {
+        "sourceRootX": 258.917,
+        "sourceRootY": 214.406,
+        "sourceTorsoHeight": 79.0,
+        "uniformScale": 0.898734
+      },
+      "alphaBounds": [
+        203,
+        104,
+        306,
+        417
+      ],
+      "sha256": "01aa0f4be374ada6dc73f34c79e0f92d6438154417e86f72f18dc9788f138caf"
+    },
+    {
+      "index": 24,
+      "label": "Neutral hold",
+      "filename": "hugo-neutral-groove-24-neutral-hold.png",
+      "runtime": true,
+      "sourceSheet": "B",
+      "sourceCell": 12,
+      "registration": {
+        "sourceRootX": 258.91,
+        "sourceRootY": 214.093,
+        "sourceTorsoHeight": 80.0,
+        "uniformScale": 0.8875
+      },
+      "alphaBounds": [
+        205,
+        105,
+        307,
+        417
+      ],
+      "sha256": "f376eb723771207aef9edc4b8db1642f7f69a27d94753e191fa8d312ad9b13cf"
+    },
+    {
+      "index": 25,
       "label": "Exact neutral loop bookend",
-      "filename": "hugo-neutral-groove-23-exact-neutral-loop-bookend.png",
+      "filename": "hugo-neutral-groove-25-exact-neutral-loop-bookend.png",
       "runtime": false,
-      "sourceSheet": "B-locked-reverse-of-A",
+      "sourceSheet": "A-exact-loop-bookend",
       "sourceCell": 1,
       "registration": {
         "sourceRootX": 260.384,
@@ -491,12 +533,12 @@
         "uniformScale": 0.8875
       },
       "alphaBounds": [
-        202,
-        94,
-        309,
-        417
+        199,
+        95,
+        308,
+        416
       ],
-      "sha256": "f50c410426bae099887d46eeca863a810ebe7067863d10b588bc4aafffb404ed"
+      "sha256": "1feabaaf10daf326a2668f240c8bcd265675c8aa49f59987130ac8ab132a6770"
     }
   ]
 }

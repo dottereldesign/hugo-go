@@ -111,8 +111,8 @@ export class Version03AnimationGallery {
         <strong data-v03-frame-readout></strong>
       </div>
       <footer class="v03-animation-notes">
-        <span><b>Moving:</b> head · front hand · front shoe</span>
-        <span><b>Locked:</b> torso · hips · standing leg · wingsuit</span>
+        <span><b>Full drawings:</b> all 24 generated characters</span>
+        <span><b>Processing:</b> chroma cleanup · whole-body registration only</span>
       </footer>
       <div class="v03-animation-prompt">
         <div>
