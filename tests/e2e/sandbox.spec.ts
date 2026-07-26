@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 
 test.describe('Animation Sandbox', () => {
-  test.describe.configure({ timeout: 60_000 });
+  test.describe.configure({ timeout: 120_000 });
 
   test('opens from Settings and presents every live production animation', async ({ page }) => {
     await page.goto('/#/home');
@@ -12,12 +12,13 @@ test.describe('Animation Sandbox', () => {
     await expect(page.locator('#sandbox-screen')).toBeVisible();
     await expect(page.locator('#home-screen')).not.toHaveClass(/is-open/);
     await expect(page.locator('#game-screen')).toBeHidden();
-    await expect(page.locator('[data-sandbox-card]')).toHaveCount(29);
-    await expect(page.locator('[data-sandbox-animation]')).toHaveCount(29);
-    await expect(page.locator('[data-sandbox-speed]')).toHaveCount(29);
+    await expect(page.locator('[data-sandbox-card]')).toHaveCount(31);
+    await expect(page.locator('[data-sandbox-animation]')).toHaveCount(31);
+    await expect(page.locator('[data-sandbox-speed]')).toHaveCount(31);
     await expect(page.getByRole('heading', { name: 'Animation V2 Framework' })).toBeVisible();
     await expect(page.getByText('Mandatory looping-sheet bookend')).toBeVisible();
     await expect(page.getByText('Rotational sequences use one source and individual degree files')).toBeVisible();
+    await expect(page.getByText('Generate a new body part as one sheet, then cut it into files')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'The 12 animation principles, translated for HUGO GO!' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Smooth does not mean evenly spaced' })).toBeVisible();
     await expect(page.locator('[data-sandbox-card="freefall-v2"] button[data-frame]')).toHaveCount(24);
@@ -40,6 +41,8 @@ test.describe('Animation Sandbox', () => {
     await expect(page.locator('[data-sandbox-card="head-turn-degree-painted"] button[data-frame]')).toHaveCount(24);
     await expect(page.locator('[data-sandbox-card="head-turn-smooth-debug"] button[data-frame]')).toHaveCount(48);
     await expect(page.locator('[data-sandbox-card="head-turn-smooth-painted"] button[data-frame]')).toHaveCount(48);
+    await expect(page.locator('[data-sandbox-card="torso-turn-painted"] button[data-frame]')).toHaveCount(24);
+    await expect(page.locator('[data-sandbox-card="head-torso-turn-painted"] button[data-frame]')).toHaveCount(24);
     await expect(page.getByRole('heading', { name: 'Why the first two layered rigs fail' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'What changed for Walking V4' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'What V5 fixes from the V4 review' })).toBeVisible();
@@ -75,6 +78,8 @@ test.describe('Animation Sandbox', () => {
       'head-turn-degree-painted': '24 frames · 2.00 s total · 12 FPS',
       'head-turn-smooth-debug': '48 frames · 0.80 s total · 60 FPS',
       'head-turn-smooth-painted': '48 frames · 0.80 s total · 60 FPS',
+      'torso-turn-painted': '24 frames · 2.00 s total · 12 FPS',
+      'head-torso-turn-painted': '24 frames · 2.00 s total · 12 FPS',
     };
     for (const [animation, metrics] of Object.entries(expectedMetrics)) {
       await expect(page.locator(`[data-sandbox-card="${animation}"] [data-sandbox-metrics]`)).toHaveText(metrics);
@@ -126,6 +131,10 @@ test.describe('Animation Sandbox', () => {
     const headTurnSmoothPaintedWidth = await page.locator('[data-sandbox-card="head-turn-smooth-painted"]').evaluate((element) => element.getBoundingClientRect().width);
     expect(Math.abs(headTurnSmoothDebugWidth - jumpWidth)).toBeLessThan(2);
     expect(Math.abs(headTurnSmoothPaintedWidth - jumpWidth)).toBeLessThan(2);
+    const torsoTurnWidth = await page.locator('[data-sandbox-card="torso-turn-painted"]').evaluate((element) => element.getBoundingClientRect().width);
+    const headTorsoTurnWidth = await page.locator('[data-sandbox-card="head-torso-turn-painted"]').evaluate((element) => element.getBoundingClientRect().width);
+    expect(Math.abs(torsoTurnWidth - jumpWidth)).toBeLessThan(2);
+    expect(Math.abs(headTorsoTurnWidth - jumpWidth)).toBeLessThan(2);
     await expect.poll(async () => page.evaluate(() => (
       performance.getEntriesByType('resource').some((entry) => entry.name.includes('hugo-layered-rig-parts'))
     ))).toBe(true);
@@ -253,6 +262,37 @@ test.describe('Animation Sandbox', () => {
       sourceCount: 24,
       dimensions: ['320x320'],
     });
+    await page.locator('[data-sandbox-card="torso-turn-painted"]').scrollIntoViewIfNeeded();
+    await expect.poll(
+      async () => page.evaluate(() => (
+        performance.getEntriesByType('resource')
+          .filter((entry) => (
+            entry.name.includes('hugo-torso-yaw-cw-')
+            && !entry.name.includes('?import')
+          )).length
+      )),
+      { timeout: 25_000 },
+    ).toBeGreaterThan(0);
+    const torsoTurnFiles = await page.evaluate(async () => {
+      const sources = performance.getEntriesByType('resource')
+        .map((entry) => entry.name)
+        .filter((name) => (
+          name.includes('hugo-torso-yaw-cw-')
+          && !name.includes('?import')
+        ));
+      const dimensions = await Promise.all(sources.map(async (source) => {
+        const image = new Image();
+        image.src = source;
+        await image.decode();
+        return `${image.naturalWidth}x${image.naturalHeight}`;
+      }));
+      return {
+        sourceCount: new Set(sources).size,
+        dimensions: [...new Set(dimensions)],
+      };
+    });
+    expect(torsoTurnFiles.sourceCount).toBeGreaterThan(0);
+    expect(torsoTurnFiles.dimensions).toEqual(['320x320']);
 
     const anatomyCanvas = page.locator('[data-rig-anatomy-canvas]');
     const upperArmLabel = page.locator('button[data-rig-part="left-upper-arm"]');
@@ -347,6 +387,34 @@ test.describe('Animation Sandbox', () => {
     await smoothGeometryCard.getByRole('button', { name: 'Show frame 13', exact: true }).click();
     await expect(smoothGeometryCard.locator('canvas')).toHaveAttribute('data-angle-degrees', '90');
     await expect(smoothGeometryCard.locator('[data-head-landmark]')).toHaveCount(12);
+
+    const torsoCard = page.locator('[data-sandbox-card="torso-turn-painted"]');
+    const torsoCanvas = torsoCard.locator('canvas');
+    await torsoCard.scrollIntoViewIfNeeded();
+    await torsoCard.getByRole('button', { name: 'Show frame 7', exact: true }).click();
+    await expect(torsoCanvas).toHaveAttribute('data-angle-degrees', '90');
+    await expect(torsoCanvas).toHaveAttribute(
+      'data-torso-file',
+      'frames/hugo-torso-yaw-cw-090-left-profile.png',
+    );
+    await expect(torsoCanvas).toHaveAttribute('data-composite-layers', 'torso-only');
+
+    const compositeCard = page.locator('[data-sandbox-card="head-torso-turn-painted"]');
+    const compositeCanvas = compositeCard.locator('canvas');
+    await compositeCard.getByRole('button', { name: 'Show frame 13', exact: true }).click();
+    await expect(compositeCanvas).toHaveAttribute('data-angle-degrees', '180');
+    await expect(compositeCanvas).toHaveAttribute(
+      'data-torso-file',
+      'frames/hugo-torso-yaw-cw-180-back.png',
+    );
+    await expect(compositeCanvas).toHaveAttribute(
+      'data-head-file',
+      'frames/hugo-head-yaw-cw-180-back.png',
+    );
+    await expect(compositeCanvas).toHaveAttribute(
+      'data-composite-layers',
+      'head-behind-torso',
+    );
   });
 
   test('lets each preview pause, seek by number, step, resume, restart, and toggle looping', async ({ page }) => {
@@ -386,6 +454,8 @@ test.describe('Animation Sandbox', () => {
     const runOutput = runCard.locator('[data-sandbox-speed-output]');
     const headCard = page.locator('[data-sandbox-card="head-turn-fixed-painted"]');
     const smoothHeadCard = page.locator('[data-sandbox-card="head-turn-smooth-painted"]');
+    const torsoCard = page.locator('[data-sandbox-card="torso-turn-painted"]');
+    const compositeCard = page.locator('[data-sandbox-card="head-torso-turn-painted"]');
 
     await expect(runSpeed).toHaveValue('1');
     await expect(runOutput).toHaveText('1.00× · 30.00 FPS · 2.00 s loop');
@@ -393,6 +463,9 @@ test.describe('Animation Sandbox', () => {
     await expect(headCard.locator('[data-sandbox-speed-output]')).toHaveText('0.40× · 12.00 FPS · 2.00 s loop');
     await expect(smoothHeadCard.locator('[data-sandbox-speed]')).toHaveValue('1');
     await expect(smoothHeadCard.locator('[data-sandbox-speed-output]')).toHaveText('1.00× · 60.00 FPS · 0.80 s loop');
+    await expect(torsoCard.locator('[data-sandbox-speed]')).toHaveValue('0.4');
+    await expect(torsoCard.locator('[data-sandbox-speed-output]')).toHaveText('0.40× · 12.00 FPS · 2.00 s loop');
+    await expect(compositeCard.locator('[data-sandbox-speed]')).toHaveValue('0.4');
 
     await headCard.scrollIntoViewIfNeeded();
     await page.waitForTimeout(220);

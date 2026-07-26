@@ -869,3 +869,48 @@ Registered runtime files:
 The manifest records `approved-anchor` or `generated-midpoint` for every frame.
 Each midpoint also records its exact two source degrees. The resulting
 48-image loop plays at 60 FPS for `0.80 seconds`.
+
+## Torso Turn — one 24-view sheet, then individual files
+
+This asset uses the sheet-first rule for new rotating body parts. The built-in
+image workflow generated one wide atlas, not one output per angle. The rejected
+first pass drew seven columns. The accepted correction contains exactly six
+columns and four rows:
+
+```text
+Use case: precise-object-edit
+Asset type: corrected production 360-degree torso sprite atlas
+Input images: the rejected draft preserves the desired rendering; the supplied
+front and side torso images are authoritative costume references.
+Primary request: rebuild as exactly 24 torso views in exactly six columns and
+four rows. Delete the extra seventh column. Row-major clockwise yaw:
+row 1 = 000° through 075°;
+row 2 = 090° through 165°;
+row 3 = 180° through 255°;
+row 4 = 270° through 345°.
+Preserve: Hugo's bright cyan quilted sleeveless puffer vest, orange trim,
+cream shirt, navy ribbed open collar, navy cargo shorts, white wing badge,
+pockets, proportions, materials, palette, lighting, and stylized 3D finish.
+Registration: identical scale, camera elevation, collar centre, shoulder
+centre, sternum centre, waist centre, jacket hem, and shorts hem. Full torso
+inside every cell; orthographic model rotation, never a moving camera.
+Body-part limits: torso and hips only; empty armholes; no head, hair, face,
+skin neck, arms, hands, lower legs, or shoes. The open collar is the socket for
+the separately animated head-and-neck art.
+Backdrop: perfectly flat solid #FF00FF chroma key; no grid lines, text,
+shadows, gradients, texture, or watermark.
+Reject: any count other than 6 × 4, duplicated or missing angles, costume
+drift, pose change, flipped badge, overlap, zoom, or camera tilt.
+```
+
+Saved sources:
+
+- `art/source-images/game/torso-turn/canonical-24/hugo-torso-yaw-cw-24-magenta.png`
+- `art/source-images/game/torso-turn/canonical-24/hugo-torso-yaw-cw-24-transparent.png`
+
+The helper's broad soft-matte/despill settings were rejected because they made
+cream and orange pixels transparent. The accepted matte uses hard distance
+tolerance `145`, edge contraction `1`, and edge feather `0.25`. The extraction
+script finds exactly 24 connected alpha silhouettes, sorts them into four
+six-view rows, registers them, and saves individual degree-named files under
+`src/assets/game/torso-turn/canonical-24/frames/`.

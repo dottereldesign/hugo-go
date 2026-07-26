@@ -98,12 +98,17 @@ spacing at the ends and wider spacing through the middle creates an ease.
    sharp contacts, overshoot, and settle.
 4. **Choose the frame budget.** Add drawings only where the silhouette or
    secondary motion changes. A/B test questionable in-betweens in the Sandbox.
-5. **Generate controlled groups.** Lock camera, scale, light, registration,
-   cell dimensions, and character invariants. Overlap boundary poses when an
-   action needs multiple generated sheets.
+5. **Generate controlled sheets.** For every new rotating body part or action,
+   generate one coherent fixed-grid atlas before creating runtime files. Lock
+   camera, scale, light, registration, cell dimensions, angle order, and
+   character invariants. Do not spend one independent generation on every
+   angle. Overlap boundary poses only when one action genuinely needs more
+   than one sheet.
 6. **Extract and normalize.** Generate on a removable chroma background,
-   convert to alpha, despill edges, isolate every figure, and register each
-   frame in an equal cell with safe transparent margins.
+   convert to alpha, isolate every connected figure, cut the approved sheet
+   into individual files, and register each frame to equal dimensions and a
+   fixed pivot with safe transparent margins. Runtime consumes the files and
+   manifest, never the source sheet.
 7. **Run continuity gates.** Reject extra or merged limbs, frozen anatomy,
    accidental spacing reversals, broken arcs, face or clothing drift, duplicate
    poses, clipping, halos, registration jumps, and visible loop seams.
@@ -141,6 +146,34 @@ AI image generation should supply identity-locked texture art, key poses, and
 cleanup references. A deterministic 2D bone/deform rig should produce
 in-betweens, secondary movement, pivots, and repeatable exports. This prevents
 missing limbs, frozen legs, costume drift, and random changes between frames.
+
+## Sheet-first body-part rotation rule
+
+The default authoring unit for a new rotating head, torso, arm, hand, shoe, or
+other painted part is **one coherent character sheet**. Generate the complete
+angle set together on a strict grid, then:
+
+1. review the sheet row-major as one continuous rotation;
+2. reject the whole sheet if its direction reverses, count is wrong, identity
+   changes, or any figure overlaps its neighbour;
+3. remove the chroma background without damaging costume colours;
+4. find and isolate every connected silhouette;
+5. save every accepted view as its own degree-named transparent PNG;
+6. normalize scale, pivot, alpha height, and safe gutters; and
+7. write a manifest containing source cell, degrees, checksum, sockets, and
+   playback order.
+
+This gives generation the shared visual context needed for consistent costume,
+materials, camera and lighting, while individual runtime files remain easy to
+inspect, replace, diff, cache and address by degree. Uneven outer sheet margins
+must not be mistaken for a different grid: extraction may locate connected
+figures, but it must still find exactly the requested count in the requested
+row and angle order.
+
+Generating one image per angle is not the normal workflow. Pair-specific
+generation remains a narrow repair/derivative tool for an already approved
+adjacent anchor pair, such as the canonical head-turn midpoints; it must not be
+used to assemble a new rotation from unrelated outputs.
 
 ## Layered-rig prototype (rejected V2)
 
@@ -434,6 +467,38 @@ This derivative does not weaken the no-sheet rule. It is valid because each
 new view has one explicit pair contract and one exact angle. The rejected V3
 failed because unrelated multi-view sheets were interleaved by cell position
 without compatible angles or directions.
+
+## Torso Turn: sheet-first extraction and neck socket
+
+The torso experiment returns to the default sheet-first rule. One built-in
+image-generation call produced the complete 24-view outfit rotation as a
+`6 × 4` atlas:
+
+`000, 015, 030 ... 165, 180 ... 255, 270 ... 345`.
+
+The first draft was rejected because it returned seven columns. The accepted
+second draft contains exactly 24 large connected torso silhouettes. The source
+sheet remains under
+`art/source-images/game/torso-turn/canonical-24/`; extraction finds the 24
+connected silhouettes instead of assuming generated outer margins form exact
+arithmetic cells. It then writes one `320 × 320` alpha PNG per angle under
+`src/assets/game/torso-turn/canonical-24/frames/` and records their row-major
+source bounds and checksums in `manifest.json`.
+
+The torso has no painted head, skin neck, arms, hands, lower legs, or shoes.
+Its dark ribbed collar is an open socket. The composite Sandbox card:
+
+- advances the canonical head and torso with the same frame index and degree;
+- lets the head asset own the complete painted neck;
+- renders the head first; and
+- renders the torso second so the collar masks the neck base naturally.
+
+The matte was also treated as a quality gate. A broad soft magenta despill pass
+damaged cream and orange costume pixels, so it was rejected. The accepted hard
+key uses a contracted, lightly feathered edge and preserves the costume
+interior. Chroma settings are not sacred: the alpha result must be inspected,
+and any pass that erases the subject is invalid even when it removes the
+background.
 
 ## Reusable atlas prompt
 

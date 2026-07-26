@@ -1,0 +1,360 @@
+{
+  "schemaVersion": 1,
+  "id": "hugo-torso-turn-canonical-24",
+  "viewCount": 24,
+  "stepDegrees": 15,
+  "playbackFps": 12,
+  "loopDurationSeconds": 2.0,
+  "zeroDegrees": "front",
+  "direction": "clockwise-viewed-from-above",
+  "orientationNotes": {
+    "90Degrees": "Hugo's left profile",
+    "180Degrees": "exact back",
+    "270Degrees": "Hugo's right profile"
+  },
+  "source": {
+    "file": "art/source-images/game/torso-turn/canonical-24/hugo-torso-yaw-cw-24-transparent.png",
+    "sheetLayout": [
+      6,
+      4
+    ],
+    "uniqueViews": 24,
+    "singleGenerationOnly": true,
+    "connectedComponentExtraction": true,
+    "crossSheetInterleaving": false
+  },
+  "registration": {
+    "canvas": [
+      320,
+      320
+    ],
+    "alphaHeight": 260,
+    "topGutter": 30,
+    "neckSocket": [
+      160,
+      62
+    ],
+    "centreXSpread": 0.5,
+    "centreYSpread": 0.0,
+    "alphaHeightSpread": 0
+  },
+  "sync": {
+    "headManifest": "src/assets/game/head-turn/canonical-24/manifest.json",
+    "rule": "same-index-same-degree",
+    "headLayer": "behind-torso-collar"
+  },
+  "frames": [
+    {
+      "index": 0,
+      "degrees": 0,
+      "file": "frames/hugo-torso-yaw-cw-000-front.png",
+      "sourceAtlasIndex": 0,
+      "sourceBounds": [
+        96,
+        40,
+        216,
+        247
+      ],
+      "sha256": "776bc2207fe069eaf4f2faa07176313af28f9696e33c4ba2c7f2639ca61e9838"
+    },
+    {
+      "index": 1,
+      "degrees": 15,
+      "file": "frames/hugo-torso-yaw-cw-015.png",
+      "sourceAtlasIndex": 1,
+      "sourceBounds": [
+        320,
+        40,
+        441,
+        247
+      ],
+      "sha256": "397226cba646edd7dd1b3720f0cf52adadb895164e6f1c06a056fe4dff1c34ed"
+    },
+    {
+      "index": 2,
+      "degrees": 30,
+      "file": "frames/hugo-torso-yaw-cw-030.png",
+      "sourceAtlasIndex": 2,
+      "sourceBounds": [
+        552,
+        40,
+        672,
+        248
+      ],
+      "sha256": "50413528d00cff3e748d81faff6b270e39811da6dc2d531c4855dbe8f93fc82e"
+    },
+    {
+      "index": 3,
+      "degrees": 45,
+      "file": "frames/hugo-torso-yaw-cw-045.png",
+      "sourceAtlasIndex": 3,
+      "sourceBounds": [
+        783,
+        41,
+        901,
+        249
+      ],
+      "sha256": "58e0f15c60850db97d22be37eca9350385346c0d270614467188bdf04372e54b"
+    },
+    {
+      "index": 4,
+      "degrees": 60,
+      "file": "frames/hugo-torso-yaw-cw-060.png",
+      "sourceAtlasIndex": 4,
+      "sourceBounds": [
+        1013,
+        41,
+        1125,
+        249
+      ],
+      "sha256": "2095f7860fe53d997285d9a1295db2f818510d8d68019acc605e64551c155d4b"
+    },
+    {
+      "index": 5,
+      "degrees": 75,
+      "file": "frames/hugo-torso-yaw-cw-075.png",
+      "sourceAtlasIndex": 5,
+      "sourceBounds": [
+        1243,
+        40,
+        1352,
+        249
+      ],
+      "sha256": "12e2d9c3a9705a00907436abfa6f22de103b65628fee4587627b78c2ec5ed991"
+    },
+    {
+      "index": 6,
+      "degrees": 90,
+      "file": "frames/hugo-torso-yaw-cw-090-left-profile.png",
+      "sourceAtlasIndex": 6,
+      "sourceBounds": [
+        97,
+        288,
+        194,
+        499
+      ],
+      "sha256": "a182cd5adef6145b34b818b287906a71bb8dce4b642e13a204f22b02d1f88930"
+    },
+    {
+      "index": 7,
+      "degrees": 105,
+      "file": "frames/hugo-torso-yaw-cw-105.png",
+      "sourceAtlasIndex": 7,
+      "sourceBounds": [
+        325,
+        289,
+        422,
+        500
+      ],
+      "sha256": "b7723bc70a8da863b4039843da84caed31c00adac49da3753d632b106d314484"
+    },
+    {
+      "index": 8,
+      "degrees": 120,
+      "file": "frames/hugo-torso-yaw-cw-120.png",
+      "sourceAtlasIndex": 8,
+      "sourceBounds": [
+        550,
+        290,
+        648,
+        500
+      ],
+      "sha256": "27fec16d229bdbf606b61da6d06be3423a9bfa08505f2169238103867ef0e7a4"
+    },
+    {
+      "index": 9,
+      "degrees": 135,
+      "file": "frames/hugo-torso-yaw-cw-135.png",
+      "sourceAtlasIndex": 9,
+      "sourceBounds": [
+        777,
+        291,
+        877,
+        500
+      ],
+      "sha256": "07154badf9bb286d64fbb848a66f8cc2e8a63454427afaedfbd396f0d62f5696"
+    },
+    {
+      "index": 10,
+      "degrees": 150,
+      "file": "frames/hugo-torso-yaw-cw-150.png",
+      "sourceAtlasIndex": 10,
+      "sourceBounds": [
+        1009,
+        292,
+        1110,
+        500
+      ],
+      "sha256": "a96cde856b218c3cea14b5a3c872a72f91e1e8eb54321bab67d102e82b365107"
+    },
+    {
+      "index": 11,
+      "degrees": 165,
+      "file": "frames/hugo-torso-yaw-cw-165.png",
+      "sourceAtlasIndex": 11,
+      "sourceBounds": [
+        1241,
+        292,
+        1344,
+        500
+      ],
+      "sha256": "35190736b4ee7f5f569da8a9bba24718a49d5974cdc6aae51bfc25e479039282"
+    },
+    {
+      "index": 12,
+      "degrees": 180,
+      "file": "frames/hugo-torso-yaw-cw-180-back.png",
+      "sourceAtlasIndex": 12,
+      "sourceBounds": [
+        91,
+        530,
+        204,
+        731
+      ],
+      "sha256": "755d9f651919d9a758c512782948a42f1b67289427141433a245f9767bb71e59"
+    },
+    {
+      "index": 13,
+      "degrees": 195,
+      "file": "frames/hugo-torso-yaw-cw-195.png",
+      "sourceAtlasIndex": 13,
+      "sourceBounds": [
+        321,
+        530,
+        432,
+        732
+      ],
+      "sha256": "65c0b1c5e336f48020be11d4faa2324f591fede26ecc4cbd942e381df5217ac8"
+    },
+    {
+      "index": 14,
+      "degrees": 210,
+      "file": "frames/hugo-torso-yaw-cw-210.png",
+      "sourceAtlasIndex": 14,
+      "sourceBounds": [
+        550,
+        530,
+        661,
+        732
+      ],
+      "sha256": "33bcf978b7fe35f459c5f36e64d1e2440b768092ee36cdc10221777479df359d"
+    },
+    {
+      "index": 15,
+      "degrees": 225,
+      "file": "frames/hugo-torso-yaw-cw-225.png",
+      "sourceAtlasIndex": 15,
+      "sourceBounds": [
+        779,
+        530,
+        891,
+        732
+      ],
+      "sha256": "77db975a7f383a535a00473e47c889415cd4ce33071271a8cfa5b7c6a13d6c67"
+    },
+    {
+      "index": 16,
+      "degrees": 240,
+      "file": "frames/hugo-torso-yaw-cw-240.png",
+      "sourceAtlasIndex": 16,
+      "sourceBounds": [
+        1010,
+        531,
+        1119,
+        732
+      ],
+      "sha256": "0c5d622860227b05438c587f7f00c14321ada01115a53afd3d32ec0d9e7b873d"
+    },
+    {
+      "index": 17,
+      "degrees": 255,
+      "file": "frames/hugo-torso-yaw-cw-255.png",
+      "sourceAtlasIndex": 17,
+      "sourceBounds": [
+        1241,
+        531,
+        1350,
+        732
+      ],
+      "sha256": "348064a02014fb31a74a3ee9a1e44469c98196df2f92724eff60ab824be749bc"
+    },
+    {
+      "index": 18,
+      "degrees": 270,
+      "file": "frames/hugo-torso-yaw-cw-270-right-profile.png",
+      "sourceAtlasIndex": 18,
+      "sourceBounds": [
+        104,
+        764,
+        195,
+        970
+      ],
+      "sha256": "59f2866daa1e68a6db051743309e02597cf6600fad4450be80aa1620a1cc7a28"
+    },
+    {
+      "index": 19,
+      "degrees": 285,
+      "file": "frames/hugo-torso-yaw-cw-285.png",
+      "sourceAtlasIndex": 19,
+      "sourceBounds": [
+        336,
+        766,
+        421,
+        970
+      ],
+      "sha256": "c91a21cd1f9367c0888d1b3ad6d3d0a90c96d7962523c358489133163e620e94"
+    },
+    {
+      "index": 20,
+      "degrees": 300,
+      "file": "frames/hugo-torso-yaw-cw-300.png",
+      "sourceAtlasIndex": 20,
+      "sourceBounds": [
+        566,
+        767,
+        650,
+        970
+      ],
+      "sha256": "5898fd22ac87b95150d2d61d7547a2dbd09cf93b7004f62927c46640bf2ca437"
+    },
+    {
+      "index": 21,
+      "degrees": 315,
+      "file": "frames/hugo-torso-yaw-cw-315.png",
+      "sourceAtlasIndex": 21,
+      "sourceBounds": [
+        791,
+        768,
+        895,
+        969
+      ],
+      "sha256": "f863d521f21322b4435d17c82d2b15460822773fa80e857950e42014bb20a832"
+    },
+    {
+      "index": 22,
+      "degrees": 330,
+      "file": "frames/hugo-torso-yaw-cw-330.png",
+      "sourceAtlasIndex": 22,
+      "sourceBounds": [
+        1015,
+        769,
+        1123,
+        968
+      ],
+      "sha256": "1ae56967e229921b200ddd08d95951491aeebb8a3cc9a3e9fcd7f7f783a16631"
+    },
+    {
+      "index": 23,
+      "degrees": 345,
+      "file": "frames/hugo-torso-yaw-cw-345.png",
+      "sourceAtlasIndex": 23,
+      "sourceBounds": [
+        1244,
+        769,
+        1353,
+        968
+      ],
+      "sha256": "6c163872453319126dc52a251475457ad1e0e518030ab9c92d44ccc0cbd9a976"
+    }
+  ]
+}

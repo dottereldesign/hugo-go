@@ -7,6 +7,7 @@ import hugoGrindCycleUrl from '../assets/game/hugo-grind-cycle.webp';
 import hugoHeadTurnStabilizedCycleUrl from '../assets/game/head-turn/v2/hugo-head-turn-stabilized-24.png';
 import headTurnDegreeManifest from '../assets/game/head-turn/canonical-24/manifest.json';
 import headTurnSmoothManifest from '../assets/game/head-turn/canonical-48/manifest.json';
+import torsoTurnManifest from '../assets/game/torso-turn/canonical-24/manifest.json';
 import hugoJumpLandCycleUrl from '../assets/game/hugo-jump-land-cycle.webp';
 import hugoLayeredRigPartsUrl from '../assets/game/hugo-layered-rig-parts.png';
 import hugoPoweredCycleUrl from '../assets/game/hugo-powered-cycle.webp';
@@ -117,7 +118,26 @@ const HEAD_TURN_SMOOTH_FRAME_URLS = headTurnSmoothManifest.frames.map(({ file })
 const HEAD_TURN_SMOOTH_ANGLES = headTurnSmoothManifest.frames.map(({ degrees }) => degrees);
 const HEAD_TURN_SMOOTH_ART_FRAME_COUNT = HEAD_TURN_SMOOTH_FRAME_URLS.length;
 
-type AnimationKind = 'run' | 'jump' | 'rig-run-v2' | 'rig-jump-v2' | 'rig-run-debug' | 'rig-jump-debug' | 'walk-v4-debug' | 'walk-v4-painted' | 'walk-v5-debug' | 'walk-v5-painted' | 'walk-v6-debug' | 'walk-v6-painted' | 'head-turn-debug' | 'head-turn-painted' | 'head-turn-fixed-debug' | 'head-turn-fixed-painted' | 'head-turn-degree-debug' | 'head-turn-degree-painted' | 'head-turn-smooth-debug' | 'head-turn-smooth-painted' | 'double-jump' | 'double-jump-v2' | 'freefall' | 'freefall-v2' | 'powered' | 'glide' | 'grind' | 'wall' | 'flame';
+const TORSO_TURN_FRAME_MODULES = import.meta.glob(
+  '../assets/game/torso-turn/canonical-24/frames/*.png',
+  {
+    eager: true,
+    query: '?url',
+    import: 'default',
+  },
+);
+const TORSO_TURN_FRAME_URLS = torsoTurnManifest.frames.map(({ file }) => {
+  const modulePath = `../assets/game/torso-turn/canonical-24/${file}`;
+  const url = TORSO_TURN_FRAME_MODULES[modulePath];
+  if (typeof url !== 'string') {
+    throw new Error(`Missing canonical torso-turn frame: ${modulePath}`);
+  }
+  return url;
+});
+const TORSO_TURN_ANGLES = torsoTurnManifest.frames.map(({ degrees }) => degrees);
+const TORSO_TURN_ART_FRAME_COUNT = TORSO_TURN_FRAME_URLS.length;
+
+type AnimationKind = 'run' | 'jump' | 'rig-run-v2' | 'rig-jump-v2' | 'rig-run-debug' | 'rig-jump-debug' | 'walk-v4-debug' | 'walk-v4-painted' | 'walk-v5-debug' | 'walk-v5-painted' | 'walk-v6-debug' | 'walk-v6-painted' | 'head-turn-debug' | 'head-turn-painted' | 'head-turn-fixed-debug' | 'head-turn-fixed-painted' | 'head-turn-degree-debug' | 'head-turn-degree-painted' | 'head-turn-smooth-debug' | 'head-turn-smooth-painted' | 'torso-turn-painted' | 'head-torso-turn-painted' | 'double-jump' | 'double-jump-v2' | 'freefall' | 'freefall-v2' | 'powered' | 'glide' | 'grind' | 'wall' | 'flame';
 type LoadedSprite = HTMLImageElement & { ready?: boolean };
 type AnatomySprite = 'parts' | 'legs' | 'torso';
 
@@ -301,6 +321,14 @@ const ANIMATION_CONFIG: Record<AnimationKind, { frameCount: number; duration: nu
     frameCount: HEAD_TURN_SMOOTH_ART_FRAME_COUNT,
     duration: 0.8,
   },
+  'torso-turn-painted': {
+    frameCount: TORSO_TURN_ART_FRAME_COUNT,
+    duration: 0.8,
+  },
+  'head-torso-turn-painted': {
+    frameCount: TORSO_TURN_ART_FRAME_COUNT,
+    duration: 0.8,
+  },
   'double-jump': { frameCount: 6, duration: 2 },
   'double-jump-v2': { frameCount: 16, duration: DOUBLE_JUMP_V2_DURATION },
   freefall: { frameCount: 6, duration: 0.6 },
@@ -329,6 +357,7 @@ export class AnimationSandbox {
     headTurnStabilized: this.createSprite(),
     headTurnDegrees: HEAD_TURN_DEGREE_FRAME_URLS.map(() => this.createSprite()),
     headTurnSmooth: HEAD_TURN_SMOOTH_FRAME_URLS.map(() => this.createSprite()),
+    torsoTurn: TORSO_TURN_FRAME_URLS.map(() => this.createSprite()),
     doubleJump: this.createSprite(),
     doubleJumpV2: this.createSprite(),
     freefall: this.createSprite(),
@@ -342,6 +371,7 @@ export class AnimationSandbox {
   private assetsStarted = false;
   private headTurnDegreeAssetsStarted = false;
   private headTurnSmoothAssetsStarted = false;
+  private torsoTurnAssetsStarted = false;
   private running = false;
   private animationFrame = 0;
   private previousTime = 0;
@@ -398,6 +428,8 @@ export class AnimationSandbox {
         || preview.kind === 'head-turn-degree-painted'
         || preview.kind === 'head-turn-smooth-debug'
         || preview.kind === 'head-turn-smooth-painted'
+        || preview.kind === 'torso-turn-painted'
+        || preview.kind === 'head-torso-turn-painted'
       ) {
         this.setupHeadTurnScrubbing(preview);
       }
@@ -416,6 +448,13 @@ export class AnimationSandbox {
               }
               if (preview.kind === 'head-turn-smooth-painted') {
                 this.ensureHeadTurnSmoothAssets();
+              }
+              if (preview.kind === 'torso-turn-painted') {
+                this.ensureTorsoTurnAssets();
+              }
+              if (preview.kind === 'head-torso-turn-painted') {
+                this.ensureTorsoTurnAssets();
+                this.ensureHeadTurnDegreeAssets();
               }
               this.syncControls(preview);
               this.drawPreview(preview, preview.elapsed, preview.currentFrame);
@@ -547,6 +586,12 @@ export class AnimationSandbox {
         break;
       case 'head-turn-smooth-painted':
         this.drawHeadTurnSmoothPainted(preview, forcedFrame);
+        break;
+      case 'torso-turn-painted':
+        this.drawTorsoTurn(preview, forcedFrame, false);
+        break;
+      case 'head-torso-turn-painted':
+        this.drawTorsoTurn(preview, forcedFrame, true);
         break;
       case 'double-jump':
         this.drawDoubleJump(preview, elapsed, forcedFrame);
@@ -1289,6 +1334,93 @@ export class AnimationSandbox {
     preview.canvas.dataset.angleDegrees = String(angleDegrees);
     preview.canvas.dataset.angleFile = manifestFrame?.file ?? '';
     preview.canvas.dataset.angleKind = manifestFrame?.kind ?? '';
+    this.markFrame(preview, frame);
+  }
+
+  private drawTorsoTurn(
+    preview: Preview,
+    forcedFrame: number | null,
+    withHead: boolean,
+  ): void {
+    const frame = forcedFrame ?? 0;
+    const angleDegrees = TORSO_TURN_ANGLES[frame] ?? 0;
+    const manifestFrame = torsoTurnManifest.frames[frame];
+    const headManifestFrame = headTurnDegreeManifest.frames[frame];
+    const yaw = angleDegrees * Math.PI / 180;
+    const { context, canvas } = preview;
+    const torsoSprite = this.sprites.torsoTurn[frame];
+
+    context.save();
+    context.imageSmoothingEnabled = true;
+    context.imageSmoothingQuality = 'high';
+    if (withHead) {
+      const torsoDrawSize = 230;
+      const torsoDrawX = (canvas.width - torsoDrawSize) / 2;
+      const torsoDrawY = 88;
+      const headDrawSize = 160;
+      const neckSocket = torsoTurnManifest.registration.neckSocket;
+      const socketY = torsoDrawY + neckSocket[1] / 320 * torsoDrawSize;
+      const headNeckBottom = 280 / 320 * headDrawSize;
+      const headDrawX = (canvas.width - headDrawSize) / 2;
+      const headDrawY = socketY - headNeckBottom;
+      const headSprite = this.sprites.headTurnDegrees[frame];
+
+      // The head owns Hugo's painted neck. It is deliberately rendered first,
+      // so the torso's ribbed collar masks the neck base without a double seam.
+      if (headSprite?.ready) {
+        context.drawImage(
+          headSprite,
+          headDrawX,
+          headDrawY,
+          headDrawSize,
+          headDrawSize,
+        );
+      }
+      if (torsoSprite?.ready) {
+        context.drawImage(
+          torsoSprite,
+          torsoDrawX,
+          torsoDrawY,
+          torsoDrawSize,
+          torsoDrawSize,
+        );
+      }
+    } else if (torsoSprite?.ready) {
+      const torsoDrawSize = 304;
+      context.drawImage(
+        torsoSprite,
+        (canvas.width - torsoDrawSize) / 2,
+        18,
+        torsoDrawSize,
+        torsoDrawSize,
+      );
+    }
+    context.restore();
+
+    this.drawWalkLabel(
+      context,
+      withHead
+        ? 'HEAD + TORSO · SOCKET SYNC'
+        : 'TORSO TURN · SHEET EXTRACTED',
+      withHead
+        ? `${angleDegrees.toString().padStart(3, '0')}° · SAME INDEX · HEAD BEHIND COLLAR`
+        : `${angleDegrees.toString().padStart(3, '0')}° · FRAME ${String(frame + 1).padStart(2, '0')} · 6×4 SOURCE`,
+    );
+    this.drawHeadTurnReadout(
+      context,
+      canvas,
+      frame,
+      yaw,
+      TORSO_TURN_ART_FRAME_COUNT,
+      angleDegrees,
+    );
+    preview.canvas.dataset.angleDegrees = String(angleDegrees);
+    preview.canvas.dataset.angleFile = manifestFrame?.file ?? '';
+    preview.canvas.dataset.torsoFile = manifestFrame?.file ?? '';
+    preview.canvas.dataset.headFile = withHead ? headManifestFrame?.file ?? '' : '';
+    preview.canvas.dataset.compositeLayers = withHead
+      ? 'head-behind-torso'
+      : 'torso-only';
     this.markFrame(preview, frame);
   }
 
@@ -2984,6 +3116,9 @@ export class AnimationSandbox {
     if (kind === 'head-turn-smooth-debug' || kind === 'head-turn-smooth-painted') {
       return 1;
     }
+    if (kind === 'torso-turn-painted' || kind === 'head-torso-turn-painted') {
+      return HEAD_TURN_DEFAULT_SPEED;
+    }
     return kind.startsWith('head-turn') ? HEAD_TURN_DEFAULT_SPEED : 1;
   }
 
@@ -3231,6 +3366,7 @@ export class AnimationSandbox {
     if (typeof IntersectionObserver === 'undefined') {
       this.ensureHeadTurnDegreeAssets();
       this.ensureHeadTurnSmoothAssets();
+      this.ensureTorsoTurnAssets();
     }
     this.sprites.doubleJump.src = hugoDoubleJumpCycleUrl;
     this.sprites.doubleJumpV2.src = hugoDoubleJumpV2CycleUrl;
@@ -3256,6 +3392,14 @@ export class AnimationSandbox {
     this.headTurnSmoothAssetsStarted = true;
     this.sprites.headTurnSmooth.forEach((sprite, index) => {
       sprite.src = HEAD_TURN_SMOOTH_FRAME_URLS[index];
+    });
+  }
+
+  private ensureTorsoTurnAssets(): void {
+    if (this.torsoTurnAssetsStarted) return;
+    this.torsoTurnAssetsStarted = true;
+    this.sprites.torsoTurn.forEach((sprite, index) => {
+      sprite.src = TORSO_TURN_FRAME_URLS[index];
     });
   }
 }

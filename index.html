@@ -227,6 +227,11 @@
             <p>Approved anchors must come from one coherent sequence. Cut every accepted view into its own transparent PNG, name it by direction and angle, and order it with a manifest. A new midpoint is allowed only when one generation uses exactly two adjacent approved anchors and produces their one named halfway angle; review it between those same anchors and record its pair in the manifest. Never alternate or patch cells from independent sheets. “60 FPS” is playback: this 48-view rotation lasts 0.80 seconds at 60 FPS.</p>
           </aside>
 
+          <aside class="sandbox-v2-loop-rule">
+            <strong>Generate a new body part as one sheet, then cut it into files</strong>
+            <p>For a new rotating head, torso, limb, hand, or shoe, first generate one coherent fixed-grid atlas containing the complete approved angle set. Review the sheet as one rotation, remove its chroma background, then extract and degree-name every connected figure as an individual transparent PNG. Runtime loads those files through a manifest; it never slices the sheet. Do not generate every angle independently—the shared sheet is what preserves costume, scale, lighting, and rotational continuity while saving generation time.</p>
+          </aside>
+
           <section class="sandbox-motion-language" aria-labelledby="sandbox-motion-language-title">
             <header>
               <span>FOUNDATIONAL MOTION LANGUAGE</span>
@@ -277,12 +282,12 @@
             <article>
               <b>03</b>
               <h3>Generate controlled groups</h3>
-              <p>Use strict equal-size atlas cells, fixed camera and silhouette scale, tiny sequential pose deltas, overlap frames between sheets, and a flat removable chroma background. Each group follows the approved pose map.</p>
+              <p>Generate each new part or action as a coherent fixed-grid atlas, not a pile of unrelated images. Lock camera, silhouette scale and chroma background; keep sequential deltas controlled, and overlap boundary poses only when one action genuinely needs multiple sheets.</p>
             </article>
             <article>
               <b>04</b>
               <h3>Clean and register</h3>
-              <p>Remove the background to alpha, despill edges, normalize every frame to the same dimensions and pivot, preserve sharp source pixels, and record gameplay anchors separately from the artwork.</p>
+              <p>Remove the background to alpha, isolate every connected figure, cut the sheet into individual files, then normalize each frame to the same dimensions and pivot. Preserve sharp source pixels and record degree, source cell, sockets, and gameplay anchors in a manifest.</p>
             </article>
             <article>
               <b>05</b>
@@ -611,6 +616,26 @@
               <canvas class="sandbox-canvas" data-sandbox-animation="head-turn-smooth-painted" width="600" height="340" role="img" aria-label="Forty-eight individually saved Hugo heads alternating approved anchors and pair-generated midpoint views"></canvas>
               <p class="sandbox-drag-hint"><span aria-hidden="true">↔</span> Hold and drag left or right to rotate manually</p>
               <p class="sandbox-rig-caption">48 separate transparent PNGs · 24 byte-identical approved anchors + 24 pair-specific midpoint images · filenames encode every 7.5° angle · no runtime sheet slicing</p>
+            </article>
+
+            <article class="sandbox-card sandbox-card--v2 sandbox-card--painted sandbox-card--head-turn" data-sandbox-card="torso-turn-painted">
+              <header>
+                <div><span>TORSO TURN · SHEET EXTRACTED</span><h2>360° Torso Turn — 24 registered views</h2></div>
+                <small data-sandbox-metrics>24 frames · 2.00 s total · 12 FPS</small>
+              </header>
+              <canvas class="sandbox-canvas" data-sandbox-animation="torso-turn-painted" width="600" height="340" role="img" aria-label="Hugo's torso-only outfit rotating through twenty-four individually extracted angles"></canvas>
+              <p class="sandbox-drag-hint"><span aria-hidden="true">↔</span> Hold and drag left or right to rotate manually</p>
+              <p class="sandbox-rig-caption">One coherent 6×4 generated atlas · 24 connected silhouettes cut into degree-named transparent PNGs · empty collar socket · no head or limbs</p>
+            </article>
+
+            <article class="sandbox-card sandbox-card--v2 sandbox-card--painted sandbox-card--head-turn" data-sandbox-card="head-torso-turn-painted">
+              <header>
+                <div><span>HEAD + TORSO · SOCKET SYNC</span><h2>360° Head &amp; Torso — Matched angles</h2></div>
+                <small data-sandbox-metrics>24 frames · 2.00 s total · 12 FPS</small>
+              </header>
+              <canvas class="sandbox-canvas" data-sandbox-animation="head-torso-turn-painted" width="600" height="340" role="img" aria-label="Hugo's approved head and generated torso rotating together at matching fifteen-degree angles"></canvas>
+              <p class="sandbox-drag-hint"><span aria-hidden="true">↔</span> Hold and drag left or right to rotate manually</p>
+              <p class="sandbox-rig-caption">Same frame index = same 15° angle · the approved head owns the neck · head renders behind the torso so the ribbed collar naturally masks the neck base</p>
             </article>
           </div>
 
