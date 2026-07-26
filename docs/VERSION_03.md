@@ -74,3 +74,14 @@ overlay. Its runtime uses all 24 complete characters at 18 FPS: Sheet A cells
 1–12 followed by Sheet B cells 1–12. Only whole-figure chroma cleanup, uniform
 scale, and torso-anchor translation are allowed. Frame 25 is an exact copy of
 frame 01 for seam review and is not played at runtime.
+
+### Neutral Side head nod
+
+The second animation is a single 12-drawing sheet played at 12 FPS:
+
+- frames 1–6 move the head from neutral to the lowest nod;
+- frames 7–12 bring the head back to neutral;
+- the full character is redrawn and retained in every frame;
+- only the generated head angle should change; and
+- production may clean chroma and register the complete figure, but may not
+  rotate the head in code or composite it over a frozen body.

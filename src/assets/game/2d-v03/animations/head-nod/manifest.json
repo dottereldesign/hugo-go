@@ -1,0 +1,271 @@
+{
+  "schemaVersion": 1,
+  "animation": {
+    "id": "head-nod",
+    "name": "Neutral Side \u00b7 Head nod",
+    "description": "Six drawings nod Hugo down to the beat; six bring him back up.",
+    "prompt": "Create one 4-column \u00d7 3-row sheet containing exactly 12 complete full-body drawings of canonical Sunrise Hugo facing screen-right. Animate a restrained musical head nod only. Frames 1\u20136 move from neutral upright to the lowest chin-down pose at roughly 0%, 20%, 40%, 60%, 80%, and 100%. Frames 7\u201312 return upward at roughly 80%, 60%, 40%, 20%, almost neutral, and neutral. Use tiny ease-in/ease-out changes. Redraw the complete intact character in every cell, but keep everything below the neck unchanged: no foot tap, finger click, hand action, breathing, torso lean, body sway, weight shift, or clothing flutter. Keep identity, outfit, scale, baseline, lighting, and registration consistent. Use a perfectly flat #FF00FF background with no text, borders, shadows, fragments, crop, watermark, or extra objects."
+  },
+  "timing": {
+    "baseFps": 12,
+    "runtimeFrameCount": 12,
+    "drawingCount": 12,
+    "loopDurationSeconds": 1.0,
+    "loopReturnFrame": 12
+  },
+  "productionMethod": "all 12 complete generated characters in 4 x 3 cell order; whole-figure chroma cleanup and deterministic torso registration only; no body-part masks, frozen-body compositing, or code rotation",
+  "frames": [
+    {
+      "index": 1,
+      "label": "Neutral start",
+      "filename": "hugo-head-nod-01-neutral-start.png",
+      "runtime": true,
+      "sourceSheet": "head-nod",
+      "sourceCell": 1,
+      "registration": {
+        "sourceRootX": 260.074,
+        "sourceRootY": 218.262,
+        "sourceTorsoHeight": 82.0,
+        "uniformScale": 0.865854
+      },
+      "alphaBounds": [
+        201,
+        95,
+        309,
+        416
+      ],
+      "sha256": "8351f97df88e5754d7a6659a6a2f29f9bc83447eab8576b243511190efdcf417"
+    },
+    {
+      "index": 2,
+      "label": "Nod down 20 percent",
+      "filename": "hugo-head-nod-02-nod-down-20-percent.png",
+      "runtime": true,
+      "sourceSheet": "head-nod",
+      "sourceCell": 2,
+      "registration": {
+        "sourceRootX": 258.957,
+        "sourceRootY": 217.8,
+        "sourceTorsoHeight": 79.0,
+        "uniformScale": 0.898734
+      },
+      "alphaBounds": [
+        200,
+        99,
+        309,
+        415
+      ],
+      "sha256": "8c7bbf4ee44108f5b89a26e5221ef1b8218981086e4b5a766da37fce97f0e97e"
+    },
+    {
+      "index": 3,
+      "label": "Nod down 40 percent",
+      "filename": "hugo-head-nod-03-nod-down-40-percent.png",
+      "runtime": true,
+      "sourceSheet": "head-nod",
+      "sourceCell": 3,
+      "registration": {
+        "sourceRootX": 259.097,
+        "sourceRootY": 220.352,
+        "sourceTorsoHeight": 76.0,
+        "uniformScale": 0.934211
+      },
+      "alphaBounds": [
+        197,
+        99,
+        312,
+        414
+      ],
+      "sha256": "ba69b53c253c22c0dab11bd1fa2ce745f09eb8a35c50efbc3772a30e07a03d3f"
+    },
+    {
+      "index": 4,
+      "label": "Nod down 60 percent",
+      "filename": "hugo-head-nod-04-nod-down-60-percent.png",
+      "runtime": true,
+      "sourceSheet": "head-nod",
+      "sourceCell": 4,
+      "registration": {
+        "sourceRootX": 255.963,
+        "sourceRootY": 218.118,
+        "sourceTorsoHeight": 74.0,
+        "uniformScale": 0.959459
+      },
+      "alphaBounds": [
+        198,
+        103,
+        318,
+        416
+      ],
+      "sha256": "3a9c22add91aecc7bce354802e6ab4c10b023b89d5caaddca5a38757c457eb89"
+    },
+    {
+      "index": 5,
+      "label": "Nod down 80 percent",
+      "filename": "hugo-head-nod-05-nod-down-80-percent.png",
+      "runtime": true,
+      "sourceSheet": "head-nod",
+      "sourceCell": 5,
+      "registration": {
+        "sourceRootX": 250.774,
+        "sourceRootY": 216.685,
+        "sourceTorsoHeight": 73.0,
+        "uniformScale": 0.972603
+      },
+      "alphaBounds": [
+        198,
+        106,
+        327,
+        417
+      ],
+      "sha256": "fadad117bb3ca55d0435ab1aabfc49eb597ca69764c14e662274e3b30580fb16"
+    },
+    {
+      "index": 6,
+      "label": "Lowest nod",
+      "filename": "hugo-head-nod-06-lowest-nod.png",
+      "runtime": true,
+      "sourceSheet": "head-nod",
+      "sourceCell": 6,
+      "registration": {
+        "sourceRootX": 247.254,
+        "sourceRootY": 217.488,
+        "sourceTorsoHeight": 70.0,
+        "uniformScale": 1.014286
+      },
+      "alphaBounds": [
+        197,
+        109,
+        338,
+        416
+      ],
+      "sha256": "bfe528a66feade431493bd48f45d5148f7d02d484e4ce03cc6c3f2386bd2412c"
+    },
+    {
+      "index": 7,
+      "label": "Nod return 20 percent",
+      "filename": "hugo-head-nod-07-nod-return-20-percent.png",
+      "runtime": true,
+      "sourceSheet": "head-nod",
+      "sourceCell": 7,
+      "registration": {
+        "sourceRootX": 254.028,
+        "sourceRootY": 218.758,
+        "sourceTorsoHeight": 71.0,
+        "uniformScale": 1.0
+      },
+      "alphaBounds": [
+        197,
+        105,
+        323,
+        415
+      ],
+      "sha256": "7047370c56f34e32075d3d27f1866c90f25b3f467d044b45289b008ae0330fd6"
+    },
+    {
+      "index": 8,
+      "label": "Nod return 40 percent",
+      "filename": "hugo-head-nod-08-nod-return-40-percent.png",
+      "runtime": true,
+      "sourceSheet": "head-nod",
+      "sourceCell": 8,
+      "registration": {
+        "sourceRootX": 253.256,
+        "sourceRootY": 217.128,
+        "sourceTorsoHeight": 71.0,
+        "uniformScale": 1.0
+      },
+      "alphaBounds": [
+        198,
+        111,
+        323,
+        413
+      ],
+      "sha256": "d6a6ffe7e1572e45175df31436f9a8475a8146190eb16e95e5624133f082b7f4"
+    },
+    {
+      "index": 9,
+      "label": "Nod return 60 percent",
+      "filename": "hugo-head-nod-09-nod-return-60-percent.png",
+      "runtime": true,
+      "sourceSheet": "head-nod",
+      "sourceCell": 9,
+      "registration": {
+        "sourceRootX": 258.687,
+        "sourceRootY": 219.597,
+        "sourceTorsoHeight": 70.0,
+        "uniformScale": 1.014286
+      },
+      "alphaBounds": [
+        199,
+        99,
+        311,
+        421
+      ],
+      "sha256": "c2a0d5ca2e53126653eb1aac2f389643ef1587f6b974202130142e6cf3059e9a"
+    },
+    {
+      "index": 10,
+      "label": "Nod return 80 percent",
+      "filename": "hugo-head-nod-10-nod-return-80-percent.png",
+      "runtime": true,
+      "sourceSheet": "head-nod",
+      "sourceCell": 10,
+      "registration": {
+        "sourceRootX": 258.398,
+        "sourceRootY": 223.39,
+        "sourceTorsoHeight": 71.0,
+        "uniformScale": 1.0
+      },
+      "alphaBounds": [
+        200,
+        91,
+        310,
+        419
+      ],
+      "sha256": "5c522fcae61a92a859794bb0954bb8d460afc3dcf39790fa7775d0416eb6fbad"
+    },
+    {
+      "index": 11,
+      "label": "Almost neutral",
+      "filename": "hugo-head-nod-11-almost-neutral.png",
+      "runtime": true,
+      "sourceSheet": "head-nod",
+      "sourceCell": 11,
+      "registration": {
+        "sourceRootX": 259.165,
+        "sourceRootY": 223.135,
+        "sourceTorsoHeight": 71.0,
+        "uniformScale": 1.0
+      },
+      "alphaBounds": [
+        200,
+        93,
+        310,
+        419
+      ],
+      "sha256": "ba3907561177d4cc4654fda1ffa14374e604abec8af459a5e4e07c7d06aebba2"
+    },
+    {
+      "index": 12,
+      "label": "Neutral return",
+      "filename": "hugo-head-nod-12-neutral-return.png",
+      "runtime": true,
+      "sourceSheet": "head-nod",
+      "sourceCell": 12,
+      "registration": {
+        "sourceRootX": 258.485,
+        "sourceRootY": 224.0,
+        "sourceTorsoHeight": 72.0,
+        "uniformScale": 0.986111
+      },
+      "alphaBounds": [
+        199,
+        92,
+        309,
+        417
+      ],
+      "sha256": "396be74f618ee4de9daa06bcd2f4921b07d872504382175f3f387de7aceb81e2"
+    }
+  ]
+}

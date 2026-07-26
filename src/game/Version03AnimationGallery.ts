@@ -1,3 +1,4 @@
+import headNodManifestJson from '../assets/game/2d-v03/animations/head-nod/manifest.json';
 import neutralGrooveManifestJson from '../assets/game/2d-v03/animations/neutral-groove/manifest.json';
 import { refreshIcons } from '../icons';
 
@@ -29,7 +30,8 @@ interface AnimationManifest {
     runtimeFrameCount: number;
     drawingCount: number;
     loopDurationSeconds: number;
-    bookendFrame: number;
+    bookendFrame?: number;
+    loopReturnFrame?: number;
   };
   productionMethod: string;
   frames: FrameDefinition[];
@@ -49,31 +51,39 @@ interface AnimationPreview {
   playing: boolean;
 }
 
-const MANIFEST = neutralGrooveManifestJson as AnimationManifest;
+const MANIFESTS = [
+  neutralGrooveManifestJson as AnimationManifest,
+  headNodManifestJson as AnimationManifest,
+];
 
 export class Version03AnimationGallery {
-  private readonly preview: AnimationPreview;
+  private readonly previews: AnimationPreview[];
   private assetsStarted = false;
   private active = false;
   private raf = 0;
   private lastTimestamp = 0;
 
   constructor(root: HTMLElement) {
-    const card = root.querySelector<HTMLElement>(
-      `[data-v03-animation="${MANIFEST.animation.id}"]`,
-    );
-    if (!card) throw new Error(`Missing Version 03 animation card: ${MANIFEST.animation.id}`);
-    this.preview = this.createPreview(card, MANIFEST);
-    this.sync();
+    this.previews = MANIFESTS.map((manifest, index) => {
+      const card = root.querySelector<HTMLElement>(
+        `[data-v03-animation="${manifest.animation.id}"]`,
+      );
+      if (!card) {
+        throw new Error(`Missing Version 03 animation card: ${manifest.animation.id}`);
+      }
+      return this.createPreview(card, manifest, index + 1);
+    });
+    this.syncAll();
+    refreshIcons();
   }
 
   start(): void {
     this.ensureAssets();
     if (this.active) return;
     this.active = true;
-    this.preview.playing = true;
     this.lastTimestamp = performance.now();
-    this.sync();
+    for (const preview of this.previews) preview.playing = true;
+    this.syncAll();
     this.raf = requestAnimationFrame((timestamp) => this.tick(timestamp));
   }
 
@@ -84,11 +94,16 @@ export class Version03AnimationGallery {
     this.lastTimestamp = 0;
   }
 
-  private createPreview(root: HTMLElement, manifest: AnimationManifest): AnimationPreview {
+  private createPreview(
+    root: HTMLElement,
+    manifest: AnimationManifest,
+    libraryIndex: number,
+  ): AnimationPreview {
+    const isHeadNod = manifest.animation.id === 'head-nod';
     root.innerHTML = `
       <header>
         <div>
-          <span>01 · NEUTRAL SIDE</span>
+          <span>${String(libraryIndex).padStart(2, '0')} · NEUTRAL SIDE</span>
           <h3>${manifest.animation.name}</h3>
           <p>${manifest.animation.description}</p>
         </div>
@@ -96,7 +111,7 @@ export class Version03AnimationGallery {
       </header>
       <div class="v03-animation-stage">
         <div class="v03-animation-stage-grid" aria-hidden="true"></div>
-        <img width="640" height="640" alt="${manifest.animation.name} animation preview">
+        <img width="512" height="512" alt="${manifest.animation.name} animation preview">
         <span>OUTFIT 03 · GAME IDLE</span>
       </div>
       <div class="v03-animation-controls">
@@ -111,7 +126,8 @@ export class Version03AnimationGallery {
         <strong data-v03-frame-readout></strong>
       </div>
       <footer class="v03-animation-notes">
-        <span><b>Full drawings:</b> all 24 generated characters</span>
+        <span><b>Full drawings:</b> all ${manifest.timing.runtimeFrameCount} generated characters</span>
+        <span><b>Motion:</b> ${isHeadNod ? 'six down · six back up · head only' : 'head · hand · shoe groove'}</span>
         <span><b>Processing:</b> chroma cleanup · whole-body registration only</span>
       </footer>
       <div class="v03-animation-prompt">
@@ -128,9 +144,12 @@ export class Version03AnimationGallery {
     `;
 
     const urls = manifest.frames.map((frame) => {
-      const modulePath = `../assets/game/2d-v03/animations/${manifest.animation.id}/frames/${frame.filename}`;
+      const modulePath =
+        `../assets/game/2d-v03/animations/${manifest.animation.id}/frames/${frame.filename}`;
       const url = FRAME_MODULES[modulePath];
-      if (typeof url !== 'string') throw new Error(`Missing Version 03 frame asset: ${modulePath}`);
+      if (typeof url !== 'string') {
+        throw new Error(`Missing Version 03 frame asset: ${modulePath}`);
+      }
       return url;
     });
     const preview: AnimationPreview = {
@@ -153,17 +172,16 @@ export class Version03AnimationGallery {
         preview.currentFrame = 0;
         preview.elapsedMs = 0;
         preview.playing = true;
-        this.sync();
+        this.sync(preview);
       },
     );
     preview.playButton.addEventListener('click', () => {
       preview.playing = !preview.playing;
-      this.sync();
+      this.sync(preview);
     });
     preview.copyButton.addEventListener('click', () => {
-      void this.copyPrompt();
+      void this.copyPrompt(preview);
     });
-    refreshIcons();
     return preview;
   }
 
@@ -172,42 +190,47 @@ export class Version03AnimationGallery {
     const delta = Math.min(100, Math.max(0, timestamp - this.lastTimestamp));
     this.lastTimestamp = timestamp;
 
-    if (this.preview.playing) {
-      const frameDuration = 1000 / this.preview.manifest.timing.baseFps;
-      this.preview.elapsedMs += delta;
+    for (const preview of this.previews) {
+      if (!preview.playing) continue;
+      const frameDuration = 1000 / preview.manifest.timing.baseFps;
+      preview.elapsedMs += delta;
       let changed = false;
-      while (this.preview.elapsedMs >= frameDuration) {
-        this.preview.elapsedMs -= frameDuration;
-        this.preview.currentFrame =
-          (this.preview.currentFrame + 1) % this.preview.manifest.timing.runtimeFrameCount;
+      while (preview.elapsedMs >= frameDuration) {
+        preview.elapsedMs -= frameDuration;
+        preview.currentFrame =
+          (preview.currentFrame + 1) % preview.manifest.timing.runtimeFrameCount;
         changed = true;
       }
-      if (changed) this.sync();
+      if (changed) this.sync(preview);
     }
 
     this.raf = requestAnimationFrame((nextTimestamp) => this.tick(nextTimestamp));
   }
 
-  private sync(): void {
-    const frame = this.preview.manifest.frames[this.preview.currentFrame];
-    this.preview.image.src = this.preview.urls[this.preview.currentFrame];
-    this.preview.image.alt =
-      `${this.preview.manifest.animation.name}, frame ${frame.index}: ${frame.label}`;
-    this.preview.frameReadout.textContent =
-      `Frame ${frame.index} / ${this.preview.manifest.timing.runtimeFrameCount}`;
-    const buttonLabel = this.preview.playButton.querySelector('span');
-    if (buttonLabel) buttonLabel.textContent = this.preview.playing ? 'Pause' : 'Resume';
-    this.preview.playButton.dataset.playing = String(this.preview.playing);
+  private syncAll(): void {
+    for (const preview of this.previews) this.sync(preview);
   }
 
-  private async copyPrompt(): Promise<void> {
+  private sync(preview: AnimationPreview): void {
+    const frame = preview.manifest.frames[preview.currentFrame];
+    preview.image.src = preview.urls[preview.currentFrame];
+    preview.image.alt =
+      `${preview.manifest.animation.name}, frame ${frame.index}: ${frame.label}`;
+    preview.frameReadout.textContent =
+      `Frame ${frame.index} / ${preview.manifest.timing.runtimeFrameCount}`;
+    const buttonLabel = preview.playButton.querySelector('span');
+    if (buttonLabel) buttonLabel.textContent = preview.playing ? 'Pause' : 'Resume';
+    preview.playButton.dataset.playing = String(preview.playing);
+  }
+
+  private async copyPrompt(preview: AnimationPreview): Promise<void> {
     let copied = false;
     try {
-      await navigator.clipboard.writeText(this.preview.manifest.animation.prompt);
+      await navigator.clipboard.writeText(preview.manifest.animation.prompt);
       copied = true;
     } catch {
       const textArea = document.createElement('textarea');
-      textArea.value = this.preview.manifest.animation.prompt;
+      textArea.value = preview.manifest.animation.prompt;
       textArea.setAttribute('readonly', '');
       textArea.style.position = 'fixed';
       textArea.style.opacity = '0';
@@ -217,21 +240,23 @@ export class Version03AnimationGallery {
       textArea.remove();
     }
 
-    this.preview.copyStatus.textContent = copied ? 'Prompt copied!' : 'Could not copy prompt.';
-    this.preview.copyButton.classList.toggle('is-copied', copied);
+    preview.copyStatus.textContent = copied ? 'Prompt copied!' : 'Could not copy prompt.';
+    preview.copyButton.classList.toggle('is-copied', copied);
     window.setTimeout(() => {
-      this.preview.copyStatus.textContent = '';
-      this.preview.copyButton.classList.remove('is-copied');
+      preview.copyStatus.textContent = '';
+      preview.copyButton.classList.remove('is-copied');
     }, 2200);
   }
 
   private ensureAssets(): void {
     if (this.assetsStarted) return;
     this.assetsStarted = true;
-    for (const url of this.preview.urls) {
-      const image = new Image();
-      image.decoding = 'async';
-      image.src = url;
+    for (const preview of this.previews) {
+      for (const url of preview.urls) {
+        const image = new Image();
+        image.decoding = 'async';
+        image.src = url;
+      }
     }
   }
 
