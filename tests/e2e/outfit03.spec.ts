@@ -33,7 +33,6 @@ test.describe('Outfit 03 reference and V02 animation loops', () => {
 
     await neutral.getByRole('button', { name: 'Resume' }).click();
     await expect(neutral).toHaveAttribute('data-playing', 'true');
-    await expect(neutral).toHaveAttribute('data-frame', '1');
 
     const speed = neutral.locator('[data-speed]');
     await speed.evaluate((element: HTMLInputElement) => {
@@ -42,14 +41,14 @@ test.describe('Outfit 03 reference and V02 animation loops', () => {
     });
     await expect(speed).toHaveValue('1.5');
     await expect(neutral.locator('[data-speed-output]')).toHaveText(
-      '1.50× · 36.0 timing FPS · 3.33 s loop',
+      '1.50× · 36.0 timing FPS · 1.89 s loop',
     );
 
     const loop = neutral.getByRole('button', { name: 'Loop', exact: true });
     await loop.click();
     await expect(loop).toHaveAttribute('aria-pressed', 'false');
     await neutral.getByRole('button', { name: 'Start', exact: true }).click();
-    await expect(neutral).toHaveAttribute('data-frame', '1');
+    await expect(neutral).toHaveAttribute('data-playing', 'false');
 
     await page.getByRole('button', { name: 'Back to animation sandbox' }).click();
     await expect(page).toHaveURL(/#\/sandbox$/);

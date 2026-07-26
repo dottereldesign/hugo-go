@@ -31,8 +31,8 @@ describe('2D Sandbox Version 02 Outfit 03 animations', () => {
       baseFps: 24,
       drawingCount: 69,
       runtimeFrameCount: 68,
-      runtimeTicks: 120,
-      loopDurationSeconds: 5,
+      runtimeTicks: 68,
+      loopDurationSeconds: 68 / 24,
       bookendFrame: 69,
     });
     expect(readyProfile.timing).toMatchObject({
@@ -56,6 +56,7 @@ describe('2D Sandbox Version 02 Outfit 03 animations', () => {
     );
     expect(new Set(inserted.map(({ source }) => source.column))).toEqual(new Set([2]));
     expect(neutralIdle.frames.some(({ slug }) => slug === 'wipe-smear')).toBe(false);
+    expect(neutralIdle.frames.filter(({ runtime }) => runtime).every(({ durationTicks }) => durationTicks === 1)).toBe(true);
 
     const generated = readyProfile.frames.slice(1, 23);
     expect(generated.slice(0, 11).map(({ source }) => source.sheetFrame)).toEqual(

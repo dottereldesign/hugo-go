@@ -9,12 +9,12 @@
     "baseFps": 24,
     "runtimeFrameCount": 68,
     "drawingCount": 69,
-    "runtimeTicks": 120,
-    "loopDurationSeconds": 5,
+    "runtimeTicks": 68,
+    "loopDurationSeconds": 2.8333333333333335,
     "bookendFrame": 69,
     "bookendRuntime": false
   },
-  "generationStrategy": "34 approved stabilized key drawings plus 34 exact adjacent-pair 50% bridge drawings; one timing tick each; exact frame-01 bookend",
+  "generationStrategy": "34 approved stabilized key drawings plus 34 exact adjacent-pair 50% bridge drawings; uniform one-tick timing at 24 FPS; exact frame-01 bookend",
   "frames": [
     {
       "index": 1,
@@ -22,7 +22,7 @@
       "label": "Neutral",
       "filename": "hugo-neutral-idle-01-neutral-front.png",
       "runtime": true,
-      "durationTicks": 15,
+      "durationTicks": 1,
       "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-01-neutral-front.png",
       "source": {
         "type": "canonical-outfit-pose",
@@ -97,7 +97,7 @@
       "label": "Eyelids relax",
       "filename": "hugo-neutral-idle-03-eyelids-relax.png",
       "runtime": true,
-      "durationTicks": 3,
+      "durationTicks": 1,
       "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-03-eyelids-relax.png",
       "source": {
         "type": "generated-sheet-frame",
@@ -327,7 +327,7 @@
       "label": "Toe tap anticipation",
       "filename": "hugo-neutral-idle-09-toe-tap-anticipation.png",
       "runtime": true,
-      "durationTicks": 3,
+      "durationTicks": 1,
       "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-09-toe-tap-anticipation.png",
       "source": {
         "type": "generated-sheet-frame",
@@ -643,7 +643,7 @@
       "label": "Gum chew",
       "filename": "hugo-neutral-idle-17-gum-chew.png",
       "runtime": true,
-      "durationTicks": 5,
+      "durationTicks": 1,
       "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-17-gum-chew.png",
       "source": {
         "type": "generated-sheet-frame",
@@ -721,7 +721,7 @@
       "label": "Tiny purple bubble",
       "filename": "hugo-neutral-idle-19-bubble-tiny.png",
       "runtime": true,
-      "durationTicks": 3,
+      "durationTicks": 1,
       "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-19-bubble-tiny.png",
       "source": {
         "type": "generated-sheet-frame",
@@ -799,7 +799,7 @@
       "label": "Small purple bubble",
       "filename": "hugo-neutral-idle-21-bubble-small.png",
       "runtime": true,
-      "durationTicks": 3,
+      "durationTicks": 1,
       "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-21-bubble-small.png",
       "source": {
         "type": "generated-sheet-frame",
@@ -1037,7 +1037,7 @@
       "label": "Large purple bubble",
       "filename": "hugo-neutral-idle-27-bubble-large.png",
       "runtime": true,
-      "durationTicks": 5,
+      "durationTicks": 1,
       "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-27-bubble-large.png",
       "source": {
         "type": "generated-sheet-frame",
@@ -1115,7 +1115,7 @@
       "label": "Purple gum splat",
       "filename": "hugo-neutral-idle-29-gum-splat.png",
       "runtime": true,
-      "durationTicks": 7,
+      "durationTicks": 1,
       "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-29-gum-splat.png",
       "source": {
         "type": "generated-sheet-frame",
@@ -1193,7 +1193,7 @@
       "label": "Splat hold",
       "filename": "hugo-neutral-idle-31-splat-hold.png",
       "runtime": true,
-      "durationTicks": 5,
+      "durationTicks": 1,
       "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-31-splat-hold.png",
       "source": {
         "type": "generated-sheet-frame",
@@ -2231,7 +2231,7 @@
       "label": "Purple gum free",
       "filename": "hugo-neutral-idle-57-gum-free.png",
       "runtime": true,
-      "durationTicks": 3,
+      "durationTicks": 1,
       "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-57-gum-free.png",
       "source": {
         "type": "generated-sheet-frame",
@@ -2391,7 +2391,7 @@
       "label": "Bored eye roll",
       "filename": "hugo-neutral-idle-61-bored-eye-roll.png",
       "runtime": true,
-      "durationTicks": 7,
+      "durationTicks": 1,
       "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-61-bored-eye-roll.png",
       "source": {
         "type": "generated-sheet-frame",
@@ -2633,7 +2633,7 @@
       "label": "Settle",
       "filename": "hugo-neutral-idle-67-settle.png",
       "runtime": true,
-      "durationTicks": 5,
+      "durationTicks": 1,
       "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-67-settle.png",
       "source": {
         "type": "generated-sheet-frame",

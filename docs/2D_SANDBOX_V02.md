@@ -57,7 +57,7 @@ tick.
 
 Current V02 animation timing uses a 12-tick-per-second base:
 
-- **Neutral Front · Bubble-gum idle:** 68 runtime drawings, 120 ticks, 5.00 s at 24 FPS.
+- **Neutral Front · Bubble-gum idle:** 68 runtime drawings, each held one tick: 68 ticks, 2.83 s at 24 FPS.
 - **Ready Profile · Mischievous jet check:** 23 runtime drawings, 51 ticks,
   4.25 s.
 
@@ -168,7 +168,7 @@ expression transition, hand approach, gum peel/stretch/recoil, gum flick, and
 arm recovery. Toe contact and bubble splat remained sharp. Nine outgoing
 two-tick exposures became one tick plus one new drawing; the rejected frame's
 three ticks fund the final three recovery drawings. The loop therefore remains
-exactly 120 ticks / 5.00 seconds at 24 FPS. Each new bridge is generated from
+exactly 68 equal ticks / 2.83 seconds at 24 FPS. Each new bridge is generated from
 only its adjacent pair (A / midpoint / B), never mixed with another sheet.
 
 ### 5B. Lock the root, not the full silhouette
