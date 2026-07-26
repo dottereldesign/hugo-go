@@ -125,8 +125,8 @@ export class FrameAnimationGallery {
         <div class="v02-animation-frames" aria-label="${manifest.animation.name} frame picker"></div>
       </div>
       <footer>
-        <span><b>01–23</b> runtime drawings with authored holds</span>
-        <span><b>24</b> exact copied seam · review only</span>
+        <span><b>01–${manifest.timing.runtimeFrameCount}</b> runtime drawings with authored holds</span>
+        <span><b>${manifest.timing.bookendFrame}</b> exact copied seam · review only</span>
         <span><b>640 px</b> registered transparent PNGs</span>
       </footer>
     `;

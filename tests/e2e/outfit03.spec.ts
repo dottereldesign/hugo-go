@@ -14,7 +14,7 @@ test.describe('Outfit 03 reference and V02 animation loops', () => {
 
     const neutral = page.locator('[data-v02-animation="neutral-idle"]');
     const ready = page.locator('[data-v02-animation="ready-profile"]');
-    await expect(neutral.locator('[data-frame]')).toHaveCount(24);
+    await expect(neutral.locator('[data-frame]')).toHaveCount(35);
     await expect(ready.locator('[data-frame]')).toHaveCount(24);
     await expect(neutral).toHaveAttribute('data-playing', 'true');
 
@@ -24,10 +24,10 @@ test.describe('Outfit 03 reference and V02 animation loops', () => {
     await page.waitForTimeout(500);
     await expect(neutral).toHaveAttribute('data-frame', pausedFrame ?? '');
 
-    await neutral.getByRole('button', { name: 'Show frame 24: Exact loop bookend' }).click();
-    await expect(neutral).toHaveAttribute('data-frame', '24');
+    await neutral.getByRole('button', { name: 'Show frame 35: Exact loop bookend' }).click();
+    await expect(neutral).toHaveAttribute('data-frame', '35');
     await expect(neutral.locator('[data-frame-readout]')).toHaveText(
-      'Frame 24 / 24 · Exact loop bookend',
+      'Frame 35 / 35 · Exact loop bookend',
     );
     await expect(neutral.getByRole('button', { name: 'Resume' })).toBeVisible();
 
@@ -48,7 +48,7 @@ test.describe('Outfit 03 reference and V02 animation loops', () => {
     const loop = neutral.getByRole('button', { name: 'Loop', exact: true });
     await loop.click();
     await expect(loop).toHaveAttribute('aria-pressed', 'false');
-    await neutral.getByRole('button', { name: 'Start' }).click();
+    await neutral.getByRole('button', { name: 'Start', exact: true }).click();
     await expect(neutral).toHaveAttribute('data-frame', '1');
 
     await page.getByRole('button', { name: 'Back to animation sandbox' }).click();
@@ -76,6 +76,6 @@ test.describe('Outfit 03 reference and V02 animation loops', () => {
     expect(cardBox).not.toBeNull();
     expect(cardBox?.x).toBeGreaterThanOrEqual(11);
     expect((cardBox?.x ?? 0) + (cardBox?.width ?? 0)).toBeLessThanOrEqual(379);
-    await expect(neutral.locator('[data-frame]')).toHaveCount(24);
+    await expect(neutral.locator('[data-frame]')).toHaveCount(35);
   });
 });

@@ -13,7 +13,7 @@ function digest(path: string): string {
 }
 
 describe('2D Sandbox Version 02 Outfit 03 animations', () => {
-  it('locks Outfit 03 and registers two authored 24-file loops', () => {
+  it('locks Outfit 03 and registers both authored loops', () => {
     expect(library).toMatchObject({
       sandboxVersion: '02',
       canonicalOutfit: {
@@ -29,11 +29,11 @@ describe('2D Sandbox Version 02 Outfit 03 animations', () => {
 
     expect(neutralIdle.timing).toMatchObject({
       baseFps: 12,
-      drawingCount: 24,
-      runtimeFrameCount: 23,
+      drawingCount: 35,
+      runtimeFrameCount: 34,
       runtimeTicks: 60,
       loopDurationSeconds: 5,
-      bookendFrame: 24,
+      bookendFrame: 35,
       bookendRuntime: false,
     });
     expect(readyProfile.timing).toMatchObject({
@@ -47,35 +47,39 @@ describe('2D Sandbox Version 02 Outfit 03 animations', () => {
     });
   });
 
-  it('uses chronological sheet cells without interleaving generations', () => {
-    for (const animation of animations) {
-      expect(animation.frames.map(({ index }) => index)).toEqual(
-        Array.from({ length: 24 }, (_, index) => index + 1),
-      );
-      expect(animation.frames[0].source).toMatchObject({
-        type: 'canonical-outfit-pose',
-      });
-      expect(animation.frames[23].source).toEqual({
-        type: 'exact-loop-bookend',
-        copiedFromFrame: 1,
-      });
+  it('keeps original chronology and inserts only bracketed adjacent-pair targets', () => {
+    const inserted = neutralIdle.frames.filter(
+      ({ source }) => source.type === 'adjacent-pair-inbetween',
+    );
+    expect(inserted).toHaveLength(12);
+    expect(inserted.map(({ source }) => source.betweenOriginalFrames)).toEqual([
+      [3, 4], [6, 7], [10, 11], [14, 15],
+      [15, 16], [16, 17], [17, 18], [18, 19],
+      [19, 20], [20, 22], [22, 23], [22, 23],
+    ]);
+    expect(new Set(inserted.map(({ source }) => source.column))).toEqual(new Set([2]));
+    expect(neutralIdle.frames.some(({ slug }) => slug === 'wipe-smear')).toBe(false);
+    expect(neutralIdle.source.rejectedOriginalFrames).toContainEqual({
+      frame: 21,
+      slug: 'wipe-smear',
+      reason: 'three arms / detached extra hand',
+    });
 
-      const generated = animation.frames.slice(1, 23);
-      expect(generated.slice(0, 11).map(({ source }) => source.sheetFrame)).toEqual(
-        Array.from({ length: 11 }, (_, index) => index + 2),
-      );
-      expect(generated.slice(11).map(({ source }) => source.sheetFrame)).toEqual(
-        Array.from({ length: 11 }, (_, index) => index + 1),
-      );
-      expect(new Set(generated.slice(0, 11).map(({ source }) => source.sheet))).toHaveLength(1);
-      expect(new Set(generated.slice(11).map(({ source }) => source.sheet))).toHaveLength(1);
-      expect(generated[0].source.sheet).not.toBe(generated[11].source.sheet);
-    }
+    const generated = readyProfile.frames.slice(1, 23);
+    expect(generated.slice(0, 11).map(({ source }) => source.sheetFrame)).toEqual(
+      Array.from({ length: 11 }, (_, index) => index + 2),
+    );
+    expect(generated.slice(11).map(({ source }) => source.sheetFrame)).toEqual(
+      Array.from({ length: 11 }, (_, index) => index + 1),
+    );
+    expect(new Set(generated.slice(0, 11).map(({ source }) => source.sheet))).toHaveLength(1);
+    expect(new Set(generated.slice(11).map(({ source }) => source.sheet))).toHaveLength(1);
+    expect(generated[0].source.sheet).not.toBe(generated[11].source.sheet);
   });
 
   it('binds every entry to a named transparent 640px PNG and exact seam copy', () => {
     const files = animations.flatMap(({ frames }) => frames.map(({ file }) => file));
-    expect(new Set(files).size).toBe(48);
+    expect(new Set(files).size).toBe(59);
 
     for (const animation of animations) {
       for (const frame of animation.frames) {
@@ -96,14 +100,14 @@ describe('2D Sandbox Version 02 Outfit 03 animations', () => {
       }
 
       const first = animation.frames[0];
-      const bookend = animation.frames[23];
+      const bookend = animation.frames.at(-1)!;
       expect(bookend.runtime).toBe(false);
       expect(bookend.durationTicks).toBe(0);
       expect(readFileSync(resolve(bookend.file))).toEqual(readFileSync(resolve(first.file)));
       expect(bookend.output.sha256).toBe(first.output.sha256);
-      expect(animation.frames.slice(0, 23).every(({ runtime }) => runtime)).toBe(true);
+      expect(animation.frames.slice(0, -1).every(({ runtime }) => runtime)).toBe(true);
       expect(
-        animation.frames.slice(0, 23).reduce((sum, frame) => sum + frame.durationTicks, 0),
+        animation.frames.slice(0, -1).reduce((sum, frame) => sum + frame.durationTicks, 0),
       ).toBe(animation.timing.runtimeTicks);
     }
   });

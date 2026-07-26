@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 1,
+  "animation": "neutral-idle",
+  "method": "exact-adjacent-production-frames-with-blank-middle-target",
+  "background": "#ff00ff",
+  "boards": [
+    {
+      "id": "a",
+      "file": "art/source-images/game/2d-v02/animations/neutral-idle/inbetween-v2/hugo-neutral-idle-inbetween-board-a-input.png",
+      "layout": {
+        "columns": 3,
+        "rows": 4,
+        "cellSize": 512,
+        "outgoingColumn": 1,
+        "targetColumn": 2,
+        "incomingColumn": 3
+      },
+      "rows": [
+        {
+          "row": 1,
+          "outgoingFrame": 3,
+          "targetColumn": 2,
+          "incomingFrame": 4,
+          "slug": "weight-to-toe-mid",
+          "instruction": "50% between weight shift and toe-lift anticipation"
+        },
+        {
+          "row": 2,
+          "outgoingFrame": 6,
+          "targetColumn": 2,
+          "incomingFrame": 7,
+          "slug": "toe-settle",
+          "instruction": "50% between raised toe and both shoes grounded"
+        },
+        {
+          "row": 3,
+          "outgoingFrame": 10,
+          "targetColumn": 2,
+          "incomingFrame": 11,
+          "slug": "bubble-medium-large",
+          "instruction": "50% bubble size between medium and large"
+        },
+        {
+          "row": 4,
+          "outgoingFrame": 14,
+          "targetColumn": 2,
+          "incomingFrame": 15,
+          "slug": "stunned-to-annoyed",
+          "instruction": "50% expression and head turn"
+        }
+      ]
+    },
+    {
+      "id": "b",
+      "file": "art/source-images/game/2d-v02/animations/neutral-idle/inbetween-v2/hugo-neutral-idle-inbetween-board-b-input.png",
+      "layout": {
+        "columns": 3,
+        "rows": 4,
+        "cellSize": 512,
+        "outgoingColumn": 1,
+        "targetColumn": 2,
+        "incomingColumn": 3
+      },
+      "rows": [
+        {
+          "row": 1,
+          "outgoingFrame": 15,
+          "targetColumn": 2,
+          "incomingFrame": 16,
+          "slug": "arm-rise-half",
+          "instruction": "right hand halfway from side to face on a clean arc"
+        },
+        {
+          "row": 2,
+          "outgoingFrame": 16,
+          "targetColumn": 2,
+          "incomingFrame": 17,
+          "slug": "reach-close",
+          "instruction": "right hand halfway from raised position to gum contact"
+        },
+        {
+          "row": 3,
+          "outgoingFrame": 17,
+          "targetColumn": 2,
+          "incomingFrame": 18,
+          "slug": "peel-start",
+          "instruction": "first visible peel with gum still mostly on the face"
+        },
+        {
+          "row": 4,
+          "outgoingFrame": 18,
+          "targetColumn": 2,
+          "incomingFrame": 19,
+          "slug": "stretch-mid",
+          "instruction": "halfway arm extension and elastic gum length"
+        }
+      ]
+    },
+    {
+      "id": "c",
+      "file": "art/source-images/game/2d-v02/animations/neutral-idle/inbetween-v2/hugo-neutral-idle-inbetween-board-c-input.png",
+      "layout": {
+        "columns": 3,
+        "rows": 4,
+        "cellSize": 512,
+        "outgoingColumn": 1,
+        "targetColumn": 2,
+        "incomingColumn": 3
+      },
+      "rows": [
+        {
+          "row": 1,
+          "outgoingFrame": 19,
+          "targetColumn": 2,
+          "incomingFrame": 20,
+          "slug": "detach-recoil",
+          "instruction": "gum just detached; right hand recoiling halfway inward"
+        },
+        {
+          "row": 2,
+          "outgoingFrame": 20,
+          "targetColumn": 2,
+          "incomingFrame": 22,
+          "slug": "inspect-to-eye-roll",
+          "instruction": "right wrist and elbow halfway lowering; exactly two arms"
+        },
+        {
+          "row": 3,
+          "outgoingFrame": 22,
+          "targetColumn": 2,
+          "incomingFrame": 23,
+          "slug": "gum-flick",
+          "instruction": "one-third transition: wrist flicks purple gum away"
+        },
+        {
+          "row": 4,
+          "outgoingFrame": 22,
+          "targetColumn": 2,
+          "incomingFrame": 23,
+          "slug": "arm-lower",
+          "instruction": "two-thirds transition: gum is gone and right arm is halfway down"
+        }
+      ]
+    }
+  ]
+}

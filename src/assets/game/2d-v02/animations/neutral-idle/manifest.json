@@ -1,69 +1,60 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "sandboxVersion": "02",
   "canonicalOutfit": "sunrise",
   "animation": {
     "id": "neutral-idle",
     "name": "Neutral Front \u00b7 Bubble-gum idle",
-    "description": "Hugo grows bored, taps his shoe, blows a bubble, wears the splat, wipes it away, and settles back into the exact neutral pose."
+    "description": "Hugo grows bored, taps his shoe, blows a purple bubble, wears the splat, peels it away, flicks it off, and settles."
   },
   "timing": {
     "baseFps": 12,
-    "drawingCount": 24,
-    "runtimeFrameCount": 23,
+    "drawingCount": 35,
+    "runtimeFrameCount": 34,
     "runtimeTicks": 60,
     "loopDurationSeconds": 5.0,
-    "bookendFrame": 24,
+    "bookendFrame": 35,
     "bookendRuntime": false
   },
   "source": {
-    "method": "two-sequential-4x3-sheets-extracted-to-individual-pngs",
-    "canonicalPose": "src/assets/game/2d-v02/sunrise/poses/hugo-2d-sunrise-01-neutral-front.png",
-    "transparentSheets": [
+    "method": "approved-originals-plus-exact-adjacent-pair-inbetweens",
+    "rejectedOriginalFrames": [
       {
-        "file": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-a-transparent.png",
-        "width": 1448,
-        "height": 1086,
-        "columns": 4,
-        "rows": 3,
-        "sha256": "1b6e62bad320985417666b0f2f5f5635e6c6553213f235230f04c989bc8cd092"
-      },
-      {
-        "file": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-b-transparent.png",
-        "width": 1448,
-        "height": 1086,
-        "columns": 4,
-        "rows": 3,
-        "sha256": "1cf1b70164024e369ac44cb2e7d209d7cfdedf71c12737e9d4a9e243d842cbd3"
+        "frame": 21,
+        "slug": "wipe-smear",
+        "reason": "three arms / detached extra hand"
       }
     ],
-    "chromaSheets": [
-      "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-a-magenta.png",
-      "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-b-magenta.png"
-    ],
-    "unusedGeneratedSeamCandidates": [
+    "inbetweenBoards": [
       {
-        "sheet": "A",
-        "sheetFrame": 1,
-        "replacedBy": "canonical Outfit 03 pose"
+        "file": "art/source-images/game/2d-v02/animations/neutral-idle/inbetween-v2/hugo-neutral-idle-inbetween-board-a-transparent.png",
+        "columns": 3,
+        "rows": 4,
+        "targetColumn": 2
       },
       {
-        "sheet": "B",
-        "sheetFrame": 12,
-        "replacedBy": "exact copy of frame 01"
+        "file": "art/source-images/game/2d-v02/animations/neutral-idle/inbetween-v2/hugo-neutral-idle-inbetween-board-b-transparent.png",
+        "columns": 3,
+        "rows": 4,
+        "targetColumn": 2
+      },
+      {
+        "file": "art/source-images/game/2d-v02/animations/neutral-idle/inbetween-v2/hugo-neutral-idle-inbetween-board-c-transparent.png",
+        "columns": 3,
+        "rows": 4,
+        "targetColumn": 2
       }
-    ]
+    ],
+    "continuityAudit": "src/assets/game/2d-v02/animations/qa/hugo-neutral-idle-adjacent-deltas.json"
   },
   "registration": {
-    "method": "single-animation-scale-centred-on-fixed-baseline",
+    "method": "preserved-original-registration-plus-fixed-inbetween-registration",
     "outputCanvas": [
       640,
       640
     ],
-    "generatedFigureHeightFromFrame01": 440,
-    "groundBaseline": 540,
-    "flightEffectBaseline": 570,
-    "generatedScale": 1.257143
+    "inbetweenFigureHeight": 440,
+    "groundBaseline": 540
   },
   "frames": [
     {
@@ -77,7 +68,9 @@
       "durationSeconds": 0.6667,
       "source": {
         "type": "canonical-outfit-pose",
-        "file": "src/assets/game/2d-v02/sunrise/poses/hugo-2d-sunrise-01-neutral-front.png"
+        "file": "src/assets/game/2d-v02/sunrise/poses/hugo-2d-sunrise-01-neutral-front.png",
+        "originalFrame": 1,
+        "refinement": "preserved-approved-drawing"
       },
       "output": {
         "width": 640,
@@ -105,7 +98,9 @@
         "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-a-transparent.png",
         "sheetFrame": 2,
         "row": 1,
-        "column": 2
+        "column": 2,
+        "originalFrame": 2,
+        "refinement": "preserved-approved-drawing"
       },
       "output": {
         "width": 640,
@@ -126,14 +121,16 @@
       "filename": "hugo-neutral-idle-03-weight-shift.png",
       "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-03-weight-shift.png",
       "runtime": true,
-      "durationTicks": 2,
-      "durationSeconds": 0.1667,
+      "durationTicks": 1,
+      "durationSeconds": 0.0833,
       "source": {
         "type": "generated-sheet-frame",
         "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-a-transparent.png",
         "sheetFrame": 3,
         "row": 1,
-        "column": 3
+        "column": 3,
+        "originalFrame": 3,
+        "refinement": "preserved-approved-drawing"
       },
       "output": {
         "width": 640,
@@ -149,10 +146,42 @@
     },
     {
       "index": 4,
+      "slug": "weight-to-toe-mid",
+      "label": "Weight to toe midpoint",
+      "filename": "hugo-neutral-idle-04-weight-to-toe-mid.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-04-weight-to-toe-mid.png",
+      "runtime": true,
+      "durationTicks": 1,
+      "durationSeconds": 0.0833,
+      "source": {
+        "type": "adjacent-pair-inbetween",
+        "board": "art/source-images/game/2d-v02/animations/neutral-idle/inbetween-v2/hugo-neutral-idle-inbetween-board-a-transparent.png",
+        "row": 1,
+        "column": 2,
+        "betweenOriginalFrames": [
+          3,
+          4
+        ],
+        "interpolation": "50% between weight shift and toe-lift anticipation"
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          231,
+          100,
+          409,
+          540
+        ],
+        "sha256": "2e0beaf0cc4da4d0c8454833946af20c9f3d975d358fdc1fd66734012cdaca6b"
+      }
+    },
+    {
+      "index": 5,
       "slug": "toe-tap-anticipation",
       "label": "Toe tap anticipation",
-      "filename": "hugo-neutral-idle-04-toe-tap-anticipation.png",
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-04-toe-tap-anticipation.png",
+      "filename": "hugo-neutral-idle-05-toe-tap-anticipation.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-05-toe-tap-anticipation.png",
       "runtime": true,
       "durationTicks": 2,
       "durationSeconds": 0.1667,
@@ -161,7 +190,9 @@
         "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-a-transparent.png",
         "sheetFrame": 4,
         "row": 1,
-        "column": 4
+        "column": 4,
+        "originalFrame": 4,
+        "refinement": "preserved-approved-drawing"
       },
       "output": {
         "width": 640,
@@ -176,11 +207,11 @@
       }
     },
     {
-      "index": 5,
+      "index": 6,
       "slug": "toe-tap-contact",
       "label": "Toe tap contact",
-      "filename": "hugo-neutral-idle-05-toe-tap-contact.png",
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-05-toe-tap-contact.png",
+      "filename": "hugo-neutral-idle-06-toe-tap-contact.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-06-toe-tap-contact.png",
       "runtime": true,
       "durationTicks": 1,
       "durationSeconds": 0.0833,
@@ -189,7 +220,9 @@
         "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-a-transparent.png",
         "sheetFrame": 5,
         "row": 2,
-        "column": 1
+        "column": 1,
+        "originalFrame": 5,
+        "refinement": "preserved-approved-drawing"
       },
       "output": {
         "width": 640,
@@ -204,20 +237,22 @@
       }
     },
     {
-      "index": 6,
+      "index": 7,
       "slug": "toe-tap-rise",
       "label": "Toe tap rise",
-      "filename": "hugo-neutral-idle-06-toe-tap-rise.png",
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-06-toe-tap-rise.png",
+      "filename": "hugo-neutral-idle-07-toe-tap-rise.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-07-toe-tap-rise.png",
       "runtime": true,
-      "durationTicks": 2,
-      "durationSeconds": 0.1667,
+      "durationTicks": 1,
+      "durationSeconds": 0.0833,
       "source": {
         "type": "generated-sheet-frame",
         "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-a-transparent.png",
         "sheetFrame": 6,
         "row": 2,
-        "column": 2
+        "column": 2,
+        "originalFrame": 6,
+        "refinement": "preserved-approved-drawing"
       },
       "output": {
         "width": 640,
@@ -232,11 +267,43 @@
       }
     },
     {
-      "index": 7,
+      "index": 8,
+      "slug": "toe-settle",
+      "label": "Toe settles",
+      "filename": "hugo-neutral-idle-08-toe-settle.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-08-toe-settle.png",
+      "runtime": true,
+      "durationTicks": 1,
+      "durationSeconds": 0.0833,
+      "source": {
+        "type": "adjacent-pair-inbetween",
+        "board": "art/source-images/game/2d-v02/animations/neutral-idle/inbetween-v2/hugo-neutral-idle-inbetween-board-a-transparent.png",
+        "row": 2,
+        "column": 2,
+        "betweenOriginalFrames": [
+          6,
+          7
+        ],
+        "interpolation": "50% between raised toe and both shoes grounded"
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          233,
+          100,
+          407,
+          540
+        ],
+        "sha256": "a8dc29631a6cd338b4224cc7b10bee7bcfc1d9c50758a6c2743729bb3c73598f"
+      }
+    },
+    {
+      "index": 9,
       "slug": "gum-chew",
       "label": "Gum chew",
-      "filename": "hugo-neutral-idle-07-gum-chew.png",
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-07-gum-chew.png",
+      "filename": "hugo-neutral-idle-09-gum-chew.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-09-gum-chew.png",
       "runtime": true,
       "durationTicks": 3,
       "durationSeconds": 0.25,
@@ -245,7 +312,9 @@
         "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-a-transparent.png",
         "sheetFrame": 7,
         "row": 2,
-        "column": 3
+        "column": 3,
+        "originalFrame": 7,
+        "refinement": "preserved-approved-drawing"
       },
       "output": {
         "width": 640,
@@ -260,11 +329,11 @@
       }
     },
     {
-      "index": 8,
+      "index": 10,
       "slug": "bubble-tiny",
-      "label": "Tiny bubble",
-      "filename": "hugo-neutral-idle-08-bubble-tiny.png",
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-08-bubble-tiny.png",
+      "label": "Tiny purple bubble",
+      "filename": "hugo-neutral-idle-10-bubble-tiny.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-10-bubble-tiny.png",
       "runtime": true,
       "durationTicks": 2,
       "durationSeconds": 0.1667,
@@ -273,7 +342,9 @@
         "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-a-transparent.png",
         "sheetFrame": 8,
         "row": 2,
-        "column": 4
+        "column": 4,
+        "originalFrame": 8,
+        "refinement": "preserved-approved-drawing"
       },
       "output": {
         "width": 640,
@@ -284,15 +355,15 @@
           406,
           540
         ],
-        "sha256": "96a0b4769ea7d44fd64fa7abe3c27ce61eed4a2e5d1076b49f70ed96b6712964"
+        "sha256": "bcc35f0f7793daed6bec63ed01757e2f12db7254f3d0d2b3870dcabc35765ea5"
       }
     },
     {
-      "index": 9,
+      "index": 11,
       "slug": "bubble-small",
-      "label": "Small bubble",
-      "filename": "hugo-neutral-idle-09-bubble-small.png",
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-09-bubble-small.png",
+      "label": "Small purple bubble",
+      "filename": "hugo-neutral-idle-11-bubble-small.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-11-bubble-small.png",
       "runtime": true,
       "durationTicks": 2,
       "durationSeconds": 0.1667,
@@ -301,7 +372,9 @@
         "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-a-transparent.png",
         "sheetFrame": 9,
         "row": 3,
-        "column": 1
+        "column": 1,
+        "originalFrame": 9,
+        "refinement": "preserved-approved-drawing"
       },
       "output": {
         "width": 640,
@@ -312,24 +385,26 @@
           408,
           540
         ],
-        "sha256": "c629807d22e72ec897a1687eaccc2a984743cbfa2606dc976a5313ae95382756"
+        "sha256": "2259fdb77c24f7121968b825d925b51308a5ec2728b9316102295215a6809dcb"
       }
     },
     {
-      "index": 10,
+      "index": 12,
       "slug": "bubble-medium",
-      "label": "Medium bubble",
-      "filename": "hugo-neutral-idle-10-bubble-medium.png",
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-10-bubble-medium.png",
+      "label": "Medium purple bubble",
+      "filename": "hugo-neutral-idle-12-bubble-medium.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-12-bubble-medium.png",
       "runtime": true,
-      "durationTicks": 2,
-      "durationSeconds": 0.1667,
+      "durationTicks": 1,
+      "durationSeconds": 0.0833,
       "source": {
         "type": "generated-sheet-frame",
         "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-a-transparent.png",
         "sheetFrame": 10,
         "row": 3,
-        "column": 2
+        "column": 2,
+        "originalFrame": 10,
+        "refinement": "preserved-approved-drawing"
       },
       "output": {
         "width": 640,
@@ -340,15 +415,47 @@
           408,
           540
         ],
-        "sha256": "62be1e030abd3bfe7a5ee72137cda9ecc19668102f240d3ed928cf1f745f8e55"
+        "sha256": "1a62291fc2a1fd50619d715ee725dc4d5ff86a17de2e739bfea83ca2dbc13fb3"
       }
     },
     {
-      "index": 11,
+      "index": 13,
+      "slug": "bubble-medium-large",
+      "label": "Bubble growth midpoint",
+      "filename": "hugo-neutral-idle-13-bubble-medium-large.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-13-bubble-medium-large.png",
+      "runtime": true,
+      "durationTicks": 1,
+      "durationSeconds": 0.0833,
+      "source": {
+        "type": "adjacent-pair-inbetween",
+        "board": "art/source-images/game/2d-v02/animations/neutral-idle/inbetween-v2/hugo-neutral-idle-inbetween-board-a-transparent.png",
+        "row": 3,
+        "column": 2,
+        "betweenOriginalFrames": [
+          10,
+          11
+        ],
+        "interpolation": "50% bubble size between medium and large"
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          230,
+          100,
+          409,
+          540
+        ],
+        "sha256": "257885f7c52ccaec2d6f2c80bf3929e7f3a7ae3a7881dfe86e91a1cee3fc180b"
+      }
+    },
+    {
+      "index": 14,
       "slug": "bubble-large",
-      "label": "Large bubble",
-      "filename": "hugo-neutral-idle-11-bubble-large.png",
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-11-bubble-large.png",
+      "label": "Large purple bubble",
+      "filename": "hugo-neutral-idle-14-bubble-large.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-14-bubble-large.png",
       "runtime": true,
       "durationTicks": 3,
       "durationSeconds": 0.25,
@@ -357,7 +464,9 @@
         "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-a-transparent.png",
         "sheetFrame": 11,
         "row": 3,
-        "column": 3
+        "column": 3,
+        "originalFrame": 11,
+        "refinement": "preserved-approved-drawing"
       },
       "output": {
         "width": 640,
@@ -368,15 +477,15 @@
           410,
           540
         ],
-        "sha256": "08cacf16cd008f108b39155c554f238c3771471bdd0c77c4fec634c650e07de9"
+        "sha256": "2b1f695287c8fbccb5f76ea68ac6682cec73ac8c59b1fc519d66f7750463e335"
       }
     },
     {
-      "index": 12,
+      "index": 15,
       "slug": "gum-splat",
-      "label": "Gum splat",
-      "filename": "hugo-neutral-idle-12-gum-splat.png",
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-12-gum-splat.png",
+      "label": "Purple gum splat",
+      "filename": "hugo-neutral-idle-15-gum-splat.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-15-gum-splat.png",
       "runtime": true,
       "durationTicks": 4,
       "durationSeconds": 0.3333,
@@ -385,7 +494,9 @@
         "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-a-transparent.png",
         "sheetFrame": 12,
         "row": 3,
-        "column": 4
+        "column": 4,
+        "originalFrame": 12,
+        "refinement": "preserved-approved-drawing"
       },
       "output": {
         "width": 640,
@@ -396,15 +507,15 @@
           410,
           540
         ],
-        "sha256": "a836aa628c2f8ae8250a9deb1ba6553c24ef2b52056fe394eb5d4f12e18e3795"
+        "sha256": "61ec6dca97a07829cc67e1dbbfee10d107fecae84a5ad4c9bfb029764a35abb4"
       }
     },
     {
-      "index": 13,
+      "index": 16,
       "slug": "splat-hold",
       "label": "Splat hold",
-      "filename": "hugo-neutral-idle-13-splat-hold.png",
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-13-splat-hold.png",
+      "filename": "hugo-neutral-idle-16-splat-hold.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-16-splat-hold.png",
       "runtime": true,
       "durationTicks": 3,
       "durationSeconds": 0.25,
@@ -413,7 +524,9 @@
         "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-b-transparent.png",
         "sheetFrame": 1,
         "row": 1,
-        "column": 1
+        "column": 1,
+        "originalFrame": 13,
+        "refinement": "preserved-approved-drawing"
       },
       "output": {
         "width": 640,
@@ -424,24 +537,26 @@
           406,
           540
         ],
-        "sha256": "9eea94305a48ba754c7b3dca359faf0f18c207df4f2ca978609373375598182a"
+        "sha256": "9c317ac8a26844c3938e5bb73b362020e53baf63d620dd653e97973de88b7287"
       }
     },
     {
-      "index": 14,
+      "index": 17,
       "slug": "stunned-blink",
       "label": "Stunned blink",
-      "filename": "hugo-neutral-idle-14-stunned-blink.png",
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-14-stunned-blink.png",
+      "filename": "hugo-neutral-idle-17-stunned-blink.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-17-stunned-blink.png",
       "runtime": true,
-      "durationTicks": 2,
-      "durationSeconds": 0.1667,
+      "durationTicks": 1,
+      "durationSeconds": 0.0833,
       "source": {
         "type": "generated-sheet-frame",
         "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-b-transparent.png",
         "sheetFrame": 2,
         "row": 1,
-        "column": 2
+        "column": 2,
+        "originalFrame": 14,
+        "refinement": "preserved-approved-drawing"
       },
       "output": {
         "width": 640,
@@ -452,24 +567,58 @@
           405,
           540
         ],
-        "sha256": "9c311f23310fe6e413c253fedff08c2863820665a3052468c1dd6fd2becf27d3"
+        "sha256": "6c32becb83207b2e80e8fc6cedd39eaab1d56e7547ae370d8d7370917f416c98"
       }
     },
     {
-      "index": 15,
+      "index": 18,
+      "slug": "stunned-to-annoyed",
+      "label": "Stunned to annoyed",
+      "filename": "hugo-neutral-idle-18-stunned-to-annoyed.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-18-stunned-to-annoyed.png",
+      "runtime": true,
+      "durationTicks": 1,
+      "durationSeconds": 0.0833,
+      "source": {
+        "type": "adjacent-pair-inbetween",
+        "board": "art/source-images/game/2d-v02/animations/neutral-idle/inbetween-v2/hugo-neutral-idle-inbetween-board-a-transparent.png",
+        "row": 4,
+        "column": 2,
+        "betweenOriginalFrames": [
+          14,
+          15
+        ],
+        "interpolation": "50% expression and head turn"
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          234,
+          100,
+          405,
+          540
+        ],
+        "sha256": "0d663225ae363ff18cfefe601c2382ac98fbc9e1a5ae557e6ea6c38a8232c6a2"
+      }
+    },
+    {
+      "index": 19,
       "slug": "annoyed-anticipation",
       "label": "Annoyed anticipation",
-      "filename": "hugo-neutral-idle-15-annoyed-anticipation.png",
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-15-annoyed-anticipation.png",
+      "filename": "hugo-neutral-idle-19-annoyed-anticipation.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-19-annoyed-anticipation.png",
       "runtime": true,
-      "durationTicks": 2,
-      "durationSeconds": 0.1667,
+      "durationTicks": 1,
+      "durationSeconds": 0.0833,
       "source": {
         "type": "generated-sheet-frame",
         "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-b-transparent.png",
         "sheetFrame": 3,
         "row": 1,
-        "column": 3
+        "column": 3,
+        "originalFrame": 15,
+        "refinement": "preserved-approved-drawing"
       },
       "output": {
         "width": 640,
@@ -480,24 +629,58 @@
           406,
           540
         ],
-        "sha256": "f905955d94b603bf56193d697e98ac52abdfe736ad865e93a0494f00ef0e4416"
+        "sha256": "89f8837bdaf57463690c391ea236881d037c4943529aed9d67511e084b362a65"
       }
     },
     {
-      "index": 16,
+      "index": 20,
+      "slug": "arm-rise-half",
+      "label": "Arm rise midpoint",
+      "filename": "hugo-neutral-idle-20-arm-rise-half.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-20-arm-rise-half.png",
+      "runtime": true,
+      "durationTicks": 1,
+      "durationSeconds": 0.0833,
+      "source": {
+        "type": "adjacent-pair-inbetween",
+        "board": "art/source-images/game/2d-v02/animations/neutral-idle/inbetween-v2/hugo-neutral-idle-inbetween-board-b-transparent.png",
+        "row": 1,
+        "column": 2,
+        "betweenOriginalFrames": [
+          15,
+          16
+        ],
+        "interpolation": "right hand halfway from side to face on a clean arc"
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          234,
+          100,
+          406,
+          540
+        ],
+        "sha256": "35af8484eb6bc47bc5d361a63f2be941d1e39aa470710c32052d0181572c64b2"
+      }
+    },
+    {
+      "index": 21,
       "slug": "hand-rise",
       "label": "Hand rises",
-      "filename": "hugo-neutral-idle-16-hand-rise.png",
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-16-hand-rise.png",
+      "filename": "hugo-neutral-idle-21-hand-rise.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-21-hand-rise.png",
       "runtime": true,
-      "durationTicks": 2,
-      "durationSeconds": 0.1667,
+      "durationTicks": 1,
+      "durationSeconds": 0.0833,
       "source": {
         "type": "generated-sheet-frame",
         "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-b-transparent.png",
         "sheetFrame": 4,
         "row": 1,
-        "column": 4
+        "column": 4,
+        "originalFrame": 16,
+        "refinement": "preserved-approved-drawing"
       },
       "output": {
         "width": 640,
@@ -508,24 +691,58 @@
           406,
           540
         ],
-        "sha256": "c659da777aa2eb4672b2c3e45791412e2bf178392a5658b007ffbb2871c21050"
+        "sha256": "ed04de21e1ccea2a7973d82ec69e5da44d2b33ef594c743c80009d91807f67a8"
       }
     },
     {
-      "index": 17,
-      "slug": "gum-contact",
-      "label": "Gum contact",
-      "filename": "hugo-neutral-idle-17-gum-contact.png",
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-17-gum-contact.png",
+      "index": 22,
+      "slug": "reach-close",
+      "label": "Reach closes",
+      "filename": "hugo-neutral-idle-22-reach-close.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-22-reach-close.png",
       "runtime": true,
-      "durationTicks": 2,
-      "durationSeconds": 0.1667,
+      "durationTicks": 1,
+      "durationSeconds": 0.0833,
+      "source": {
+        "type": "adjacent-pair-inbetween",
+        "board": "art/source-images/game/2d-v02/animations/neutral-idle/inbetween-v2/hugo-neutral-idle-inbetween-board-b-transparent.png",
+        "row": 2,
+        "column": 2,
+        "betweenOriginalFrames": [
+          16,
+          17
+        ],
+        "interpolation": "right hand halfway from raised position to gum contact"
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          234,
+          100,
+          406,
+          540
+        ],
+        "sha256": "9152717fe81806366fab17b67d4c54b35746180c6b227af0eab5d7198f4c7a00"
+      }
+    },
+    {
+      "index": 23,
+      "slug": "gum-contact",
+      "label": "Purple gum contact",
+      "filename": "hugo-neutral-idle-23-gum-contact.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-23-gum-contact.png",
+      "runtime": true,
+      "durationTicks": 1,
+      "durationSeconds": 0.0833,
       "source": {
         "type": "generated-sheet-frame",
         "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-b-transparent.png",
         "sheetFrame": 5,
         "row": 2,
-        "column": 1
+        "column": 1,
+        "originalFrame": 17,
+        "refinement": "preserved-approved-drawing"
       },
       "output": {
         "width": 640,
@@ -536,24 +753,58 @@
           406,
           540
         ],
-        "sha256": "7a3f69f12c446630dcac52ac54bafab4a4e3fc8ccb80c84cc8aff78e34f2a032"
+        "sha256": "b601cbdc7b2700e9cad95dc226461775e7791b6f33d1d5558cb19891016aad36"
       }
     },
     {
-      "index": 18,
-      "slug": "gum-peel",
-      "label": "Peel",
-      "filename": "hugo-neutral-idle-18-gum-peel.png",
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-18-gum-peel.png",
+      "index": 24,
+      "slug": "peel-start",
+      "label": "Peel starts",
+      "filename": "hugo-neutral-idle-24-peel-start.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-24-peel-start.png",
       "runtime": true,
-      "durationTicks": 2,
-      "durationSeconds": 0.1667,
+      "durationTicks": 1,
+      "durationSeconds": 0.0833,
+      "source": {
+        "type": "adjacent-pair-inbetween",
+        "board": "art/source-images/game/2d-v02/animations/neutral-idle/inbetween-v2/hugo-neutral-idle-inbetween-board-b-transparent.png",
+        "row": 3,
+        "column": 2,
+        "betweenOriginalFrames": [
+          17,
+          18
+        ],
+        "interpolation": "first visible peel with gum still mostly on the face"
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          217,
+          100,
+          423,
+          540
+        ],
+        "sha256": "60612d1058a00f5f8209763cbfcdd33c68887a551dd14594a6565c307f4e49e6"
+      }
+    },
+    {
+      "index": 25,
+      "slug": "gum-peel",
+      "label": "Purple gum peel",
+      "filename": "hugo-neutral-idle-25-gum-peel.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-25-gum-peel.png",
+      "runtime": true,
+      "durationTicks": 1,
+      "durationSeconds": 0.0833,
       "source": {
         "type": "generated-sheet-frame",
         "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-b-transparent.png",
         "sheetFrame": 6,
         "row": 2,
-        "column": 2
+        "column": 2,
+        "originalFrame": 18,
+        "refinement": "preserved-approved-drawing"
       },
       "output": {
         "width": 640,
@@ -564,24 +815,58 @@
           420,
           540
         ],
-        "sha256": "54f7048b15ea6f29b539f7d31712723e52baf32b07258b4087fd901b239f2cfe"
+        "sha256": "eda0310315936c9c9d4afabf680e0aabf5fed3ba96fbc39776dfdd7c12af0a9f"
       }
     },
     {
-      "index": 19,
-      "slug": "gum-stretch",
-      "label": "Stretch",
-      "filename": "hugo-neutral-idle-19-gum-stretch.png",
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-19-gum-stretch.png",
+      "index": 26,
+      "slug": "stretch-mid",
+      "label": "Stretch midpoint",
+      "filename": "hugo-neutral-idle-26-stretch-mid.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-26-stretch-mid.png",
       "runtime": true,
-      "durationTicks": 2,
-      "durationSeconds": 0.1667,
+      "durationTicks": 1,
+      "durationSeconds": 0.0833,
+      "source": {
+        "type": "adjacent-pair-inbetween",
+        "board": "art/source-images/game/2d-v02/animations/neutral-idle/inbetween-v2/hugo-neutral-idle-inbetween-board-b-transparent.png",
+        "row": 4,
+        "column": 2,
+        "betweenOriginalFrames": [
+          18,
+          19
+        ],
+        "interpolation": "halfway arm extension and elastic gum length"
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          199,
+          100,
+          440,
+          540
+        ],
+        "sha256": "42e41c9f87264ee345f11af04d05a6cd7f1a7b16e2a7cecbfb4dbd5682098c9b"
+      }
+    },
+    {
+      "index": 27,
+      "slug": "gum-stretch",
+      "label": "Purple gum stretch",
+      "filename": "hugo-neutral-idle-27-gum-stretch.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-27-gum-stretch.png",
+      "runtime": true,
+      "durationTicks": 1,
+      "durationSeconds": 0.0833,
       "source": {
         "type": "generated-sheet-frame",
         "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-b-transparent.png",
         "sheetFrame": 7,
         "row": 2,
-        "column": 3
+        "column": 3,
+        "originalFrame": 19,
+        "refinement": "preserved-approved-drawing"
       },
       "output": {
         "width": 640,
@@ -592,15 +877,47 @@
           442,
           540
         ],
-        "sha256": "f8beec5b61150288d1618e30386d27b37ff4bf840966246bedb1be636b825b93"
+        "sha256": "8327811901d05a2f6241185cb30195ec84647ed636a2f20f3f378b76a19d9744"
       }
     },
     {
-      "index": 20,
+      "index": 28,
+      "slug": "detach-recoil",
+      "label": "Detach and recoil",
+      "filename": "hugo-neutral-idle-28-detach-recoil.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-28-detach-recoil.png",
+      "runtime": true,
+      "durationTicks": 1,
+      "durationSeconds": 0.0833,
+      "source": {
+        "type": "adjacent-pair-inbetween",
+        "board": "art/source-images/game/2d-v02/animations/neutral-idle/inbetween-v2/hugo-neutral-idle-inbetween-board-c-transparent.png",
+        "row": 1,
+        "column": 2,
+        "betweenOriginalFrames": [
+          19,
+          20
+        ],
+        "interpolation": "gum just detached; right hand recoiling halfway inward"
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          211,
+          100,
+          428,
+          540
+        ],
+        "sha256": "1b6ad72aa9b468655f5bad75de5e3e5c110a76ea27906d41bd7be59b7488d6e1"
+      }
+    },
+    {
+      "index": 29,
       "slug": "gum-free",
-      "label": "Gum free",
-      "filename": "hugo-neutral-idle-20-gum-free.png",
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-20-gum-free.png",
+      "label": "Purple gum free",
+      "filename": "hugo-neutral-idle-29-gum-free.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-29-gum-free.png",
       "runtime": true,
       "durationTicks": 2,
       "durationSeconds": 0.1667,
@@ -609,7 +926,9 @@
         "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-b-transparent.png",
         "sheetFrame": 8,
         "row": 2,
-        "column": 4
+        "column": 4,
+        "originalFrame": 20,
+        "refinement": "preserved-approved-drawing"
       },
       "output": {
         "width": 640,
@@ -620,43 +939,47 @@
           415,
           540
         ],
-        "sha256": "20528df891c16829c3901f32b7ae65e439344cb14a4cb7119d104fcd18f8b86b"
+        "sha256": "e39a3d099891f8632512c895dc9aba001ca3e47752edf979c9e81ac9b64d774f"
       }
     },
     {
-      "index": 21,
-      "slug": "wipe-smear",
-      "label": "Wipe",
-      "filename": "hugo-neutral-idle-21-wipe-smear.png",
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-21-wipe-smear.png",
+      "index": 30,
+      "slug": "inspect-to-eye-roll",
+      "label": "Inspect to eye roll",
+      "filename": "hugo-neutral-idle-30-inspect-to-eye-roll.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-30-inspect-to-eye-roll.png",
       "runtime": true,
-      "durationTicks": 3,
-      "durationSeconds": 0.25,
+      "durationTicks": 1,
+      "durationSeconds": 0.0833,
       "source": {
-        "type": "generated-sheet-frame",
-        "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-b-transparent.png",
-        "sheetFrame": 9,
-        "row": 3,
-        "column": 1
+        "type": "adjacent-pair-inbetween",
+        "board": "art/source-images/game/2d-v02/animations/neutral-idle/inbetween-v2/hugo-neutral-idle-inbetween-board-c-transparent.png",
+        "row": 2,
+        "column": 2,
+        "betweenOriginalFrames": [
+          20,
+          22
+        ],
+        "interpolation": "right wrist and elbow halfway lowering; exactly two arms"
       },
       "output": {
         "width": 640,
         "height": 640,
         "alphaBounds": [
-          219,
-          108,
-          421,
+          223,
+          100,
+          416,
           540
         ],
-        "sha256": "3468b63b795b34f904a92905ef0cad104a7fd7a5f887ae5f98d7df38a21d66c9"
+        "sha256": "82af260512540fd439c7e3f956cdf1ddc551e13f96e85a88dd08db5038ffe4a3"
       }
     },
     {
-      "index": 22,
+      "index": 31,
       "slug": "bored-eye-roll",
       "label": "Bored eye roll",
-      "filename": "hugo-neutral-idle-22-bored-eye-roll.png",
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-22-bored-eye-roll.png",
+      "filename": "hugo-neutral-idle-31-bored-eye-roll.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-31-bored-eye-roll.png",
       "runtime": true,
       "durationTicks": 4,
       "durationSeconds": 0.3333,
@@ -665,7 +988,9 @@
         "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-b-transparent.png",
         "sheetFrame": 10,
         "row": 3,
-        "column": 2
+        "column": 2,
+        "originalFrame": 22,
+        "refinement": "preserved-approved-drawing"
       },
       "output": {
         "width": 640,
@@ -676,15 +1001,79 @@
           418,
           540
         ],
-        "sha256": "cd060e3286c734379f514fe93acd806da9a07c9dd44b51b249593bb065bf7d82"
+        "sha256": "2ab061486a9358ef37b9c2a8f81c381c0f5bc0958e759ef46eacc5c9ce0e3e2e"
       }
     },
     {
-      "index": 23,
+      "index": 32,
+      "slug": "gum-flick",
+      "label": "Purple gum flick",
+      "filename": "hugo-neutral-idle-32-gum-flick.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-32-gum-flick.png",
+      "runtime": true,
+      "durationTicks": 1,
+      "durationSeconds": 0.0833,
+      "source": {
+        "type": "adjacent-pair-inbetween",
+        "board": "art/source-images/game/2d-v02/animations/neutral-idle/inbetween-v2/hugo-neutral-idle-inbetween-board-c-transparent.png",
+        "row": 3,
+        "column": 2,
+        "betweenOriginalFrames": [
+          22,
+          23
+        ],
+        "interpolation": "one-third transition: wrist flicks purple gum away"
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          210,
+          100,
+          430,
+          540
+        ],
+        "sha256": "82736e0cc554ac158035ba19a1e3c08d98cb5601f4e73385f64af9bd74008e97"
+      }
+    },
+    {
+      "index": 33,
+      "slug": "arm-lower",
+      "label": "Arm lowers",
+      "filename": "hugo-neutral-idle-33-arm-lower.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-33-arm-lower.png",
+      "runtime": true,
+      "durationTicks": 1,
+      "durationSeconds": 0.0833,
+      "source": {
+        "type": "adjacent-pair-inbetween",
+        "board": "art/source-images/game/2d-v02/animations/neutral-idle/inbetween-v2/hugo-neutral-idle-inbetween-board-c-transparent.png",
+        "row": 4,
+        "column": 2,
+        "betweenOriginalFrames": [
+          22,
+          23
+        ],
+        "interpolation": "two-thirds transition: gum is gone and right arm is halfway down"
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          223,
+          100,
+          416,
+          540
+        ],
+        "sha256": "5be98a75f60c08cbbffe1ca05a2b74a39da0193cf38140fdad5e06ff0af2df47"
+      }
+    },
+    {
+      "index": 34,
       "slug": "settle",
       "label": "Settle",
-      "filename": "hugo-neutral-idle-23-settle.png",
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-23-settle.png",
+      "filename": "hugo-neutral-idle-34-settle.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-34-settle.png",
       "runtime": true,
       "durationTicks": 3,
       "durationSeconds": 0.25,
@@ -693,7 +1082,9 @@
         "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-b-transparent.png",
         "sheetFrame": 11,
         "row": 3,
-        "column": 3
+        "column": 3,
+        "originalFrame": 23,
+        "refinement": "preserved-approved-drawing"
       },
       "output": {
         "width": 640,
@@ -708,14 +1099,14 @@
       }
     },
     {
-      "index": 24,
+      "index": 35,
       "slug": "loop-bookend",
       "label": "Exact loop bookend",
-      "filename": "hugo-neutral-idle-24-loop-bookend.png",
-      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-24-loop-bookend.png",
+      "filename": "hugo-neutral-idle-35-loop-bookend.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-35-loop-bookend.png",
       "runtime": false,
       "durationTicks": 0,
-      "durationSeconds": 0.0,
+      "durationSeconds": 0,
       "source": {
         "type": "exact-loop-bookend",
         "copiedFromFrame": 1

@@ -57,7 +57,7 @@ tick.
 
 Current V02 animation timing uses a 12-tick-per-second base:
 
-- **Neutral Front · Bubble-gum idle:** 23 runtime drawings, 60 ticks, 5.00 s.
+- **Neutral Front · Bubble-gum idle:** 34 runtime drawings, 60 ticks, 5.00 s.
 - **Ready Profile · Mischievous jet check:** 23 runtime drawings, 51 ticks,
   4.25 s.
 
@@ -132,6 +132,44 @@ Inspect every full sheet for:
 Reject a bad sheet. Do not repair chronology by mixing it with a different
 generation.
 
+### 5A. Refine an existing loop pair by pair
+
+“Make it smoother” is not a sufficient generation instruction. A continuity
+pass must preserve the accepted sequence and work through adjacent pairs in
+strict order:
+
+1. freeze the approved PNG order and remove any rejected anatomy outright;
+2. compare 01→02, then 02→03, then 03→04, continuing without skipping;
+3. overlay A-only silhouette pixels in red, B-only pixels in cyan, and shared
+   pixels in white;
+4. track head, hips, shoulders, elbows, wrists, knees, feet, eye line, prop
+   shape, balance, centroid, and silhouette bounds;
+5. classify each gap as a hold/micro-change, purposeful snap or impact, or
+   genuinely missing motion;
+6. for a missing beat, build an **A / blank target / B** row from the exact
+   registered production PNGs;
+7. request only the stated temporal fraction (usually ½; sometimes ⅓ or ⅔),
+   plus explicit anatomy, identity, costume, registration, and action
+   invariants;
+8. extract only the new target—not altered copies of A or B—and insert it
+   between its named endpoints;
+9. rerun the same audit on A→new and new→B; reject the in-between unless both
+   joins improve; and
+10. retime exposures so added drawings do not accidentally slow the action.
+
+Silhouette IoU, changed-pixel ratio, centroid travel, and bounds changes are
+diagnostic signals, not automatic verdicts. A bubble pop, foot contact, punch,
+or ignition can require a large intentional gap. The animator decides whether
+the spacing communicates the intended force.
+
+The July 2026 neutral-idle pass removed original frame 21 because it contained
+three arms. It added 12 bracketed in-betweens for the toe path, bubble growth,
+expression transition, hand approach, gum peel/stretch/recoil, gum flick, and
+arm recovery. Toe contact and bubble splat remained sharp. Nine outgoing
+two-tick exposures became one tick plus one new drawing; the rejected frame's
+three ticks fund the final three recovery drawings. The loop therefore remains
+exactly 60 ticks / 5.00 seconds.
+
 ### 6. Extract and register individual files
 
 After approval:
@@ -168,8 +206,8 @@ the end state can return to the start without a visual jump.
 
 The duplicate is **not** played at runtime:
 
-- files 01–23 are runtime drawings;
-- file 24 is the exact seam bookend;
+- the manifest identifies every runtime drawing;
+- the final file is the exact seam bookend;
 - held time belongs in `durationTicks`, not duplicate image files.
 
 ## Current Outfit 03 loops
@@ -177,9 +215,9 @@ The duplicate is **not** played at runtime:
 ### Neutral Front · Bubble-gum idle
 
 Neutral hold, eyelid relaxation, weight shift, toe-tap anticipation/contact,
-gum chew, four bubble sizes, splat, stunned reaction, annoyed anticipation,
-hand rise, contact, peel, stretch, gum free, wipe, eye roll, settle, exact
-bookend.
+gum chew, five purple-bubble sizes, splat, stunned reaction, annoyed
+anticipation, staged hand rise/contact, peel, stretch, gum release, inspection,
+eye roll, flick, arm recovery, settle, and exact bookend.
 
 ### Ready Profile · Mischievous jet check
 
@@ -199,15 +237,22 @@ suit brush, hand return, settle, exact bookend.
 - Animation manifests:
   `src/assets/game/2d-v02/animations/{animation}/manifest.json`
 - Animation QA contact sheets: `src/assets/game/2d-v02/animations/qa/`
-- Chroma restoration helper: `scripts/2d_v02/restore_protected_pink.py`
+- Chroma restoration helpers: `scripts/2d_v02/restore_protected_pink.py` and
+  `scripts/2d_v02/restore_protected_purple.py`
+- Adjacent-pair audit: `scripts/2d_v02/audit_animation_continuity.py`
+- A/target/B board builder:
+  `scripts/2d_v02/prepare_neutral_inbetween_boards.py`
+- Neutral-idle refinement: `scripts/2d_v02/refine_neutral_idle.py`
 - Deterministic extractor: `scripts/2d_v02/extract_animation_sheets.py`
 
 Run:
 
 ```powershell
 python scripts\2d_v02\extract_animation_sheets.py
+python scripts\2d_v02\refine_neutral_idle.py
 ```
 
 The Outfit 03 page in the application is the human review surface: it shows the
-canonical 12 poses, both loops, all 24 numbered files, the true loop duration,
-pause/start/step/loop controls, and adjustable playback speed.
+canonical 12 poses, both loops, every numbered file, the true loop duration,
+pause/start/step/loop controls, adjustable playback speed, and the documented
+pairwise continuity workflow.
