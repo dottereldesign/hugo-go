@@ -24,7 +24,7 @@ CANVAS = 512
 TARGET_HEIGHT = 323
 TARGET_BASELINE_Y = 417
 TARGET_SHOE_CENTRE_X = 250
-BASE_FPS = 3
+BASE_FPS = 6
 
 UNIQUE_FRAMES = (
     ("hugo-head-nod-soft-01-neutral-start.png", "Neutral start"),

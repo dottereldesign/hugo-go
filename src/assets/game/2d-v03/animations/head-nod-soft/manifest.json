@@ -9,10 +9,10 @@
     "revisionOf": "head-nod"
   },
   "timing": {
-    "baseFps": 3,
+    "baseFps": 6,
     "runtimeFrameCount": 6,
     "drawingCount": 4,
-    "loopDurationSeconds": 2.0,
+    "loopDurationSeconds": 1.0,
     "loopReturnFrame": 6
   },
   "productionMethod": "four complete figures generated together in one 4 x 1 sheet with canonical Outfit 03 Sunrise palette lock; chroma cleanup and deterministic whole-figure shoe registration only; no body-part masking, frozen-body compositing, interpolation, or runtime sheet slicing",

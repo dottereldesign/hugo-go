@@ -59,6 +59,7 @@ interface AnimationPreview {
 const SPEED_MIN = 0.1;
 const SPEED_MAX = 2;
 const SPEED_STEP = 0.05;
+const SPEED_STORAGE_KEY = 'hugo-go:version-03-speed-v2';
 
 const MANIFESTS = [
   headNodSoftManifestJson as AnimationManifest,
@@ -384,7 +385,7 @@ export class Version03AnimationGallery {
   private loadSpeed(animationId: string): number {
     try {
       const saved = Number(
-        localStorage.getItem(`hugo-go:version-03-speed:${animationId}`),
+        localStorage.getItem(`${SPEED_STORAGE_KEY}:${animationId}`),
       );
       if (Number.isFinite(saved) && saved >= SPEED_MIN && saved <= SPEED_MAX) {
         return this.clampSpeed(saved);
@@ -398,7 +399,7 @@ export class Version03AnimationGallery {
   private saveSpeed(preview: AnimationPreview): void {
     try {
       localStorage.setItem(
-        `hugo-go:version-03-speed:${preview.manifest.animation.id}`,
+        `${SPEED_STORAGE_KEY}:${preview.manifest.animation.id}`,
         preview.speed.toFixed(2),
       );
     } catch {
