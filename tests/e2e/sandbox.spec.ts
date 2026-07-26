@@ -13,14 +13,14 @@ test.describe('Animation Sandbox', () => {
     await expect(page.locator('#sandbox-screen')).toBeVisible();
     await expect(page.locator('#home-screen')).not.toHaveClass(/is-open/);
     await expect(page.locator('#game-screen')).toBeHidden();
-    await expect(page.getByRole('heading', { name: 'Wingsuit pose library' })).toBeVisible();
-    await expect(page.getByText('2D SANDBOX · VERSION 02')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Authored 2D animation' })).toBeVisible();
+    await expect(page.locator('#sandbox-screen').getByText('2D SANDBOX · VERSION 02')).toBeVisible();
     await expect(page.getByText('SANDBOX · VERSION 01')).toBeVisible();
-    await expect(page.locator('[data-2d-outfit]')).toHaveCount(3);
-    await expect(page.locator('.sandbox-2d-pose')).toHaveCount(36);
+    await expect(page.locator('[data-2d-outfit]')).toHaveCount(2);
+    await expect(page.locator('#sandbox-screen .sandbox-2d-pose')).toHaveCount(24);
     await expect(page.locator('[data-2d-outfit="skyline"] .sandbox-2d-pose')).toHaveCount(12);
     await expect(page.locator('[data-2d-outfit="night-comet"] .sandbox-2d-pose')).toHaveCount(12);
-    await expect(page.locator('[data-2d-outfit="sunrise"] .sandbox-2d-pose')).toHaveCount(12);
+    await expect(page.getByRole('button', { name: 'Open Outfit 03' })).toBeVisible();
     const firstPoseDimensions = await page.locator('[data-2d-outfit="skyline"] img').first().evaluate(
       async (image) => {
         await (image as HTMLImageElement).decode();

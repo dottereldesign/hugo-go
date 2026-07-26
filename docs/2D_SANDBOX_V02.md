@@ -1,106 +1,213 @@
 # HUGO GO! 2D Sandbox Version 02
 
-Version 02 is the active character-art direction. Version 01 remains in the
-Sandbox as an archive of the 3D rotation, layered rig, and early full-frame
-animation experiments.
+Version 02 is the active character-animation direction. Version 01 remains in
+the Sandbox as a useful archive, but its 3D rotation experiments and layered
+rig are not the production model for new motion.
+
+## Canonical Hugo: Outfit 03
+
+**Outfit 03 / Sunrise Flight Suit is the reference for Hugo from this point.**
+
+Future V02 art must preserve:
+
+- Hugo's friendly ten-year-old face and child proportions;
+- dark fauxhawk with closely shaved sides;
+- burnt-orange suit, warm cream chest, golden wingsuit membranes, teal piping,
+  and navy protection;
+- the same wingsuit construction and silhouette;
+- the same shoes and compact twin jet outlets at the heels/undersides; and
+- the approved neutral-front and ready-profile scale and camera language.
+
+Skyline and Night Comet remain outfit studies. They do not override Outfit 03's
+identity, anatomy, or construction.
 
 ## Why the direction changed
 
-The rotating 3D approximation demanded too many generated views and made it
-easy for identity, anatomy, clothing, and registration to drift. Version 02
-uses authored 2D drawings instead. It treats a character sheet as an efficient
-generation and review format, then uses separate transparent PNGs in production.
+The 3D approximation demanded too many generated views and made it easy for
+identity, anatomy, clothing, and registration to drift. The early attempt to
+combine drawings from different sheets also proved that plausible individual
+images do not automatically form a coherent sequence. Interleaving sheet A,
+sheet B, and sheet C created reversals and discontinuities because each
+generation had its own pose rhythm and interpretation.
 
-The sheet itself is never a runtime dependency.
+Version 02 uses a sheet only as an efficient generation and review format.
+Production animation always uses individually extracted, named transparent PNGs.
+The sheet is never sliced at runtime.
 
-## Sheet-to-pose workflow
+## Animation framework
 
-1. Define the exact pose list, order, outfit construction, character identity,
-   camera language, and silhouette requirements before generation.
-2. Generate one coherent fixed-layout character sheet for one outfit. Do not
-   interleave poses from independently generated sheets.
-3. Review every figure on the complete sheet for identity, anatomy, clothing,
-   pose readability, wing construction, and the heel-mounted mini jets.
-4. Remove the chroma background without erasing costume colours.
-5. Isolate each complete connected silhouette. Use the authored row and column
-   centres only to establish order; do not blindly crop equal rectangles when
-   wide wings or tall flames extend beyond those theoretical cells.
-6. Normalize every extracted figure to the same transparent canvas without
-   stretching it.
-7. Name the individual PNG with the character, direction version, outfit,
-   source order, and pose slug.
-8. Register the source bounds, centre, checksum, output bounds, and filename in
-   a manifest.
-9. Build animation only after the key poses are approved. Generate
-   purpose-built in-betweens for a named transition rather than assuming a set
-   of unrelated poses is already an animation.
+### 1. Lock one readable idea
 
-## Version 02 naming
+An animation loop should communicate one idea at phone size. Write its beat
+order before making art:
 
 ```text
-hugo-2d-{outfit}-{NN}-{pose}.png
+start → anticipation → action → reaction → recovery → settle → exact start
+```
+
+The neutral idle is “bored gum bubble goes wrong.” The ready-profile loop is
+“a heel-jet check causes an accidental hover.”
+
+### 2. Set timing before frame count
+
+Choose the duration and rhythm before asking how many drawings are needed.
+Frame count is not a quality target. A thoughtful hold can reuse one drawing
+for several timing ticks, while a tap, ignition, or impact may need only one
+tick.
+
+Current V02 animation timing uses a 12-tick-per-second base:
+
+- **Neutral Front · Bubble-gum idle:** 23 runtime drawings, 60 ticks, 5.00 s.
+- **Ready Profile · Mischievous jet check:** 23 runtime drawings, 51 ticks,
+  4.25 s.
+
+The page's speed control scales this authored timing without changing the art.
+
+### 3. Apply the animation principles deliberately
+
+The principles described by Frank Thomas and Ollie Johnston are practical
+review tools, not decoration:
+
+- **Squash and stretch:** compress the landing and stretch acceleration while
+  preserving Hugo's apparent volume.
+- **Anticipation:** raise the toe before the tap; crouch before ignition; lift
+  the hand before peeling the gum.
+- **Staging:** one silhouette, expression, and action must read clearly on a
+  phone. Effects cannot hide the face or shoe contact.
+- **Pose to pose:** approve story poses, contacts, and extremes first.
+  Hair, fabric, gum, and flame may develop more freely between them.
+- **Follow-through and overlap:** torso leads; hair, wingsuit fabric, hands,
+  and shoes settle on slightly different drawings.
+- **Slow in and slow out:** use tiny spacing near a gentle start or stop, then
+  progressively wider spacing through acceleration.
+- **Arcs:** track the head, hips, hand, lifted toe, heel, and hover trajectory.
+- **Secondary action:** the toe tap, eye roll, fabric drag, and suit brush
+  support the main idea without competing with it.
+- **Timing:** a large purposeful gap can create speed. More in-betweens can
+  make a snap feel slow.
+- **Exaggeration:** push the splat, surprised recoil, hover correction, landing
+  squash, and bored reaction while keeping the visual physics consistent.
+- **Solid posing:** preserve anatomy, balance, perspective, volume, costume
+  construction, shoe size, and camera angle.
+- **Appeal:** every expression and silhouette must remain recognizably Hugo.
+
+Useful spacing shorthand:
+
+```text
+gentle ease: tiny · small — wider —— widest —— wider — small · tiny
+fast action: anticipate → large purposeful gap → contact → recoil → settle
+```
+
+Do not ease through a collision or ignition contact. Transfer the energy
+sharply, then show recoil and overlapping recovery.
+
+### 4. Generate sequential sheets
+
+Use exactly 4 × 3 drawings on one flat chroma background, ordered left-to-right
+and top-to-bottom. Each sheet covers one chronological section of one
+animation.
+
+If an action requires another sheet:
+
+1. provide the preceding sheet and Outfit 03 reference;
+2. describe the exact state at the hand-off;
+3. start the next sheet from that state;
+4. continue forward in time; and
+5. never alternate drawings from independently generated sheets.
+
+One sheet reduces generation cost. It does not excuse weaker planning.
+
+### 5. Review before extraction
+
+Inspect every full sheet for:
+
+- identity, face, fauxhawk, age, and expression continuity;
+- complete anatomy, correct limb order, and consistent proportions;
+- wingsuit construction and outfit colour;
+- shoes connected to legs and jet effects aligned to heel outlets;
+- clear pose progression with no reversal or skipped beat;
+- complete isolated silhouettes with no overlap or cropping; and
+- protected subject colours that may resemble the chroma key, such as pink gum.
+
+Reject a bad sheet. Do not repair chronology by mixing it with a different
+generation.
+
+### 6. Extract and register individual files
+
+After approval:
+
+1. remove the chroma background with a soft matte;
+2. restore intentional subject colours from the protected source where needed;
+3. isolate each complete connected silhouette;
+4. preserve one uniform scale per animation;
+5. centre drawings on a 640 × 640 transparent canvas;
+6. use a fixed ground baseline and a documented alternate effect baseline for
+   flight frames;
+7. name each file by animation, sequence number, and action slug; and
+8. record source cell, timing, bounds, checksum, and runtime status in JSON.
+
+Animation frame naming:
+
+```text
+hugo-{animation}-{NN}-{action}.png
 ```
 
 Examples:
 
 ```text
-hugo-2d-skyline-01-neutral-front.png
-hugo-2d-night-comet-05-level-glide.png
-hugo-2d-sunrise-09-jet-boost.png
+hugo-neutral-idle-08-bubble-tiny.png
+hugo-neutral-idle-19-gum-stretch.png
+hugo-ready-profile-11-ignition.png
+hugo-ready-profile-18-landing-squash.png
 ```
 
-The number records sheet order. The slug records meaning. Renaming or reordering
-an approved pose requires a manifest change.
+### 7. Prove the seam
 
-## Approved V02 pose order
+The last review file must be a byte-for-byte copy of frame 01. It proves that
+the end state can return to the start without a visual jump.
 
-| Number | Pose |
-| --- | --- |
-| 01 | Neutral front |
-| 02 | Ready profile |
-| 03 | Sprint launch |
-| 04 | Jump tuck |
-| 05 | Level glide |
-| 06 | Steep dive |
-| 07 | Bank left |
-| 08 | Bank right |
-| 09 | Jet boost |
-| 10 | Landing crouch |
-| 11 | Braking flare |
-| 12 | Hero finish |
+The duplicate is **not** played at runtime:
 
-## Current outfit studies
+- files 01–23 are runtime drawings;
+- file 24 is the exact seam bookend;
+- held time belongs in `durationTicks`, not duplicate image files.
 
-- **Skyline Flight Suit:** navy, cyan and teal with orange accents.
-- **Night Comet Flight Suit:** midnight indigo, violet, electric cyan, silver,
-  and restrained coral details.
-- **Sunrise Flight Suit:** burnt orange, cream, gold, teal, and navy.
+## Current Outfit 03 loops
 
-Every variation keeps Hugo's dark fauxhawk with closely shaved sides, the
-wingsuit membrane, the same child proportions, and the mini jet modules built
-into the heel/underside of both shoes.
+### Neutral Front · Bubble-gum idle
 
-## Animation standard from here
+Neutral hold, eyelid relaxation, weight shift, toe-tap anticipation/contact,
+gum chew, four bubble sizes, splat, stunned reaction, annoyed anticipation,
+hand rise, contact, peel, stretch, gum free, wipe, eye roll, settle, exact
+bookend.
 
-The 12-pose sets are a pose library, not a 12-frame loop. For a gameplay action:
+### Ready Profile · Mischievous jet check
 
-- choose the key pose and the next gameplay state;
-- plan anticipation, action, recovery, timing, spacing, arcs, and overlap;
-- generate or draw only the missing in-betweens for that exact transition;
-- keep the collision body independent of art deformation;
-- validate the sequence at phone size and at its actual playback speed;
-- for a loop, use a pixel-identical final bookend for seam validation and omit
-  the duplicate endpoint at runtime.
+Ready hold, inhale, blink, heel inspection, weight anticipation, heel lift/tap,
+tiny sputter, surprised recoil, boost crouch, ignition, low/peak/uneven hover,
+balance correction, descent, landing anticipation/squash/rebound, heel check,
+suit brush, hand return, settle, exact bookend.
 
-Version 01's Disney-principles reference remains useful craft guidance. Its 3D
-rotation and layered-rig asset strategy does not carry forward into Version 02.
+## File map
 
-## Files
+- Outfit source sheets: `art/source-images/game/2d-v02/{outfit}/`
+- Animation source sheets:
+  `art/source-images/game/2d-v02/animations/{animation}/`
+- Outfit 03 reference poses: `src/assets/game/2d-v02/sunrise/poses/`
+- Animation PNGs:
+  `src/assets/game/2d-v02/animations/{animation}/frames/`
+- Animation manifests:
+  `src/assets/game/2d-v02/animations/{animation}/manifest.json`
+- Animation QA contact sheets: `src/assets/game/2d-v02/animations/qa/`
+- Chroma restoration helper: `scripts/2d_v02/restore_protected_pink.py`
+- Deterministic extractor: `scripts/2d_v02/extract_animation_sheets.py`
 
-- Source sheets: `art/source-images/game/2d-v02/`
-- Individual production PNGs: `src/assets/game/2d-v02/{outfit}/poses/`
-- Per-outfit manifests: `src/assets/game/2d-v02/{outfit}/manifest.json`
-- Library manifest: `src/assets/game/2d-v02/manifest.json`
-- QA contact sheets: `src/assets/game/2d-v02/qa/`
-- Reproducible extractor: `scripts/2d_v02/extract_pose_sheets.py`
-- Extractor dependencies: `scripts/2d_v02/requirements.txt`
+Run:
+
+```powershell
+python scripts\2d_v02\extract_animation_sheets.py
+```
+
+The Outfit 03 page in the application is the human review surface: it shows the
+canonical 12 poses, both loops, all 24 numbered files, the true loop duration,
+pause/start/step/loop controls, and adjustable playback speed.

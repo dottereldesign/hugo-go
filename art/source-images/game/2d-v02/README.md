@@ -47,6 +47,10 @@ poses.
 3. **Sunrise:** burnt-orange base, warm cream chest, golden-yellow wing
    membranes, teal piping, and navy protective details.
 
+Outfit 03 / Sunrise is now the canonical V02 Hugo. New animation sheets use its
+neutral-front or ready-profile drawing as the identity, scale, construction,
+and colour reference.
+
 The second and third sheets used the approved Skyline sheet as an additional
 layout/pose reference. They were instructed to preserve the same 12 poses,
 scale rhythm, rendering language, facial identity, fauxhawk, wingsuit
@@ -78,3 +82,28 @@ The extractor detects exactly 12 complete silhouettes per source, sorts them by
 their authored 4 × 3 centres, preserves wide wings and tall flames, and writes
 36 separately named 512 × 512 transparent PNGs plus manifests and QA contact
 sheets.
+
+## Outfit 03 animation sources
+
+The `animations/` directory contains two sequential 4 × 3 sheets for each
+animation. Sheet A and sheet B are chronological sections of one performance;
+they must never be interleaved with other generations.
+
+- `neutral-idle/`: bored toe tap, gum bubble, splat, wipe, and settle.
+- `ready-profile/`: heel-jet check, accidental hover, landing, and settle.
+
+The transparent neutral-idle sheets use a protected-colour restoration pass.
+The normal spill cleanup removes the magenta background cleanly, while
+`restore_protected_pink.py` restores the intentional candy-pink gum from a
+no-despill matte.
+
+Run the animation extraction after the transparent sheets are approved:
+
+```powershell
+python scripts\2d_v02\extract_animation_sheets.py
+```
+
+This produces 24 named 640 × 640 PNGs per loop. Frame 01 is the existing
+canonical Outfit 03 pose; frames 02–23 are the approved generated progression;
+frame 24 is a byte-for-byte copy of frame 01 for seam review and is excluded
+from runtime playback.

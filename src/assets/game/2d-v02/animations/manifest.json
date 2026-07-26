@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "sandboxVersion": "02",
+  "canonicalOutfit": {
+    "id": "sunrise",
+    "displayName": "Outfit 03 \u00b7 Sunrise Flight Suit",
+    "manifest": "src/assets/game/2d-v02/sunrise/manifest.json"
+  },
+  "animationCount": 2,
+  "animations": [
+    {
+      "id": "neutral-idle",
+      "name": "Neutral Front \u00b7 Bubble-gum idle",
+      "manifest": "src/assets/game/2d-v02/animations/neutral-idle/manifest.json",
+      "frameCount": 24,
+      "runtimeFrameCount": 23,
+      "loopDurationSeconds": 5.0
+    },
+    {
+      "id": "ready-profile",
+      "name": "Ready Profile \u00b7 Mischievous jet check",
+      "manifest": "src/assets/game/2d-v02/animations/ready-profile/manifest.json",
+      "frameCount": 24,
+      "runtimeFrameCount": 23,
+      "loopDurationSeconds": 4.25
+    }
+  ]
+}

@@ -13,6 +13,7 @@ import { AudioEngine, UI_SOUND_PACKS, isUiSoundPack, type UiSound } from './audi
 import { HOME_PANEL_ART, HOME_WORLD_ART } from './homeAssets';
 import { refreshIcons } from './icons';
 import { AnimationSandbox } from './game/AnimationSandbox';
+import { FrameAnimationGallery } from './game/FrameAnimationGallery';
 import { FlightGame, type RunResult } from './game/FlightGame';
 import type { FlightGameState } from './game/engine';
 import { createDefaultPlayerState, loadPlayerState, recordRun, savePlayerState, type PlayerState } from './state';
@@ -30,6 +31,8 @@ class HugoGoApp {
   private readonly homeScreen = this.element('home-screen');
   private readonly gameScreen = this.element('game-screen');
   private readonly sandboxScreen = this.element('sandbox-screen');
+  private readonly outfit03Screen = this.element('outfit-03-screen');
+  private readonly outfit03Scroll = this.element('outfit-03-scroll');
   private readonly homeHero = this.element('home-hero');
   private readonly homeTopbar = this.element('home-topbar');
   private readonly homeProfileButton = this.button('home-profile-button');
@@ -45,6 +48,7 @@ class HugoGoApp {
   private readonly toastRegion = this.element('toast-region');
   private readonly flightGame: FlightGame;
   private readonly animationSandbox: AnimationSandbox;
+  private readonly frameAnimationGallery: FrameAnimationGallery;
 
   constructor() {
     this.flightGame = new FlightGame({
@@ -61,6 +65,7 @@ class HugoGoApp {
       onRunComplete: (result) => this.completeRun(result),
     });
     this.animationSandbox = new AnimationSandbox(this.sandboxScreen);
+    this.frameAnimationGallery = new FrameAnimationGallery(this.outfit03Screen);
     this.compactHomeSections = this.prepareCompactHomeLayout();
     this.audio.configure(this.state.settings);
     this.applySettings();
@@ -75,10 +80,12 @@ class HugoGoApp {
   showHome(updateRoute = true): void {
     this.flightGame.stop();
     this.animationSandbox.stop();
+    this.frameAnimationGallery.stop();
     this.gameScreen.hidden = true;
     this.sandboxScreen.hidden = true;
+    this.outfit03Screen.hidden = true;
     this.homeScreen.classList.add('is-open');
-    document.body.classList.remove('game-page-open', 'sandbox-page-open');
+    document.body.classList.remove('game-page-open', 'sandbox-page-open', 'outfit-03-page-open');
     this.setCompactMenuOpen(false);
     this.setMobileResourcesExpanded(false);
     if (updateRoute) this.pushRoute('#/home');
@@ -87,12 +94,14 @@ class HugoGoApp {
 
   showGame(updateRoute = true): void {
     this.animationSandbox.stop();
+    this.frameAnimationGallery.stop();
     this.state.selectedWorld = 'forest';
     this.homeScreen.classList.remove('is-open');
     this.sandboxScreen.hidden = true;
+    this.outfit03Screen.hidden = true;
     this.gameScreen.hidden = false;
     document.body.classList.add('game-page-open');
-    document.body.classList.remove('sandbox-page-open');
+    document.body.classList.remove('sandbox-page-open', 'outfit-03-page-open');
     this.setCompactMenuOpen(false);
     this.setMobileResourcesExpanded(false);
     this.element('game-world-label').textContent = getWorld('forest').name;
@@ -106,14 +115,35 @@ class HugoGoApp {
     this.closeHomePanel();
     this.homeScreen.classList.remove('is-open');
     this.gameScreen.hidden = true;
+    this.outfit03Screen.hidden = true;
+    this.frameAnimationGallery.stop();
     this.sandboxScreen.hidden = false;
-    document.body.classList.remove('game-page-open');
+    document.body.classList.remove('game-page-open', 'outfit-03-page-open');
     document.body.classList.add('sandbox-page-open');
     this.setCompactMenuOpen(false);
     this.setMobileResourcesExpanded(false);
     if (updateRoute) this.pushRoute('#/sandbox');
     document.title = 'HUGO GO! — Animation Sandbox';
     this.animationSandbox.start();
+    refreshIcons();
+  }
+
+  showOutfit03(updateRoute = true): void {
+    this.flightGame.stop();
+    this.animationSandbox.stop();
+    this.closeHomePanel();
+    this.homeScreen.classList.remove('is-open');
+    this.gameScreen.hidden = true;
+    this.sandboxScreen.hidden = true;
+    this.outfit03Screen.hidden = false;
+    document.body.classList.remove('game-page-open', 'sandbox-page-open');
+    document.body.classList.add('outfit-03-page-open');
+    this.setCompactMenuOpen(false);
+    this.setMobileResourcesExpanded(false);
+    if (updateRoute) this.pushRoute('#/outfit-03');
+    document.title = 'HUGO GO! — Outfit 03';
+    this.outfit03Scroll.scrollTop = 0;
+    this.frameAnimationGallery.start();
     refreshIcons();
   }
 
@@ -138,6 +168,10 @@ class HugoGoApp {
       this.setMobileResourcesExpanded(false);
       return true;
     }
+    if (!this.outfit03Screen.hidden) {
+      this.showSandbox();
+      return true;
+    }
     if (!this.sandboxScreen.hidden) {
       this.showHome();
       return true;
@@ -153,6 +187,8 @@ class HugoGoApp {
     this.button('home-play-button').addEventListener('click', () => this.showGame());
     this.button('game-back-button').addEventListener('click', () => this.showHome());
     this.button('sandbox-back-button').addEventListener('click', () => this.showHome());
+    this.button('sandbox-open-outfit-03').addEventListener('click', () => this.showOutfit03());
+    this.button('outfit-03-back-button').addEventListener('click', () => this.showSandbox());
     this.button('game-over-home').addEventListener('click', () => this.showHome());
 
     const introButton = this.button('home-intro-next');
@@ -484,7 +520,8 @@ class HugoGoApp {
   }
 
   private showRoute(updateRoute: boolean): void {
-    if (window.location.hash === '#/sandbox') this.showSandbox(updateRoute);
+    if (window.location.hash === '#/outfit-03') this.showOutfit03(updateRoute);
+    else if (window.location.hash === '#/sandbox') this.showSandbox(updateRoute);
     else if (window.location.hash === '#/game') this.showGame(updateRoute);
     else this.showHome(updateRoute);
   }
@@ -542,6 +579,7 @@ declare global {
       showHome: () => void;
       showGame: () => void;
       showSandbox: () => void;
+      showOutfit03: () => void;
       getSelectedWorld: () => WorldId;
       getGameState: () => Readonly<FlightGameState>;
     };
@@ -553,6 +591,7 @@ window.__HUGO_GO__ = {
   showHome: () => app.showHome(),
   showGame: () => app.showGame(),
   showSandbox: () => app.showSandbox(),
+  showOutfit03: () => app.showOutfit03(),
   getSelectedWorld: () => app.getSelectedWorld(),
   getGameState: () => app.getGameState(),
 };

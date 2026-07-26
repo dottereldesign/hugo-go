@@ -1,0 +1,737 @@
+{
+  "schemaVersion": 1,
+  "sandboxVersion": "02",
+  "canonicalOutfit": "sunrise",
+  "animation": {
+    "id": "ready-profile",
+    "name": "Ready Profile \u00b7 Mischievous jet check",
+    "description": "Hugo checks a stubborn heel jet, accidentally pops into a hover, lands with squash and recovery, brushes off the suit, and returns to the exact ready profile."
+  },
+  "timing": {
+    "baseFps": 12,
+    "drawingCount": 24,
+    "runtimeFrameCount": 23,
+    "runtimeTicks": 51,
+    "loopDurationSeconds": 4.25,
+    "bookendFrame": 24,
+    "bookendRuntime": false
+  },
+  "source": {
+    "method": "two-sequential-4x3-sheets-extracted-to-individual-pngs",
+    "canonicalPose": "src/assets/game/2d-v02/sunrise/poses/hugo-2d-sunrise-02-ready-profile.png",
+    "transparentSheets": [
+      {
+        "file": "art/source-images/game/2d-v02/animations/ready-profile/hugo-ready-profile-sheet-a-transparent.png",
+        "width": 1448,
+        "height": 1086,
+        "columns": 4,
+        "rows": 3,
+        "sha256": "f4a97b8af85f4b1aa8479d8495a30457858805d9fcd9204630c892a63af660f8"
+      },
+      {
+        "file": "art/source-images/game/2d-v02/animations/ready-profile/hugo-ready-profile-sheet-b-transparent.png",
+        "width": 1448,
+        "height": 1086,
+        "columns": 4,
+        "rows": 3,
+        "sha256": "25dedf873d5ca7f4db3f26fa02d7403c2f0b92f013849e1f4ba83e7ba26d46f0"
+      }
+    ],
+    "chromaSheets": [
+      "art/source-images/game/2d-v02/animations/ready-profile/hugo-ready-profile-sheet-a-magenta.png",
+      "art/source-images/game/2d-v02/animations/ready-profile/hugo-ready-profile-sheet-b-magenta.png"
+    ],
+    "unusedGeneratedSeamCandidates": [
+      {
+        "sheet": "A",
+        "sheetFrame": 1,
+        "replacedBy": "canonical Outfit 03 pose"
+      },
+      {
+        "sheet": "B",
+        "sheetFrame": 12,
+        "replacedBy": "exact copy of frame 01"
+      }
+    ]
+  },
+  "registration": {
+    "method": "single-animation-scale-centred-on-fixed-baseline",
+    "outputCanvas": [
+      640,
+      640
+    ],
+    "generatedFigureHeightFromFrame01": 440,
+    "groundBaseline": 540,
+    "flightEffectBaseline": 570,
+    "generatedScale": 1.309524
+  },
+  "frames": [
+    {
+      "index": 1,
+      "slug": "ready-profile",
+      "label": "Ready profile",
+      "filename": "hugo-ready-profile-01-ready-profile.png",
+      "file": "src/assets/game/2d-v02/animations/ready-profile/frames/hugo-ready-profile-01-ready-profile.png",
+      "runtime": true,
+      "durationTicks": 8,
+      "durationSeconds": 0.6667,
+      "source": {
+        "type": "canonical-outfit-pose",
+        "file": "src/assets/game/2d-v02/sunrise/poses/hugo-2d-sunrise-02-ready-profile.png"
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          242,
+          100,
+          398,
+          540
+        ],
+        "sha256": "10b91e9fed5679ac820565c0709a13cc3fb88dedae7454fde33271208bcfb0c5"
+      }
+    },
+    {
+      "index": 2,
+      "slug": "inhale",
+      "label": "Inhale",
+      "filename": "hugo-ready-profile-02-inhale.png",
+      "file": "src/assets/game/2d-v02/animations/ready-profile/frames/hugo-ready-profile-02-inhale.png",
+      "runtime": true,
+      "durationTicks": 2,
+      "durationSeconds": 0.1667,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/ready-profile/hugo-ready-profile-sheet-a-transparent.png",
+        "sheetFrame": 2,
+        "row": 1,
+        "column": 2
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          237,
+          100,
+          402,
+          540
+        ],
+        "sha256": "71fd1d39040a66312eea85c2a5782465201a01881d30ba39ead4b0e4c77cb36b"
+      }
+    },
+    {
+      "index": 3,
+      "slug": "blink",
+      "label": "Blink",
+      "filename": "hugo-ready-profile-03-blink.png",
+      "file": "src/assets/game/2d-v02/animations/ready-profile/frames/hugo-ready-profile-03-blink.png",
+      "runtime": true,
+      "durationTicks": 2,
+      "durationSeconds": 0.1667,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/ready-profile/hugo-ready-profile-sheet-a-transparent.png",
+        "sheetFrame": 3,
+        "row": 1,
+        "column": 3
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          238,
+          113,
+          402,
+          540
+        ],
+        "sha256": "57311a95b024a311b9d95fab7ed9a2a6b9ca1582de61cd968d947dc5775401b4"
+      }
+    },
+    {
+      "index": 4,
+      "slug": "inspect-heel",
+      "label": "Inspect heel",
+      "filename": "hugo-ready-profile-04-inspect-heel.png",
+      "file": "src/assets/game/2d-v02/animations/ready-profile/frames/hugo-ready-profile-04-inspect-heel.png",
+      "runtime": true,
+      "durationTicks": 2,
+      "durationSeconds": 0.1667,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/ready-profile/hugo-ready-profile-sheet-a-transparent.png",
+        "sheetFrame": 4,
+        "row": 1,
+        "column": 4
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          224,
+          138,
+          415,
+          540
+        ],
+        "sha256": "26a0917b6990be164017d75aea8d2968abab0108d7a189f688c19d041498a4cb"
+      }
+    },
+    {
+      "index": 5,
+      "slug": "weight-anticipation",
+      "label": "Weight anticipation",
+      "filename": "hugo-ready-profile-05-weight-anticipation.png",
+      "file": "src/assets/game/2d-v02/animations/ready-profile/frames/hugo-ready-profile-05-weight-anticipation.png",
+      "runtime": true,
+      "durationTicks": 2,
+      "durationSeconds": 0.1667,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/ready-profile/hugo-ready-profile-sheet-a-transparent.png",
+        "sheetFrame": 5,
+        "row": 2,
+        "column": 1
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          220,
+          137,
+          419,
+          540
+        ],
+        "sha256": "a98658147b1d821ea0d3628ead2c1bdd1ca8d4da1a24d99fc34682aa2cf76df1"
+      }
+    },
+    {
+      "index": 6,
+      "slug": "heel-lift",
+      "label": "Heel lift",
+      "filename": "hugo-ready-profile-06-heel-lift.png",
+      "file": "src/assets/game/2d-v02/animations/ready-profile/frames/hugo-ready-profile-06-heel-lift.png",
+      "runtime": true,
+      "durationTicks": 2,
+      "durationSeconds": 0.1667,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/ready-profile/hugo-ready-profile-sheet-a-transparent.png",
+        "sheetFrame": 6,
+        "row": 2,
+        "column": 2
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          197,
+          147,
+          443,
+          540
+        ],
+        "sha256": "a74710a8b701d1d9c8ac4d2be332b56c3d74efe28c68d11fe0aa132ecc22e2e3"
+      }
+    },
+    {
+      "index": 7,
+      "slug": "heel-tap",
+      "label": "Heel tap",
+      "filename": "hugo-ready-profile-07-heel-tap.png",
+      "file": "src/assets/game/2d-v02/animations/ready-profile/frames/hugo-ready-profile-07-heel-tap.png",
+      "runtime": true,
+      "durationTicks": 1,
+      "durationSeconds": 0.0833,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/ready-profile/hugo-ready-profile-sheet-a-transparent.png",
+        "sheetFrame": 7,
+        "row": 2,
+        "column": 3
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          220,
+          151,
+          419,
+          540
+        ],
+        "sha256": "7b21eaffac20e415c1fed15442f0c6edaef0b6dfeebfe480b2971309dafbc05a"
+      }
+    },
+    {
+      "index": 8,
+      "slug": "jet-sputter",
+      "label": "Jet sputter",
+      "filename": "hugo-ready-profile-08-jet-sputter.png",
+      "file": "src/assets/game/2d-v02/animations/ready-profile/frames/hugo-ready-profile-08-jet-sputter.png",
+      "runtime": true,
+      "durationTicks": 2,
+      "durationSeconds": 0.1667,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/ready-profile/hugo-ready-profile-sheet-a-transparent.png",
+        "sheetFrame": 8,
+        "row": 2,
+        "column": 4
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          206,
+          152,
+          433,
+          540
+        ],
+        "sha256": "23b086f458a6e7f8b2da5e4dac1788ce2d0b1e2c734632ff3ea2fd534df7c2b8"
+      }
+    },
+    {
+      "index": 9,
+      "slug": "surprised-recoil",
+      "label": "Surprised recoil",
+      "filename": "hugo-ready-profile-09-surprised-recoil.png",
+      "file": "src/assets/game/2d-v02/animations/ready-profile/frames/hugo-ready-profile-09-surprised-recoil.png",
+      "runtime": true,
+      "durationTicks": 2,
+      "durationSeconds": 0.1667,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/ready-profile/hugo-ready-profile-sheet-a-transparent.png",
+        "sheetFrame": 9,
+        "row": 3,
+        "column": 1
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          166,
+          124,
+          474,
+          540
+        ],
+        "sha256": "a6344948754882c4ad2a4d9e901c7d82e534272f6e5902449c47e7f2a5d8d62b"
+      }
+    },
+    {
+      "index": 10,
+      "slug": "boost-crouch",
+      "label": "Boost crouch",
+      "filename": "hugo-ready-profile-10-boost-crouch.png",
+      "file": "src/assets/game/2d-v02/animations/ready-profile/frames/hugo-ready-profile-10-boost-crouch.png",
+      "runtime": true,
+      "durationTicks": 2,
+      "durationSeconds": 0.1667,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/ready-profile/hugo-ready-profile-sheet-a-transparent.png",
+        "sheetFrame": 10,
+        "row": 3,
+        "column": 2
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          221,
+          202,
+          419,
+          540
+        ],
+        "sha256": "d2a81ba758699074a54cba3da39ee37528ab6a8b19e0505dd991310555882ad6"
+      }
+    },
+    {
+      "index": 11,
+      "slug": "ignition",
+      "label": "Ignition",
+      "filename": "hugo-ready-profile-11-ignition.png",
+      "file": "src/assets/game/2d-v02/animations/ready-profile/frames/hugo-ready-profile-11-ignition.png",
+      "runtime": true,
+      "durationTicks": 1,
+      "durationSeconds": 0.0833,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/ready-profile/hugo-ready-profile-sheet-a-transparent.png",
+        "sheetFrame": 11,
+        "row": 3,
+        "column": 3
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          198,
+          99,
+          442,
+          570
+        ],
+        "sha256": "00e666494498eb0327966c04aa415ec574cebbbc0e26782face508f67ac5f71f"
+      }
+    },
+    {
+      "index": 12,
+      "slug": "low-hover",
+      "label": "Low hover",
+      "filename": "hugo-ready-profile-12-low-hover.png",
+      "file": "src/assets/game/2d-v02/animations/ready-profile/frames/hugo-ready-profile-12-low-hover.png",
+      "runtime": true,
+      "durationTicks": 2,
+      "durationSeconds": 0.1667,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/ready-profile/hugo-ready-profile-sheet-a-transparent.png",
+        "sheetFrame": 12,
+        "row": 3,
+        "column": 4
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          180,
+          91,
+          460,
+          570
+        ],
+        "sha256": "4ba85537a3378715ee47c56a995b77398de291c18313c0e0fef3e5b286daf237"
+      }
+    },
+    {
+      "index": 13,
+      "slug": "hover-peak",
+      "label": "Hover peak",
+      "filename": "hugo-ready-profile-13-hover-peak.png",
+      "file": "src/assets/game/2d-v02/animations/ready-profile/frames/hugo-ready-profile-13-hover-peak.png",
+      "runtime": true,
+      "durationTicks": 2,
+      "durationSeconds": 0.1667,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/ready-profile/hugo-ready-profile-sheet-b-transparent.png",
+        "sheetFrame": 1,
+        "row": 1,
+        "column": 1
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          195,
+          148,
+          444,
+          570
+        ],
+        "sha256": "73f55f4f7e558092c288418570e4a98d6dce9d9e4619f28c0fa1f140041d43db"
+      }
+    },
+    {
+      "index": 14,
+      "slug": "uneven-hover",
+      "label": "Uneven hover",
+      "filename": "hugo-ready-profile-14-uneven-hover.png",
+      "file": "src/assets/game/2d-v02/animations/ready-profile/frames/hugo-ready-profile-14-uneven-hover.png",
+      "runtime": true,
+      "durationTicks": 2,
+      "durationSeconds": 0.1667,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/ready-profile/hugo-ready-profile-sheet-b-transparent.png",
+        "sheetFrame": 2,
+        "row": 1,
+        "column": 2
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          196,
+          150,
+          444,
+          570
+        ],
+        "sha256": "15d3887c56bdced3be84183c14b5f9c2fc290100aa3873c1f05d9a2a14f01181"
+      }
+    },
+    {
+      "index": 15,
+      "slug": "balance-correction",
+      "label": "Balance correction",
+      "filename": "hugo-ready-profile-15-balance-correction.png",
+      "file": "src/assets/game/2d-v02/animations/ready-profile/frames/hugo-ready-profile-15-balance-correction.png",
+      "runtime": true,
+      "durationTicks": 2,
+      "durationSeconds": 0.1667,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/ready-profile/hugo-ready-profile-sheet-b-transparent.png",
+        "sheetFrame": 3,
+        "row": 1,
+        "column": 3
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          201,
+          168,
+          439,
+          570
+        ],
+        "sha256": "3c3775243fc6ad8061ebe267ccb2dec00bce1d5e035632ac403f533af7df2b9c"
+      }
+    },
+    {
+      "index": 16,
+      "slug": "descent",
+      "label": "Descent",
+      "filename": "hugo-ready-profile-16-descent.png",
+      "file": "src/assets/game/2d-v02/animations/ready-profile/frames/hugo-ready-profile-16-descent.png",
+      "runtime": true,
+      "durationTicks": 2,
+      "durationSeconds": 0.1667,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/ready-profile/hugo-ready-profile-sheet-b-transparent.png",
+        "sheetFrame": 4,
+        "row": 1,
+        "column": 4
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          205,
+          199,
+          435,
+          570
+        ],
+        "sha256": "0ac83a9df8fc08fb94fc0e9f6ddf55a2f3699dc65ef59abab879d9d7577769c1"
+      }
+    },
+    {
+      "index": 17,
+      "slug": "landing-anticipation",
+      "label": "Landing anticipation",
+      "filename": "hugo-ready-profile-17-landing-anticipation.png",
+      "file": "src/assets/game/2d-v02/animations/ready-profile/frames/hugo-ready-profile-17-landing-anticipation.png",
+      "runtime": true,
+      "durationTicks": 2,
+      "durationSeconds": 0.1667,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/ready-profile/hugo-ready-profile-sheet-b-transparent.png",
+        "sheetFrame": 5,
+        "row": 2,
+        "column": 1
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          205,
+          265,
+          435,
+          570
+        ],
+        "sha256": "5dab053f4fa3f5acf0e8ee99e149838a10c894f93126deb9cfbe95ae5d826f0e"
+      }
+    },
+    {
+      "index": 18,
+      "slug": "landing-squash",
+      "label": "Landing squash",
+      "filename": "hugo-ready-profile-18-landing-squash.png",
+      "file": "src/assets/game/2d-v02/animations/ready-profile/frames/hugo-ready-profile-18-landing-squash.png",
+      "runtime": true,
+      "durationTicks": 1,
+      "durationSeconds": 0.0833,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/ready-profile/hugo-ready-profile-sheet-b-transparent.png",
+        "sheetFrame": 6,
+        "row": 2,
+        "column": 2
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          225,
+          261,
+          414,
+          540
+        ],
+        "sha256": "e640a57b7635cd028ab08c20207feccbe3464bb098e2f21bb60a9eeef4d06951"
+      }
+    },
+    {
+      "index": 19,
+      "slug": "rebound",
+      "label": "Rebound",
+      "filename": "hugo-ready-profile-19-rebound.png",
+      "file": "src/assets/game/2d-v02/animations/ready-profile/frames/hugo-ready-profile-19-rebound.png",
+      "runtime": true,
+      "durationTicks": 2,
+      "durationSeconds": 0.1667,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/ready-profile/hugo-ready-profile-sheet-b-transparent.png",
+        "sheetFrame": 7,
+        "row": 2,
+        "column": 3
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          210,
+          172,
+          430,
+          540
+        ],
+        "sha256": "b716c6e5a89b3021d23362ef9a4a47149717565df87bf98a939df366ebca4aef"
+      }
+    },
+    {
+      "index": 20,
+      "slug": "heel-check",
+      "label": "Heel check",
+      "filename": "hugo-ready-profile-20-heel-check.png",
+      "file": "src/assets/game/2d-v02/animations/ready-profile/frames/hugo-ready-profile-20-heel-check.png",
+      "runtime": true,
+      "durationTicks": 3,
+      "durationSeconds": 0.25,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/ready-profile/hugo-ready-profile-sheet-b-transparent.png",
+        "sheetFrame": 8,
+        "row": 2,
+        "column": 4
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          242,
+          148,
+          397,
+          540
+        ],
+        "sha256": "cfce6972edf354f352875f311dc4279506e807e4548e804ef8ad3e8624b34a2a"
+      }
+    },
+    {
+      "index": 21,
+      "slug": "suit-brush",
+      "label": "Suit brush",
+      "filename": "hugo-ready-profile-21-suit-brush.png",
+      "file": "src/assets/game/2d-v02/animations/ready-profile/frames/hugo-ready-profile-21-suit-brush.png",
+      "runtime": true,
+      "durationTicks": 2,
+      "durationSeconds": 0.1667,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/ready-profile/hugo-ready-profile-sheet-b-transparent.png",
+        "sheetFrame": 9,
+        "row": 3,
+        "column": 1
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          233,
+          131,
+          407,
+          540
+        ],
+        "sha256": "9b0a6220cacfd87f11ac431695a260bdd0ad81a78350a2ae8eba6f28406745aa"
+      }
+    },
+    {
+      "index": 22,
+      "slug": "hand-return",
+      "label": "Hand return",
+      "filename": "hugo-ready-profile-22-hand-return.png",
+      "file": "src/assets/game/2d-v02/animations/ready-profile/frames/hugo-ready-profile-22-hand-return.png",
+      "runtime": true,
+      "durationTicks": 2,
+      "durationSeconds": 0.1667,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/ready-profile/hugo-ready-profile-sheet-b-transparent.png",
+        "sheetFrame": 10,
+        "row": 3,
+        "column": 2
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          241,
+          124,
+          399,
+          540
+        ],
+        "sha256": "09ae8a817eceaf15f9eda73098d473098b33ea7f6f0a1948b0d3c68beea83fc3"
+      }
+    },
+    {
+      "index": 23,
+      "slug": "settle",
+      "label": "Settle",
+      "filename": "hugo-ready-profile-23-settle.png",
+      "file": "src/assets/game/2d-v02/animations/ready-profile/frames/hugo-ready-profile-23-settle.png",
+      "runtime": true,
+      "durationTicks": 3,
+      "durationSeconds": 0.25,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/ready-profile/hugo-ready-profile-sheet-b-transparent.png",
+        "sheetFrame": 11,
+        "row": 3,
+        "column": 3
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          241,
+          124,
+          399,
+          540
+        ],
+        "sha256": "3dd71d443a53ecf8af84746161037a41fade0e3fc0670208c17550977a6ce61d"
+      }
+    },
+    {
+      "index": 24,
+      "slug": "loop-bookend",
+      "label": "Exact loop bookend",
+      "filename": "hugo-ready-profile-24-loop-bookend.png",
+      "file": "src/assets/game/2d-v02/animations/ready-profile/frames/hugo-ready-profile-24-loop-bookend.png",
+      "runtime": false,
+      "durationTicks": 0,
+      "durationSeconds": 0.0,
+      "source": {
+        "type": "exact-loop-bookend",
+        "copiedFromFrame": 1
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          242,
+          100,
+          398,
+          540
+        ],
+        "sha256": "10b91e9fed5679ac820565c0709a13cc3fb88dedae7454fde33271208bcfb0c5"
+      }
+    }
+  ],
+  "qaContactSheet": "src/assets/game/2d-v02/animations/qa/hugo-ready-profile-contact-sheet.jpg"
+}

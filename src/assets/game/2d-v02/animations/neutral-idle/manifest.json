@@ -1,0 +1,737 @@
+{
+  "schemaVersion": 1,
+  "sandboxVersion": "02",
+  "canonicalOutfit": "sunrise",
+  "animation": {
+    "id": "neutral-idle",
+    "name": "Neutral Front \u00b7 Bubble-gum idle",
+    "description": "Hugo grows bored, taps his shoe, blows a bubble, wears the splat, wipes it away, and settles back into the exact neutral pose."
+  },
+  "timing": {
+    "baseFps": 12,
+    "drawingCount": 24,
+    "runtimeFrameCount": 23,
+    "runtimeTicks": 60,
+    "loopDurationSeconds": 5.0,
+    "bookendFrame": 24,
+    "bookendRuntime": false
+  },
+  "source": {
+    "method": "two-sequential-4x3-sheets-extracted-to-individual-pngs",
+    "canonicalPose": "src/assets/game/2d-v02/sunrise/poses/hugo-2d-sunrise-01-neutral-front.png",
+    "transparentSheets": [
+      {
+        "file": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-a-transparent.png",
+        "width": 1448,
+        "height": 1086,
+        "columns": 4,
+        "rows": 3,
+        "sha256": "1b6e62bad320985417666b0f2f5f5635e6c6553213f235230f04c989bc8cd092"
+      },
+      {
+        "file": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-b-transparent.png",
+        "width": 1448,
+        "height": 1086,
+        "columns": 4,
+        "rows": 3,
+        "sha256": "1cf1b70164024e369ac44cb2e7d209d7cfdedf71c12737e9d4a9e243d842cbd3"
+      }
+    ],
+    "chromaSheets": [
+      "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-a-magenta.png",
+      "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-b-magenta.png"
+    ],
+    "unusedGeneratedSeamCandidates": [
+      {
+        "sheet": "A",
+        "sheetFrame": 1,
+        "replacedBy": "canonical Outfit 03 pose"
+      },
+      {
+        "sheet": "B",
+        "sheetFrame": 12,
+        "replacedBy": "exact copy of frame 01"
+      }
+    ]
+  },
+  "registration": {
+    "method": "single-animation-scale-centred-on-fixed-baseline",
+    "outputCanvas": [
+      640,
+      640
+    ],
+    "generatedFigureHeightFromFrame01": 440,
+    "groundBaseline": 540,
+    "flightEffectBaseline": 570,
+    "generatedScale": 1.257143
+  },
+  "frames": [
+    {
+      "index": 1,
+      "slug": "neutral-front",
+      "label": "Neutral",
+      "filename": "hugo-neutral-idle-01-neutral-front.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-01-neutral-front.png",
+      "runtime": true,
+      "durationTicks": 8,
+      "durationSeconds": 0.6667,
+      "source": {
+        "type": "canonical-outfit-pose",
+        "file": "src/assets/game/2d-v02/sunrise/poses/hugo-2d-sunrise-01-neutral-front.png"
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          232,
+          100,
+          407,
+          540
+        ],
+        "sha256": "d6eb5e396cfcba6b0df533fa647537a72b839da12ab3dc0db3bf3c0b238648aa"
+      }
+    },
+    {
+      "index": 2,
+      "slug": "eyelids-relax",
+      "label": "Eyelids relax",
+      "filename": "hugo-neutral-idle-02-eyelids-relax.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-02-eyelids-relax.png",
+      "runtime": true,
+      "durationTicks": 2,
+      "durationSeconds": 0.1667,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-a-transparent.png",
+        "sheetFrame": 2,
+        "row": 1,
+        "column": 2
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          234,
+          100,
+          406,
+          540
+        ],
+        "sha256": "bbf24268e4886c3c6f7ee74b8c14eba1ae10f354343dd62eefe0d844465c388f"
+      }
+    },
+    {
+      "index": 3,
+      "slug": "weight-shift",
+      "label": "Weight shift",
+      "filename": "hugo-neutral-idle-03-weight-shift.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-03-weight-shift.png",
+      "runtime": true,
+      "durationTicks": 2,
+      "durationSeconds": 0.1667,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-a-transparent.png",
+        "sheetFrame": 3,
+        "row": 1,
+        "column": 3
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          232,
+          99,
+          407,
+          540
+        ],
+        "sha256": "46496b256adeeec81cc7810ae66b1724d289981a1212c2c80f5febea7a2ca46b"
+      }
+    },
+    {
+      "index": 4,
+      "slug": "toe-tap-anticipation",
+      "label": "Toe tap anticipation",
+      "filename": "hugo-neutral-idle-04-toe-tap-anticipation.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-04-toe-tap-anticipation.png",
+      "runtime": true,
+      "durationTicks": 2,
+      "durationSeconds": 0.1667,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-a-transparent.png",
+        "sheetFrame": 4,
+        "row": 1,
+        "column": 4
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          230,
+          105,
+          410,
+          540
+        ],
+        "sha256": "5a2a96546e6d5351ce602e57a781f9f59b0e870a811e6ce62ee51e8826d99567"
+      }
+    },
+    {
+      "index": 5,
+      "slug": "toe-tap-contact",
+      "label": "Toe tap contact",
+      "filename": "hugo-neutral-idle-05-toe-tap-contact.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-05-toe-tap-contact.png",
+      "runtime": true,
+      "durationTicks": 1,
+      "durationSeconds": 0.0833,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-a-transparent.png",
+        "sheetFrame": 5,
+        "row": 2,
+        "column": 1
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          234,
+          105,
+          405,
+          540
+        ],
+        "sha256": "0459cd94b8c24d492eefee7a77f111f37b96056b78aa00201398580fd38d04bf"
+      }
+    },
+    {
+      "index": 6,
+      "slug": "toe-tap-rise",
+      "label": "Toe tap rise",
+      "filename": "hugo-neutral-idle-06-toe-tap-rise.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-06-toe-tap-rise.png",
+      "runtime": true,
+      "durationTicks": 2,
+      "durationSeconds": 0.1667,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-a-transparent.png",
+        "sheetFrame": 6,
+        "row": 2,
+        "column": 2
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          234,
+          101,
+          405,
+          540
+        ],
+        "sha256": "9b25e676289c95e0a085874beb448cd8da67f755b03b3a50b30bf40ebbfa4d6b"
+      }
+    },
+    {
+      "index": 7,
+      "slug": "gum-chew",
+      "label": "Gum chew",
+      "filename": "hugo-neutral-idle-07-gum-chew.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-07-gum-chew.png",
+      "runtime": true,
+      "durationTicks": 3,
+      "durationSeconds": 0.25,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-a-transparent.png",
+        "sheetFrame": 7,
+        "row": 2,
+        "column": 3
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          233,
+          101,
+          406,
+          540
+        ],
+        "sha256": "634b64f58e5350ef63268ac2f3c50df734ad65c0f3f4cf5c71a22cacca48f4d8"
+      }
+    },
+    {
+      "index": 8,
+      "slug": "bubble-tiny",
+      "label": "Tiny bubble",
+      "filename": "hugo-neutral-idle-08-bubble-tiny.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-08-bubble-tiny.png",
+      "runtime": true,
+      "durationTicks": 2,
+      "durationSeconds": 0.1667,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-a-transparent.png",
+        "sheetFrame": 8,
+        "row": 2,
+        "column": 4
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          233,
+          101,
+          406,
+          540
+        ],
+        "sha256": "96a0b4769ea7d44fd64fa7abe3c27ce61eed4a2e5d1076b49f70ed96b6712964"
+      }
+    },
+    {
+      "index": 9,
+      "slug": "bubble-small",
+      "label": "Small bubble",
+      "filename": "hugo-neutral-idle-09-bubble-small.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-09-bubble-small.png",
+      "runtime": true,
+      "durationTicks": 2,
+      "durationSeconds": 0.1667,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-a-transparent.png",
+        "sheetFrame": 9,
+        "row": 3,
+        "column": 1
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          231,
+          109,
+          408,
+          540
+        ],
+        "sha256": "c629807d22e72ec897a1687eaccc2a984743cbfa2606dc976a5313ae95382756"
+      }
+    },
+    {
+      "index": 10,
+      "slug": "bubble-medium",
+      "label": "Medium bubble",
+      "filename": "hugo-neutral-idle-10-bubble-medium.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-10-bubble-medium.png",
+      "runtime": true,
+      "durationTicks": 2,
+      "durationSeconds": 0.1667,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-a-transparent.png",
+        "sheetFrame": 10,
+        "row": 3,
+        "column": 2
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          231,
+          108,
+          408,
+          540
+        ],
+        "sha256": "62be1e030abd3bfe7a5ee72137cda9ecc19668102f240d3ed928cf1f745f8e55"
+      }
+    },
+    {
+      "index": 11,
+      "slug": "bubble-large",
+      "label": "Large bubble",
+      "filename": "hugo-neutral-idle-11-bubble-large.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-11-bubble-large.png",
+      "runtime": true,
+      "durationTicks": 3,
+      "durationSeconds": 0.25,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-a-transparent.png",
+        "sheetFrame": 11,
+        "row": 3,
+        "column": 3
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          229,
+          116,
+          410,
+          540
+        ],
+        "sha256": "08cacf16cd008f108b39155c554f238c3771471bdd0c77c4fec634c650e07de9"
+      }
+    },
+    {
+      "index": 12,
+      "slug": "gum-splat",
+      "label": "Gum splat",
+      "filename": "hugo-neutral-idle-12-gum-splat.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-12-gum-splat.png",
+      "runtime": true,
+      "durationTicks": 4,
+      "durationSeconds": 0.3333,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-a-transparent.png",
+        "sheetFrame": 12,
+        "row": 3,
+        "column": 4
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          229,
+          105,
+          410,
+          540
+        ],
+        "sha256": "a836aa628c2f8ae8250a9deb1ba6553c24ef2b52056fe394eb5d4f12e18e3795"
+      }
+    },
+    {
+      "index": 13,
+      "slug": "splat-hold",
+      "label": "Splat hold",
+      "filename": "hugo-neutral-idle-13-splat-hold.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-13-splat-hold.png",
+      "runtime": true,
+      "durationTicks": 3,
+      "durationSeconds": 0.25,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-b-transparent.png",
+        "sheetFrame": 1,
+        "row": 1,
+        "column": 1
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          234,
+          104,
+          406,
+          540
+        ],
+        "sha256": "9eea94305a48ba754c7b3dca359faf0f18c207df4f2ca978609373375598182a"
+      }
+    },
+    {
+      "index": 14,
+      "slug": "stunned-blink",
+      "label": "Stunned blink",
+      "filename": "hugo-neutral-idle-14-stunned-blink.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-14-stunned-blink.png",
+      "runtime": true,
+      "durationTicks": 2,
+      "durationSeconds": 0.1667,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-b-transparent.png",
+        "sheetFrame": 2,
+        "row": 1,
+        "column": 2
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          234,
+          104,
+          405,
+          540
+        ],
+        "sha256": "9c311f23310fe6e413c253fedff08c2863820665a3052468c1dd6fd2becf27d3"
+      }
+    },
+    {
+      "index": 15,
+      "slug": "annoyed-anticipation",
+      "label": "Annoyed anticipation",
+      "filename": "hugo-neutral-idle-15-annoyed-anticipation.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-15-annoyed-anticipation.png",
+      "runtime": true,
+      "durationTicks": 2,
+      "durationSeconds": 0.1667,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-b-transparent.png",
+        "sheetFrame": 3,
+        "row": 1,
+        "column": 3
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          234,
+          103,
+          406,
+          540
+        ],
+        "sha256": "f905955d94b603bf56193d697e98ac52abdfe736ad865e93a0494f00ef0e4416"
+      }
+    },
+    {
+      "index": 16,
+      "slug": "hand-rise",
+      "label": "Hand rises",
+      "filename": "hugo-neutral-idle-16-hand-rise.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-16-hand-rise.png",
+      "runtime": true,
+      "durationTicks": 2,
+      "durationSeconds": 0.1667,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-b-transparent.png",
+        "sheetFrame": 4,
+        "row": 1,
+        "column": 4
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          234,
+          104,
+          406,
+          540
+        ],
+        "sha256": "c659da777aa2eb4672b2c3e45791412e2bf178392a5658b007ffbb2871c21050"
+      }
+    },
+    {
+      "index": 17,
+      "slug": "gum-contact",
+      "label": "Gum contact",
+      "filename": "hugo-neutral-idle-17-gum-contact.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-17-gum-contact.png",
+      "runtime": true,
+      "durationTicks": 2,
+      "durationSeconds": 0.1667,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-b-transparent.png",
+        "sheetFrame": 5,
+        "row": 2,
+        "column": 1
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          233,
+          104,
+          406,
+          540
+        ],
+        "sha256": "7a3f69f12c446630dcac52ac54bafab4a4e3fc8ccb80c84cc8aff78e34f2a032"
+      }
+    },
+    {
+      "index": 18,
+      "slug": "gum-peel",
+      "label": "Peel",
+      "filename": "hugo-neutral-idle-18-gum-peel.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-18-gum-peel.png",
+      "runtime": true,
+      "durationTicks": 2,
+      "durationSeconds": 0.1667,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-b-transparent.png",
+        "sheetFrame": 6,
+        "row": 2,
+        "column": 2
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          220,
+          103,
+          420,
+          540
+        ],
+        "sha256": "54f7048b15ea6f29b539f7d31712723e52baf32b07258b4087fd901b239f2cfe"
+      }
+    },
+    {
+      "index": 19,
+      "slug": "gum-stretch",
+      "label": "Stretch",
+      "filename": "hugo-neutral-idle-19-gum-stretch.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-19-gum-stretch.png",
+      "runtime": true,
+      "durationTicks": 2,
+      "durationSeconds": 0.1667,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-b-transparent.png",
+        "sheetFrame": 7,
+        "row": 2,
+        "column": 3
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          197,
+          104,
+          442,
+          540
+        ],
+        "sha256": "f8beec5b61150288d1618e30386d27b37ff4bf840966246bedb1be636b825b93"
+      }
+    },
+    {
+      "index": 20,
+      "slug": "gum-free",
+      "label": "Gum free",
+      "filename": "hugo-neutral-idle-20-gum-free.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-20-gum-free.png",
+      "runtime": true,
+      "durationTicks": 2,
+      "durationSeconds": 0.1667,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-b-transparent.png",
+        "sheetFrame": 8,
+        "row": 2,
+        "column": 4
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          224,
+          103,
+          415,
+          540
+        ],
+        "sha256": "20528df891c16829c3901f32b7ae65e439344cb14a4cb7119d104fcd18f8b86b"
+      }
+    },
+    {
+      "index": 21,
+      "slug": "wipe-smear",
+      "label": "Wipe",
+      "filename": "hugo-neutral-idle-21-wipe-smear.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-21-wipe-smear.png",
+      "runtime": true,
+      "durationTicks": 3,
+      "durationSeconds": 0.25,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-b-transparent.png",
+        "sheetFrame": 9,
+        "row": 3,
+        "column": 1
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          219,
+          108,
+          421,
+          540
+        ],
+        "sha256": "3468b63b795b34f904a92905ef0cad104a7fd7a5f887ae5f98d7df38a21d66c9"
+      }
+    },
+    {
+      "index": 22,
+      "slug": "bored-eye-roll",
+      "label": "Bored eye roll",
+      "filename": "hugo-neutral-idle-22-bored-eye-roll.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-22-bored-eye-roll.png",
+      "runtime": true,
+      "durationTicks": 4,
+      "durationSeconds": 0.3333,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-b-transparent.png",
+        "sheetFrame": 10,
+        "row": 3,
+        "column": 2
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          221,
+          106,
+          418,
+          540
+        ],
+        "sha256": "cd060e3286c734379f514fe93acd806da9a07c9dd44b51b249593bb065bf7d82"
+      }
+    },
+    {
+      "index": 23,
+      "slug": "settle",
+      "label": "Settle",
+      "filename": "hugo-neutral-idle-23-settle.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-23-settle.png",
+      "runtime": true,
+      "durationTicks": 3,
+      "durationSeconds": 0.25,
+      "source": {
+        "type": "generated-sheet-frame",
+        "sheet": "art/source-images/game/2d-v02/animations/neutral-idle/hugo-neutral-idle-sheet-b-transparent.png",
+        "sheetFrame": 11,
+        "row": 3,
+        "column": 3
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          232,
+          106,
+          408,
+          540
+        ],
+        "sha256": "81d05a939abbbf1a6caa06795449f8e84ed8fdd961805e1796da31c916b20473"
+      }
+    },
+    {
+      "index": 24,
+      "slug": "loop-bookend",
+      "label": "Exact loop bookend",
+      "filename": "hugo-neutral-idle-24-loop-bookend.png",
+      "file": "src/assets/game/2d-v02/animations/neutral-idle/frames/hugo-neutral-idle-24-loop-bookend.png",
+      "runtime": false,
+      "durationTicks": 0,
+      "durationSeconds": 0.0,
+      "source": {
+        "type": "exact-loop-bookend",
+        "copiedFromFrame": 1
+      },
+      "output": {
+        "width": 640,
+        "height": 640,
+        "alphaBounds": [
+          232,
+          100,
+          407,
+          540
+        ],
+        "sha256": "d6eb5e396cfcba6b0df533fa647537a72b839da12ab3dc0db3bf3c0b238648aa"
+      }
+    }
+  ],
+  "qaContactSheet": "src/assets/game/2d-v02/animations/qa/hugo-neutral-idle-contact-sheet.jpg"
+}
