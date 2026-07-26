@@ -63,8 +63,14 @@ def validate_figure(image: Image.Image, pose: Pose) -> tuple[int, int, int, int]
     rgba = np.asarray(image.convert("RGBA"))
     alpha = rgba[:, :, 3]
     bounds = alpha_bounds(image)
-    if bounds[0] <= 1 or bounds[1] <= 1 or bounds[2] >= image.width - 1 or bounds[3] >= image.height - 1:
-        raise ValueError(f"Pose {pose.index:02d}: artwork reaches output edge {bounds}")
+    safety_gutter = 36
+    if (
+        bounds[0] < safety_gutter
+        or bounds[1] < safety_gutter
+        or image.width - bounds[2] < safety_gutter
+        or image.height - bounds[3] < safety_gutter
+    ):
+        raise ValueError(f"Pose {pose.index:02d}: insufficient output gutter {bounds}")
 
     count, _, stats, _ = cv2.connectedComponentsWithStats((alpha > 8).astype(np.uint8), 8)
     areas = sorted(
@@ -73,15 +79,33 @@ def validate_figure(image: Image.Image, pose: Pose) -> tuple[int, int, int, int]
     )
     if not areas or areas[0] < 8_000:
         raise ValueError(f"Pose {pose.index:02d}: incomplete figure {areas[:4]}")
-    if len(areas) > 1 and areas[1] > 1_200:
+    if len(areas) != 1:
         raise ValueError(f"Pose {pose.index:02d}: detached artwork {areas[:4]}")
     return bounds
 
 
-def extract_pose(sheet: Image.Image, pose: Pose) -> tuple[Image.Image, tuple[int, int, int, int]]:
+def isolate_figure(sheet: Image.Image, pose: Pose) -> Image.Image:
+    """Select one complete figure from the full sheet, even when it crosses a grid line."""
+    rgba = np.asarray(sheet.convert("RGBA"))
+    alpha = rgba[:, :, 3]
+    count, labels, stats, centroids = cv2.connectedComponentsWithStats(
+        (alpha > 0).astype(np.uint8),
+        8,
+    )
+    candidates = [
+        label
+        for label in range(1, count)
+        if int(stats[label, cv2.CC_STAT_AREA]) >= 8_000
+    ]
+    if not candidates:
+        raise ValueError(f"{pose.source}: no complete figure components found")
+
     standalone = pose.cell == 0
     if standalone:
-        cell = sheet
+        target_label = max(
+            candidates,
+            key=lambda label: int(stats[label, cv2.CC_STAT_AREA]),
+        )
     else:
         if sheet.width % 4 or sheet.height % 3:
             raise ValueError(f"{pose.source}: expected a divisible 4 x 3 sheet, got {sheet.size}")
@@ -91,26 +115,37 @@ def extract_pose(sheet: Image.Image, pose: Pose) -> tuple[Image.Image, tuple[int
             raise ValueError(f"{pose.source}: expected square cells, got {cell_width} x {cell_height}")
 
         row, column = divmod(pose.cell - 1, 4)
-        cell = sheet.crop(
-            (
-                column * cell_width,
-                row * cell_height,
-                (column + 1) * cell_width,
-                (row + 1) * cell_height,
-            )
+        target_x = (column + 0.5) * cell_width
+        target_y = (row + 0.5) * cell_height
+        target_label = min(
+            candidates,
+            key=lambda label: (
+                (float(centroids[label][0]) - target_x) ** 2
+                + (float(centroids[label][1]) - target_y) ** 2
+            ),
         )
-    left, top, right, bottom = alpha_bounds(cell)
+
+    selected = labels == target_label
+    isolated = rgba.copy()
+    isolated[~selected] = 0
+    return Image.fromarray(isolated)
+
+
+def extract_pose(sheet: Image.Image, pose: Pose) -> tuple[Image.Image, tuple[int, int, int, int]]:
+    isolated = isolate_figure(sheet, pose)
+    left, top, right, bottom = alpha_bounds(isolated)
     padding = 5
-    figure = cell.crop(
+    figure = isolated.crop(
         (
             max(0, left - padding),
             max(0, top - padding),
-            min(cell.width, right + padding),
-            min(cell.height, bottom + padding),
+            min(isolated.width, right + padding),
+            min(isolated.height, bottom + padding),
         )
     )
-    if standalone and max(figure.size) > 300:
-        scale = 300 / max(figure.size)
+    max_figure_size = 360 if pose.cell else 300
+    if max(figure.size) > max_figure_size:
+        scale = max_figure_size / max(figure.size)
         figure = figure.resize(
             (
                 round(figure.width * scale),
