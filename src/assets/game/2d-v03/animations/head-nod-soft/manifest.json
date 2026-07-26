@@ -2,10 +2,10 @@
   "schemaVersion": 1,
   "animation": {
     "id": "head-nod-soft",
-    "assetDirectory": "head-nod",
+    "assetDirectory": "head-nod-soft",
     "name": "Neutral Side · Head nod 03",
-    "description": "A restrained two-beat nod using only approved source drawings 1–4.",
-    "prompt": "Reuse only complete existing Neutral Side head-nod drawings 1, 2, 3, and 4. Do not regenerate, composite, or alter them. Play exactly this loop: 1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2.",
+    "description": "A restrained two-beat nod using four canonically coloured Outfit 03 Sunrise drawings.",
+    "prompt": "Create one strict 4-column x 1-row game-animation sheet containing\nexactly four complete full-body drawings of Hugo, ordered left to right, for\nNeutral Side 03. Lock Hugo's identity, healthy warm natural tan/peach skin,\nwarm brown hair, lighting, and burnt-orange, cream, gold, and teal Sunrise\nwingsuit colours to the canonical Outfit 03 Sunrise neutral-front and\nready-profile references. Use the Version 03 neutral-side reference for the\nscreen-right silhouette, proportions, registration, and black sculpted shoes.\nUse the existing four approved drawings only as pose geometry; do not inherit\ntheir yellow, olive, green, grey, or sickly colour cast. Draw: neutral, a tiny\n20-percent nod, a restrained 40-percent nod, and a restrained 60-percent nod.\nOnly the head and neck angle change. Keep the complete body, scale, baseline,\nlighting, and colour consistent. Use a flat #FF00FF chroma background, generous\ngutters, no crop, no fragments, no text, and exactly one complete Hugo per\ncell.",
     "revisionOf": "head-nod"
   },
   "timing": {
@@ -15,90 +15,180 @@
     "loopDurationSeconds": 2.0,
     "loopReturnFrame": 12
   },
-  "productionMethod": "four complete existing generated figures repeated without alteration in the exact runtime sequence 1,2,3,4,3,2,1,2,3,4,3,2; no regeneration, masking, compositing, interpolation, or code rotation",
+  "productionMethod": "four complete figures generated together in one 4 x 1 sheet with canonical Outfit 03 Sunrise palette lock; chroma cleanup and deterministic whole-figure shoe registration only; no body-part masking, frozen-body compositing, interpolation, or runtime sheet slicing",
+  "source": {
+    "sheet": "art/source-images/game/2d-v03/animations/head-nod-soft-v2/hugo-head-nod-soft-v2-sheet-transparent.png",
+    "registeredSheet": "art/source-images/game/2d-v03/animations/head-nod-soft-v2/hugo-head-nod-soft-v2-sheet-registered.png",
+    "uniqueFrames": [
+      {
+        "sourceFrame": 1,
+        "filename": "hugo-head-nod-soft-01-neutral-start.png",
+        "sha256": "65263b8e680e0b493b732641bf01d6f69a708dbeb5beff3b90750418e3e1215a",
+        "sourceCell": 1,
+        "sourceBounds": [
+          190,
+          90,
+          361,
+          617
+        ],
+        "uniformScale": 0.612903,
+        "shoeAnchorX": 272.0,
+        "sourceBaselineY": 617.0,
+        "alphaBounds": [
+          200,
+          94,
+          305,
+          417
+        ]
+      },
+      {
+        "sourceFrame": 2,
+        "filename": "hugo-head-nod-soft-02-nod-down-20-percent.png",
+        "sha256": "83b8bdd6f926a57e55dabc659269eb5e88457037f0b08f34121ab4dee3dc82cd",
+        "sourceCell": 2,
+        "sourceBounds": [
+          183,
+          91,
+          355,
+          617
+        ],
+        "uniformScale": 0.612903,
+        "shoeAnchorX": 265.0,
+        "sourceBaselineY": 617.0,
+        "alphaBounds": [
+          200,
+          95,
+          305,
+          417
+        ]
+      },
+      {
+        "sourceFrame": 3,
+        "filename": "hugo-head-nod-soft-03-nod-down-40-percent.png",
+        "sha256": "9bf670e8db7b18544ff551d90a806f3b0c36c15bdc8dae2f7222d5d8fa28d60a",
+        "sourceCell": 3,
+        "sourceBounds": [
+          167,
+          101,
+          351,
+          617
+        ],
+        "uniformScale": 0.612903,
+        "shoeAnchorX": 249.0,
+        "sourceBaselineY": 617.0,
+        "alphaBounds": [
+          200,
+          101,
+          312,
+          417
+        ]
+      },
+      {
+        "sourceFrame": 4,
+        "filename": "hugo-head-nod-soft-04-nod-down-60-percent.png",
+        "sha256": "3c76a484988468822e864be788c242fa0d9e3596947d95322eb85ddea070c832",
+        "sourceCell": 4,
+        "sourceBounds": [
+          173,
+          112,
+          362,
+          617
+        ],
+        "uniformScale": 0.612903,
+        "shoeAnchorX": 257.0,
+        "sourceBaselineY": 617.0,
+        "alphaBounds": [
+          199,
+          108,
+          314,
+          417
+        ]
+      }
+    ]
+  },
   "frames": [
     {
       "index": 1,
       "sourceFrame": 1,
       "label": "Neutral start",
-      "filename": "hugo-head-nod-01-neutral-start.png",
+      "filename": "hugo-head-nod-soft-01-neutral-start.png",
       "runtime": true
     },
     {
       "index": 2,
       "sourceFrame": 2,
       "label": "Nod down 20 percent",
-      "filename": "hugo-head-nod-02-nod-down-20-percent.png",
+      "filename": "hugo-head-nod-soft-02-nod-down-20-percent.png",
       "runtime": true
     },
     {
       "index": 3,
       "sourceFrame": 3,
       "label": "Nod down 40 percent",
-      "filename": "hugo-head-nod-03-nod-down-40-percent.png",
+      "filename": "hugo-head-nod-soft-03-nod-down-40-percent.png",
       "runtime": true
     },
     {
       "index": 4,
       "sourceFrame": 4,
       "label": "Nod down 60 percent",
-      "filename": "hugo-head-nod-04-nod-down-60-percent.png",
+      "filename": "hugo-head-nod-soft-04-nod-down-60-percent.png",
       "runtime": true
     },
     {
       "index": 5,
       "sourceFrame": 3,
       "label": "Nod returns through source frame 3",
-      "filename": "hugo-head-nod-03-nod-down-40-percent.png",
+      "filename": "hugo-head-nod-soft-03-nod-down-40-percent.png",
       "runtime": true
     },
     {
       "index": 6,
       "sourceFrame": 2,
       "label": "Nod returns through source frame 2",
-      "filename": "hugo-head-nod-02-nod-down-20-percent.png",
+      "filename": "hugo-head-nod-soft-02-nod-down-20-percent.png",
       "runtime": true
     },
     {
       "index": 7,
       "sourceFrame": 1,
       "label": "Neutral midpoint",
-      "filename": "hugo-head-nod-01-neutral-start.png",
+      "filename": "hugo-head-nod-soft-01-neutral-start.png",
       "runtime": true
     },
     {
       "index": 8,
       "sourceFrame": 2,
       "label": "Second nod through source frame 2",
-      "filename": "hugo-head-nod-02-nod-down-20-percent.png",
+      "filename": "hugo-head-nod-soft-02-nod-down-20-percent.png",
       "runtime": true
     },
     {
       "index": 9,
       "sourceFrame": 3,
       "label": "Second nod through source frame 3",
-      "filename": "hugo-head-nod-03-nod-down-40-percent.png",
+      "filename": "hugo-head-nod-soft-03-nod-down-40-percent.png",
       "runtime": true
     },
     {
       "index": 10,
       "sourceFrame": 4,
       "label": "Second nod peak",
-      "filename": "hugo-head-nod-04-nod-down-60-percent.png",
+      "filename": "hugo-head-nod-soft-04-nod-down-60-percent.png",
       "runtime": true
     },
     {
       "index": 11,
       "sourceFrame": 3,
       "label": "Second return through source frame 3",
-      "filename": "hugo-head-nod-03-nod-down-40-percent.png",
+      "filename": "hugo-head-nod-soft-03-nod-down-40-percent.png",
       "runtime": true
     },
     {
       "index": 12,
       "sourceFrame": 2,
       "label": "Second return through source frame 2",
-      "filename": "hugo-head-nod-02-nod-down-20-percent.png",
+      "filename": "hugo-head-nod-soft-02-nod-down-20-percent.png",
       "runtime": true
     }
   ]
