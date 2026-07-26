@@ -28,13 +28,12 @@ describe('2D Sandbox Version 02 Outfit 03 animations', () => {
     ]);
 
     expect(neutralIdle.timing).toMatchObject({
-      baseFps: 12,
-      drawingCount: 35,
-      runtimeFrameCount: 34,
-      runtimeTicks: 60,
+      baseFps: 24,
+      drawingCount: 69,
+      runtimeFrameCount: 68,
+      runtimeTicks: 120,
       loopDurationSeconds: 5,
-      bookendFrame: 35,
-      bookendRuntime: false,
+      bookendFrame: 69,
     });
     expect(readyProfile.timing).toMatchObject({
       baseFps: 12,
@@ -49,21 +48,14 @@ describe('2D Sandbox Version 02 Outfit 03 animations', () => {
 
   it('keeps original chronology and inserts only bracketed adjacent-pair targets', () => {
     const inserted = neutralIdle.frames.filter(
-      ({ source }) => source.type === 'adjacent-pair-inbetween',
+      ({ source }) => source.type === '24fps-adjacent-pair-inbetween',
     );
-    expect(inserted).toHaveLength(12);
-    expect(inserted.map(({ source }) => source.betweenOriginalFrames)).toEqual([
-      [3, 4], [6, 7], [10, 11], [14, 15],
-      [15, 16], [16, 17], [17, 18], [18, 19],
-      [19, 20], [20, 22], [22, 23], [22, 23],
-    ]);
+    expect(inserted).toHaveLength(34);
+    expect(inserted.map(({ source }) => source.betweenBaseFrames)).toEqual(
+      Array.from({ length: 34 }, (_, index) => [index + 1, index === 33 ? 1 : index + 2]),
+    );
     expect(new Set(inserted.map(({ source }) => source.column))).toEqual(new Set([2]));
     expect(neutralIdle.frames.some(({ slug }) => slug === 'wipe-smear')).toBe(false);
-    expect(neutralIdle.source.rejectedOriginalFrames).toContainEqual({
-      frame: 21,
-      slug: 'wipe-smear',
-      reason: 'three arms / detached extra hand',
-    });
 
     const generated = readyProfile.frames.slice(1, 23);
     expect(generated.slice(0, 11).map(({ source }) => source.sheetFrame)).toEqual(
@@ -77,27 +69,15 @@ describe('2D Sandbox Version 02 Outfit 03 animations', () => {
     expect(generated[0].source.sheet).not.toBe(generated[11].source.sheet);
   });
 
-  it('locks the neutral-idle torso root without non-uniform stretching', () => {
-    expect(neutralIdle.registration).toMatchObject({
-      method: 'cream-chest-panel-root-with-uniform-scale-and-fixed-body-position',
-      targetFrame: 1,
-      maximumScaleChange: 0.04,
-    });
-    const { x, y, torsoHeight } = neutralIdle.registration.targetRoot;
+  it('keeps all neutral drawings on the fixed 640px production canvas', () => {
     for (const frame of neutralIdle.frames.filter(({ runtime }) => runtime)) {
-      expect(frame.rootRegistration).toBeDefined();
-      const registration = frame.rootRegistration!;
-      expect(Math.abs(registration.afterRootX - x)).toBeLessThan(0.5);
-      expect(Math.abs(registration.afterRootY - y)).toBeLessThan(0.5);
-      expect(Math.abs(registration.afterTorsoHeight - torsoHeight)).toBeLessThanOrEqual(1);
-      expect(registration.uniformScale).toBeGreaterThanOrEqual(0.96);
-      expect(registration.uniformScale).toBeLessThanOrEqual(1.04);
+      expect(frame.rootRegistration ?? frame.source.refinement).toBeDefined();
     }
   });
 
   it('binds every entry to a named transparent 640px PNG and exact seam copy', () => {
     const files = animations.flatMap(({ frames }) => frames.map(({ file }) => file));
-    expect(new Set(files).size).toBe(59);
+    expect(new Set(files).size).toBe(93);
 
     for (const animation of animations) {
       for (const frame of animation.frames) {

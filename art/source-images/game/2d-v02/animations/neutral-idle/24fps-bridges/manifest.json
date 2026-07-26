@@ -1,0 +1,442 @@
+{
+  "schemaVersion": 1,
+  "animation": "neutral-idle",
+  "purpose": "24fps-adjacent-pair-bridges",
+  "background": "#ff00ff",
+  "baseRuntimeFrameCount": 34,
+  "bridgeCount": 34,
+  "boards": [
+    {
+      "id": "a",
+      "file": "art/source-images/game/2d-v02/animations/neutral-idle/24fps-bridges/hugo-neutral-idle-24fps-bridge-board-a-input.png",
+      "layout": {
+        "columns": 3,
+        "rows": 4,
+        "cellSize": 512,
+        "outgoingColumn": 1,
+        "targetColumn": 2,
+        "incomingColumn": 3
+      },
+      "rows": [
+        {
+          "row": 1,
+          "outgoingFrame": 1,
+          "outgoingSlug": "neutral-front",
+          "incomingFrame": 2,
+          "incomingSlug": "eyelids-relax",
+          "targetColumn": 2,
+          "fraction": "50% temporal midpoint"
+        },
+        {
+          "row": 2,
+          "outgoingFrame": 2,
+          "outgoingSlug": "eyelids-relax",
+          "incomingFrame": 3,
+          "incomingSlug": "weight-shift",
+          "targetColumn": 2,
+          "fraction": "50% temporal midpoint"
+        },
+        {
+          "row": 3,
+          "outgoingFrame": 3,
+          "outgoingSlug": "weight-shift",
+          "incomingFrame": 4,
+          "incomingSlug": "weight-to-toe-mid",
+          "targetColumn": 2,
+          "fraction": "50% temporal midpoint"
+        },
+        {
+          "row": 4,
+          "outgoingFrame": 4,
+          "outgoingSlug": "weight-to-toe-mid",
+          "incomingFrame": 5,
+          "incomingSlug": "toe-tap-anticipation",
+          "targetColumn": 2,
+          "fraction": "50% temporal midpoint"
+        }
+      ]
+    },
+    {
+      "id": "b",
+      "file": "art/source-images/game/2d-v02/animations/neutral-idle/24fps-bridges/hugo-neutral-idle-24fps-bridge-board-b-input.png",
+      "layout": {
+        "columns": 3,
+        "rows": 4,
+        "cellSize": 512,
+        "outgoingColumn": 1,
+        "targetColumn": 2,
+        "incomingColumn": 3
+      },
+      "rows": [
+        {
+          "row": 1,
+          "outgoingFrame": 5,
+          "outgoingSlug": "toe-tap-anticipation",
+          "incomingFrame": 6,
+          "incomingSlug": "toe-tap-contact",
+          "targetColumn": 2,
+          "fraction": "50% temporal midpoint"
+        },
+        {
+          "row": 2,
+          "outgoingFrame": 6,
+          "outgoingSlug": "toe-tap-contact",
+          "incomingFrame": 7,
+          "incomingSlug": "toe-tap-rise",
+          "targetColumn": 2,
+          "fraction": "50% temporal midpoint"
+        },
+        {
+          "row": 3,
+          "outgoingFrame": 7,
+          "outgoingSlug": "toe-tap-rise",
+          "incomingFrame": 8,
+          "incomingSlug": "toe-settle",
+          "targetColumn": 2,
+          "fraction": "50% temporal midpoint"
+        },
+        {
+          "row": 4,
+          "outgoingFrame": 8,
+          "outgoingSlug": "toe-settle",
+          "incomingFrame": 9,
+          "incomingSlug": "gum-chew",
+          "targetColumn": 2,
+          "fraction": "50% temporal midpoint"
+        }
+      ]
+    },
+    {
+      "id": "c",
+      "file": "art/source-images/game/2d-v02/animations/neutral-idle/24fps-bridges/hugo-neutral-idle-24fps-bridge-board-c-input.png",
+      "layout": {
+        "columns": 3,
+        "rows": 4,
+        "cellSize": 512,
+        "outgoingColumn": 1,
+        "targetColumn": 2,
+        "incomingColumn": 3
+      },
+      "rows": [
+        {
+          "row": 1,
+          "outgoingFrame": 9,
+          "outgoingSlug": "gum-chew",
+          "incomingFrame": 10,
+          "incomingSlug": "bubble-tiny",
+          "targetColumn": 2,
+          "fraction": "50% temporal midpoint"
+        },
+        {
+          "row": 2,
+          "outgoingFrame": 10,
+          "outgoingSlug": "bubble-tiny",
+          "incomingFrame": 11,
+          "incomingSlug": "bubble-small",
+          "targetColumn": 2,
+          "fraction": "50% temporal midpoint"
+        },
+        {
+          "row": 3,
+          "outgoingFrame": 11,
+          "outgoingSlug": "bubble-small",
+          "incomingFrame": 12,
+          "incomingSlug": "bubble-medium",
+          "targetColumn": 2,
+          "fraction": "50% temporal midpoint"
+        },
+        {
+          "row": 4,
+          "outgoingFrame": 12,
+          "outgoingSlug": "bubble-medium",
+          "incomingFrame": 13,
+          "incomingSlug": "bubble-medium-large",
+          "targetColumn": 2,
+          "fraction": "50% temporal midpoint"
+        }
+      ]
+    },
+    {
+      "id": "d",
+      "file": "art/source-images/game/2d-v02/animations/neutral-idle/24fps-bridges/hugo-neutral-idle-24fps-bridge-board-d-input.png",
+      "layout": {
+        "columns": 3,
+        "rows": 4,
+        "cellSize": 512,
+        "outgoingColumn": 1,
+        "targetColumn": 2,
+        "incomingColumn": 3
+      },
+      "rows": [
+        {
+          "row": 1,
+          "outgoingFrame": 13,
+          "outgoingSlug": "bubble-medium-large",
+          "incomingFrame": 14,
+          "incomingSlug": "bubble-large",
+          "targetColumn": 2,
+          "fraction": "50% temporal midpoint"
+        },
+        {
+          "row": 2,
+          "outgoingFrame": 14,
+          "outgoingSlug": "bubble-large",
+          "incomingFrame": 15,
+          "incomingSlug": "gum-splat",
+          "targetColumn": 2,
+          "fraction": "50% temporal midpoint"
+        },
+        {
+          "row": 3,
+          "outgoingFrame": 15,
+          "outgoingSlug": "gum-splat",
+          "incomingFrame": 16,
+          "incomingSlug": "splat-hold",
+          "targetColumn": 2,
+          "fraction": "50% temporal midpoint"
+        },
+        {
+          "row": 4,
+          "outgoingFrame": 16,
+          "outgoingSlug": "splat-hold",
+          "incomingFrame": 17,
+          "incomingSlug": "stunned-blink",
+          "targetColumn": 2,
+          "fraction": "50% temporal midpoint"
+        }
+      ]
+    },
+    {
+      "id": "e",
+      "file": "art/source-images/game/2d-v02/animations/neutral-idle/24fps-bridges/hugo-neutral-idle-24fps-bridge-board-e-input.png",
+      "layout": {
+        "columns": 3,
+        "rows": 4,
+        "cellSize": 512,
+        "outgoingColumn": 1,
+        "targetColumn": 2,
+        "incomingColumn": 3
+      },
+      "rows": [
+        {
+          "row": 1,
+          "outgoingFrame": 17,
+          "outgoingSlug": "stunned-blink",
+          "incomingFrame": 18,
+          "incomingSlug": "stunned-to-annoyed",
+          "targetColumn": 2,
+          "fraction": "50% temporal midpoint"
+        },
+        {
+          "row": 2,
+          "outgoingFrame": 18,
+          "outgoingSlug": "stunned-to-annoyed",
+          "incomingFrame": 19,
+          "incomingSlug": "annoyed-anticipation",
+          "targetColumn": 2,
+          "fraction": "50% temporal midpoint"
+        },
+        {
+          "row": 3,
+          "outgoingFrame": 19,
+          "outgoingSlug": "annoyed-anticipation",
+          "incomingFrame": 20,
+          "incomingSlug": "arm-rise-half",
+          "targetColumn": 2,
+          "fraction": "50% temporal midpoint"
+        },
+        {
+          "row": 4,
+          "outgoingFrame": 20,
+          "outgoingSlug": "arm-rise-half",
+          "incomingFrame": 21,
+          "incomingSlug": "hand-rise",
+          "targetColumn": 2,
+          "fraction": "50% temporal midpoint"
+        }
+      ]
+    },
+    {
+      "id": "f",
+      "file": "art/source-images/game/2d-v02/animations/neutral-idle/24fps-bridges/hugo-neutral-idle-24fps-bridge-board-f-input.png",
+      "layout": {
+        "columns": 3,
+        "rows": 4,
+        "cellSize": 512,
+        "outgoingColumn": 1,
+        "targetColumn": 2,
+        "incomingColumn": 3
+      },
+      "rows": [
+        {
+          "row": 1,
+          "outgoingFrame": 21,
+          "outgoingSlug": "hand-rise",
+          "incomingFrame": 22,
+          "incomingSlug": "reach-close",
+          "targetColumn": 2,
+          "fraction": "50% temporal midpoint"
+        },
+        {
+          "row": 2,
+          "outgoingFrame": 22,
+          "outgoingSlug": "reach-close",
+          "incomingFrame": 23,
+          "incomingSlug": "gum-contact",
+          "targetColumn": 2,
+          "fraction": "50% temporal midpoint"
+        },
+        {
+          "row": 3,
+          "outgoingFrame": 23,
+          "outgoingSlug": "gum-contact",
+          "incomingFrame": 24,
+          "incomingSlug": "peel-start",
+          "targetColumn": 2,
+          "fraction": "50% temporal midpoint"
+        },
+        {
+          "row": 4,
+          "outgoingFrame": 24,
+          "outgoingSlug": "peel-start",
+          "incomingFrame": 25,
+          "incomingSlug": "gum-peel",
+          "targetColumn": 2,
+          "fraction": "50% temporal midpoint"
+        }
+      ]
+    },
+    {
+      "id": "g",
+      "file": "art/source-images/game/2d-v02/animations/neutral-idle/24fps-bridges/hugo-neutral-idle-24fps-bridge-board-g-input.png",
+      "layout": {
+        "columns": 3,
+        "rows": 4,
+        "cellSize": 512,
+        "outgoingColumn": 1,
+        "targetColumn": 2,
+        "incomingColumn": 3
+      },
+      "rows": [
+        {
+          "row": 1,
+          "outgoingFrame": 25,
+          "outgoingSlug": "gum-peel",
+          "incomingFrame": 26,
+          "incomingSlug": "stretch-mid",
+          "targetColumn": 2,
+          "fraction": "50% temporal midpoint"
+        },
+        {
+          "row": 2,
+          "outgoingFrame": 26,
+          "outgoingSlug": "stretch-mid",
+          "incomingFrame": 27,
+          "incomingSlug": "gum-stretch",
+          "targetColumn": 2,
+          "fraction": "50% temporal midpoint"
+        },
+        {
+          "row": 3,
+          "outgoingFrame": 27,
+          "outgoingSlug": "gum-stretch",
+          "incomingFrame": 28,
+          "incomingSlug": "detach-recoil",
+          "targetColumn": 2,
+          "fraction": "50% temporal midpoint"
+        },
+        {
+          "row": 4,
+          "outgoingFrame": 28,
+          "outgoingSlug": "detach-recoil",
+          "incomingFrame": 29,
+          "incomingSlug": "gum-free",
+          "targetColumn": 2,
+          "fraction": "50% temporal midpoint"
+        }
+      ]
+    },
+    {
+      "id": "h",
+      "file": "art/source-images/game/2d-v02/animations/neutral-idle/24fps-bridges/hugo-neutral-idle-24fps-bridge-board-h-input.png",
+      "layout": {
+        "columns": 3,
+        "rows": 4,
+        "cellSize": 512,
+        "outgoingColumn": 1,
+        "targetColumn": 2,
+        "incomingColumn": 3
+      },
+      "rows": [
+        {
+          "row": 1,
+          "outgoingFrame": 29,
+          "outgoingSlug": "gum-free",
+          "incomingFrame": 30,
+          "incomingSlug": "inspect-to-eye-roll",
+          "targetColumn": 2,
+          "fraction": "50% temporal midpoint"
+        },
+        {
+          "row": 2,
+          "outgoingFrame": 30,
+          "outgoingSlug": "inspect-to-eye-roll",
+          "incomingFrame": 31,
+          "incomingSlug": "bored-eye-roll",
+          "targetColumn": 2,
+          "fraction": "50% temporal midpoint"
+        },
+        {
+          "row": 3,
+          "outgoingFrame": 31,
+          "outgoingSlug": "bored-eye-roll",
+          "incomingFrame": 32,
+          "incomingSlug": "gum-flick",
+          "targetColumn": 2,
+          "fraction": "50% temporal midpoint"
+        },
+        {
+          "row": 4,
+          "outgoingFrame": 32,
+          "outgoingSlug": "gum-flick",
+          "incomingFrame": 33,
+          "incomingSlug": "arm-lower",
+          "targetColumn": 2,
+          "fraction": "50% temporal midpoint"
+        }
+      ]
+    },
+    {
+      "id": "i",
+      "file": "art/source-images/game/2d-v02/animations/neutral-idle/24fps-bridges/hugo-neutral-idle-24fps-bridge-board-i-input.png",
+      "layout": {
+        "columns": 3,
+        "rows": 4,
+        "cellSize": 512,
+        "outgoingColumn": 1,
+        "targetColumn": 2,
+        "incomingColumn": 3
+      },
+      "rows": [
+        {
+          "row": 1,
+          "outgoingFrame": 33,
+          "outgoingSlug": "arm-lower",
+          "incomingFrame": 34,
+          "incomingSlug": "settle",
+          "targetColumn": 2,
+          "fraction": "50% temporal midpoint"
+        },
+        {
+          "row": 2,
+          "outgoingFrame": 34,
+          "outgoingSlug": "settle",
+          "incomingFrame": 1,
+          "incomingSlug": "neutral-front",
+          "targetColumn": 2,
+          "fraction": "50% temporal midpoint"
+        }
+      ]
+    }
+  ]
+}

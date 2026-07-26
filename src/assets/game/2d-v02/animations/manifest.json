@@ -12,8 +12,8 @@
       "id": "neutral-idle",
       "name": "Neutral Front \u00b7 Bubble-gum idle",
       "manifest": "src/assets/game/2d-v02/animations/neutral-idle/manifest.json",
-      "frameCount": 35,
-      "runtimeFrameCount": 34,
+      "frameCount": 69,
+      "runtimeFrameCount": 68,
       "loopDurationSeconds": 5.0
     },
     {

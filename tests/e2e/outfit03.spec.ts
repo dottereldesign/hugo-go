@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+﻿import { expect, test } from '@playwright/test';
 
 test.describe('Outfit 03 reference and V02 animation loops', () => {
   test('opens from the Sandbox and provides complete frame controls', async ({ page }) => {
@@ -14,7 +14,7 @@ test.describe('Outfit 03 reference and V02 animation loops', () => {
 
     const neutral = page.locator('[data-v02-animation="neutral-idle"]');
     const ready = page.locator('[data-v02-animation="ready-profile"]');
-    await expect(neutral.locator('[data-frame]')).toHaveCount(35);
+    await expect(neutral.locator('[data-frame]')).toHaveCount(69);
     await expect(ready.locator('[data-frame]')).toHaveCount(24);
     await expect(neutral).toHaveAttribute('data-playing', 'true');
 
@@ -24,10 +24,10 @@ test.describe('Outfit 03 reference and V02 animation loops', () => {
     await page.waitForTimeout(500);
     await expect(neutral).toHaveAttribute('data-frame', pausedFrame ?? '');
 
-    await neutral.getByRole('button', { name: 'Show frame 35: Exact loop bookend' }).click();
-    await expect(neutral).toHaveAttribute('data-frame', '35');
+    await neutral.getByRole('button', { name: 'Show frame 69: Exact frame 01 loop bookend' }).click();
+    await expect(neutral).toHaveAttribute('data-frame', '69');
     await expect(neutral.locator('[data-frame-readout]')).toHaveText(
-      'Frame 35 / 35 · Exact loop bookend',
+      'Frame 69 / 69 · Exact frame 01 loop bookend',
     );
     await expect(neutral.getByRole('button', { name: 'Resume' })).toBeVisible();
 
@@ -42,7 +42,7 @@ test.describe('Outfit 03 reference and V02 animation loops', () => {
     });
     await expect(speed).toHaveValue('1.5');
     await expect(neutral.locator('[data-speed-output]')).toHaveText(
-      '1.50× · 18.0 timing FPS · 3.33 s loop',
+      '1.50× · 36.0 timing FPS · 3.33 s loop',
     );
 
     const loop = neutral.getByRole('button', { name: 'Loop', exact: true });
@@ -76,6 +76,6 @@ test.describe('Outfit 03 reference and V02 animation loops', () => {
     expect(cardBox).not.toBeNull();
     expect(cardBox?.x).toBeGreaterThanOrEqual(11);
     expect((cardBox?.x ?? 0) + (cardBox?.width ?? 0)).toBeLessThanOrEqual(379);
-    await expect(neutral.locator('[data-frame]')).toHaveCount(35);
+    await expect(neutral.locator('[data-frame]')).toHaveCount(69);
   });
 });
