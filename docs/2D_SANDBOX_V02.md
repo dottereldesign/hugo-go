@@ -277,6 +277,9 @@ suit brush, hand return, settle, exact bookend.
 - Animation manifests:
   `src/assets/game/2d-v02/animations/{animation}/manifest.json`
 - Animation QA contact sheets: `src/assets/game/2d-v02/animations/qa/`
+- In-app source browser: `#/character-sheets` indexes the original files under
+  `art/source-images/game/2d-v02/`, groups them by folder, and opens full-size
+  previews from each thumbnail.
 - Chroma restoration helpers: `scripts/2d_v02/restore_protected_pink.py` and
   `scripts/2d_v02/restore_protected_purple.py`
 - Adjacent-pair audit: `scripts/2d_v02/audit_animation_continuity.py`

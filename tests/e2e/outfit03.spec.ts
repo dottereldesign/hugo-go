@@ -77,4 +77,23 @@ test.describe('Outfit 03 reference and V02 animation loops', () => {
     expect((cardBox?.x ?? 0) + (cardBox?.width ?? 0)).toBeLessThanOrEqual(379);
     await expect(neutral.locator('[data-frame]')).toHaveCount(75);
   });
+
+  test('opens the source Character Sheets archive and enlarges a thumbnail', async ({ page }) => {
+    await page.goto('/#/outfit-03');
+    await page.getByRole('button', { name: 'Character Sheets' }).click();
+
+    await expect(page).toHaveURL(/#\/character-sheets$/);
+    await expect(page.getByRole('heading', { name: 'Character Sheets' })).toBeVisible();
+    const cards = page.locator('.character-sheet-card');
+    expect(await cards.count()).toBeGreaterThan(20);
+
+    await cards.first().click();
+    await expect(page.locator('#character-sheet-dialog')).toBeVisible();
+    await expect(page.locator('[data-character-sheet-large]')).toHaveAttribute('src', /.+/);
+    await page.getByRole('button', { name: 'Close enlarged character sheet' }).click();
+    await expect(page.locator('#character-sheet-dialog')).toBeHidden();
+
+    await page.getByRole('button', { name: 'Back to Outfit 03' }).click();
+    await expect(page).toHaveURL(/#\/outfit-03$/);
+  });
 });

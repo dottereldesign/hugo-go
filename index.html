@@ -732,9 +732,14 @@
 
     <section class="outfit-03-screen" id="outfit-03-screen" aria-labelledby="outfit-03-title" hidden>
       <header class="outfit-03-header">
-        <button class="game-back-button outfit-03-back-button" id="outfit-03-back-button" type="button" aria-label="Back to animation sandbox">
-          <i data-lucide="arrow-left" aria-hidden="true"></i><span>Sandbox</span>
-        </button>
+        <nav class="outfit-03-header-nav" aria-label="Animation tools">
+          <button class="game-back-button outfit-03-back-button" id="outfit-03-back-button" type="button" aria-label="Back to animation sandbox">
+            <i data-lucide="arrow-left" aria-hidden="true"></i><span>Sandbox</span>
+          </button>
+          <button class="game-back-button character-sheets-button" id="character-sheets-button" type="button">
+            <i data-lucide="images" aria-hidden="true"></i><span>Character Sheets</span>
+          </button>
+        </nav>
         <div class="outfit-03-heading">
           <span>2D SANDBOX · VERSION 02</span>
           <h1 id="outfit-03-title">Outfit 03</h1>
@@ -840,6 +845,35 @@
           </aside>
         </section>
       </main>
+    </section>
+
+    <section class="character-sheets-screen" id="character-sheets-screen" aria-labelledby="character-sheets-title" hidden>
+      <header class="outfit-03-header">
+        <button class="game-back-button outfit-03-back-button" id="character-sheets-back-button" type="button" aria-label="Back to Outfit 03">
+          <i data-lucide="arrow-left" aria-hidden="true"></i><span>Outfit 03</span>
+        </button>
+        <div class="outfit-03-heading">
+          <span>2D SANDBOX · SOURCE ARCHIVE</span>
+          <h1 id="character-sheets-title">Character Sheets</h1>
+          <p>Original generations, extraction boards, bridge sheets, and protected sources.</p>
+        </div>
+        <span class="outfit-03-canonical"><i data-lucide="folder-open" aria-hidden="true"></i> Source files</span>
+      </header>
+      <main class="character-sheets-scroll" id="character-sheets-scroll">
+        <div class="character-sheets-groups" data-character-sheets-grid></div>
+      </main>
+      <dialog class="character-sheet-dialog" id="character-sheet-dialog">
+        <header>
+          <div>
+            <strong data-character-sheet-title></strong>
+            <small data-character-sheet-path></small>
+          </div>
+          <button type="button" data-character-sheet-close aria-label="Close enlarged character sheet">
+            <i data-lucide="x" aria-hidden="true"></i>
+          </button>
+        </header>
+        <div><img data-character-sheet-large alt=""></div>
+      </dialog>
     </section>
 
     <audio id="background-music" src="./audio/hugo-go-magical-loop.ogg" preload="none" loop></audio>
