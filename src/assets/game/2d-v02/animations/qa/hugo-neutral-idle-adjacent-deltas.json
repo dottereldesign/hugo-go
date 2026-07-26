@@ -14,9 +14,9 @@
       "to": 2,
       "fromSlug": "neutral-front",
       "toSlug": "eyelids-relax",
-      "silhouetteIou": 0.9597,
-      "changedUnionRatio": 0.0403,
-      "centroidDistancePx": 1.87,
+      "silhouetteIou": 0.9588,
+      "changedUnionRatio": 0.0412,
+      "centroidDistancePx": 1.25,
       "maximumBoundsDeltaPx": 2
     },
     {
@@ -24,129 +24,129 @@
       "to": 3,
       "fromSlug": "eyelids-relax",
       "toSlug": "weight-shift",
-      "silhouetteIou": 0.9622,
-      "changedUnionRatio": 0.0378,
-      "centroidDistancePx": 0.87,
-      "maximumBoundsDeltaPx": 2
+      "silhouetteIou": 0.9376,
+      "changedUnionRatio": 0.0624,
+      "centroidDistancePx": 1.55,
+      "maximumBoundsDeltaPx": 5
     },
     {
       "from": 3,
       "to": 4,
       "fromSlug": "weight-shift",
       "toSlug": "weight-to-toe-mid",
-      "silhouetteIou": 0.9152,
-      "changedUnionRatio": 0.0848,
-      "centroidDistancePx": 1.73,
-      "maximumBoundsDeltaPx": 2
+      "silhouetteIou": 0.8986,
+      "changedUnionRatio": 0.1014,
+      "centroidDistancePx": 1.45,
+      "maximumBoundsDeltaPx": 10
     },
     {
       "from": 4,
       "to": 5,
       "fromSlug": "weight-to-toe-mid",
       "toSlug": "toe-tap-anticipation",
-      "silhouetteIou": 0.9052,
-      "changedUnionRatio": 0.0948,
-      "centroidDistancePx": 4.65,
-      "maximumBoundsDeltaPx": 4
+      "silhouetteIou": 0.9306,
+      "changedUnionRatio": 0.0694,
+      "centroidDistancePx": 1.21,
+      "maximumBoundsDeltaPx": 3
     },
     {
       "from": 5,
       "to": 6,
       "fromSlug": "toe-tap-anticipation",
       "toSlug": "toe-tap-contact",
-      "silhouetteIou": 0.8824,
-      "changedUnionRatio": 0.1176,
-      "centroidDistancePx": 4.08,
-      "maximumBoundsDeltaPx": 5
+      "silhouetteIou": 0.9483,
+      "changedUnionRatio": 0.0517,
+      "centroidDistancePx": 1.13,
+      "maximumBoundsDeltaPx": 7
     },
     {
       "from": 6,
       "to": 7,
       "fromSlug": "toe-tap-contact",
       "toSlug": "toe-tap-rise",
-      "silhouetteIou": 0.9479,
-      "changedUnionRatio": 0.0521,
-      "centroidDistancePx": 1.01,
-      "maximumBoundsDeltaPx": 4
+      "silhouetteIou": 0.9518,
+      "changedUnionRatio": 0.0482,
+      "centroidDistancePx": 0.63,
+      "maximumBoundsDeltaPx": 2
     },
     {
       "from": 7,
       "to": 8,
       "fromSlug": "toe-tap-rise",
       "toSlug": "toe-settle",
-      "silhouetteIou": 0.9085,
-      "changedUnionRatio": 0.0915,
-      "centroidDistancePx": 2.24,
-      "maximumBoundsDeltaPx": 2
+      "silhouetteIou": 0.9125,
+      "changedUnionRatio": 0.0875,
+      "centroidDistancePx": 1.21,
+      "maximumBoundsDeltaPx": 4
     },
     {
       "from": 8,
       "to": 9,
       "fromSlug": "toe-settle",
       "toSlug": "gum-chew",
-      "silhouetteIou": 0.9199,
-      "changedUnionRatio": 0.0801,
-      "centroidDistancePx": 3.51,
-      "maximumBoundsDeltaPx": 1
+      "silhouetteIou": 0.9318,
+      "changedUnionRatio": 0.0682,
+      "centroidDistancePx": 0.82,
+      "maximumBoundsDeltaPx": 4
     },
     {
       "from": 9,
       "to": 10,
       "fromSlug": "gum-chew",
       "toSlug": "bubble-tiny",
-      "silhouetteIou": 0.9738,
-      "changedUnionRatio": 0.0262,
-      "centroidDistancePx": 0.31,
-      "maximumBoundsDeltaPx": 0
+      "silhouetteIou": 0.9577,
+      "changedUnionRatio": 0.0423,
+      "centroidDistancePx": 0.26,
+      "maximumBoundsDeltaPx": 3
     },
     {
       "from": 10,
       "to": 11,
       "fromSlug": "bubble-tiny",
       "toSlug": "bubble-small",
-      "silhouetteIou": 0.9295,
-      "changedUnionRatio": 0.0705,
-      "centroidDistancePx": 5.18,
-      "maximumBoundsDeltaPx": 8
+      "silhouetteIou": 0.9542,
+      "changedUnionRatio": 0.0458,
+      "centroidDistancePx": 0.43,
+      "maximumBoundsDeltaPx": 4
     },
     {
       "from": 11,
       "to": 12,
       "fromSlug": "bubble-small",
       "toSlug": "bubble-medium",
-      "silhouetteIou": 0.9624,
-      "changedUnionRatio": 0.0376,
-      "centroidDistancePx": 1.22,
-      "maximumBoundsDeltaPx": 1
+      "silhouetteIou": 0.9639,
+      "changedUnionRatio": 0.0361,
+      "centroidDistancePx": 1.04,
+      "maximumBoundsDeltaPx": 2
     },
     {
       "from": 12,
       "to": 13,
       "fromSlug": "bubble-medium",
       "toSlug": "bubble-medium-large",
-      "silhouetteIou": 0.895,
-      "changedUnionRatio": 0.105,
-      "centroidDistancePx": 10.51,
-      "maximumBoundsDeltaPx": 8
+      "silhouetteIou": 0.9304,
+      "changedUnionRatio": 0.0696,
+      "centroidDistancePx": 3.21,
+      "maximumBoundsDeltaPx": 7
     },
     {
       "from": 13,
       "to": 14,
       "fromSlug": "bubble-medium-large",
       "toSlug": "bubble-large",
-      "silhouetteIou": 0.8167,
-      "changedUnionRatio": 0.1833,
-      "centroidDistancePx": 4.49,
-      "maximumBoundsDeltaPx": 16
+      "silhouetteIou": 0.8209,
+      "changedUnionRatio": 0.1791,
+      "centroidDistancePx": 3.64,
+      "maximumBoundsDeltaPx": 6
     },
     {
       "from": 14,
       "to": 15,
       "fromSlug": "bubble-large",
       "toSlug": "gum-splat",
-      "silhouetteIou": 0.8265,
-      "changedUnionRatio": 0.1735,
-      "centroidDistancePx": 6.87,
+      "silhouetteIou": 0.8116,
+      "changedUnionRatio": 0.1884,
+      "centroidDistancePx": 6.55,
       "maximumBoundsDeltaPx": 11
     },
     {
@@ -154,190 +154,190 @@
       "to": 16,
       "fromSlug": "gum-splat",
       "toSlug": "splat-hold",
-      "silhouetteIou": 0.9457,
-      "changedUnionRatio": 0.0543,
-      "centroidDistancePx": 3.61,
-      "maximumBoundsDeltaPx": 5
+      "silhouetteIou": 0.932,
+      "changedUnionRatio": 0.068,
+      "centroidDistancePx": 1.51,
+      "maximumBoundsDeltaPx": 9
     },
     {
       "from": 16,
       "to": 17,
       "fromSlug": "splat-hold",
       "toSlug": "stunned-blink",
-      "silhouetteIou": 0.9625,
-      "changedUnionRatio": 0.0375,
-      "centroidDistancePx": 0.46,
-      "maximumBoundsDeltaPx": 1
+      "silhouetteIou": 0.9551,
+      "changedUnionRatio": 0.0449,
+      "centroidDistancePx": 1.25,
+      "maximumBoundsDeltaPx": 3
     },
     {
       "from": 17,
       "to": 18,
       "fromSlug": "stunned-blink",
       "toSlug": "stunned-to-annoyed",
-      "silhouetteIou": 0.9209,
-      "changedUnionRatio": 0.0791,
-      "centroidDistancePx": 5.35,
-      "maximumBoundsDeltaPx": 3
+      "silhouetteIou": 0.9148,
+      "changedUnionRatio": 0.0852,
+      "centroidDistancePx": 2.45,
+      "maximumBoundsDeltaPx": 4
     },
     {
       "from": 18,
       "to": 19,
       "fromSlug": "stunned-to-annoyed",
       "toSlug": "annoyed-anticipation",
-      "silhouetteIou": 0.9063,
-      "changedUnionRatio": 0.0937,
-      "centroidDistancePx": 2.94,
-      "maximumBoundsDeltaPx": 2
+      "silhouetteIou": 0.8968,
+      "changedUnionRatio": 0.1032,
+      "centroidDistancePx": 2.91,
+      "maximumBoundsDeltaPx": 5
     },
     {
       "from": 19,
       "to": 20,
       "fromSlug": "annoyed-anticipation",
       "toSlug": "arm-rise-half",
-      "silhouetteIou": 0.8598,
-      "changedUnionRatio": 0.1402,
-      "centroidDistancePx": 5.95,
-      "maximumBoundsDeltaPx": 3
+      "silhouetteIou": 0.8515,
+      "changedUnionRatio": 0.1485,
+      "centroidDistancePx": 3.69,
+      "maximumBoundsDeltaPx": 6
     },
     {
       "from": 20,
       "to": 21,
       "fromSlug": "arm-rise-half",
       "toSlug": "hand-rise",
-      "silhouetteIou": 0.9373,
-      "changedUnionRatio": 0.0627,
-      "centroidDistancePx": 4.37,
-      "maximumBoundsDeltaPx": 4
+      "silhouetteIou": 0.9344,
+      "changedUnionRatio": 0.0656,
+      "centroidDistancePx": 1.05,
+      "maximumBoundsDeltaPx": 5
     },
     {
       "from": 21,
       "to": 22,
       "fromSlug": "hand-rise",
       "toSlug": "reach-close",
-      "silhouetteIou": 0.8209,
-      "changedUnionRatio": 0.1791,
-      "centroidDistancePx": 5.45,
-      "maximumBoundsDeltaPx": 3
+      "silhouetteIou": 0.8227,
+      "changedUnionRatio": 0.1773,
+      "centroidDistancePx": 1.53,
+      "maximumBoundsDeltaPx": 7
     },
     {
       "from": 22,
       "to": 23,
       "fromSlug": "reach-close",
       "toSlug": "gum-contact",
-      "silhouetteIou": 0.9451,
-      "changedUnionRatio": 0.0549,
-      "centroidDistancePx": 4.59,
-      "maximumBoundsDeltaPx": 3
+      "silhouetteIou": 0.9391,
+      "changedUnionRatio": 0.0609,
+      "centroidDistancePx": 0.9,
+      "maximumBoundsDeltaPx": 6
     },
     {
       "from": 23,
       "to": 24,
       "fromSlug": "gum-contact",
       "toSlug": "peel-start",
-      "silhouetteIou": 0.6458,
-      "changedUnionRatio": 0.3542,
-      "centroidDistancePx": 13.32,
-      "maximumBoundsDeltaPx": 17
+      "silhouetteIou": 0.8924,
+      "changedUnionRatio": 0.1076,
+      "centroidDistancePx": 4.32,
+      "maximumBoundsDeltaPx": 31
     },
     {
       "from": 24,
       "to": 25,
       "fromSlug": "peel-start",
       "toSlug": "gum-peel",
-      "silhouetteIou": 0.8788,
-      "changedUnionRatio": 0.1212,
-      "centroidDistancePx": 5.34,
-      "maximumBoundsDeltaPx": 3
+      "silhouetteIou": 0.928,
+      "changedUnionRatio": 0.072,
+      "centroidDistancePx": 1.08,
+      "maximumBoundsDeltaPx": 6
     },
     {
       "from": 25,
       "to": 26,
       "fromSlug": "gum-peel",
       "toSlug": "stretch-mid",
-      "silhouetteIou": 0.5545,
-      "changedUnionRatio": 0.4455,
-      "centroidDistancePx": 19.27,
-      "maximumBoundsDeltaPx": 21
+      "silhouetteIou": 0.8699,
+      "changedUnionRatio": 0.1301,
+      "centroidDistancePx": 5.88,
+      "maximumBoundsDeltaPx": 42
     },
     {
       "from": 26,
       "to": 27,
       "fromSlug": "stretch-mid",
       "toSlug": "gum-stretch",
-      "silhouetteIou": 0.869,
-      "changedUnionRatio": 0.131,
-      "centroidDistancePx": 3.72,
-      "maximumBoundsDeltaPx": 4
+      "silhouetteIou": 0.8963,
+      "changedUnionRatio": 0.1037,
+      "centroidDistancePx": 2.53,
+      "maximumBoundsDeltaPx": 5
     },
     {
       "from": 27,
       "to": 28,
       "fromSlug": "gum-stretch",
       "toSlug": "detach-recoil",
-      "silhouetteIou": 0.6641,
-      "changedUnionRatio": 0.3359,
-      "centroidDistancePx": 10.97,
-      "maximumBoundsDeltaPx": 14
+      "silhouetteIou": 0.8601,
+      "changedUnionRatio": 0.1399,
+      "centroidDistancePx": 6.64,
+      "maximumBoundsDeltaPx": 30
     },
     {
       "from": 28,
       "to": 29,
       "fromSlug": "detach-recoil",
       "toSlug": "gum-free",
-      "silhouetteIou": 0.7378,
-      "changedUnionRatio": 0.2622,
-      "centroidDistancePx": 10.46,
-      "maximumBoundsDeltaPx": 13
+      "silhouetteIou": 0.9132,
+      "changedUnionRatio": 0.0868,
+      "centroidDistancePx": 2.04,
+      "maximumBoundsDeltaPx": 23
     },
     {
       "from": 29,
       "to": 30,
       "fromSlug": "gum-free",
       "toSlug": "inspect-to-eye-roll",
-      "silhouetteIou": 0.9044,
-      "changedUnionRatio": 0.0956,
-      "centroidDistancePx": 5.04,
-      "maximumBoundsDeltaPx": 3
+      "silhouetteIou": 0.9126,
+      "changedUnionRatio": 0.0874,
+      "centroidDistancePx": 2.02,
+      "maximumBoundsDeltaPx": 2
     },
     {
       "from": 30,
       "to": 31,
       "fromSlug": "inspect-to-eye-roll",
       "toSlug": "bored-eye-roll",
-      "silhouetteIou": 0.8544,
-      "changedUnionRatio": 0.1456,
-      "centroidDistancePx": 10.81,
-      "maximumBoundsDeltaPx": 6
+      "silhouetteIou": 0.8669,
+      "changedUnionRatio": 0.1331,
+      "centroidDistancePx": 6.11,
+      "maximumBoundsDeltaPx": 5
     },
     {
       "from": 31,
       "to": 32,
       "fromSlug": "bored-eye-roll",
       "toSlug": "gum-flick",
-      "silhouetteIou": 0.7127,
-      "changedUnionRatio": 0.2873,
-      "centroidDistancePx": 12.14,
-      "maximumBoundsDeltaPx": 12
+      "silhouetteIou": 0.8577,
+      "changedUnionRatio": 0.1423,
+      "centroidDistancePx": 6.45,
+      "maximumBoundsDeltaPx": 19
     },
     {
       "from": 32,
       "to": 33,
       "fromSlug": "gum-flick",
       "toSlug": "arm-lower",
-      "silhouetteIou": 0.6723,
-      "changedUnionRatio": 0.3277,
-      "centroidDistancePx": 10.1,
-      "maximumBoundsDeltaPx": 14
+      "silhouetteIou": 0.8773,
+      "changedUnionRatio": 0.1227,
+      "centroidDistancePx": 6.53,
+      "maximumBoundsDeltaPx": 26
     },
     {
       "from": 33,
       "to": 34,
       "fromSlug": "arm-lower",
       "toSlug": "settle",
-      "silhouetteIou": 0.748,
-      "changedUnionRatio": 0.252,
-      "centroidDistancePx": 11.92,
-      "maximumBoundsDeltaPx": 9
+      "silhouetteIou": 0.8836,
+      "changedUnionRatio": 0.1164,
+      "centroidDistancePx": 2.25,
+      "maximumBoundsDeltaPx": 14
     }
   ]
 }

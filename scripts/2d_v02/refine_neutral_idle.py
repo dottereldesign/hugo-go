@@ -18,6 +18,8 @@ import cv2
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
+from neutral_registration import detect_torso_root, stabilize
+
 
 ROOT = Path(__file__).resolve().parents[2]
 ANIMATION_ROOT = ROOT / "src" / "assets" / "game" / "2d-v02" / "animations"
@@ -202,7 +204,7 @@ def make_contact_sheet(frames: list[dict[str, object]]) -> Path:
         )
     qa_root = ANIMATION_ROOT / "qa"
     qa_root.mkdir(parents=True, exist_ok=True)
-    path = qa_root / "hugo-neutral-idle-contact-sheet.jpg"
+    path = qa_root / "hugo-neutral-idle-contact-sheet-stabilized.jpg"
     sheet.save(path, quality=93, optimize=True)
     return path
 
@@ -222,6 +224,7 @@ def main() -> None:
         ).convert("RGBA")
         for board_id in ("a", "b", "c")
     }
+    target_root = detect_torso_root(old_images[1])
 
     FRAME_ROOT.mkdir(parents=True, exist_ok=True)
     for stale in FRAME_ROOT.glob("*.png"):
@@ -269,6 +272,20 @@ def main() -> None:
         # skin/lip highlights outside that story section completely untouched.
         if 10 <= index <= 32:
             image = recolour_gum(image)
+        if index == 1:
+            root_registration = {
+                "beforeRootX": round(target_root.x, 3),
+                "beforeRootY": round(target_root.y, 3),
+                "beforeTorsoHeight": round(target_root.height, 3),
+                "translationX": 0,
+                "translationY": 0,
+                "uniformScale": 1,
+                "afterRootX": round(target_root.x, 3),
+                "afterRootY": round(target_root.y, 3),
+                "afterTorsoHeight": round(target_root.height, 3),
+            }
+        else:
+            image, root_registration = stabilize(image, target_root)
         filename = f"hugo-neutral-idle-{index:02d}-{slug}.png"
         path = FRAME_ROOT / filename
         image.save(path, optimize=True)
@@ -283,6 +300,7 @@ def main() -> None:
                 "durationTicks": duration_ticks,
                 "durationSeconds": round(duration_ticks / BASE_FPS, 4),
                 "source": source_info,
+                "rootRegistration": root_registration,
                 "output": {
                     "width": CANVAS_SIZE,
                     "height": CANVAS_SIZE,
@@ -370,10 +388,21 @@ def main() -> None:
             ).relative_to(ROOT).as_posix(),
         },
         "registration": {
-            "method": "preserved-original-registration-plus-fixed-inbetween-registration",
+            "method": "cream-chest-panel-root-with-uniform-scale-and-fixed-body-position",
             "outputCanvas": [CANVAS_SIZE, CANVAS_SIZE],
             "inbetweenFigureHeight": FIGURE_HEIGHT,
             "groundBaseline": GROUND_BASELINE,
+            "targetFrame": 1,
+            "targetRoot": {
+                "x": round(target_root.x, 3),
+                "y": round(target_root.y, 3),
+                "torsoHeight": round(target_root.height, 3),
+            },
+            "maximumScaleChange": 0.04,
+            "reason": (
+                "Full-silhouette centering counter-slid the torso when limbs or "
+                "gum extended. The cream chest panels remain the stable body root."
+            ),
         },
         "frames": frames,
         "qaContactSheet": contact_sheet.relative_to(ROOT).as_posix(),

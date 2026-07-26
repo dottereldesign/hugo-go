@@ -1,0 +1,357 @@
+{
+  "schemaVersion": 1,
+  "animation": "neutral-idle",
+  "label": "after",
+  "method": "cream-chest-panel-root-opacity-overlay",
+  "target": {
+    "frame": 1,
+    "rootX": 319.635,
+    "rootY": 288.453,
+    "torsoHeight": 96.0
+  },
+  "maximumAbsoluteRequiredTranslationX": 0.164,
+  "maximumAbsoluteRequiredTranslationY": 0.438,
+  "maximumAbsoluteScaleDelta": 0.010526,
+  "frames": [
+    {
+      "frame": 1,
+      "slug": "neutral-front",
+      "rootX": 319.635,
+      "rootY": 288.453,
+      "torsoHeight": 96.0,
+      "requiredTranslationX": 0.0,
+      "requiredTranslationY": 0.0,
+      "requiredUniformScale": 1.0
+    },
+    {
+      "frame": 2,
+      "slug": "eyelids-relax",
+      "rootX": 319.577,
+      "rootY": 288.584,
+      "torsoHeight": 95.0,
+      "requiredTranslationX": 0.057,
+      "requiredTranslationY": -0.131,
+      "requiredUniformScale": 1.010526
+    },
+    {
+      "frame": 3,
+      "slug": "weight-shift",
+      "rootX": 319.643,
+      "rootY": 288.154,
+      "torsoHeight": 96.0,
+      "requiredTranslationX": -0.008,
+      "requiredTranslationY": 0.298,
+      "requiredUniformScale": 1.0
+    },
+    {
+      "frame": 4,
+      "slug": "weight-to-toe-mid",
+      "rootX": 319.708,
+      "rootY": 288.439,
+      "torsoHeight": 95.0,
+      "requiredTranslationX": -0.074,
+      "requiredTranslationY": 0.014,
+      "requiredUniformScale": 1.010526
+    },
+    {
+      "frame": 5,
+      "slug": "toe-tap-anticipation",
+      "rootX": 319.653,
+      "rootY": 288.685,
+      "torsoHeight": 96.0,
+      "requiredTranslationX": -0.018,
+      "requiredTranslationY": -0.232,
+      "requiredUniformScale": 1.0
+    },
+    {
+      "frame": 6,
+      "slug": "toe-tap-contact",
+      "rootX": 319.702,
+      "rootY": 288.64,
+      "torsoHeight": 96.0,
+      "requiredTranslationX": -0.067,
+      "requiredTranslationY": -0.187,
+      "requiredUniformScale": 1.0
+    },
+    {
+      "frame": 7,
+      "slug": "toe-tap-rise",
+      "rootX": 319.679,
+      "rootY": 288.469,
+      "torsoHeight": 96.0,
+      "requiredTranslationX": -0.044,
+      "requiredTranslationY": -0.016,
+      "requiredUniformScale": 1.0
+    },
+    {
+      "frame": 8,
+      "slug": "toe-settle",
+      "rootX": 319.722,
+      "rootY": 288.615,
+      "torsoHeight": 96.0,
+      "requiredTranslationX": -0.088,
+      "requiredTranslationY": -0.162,
+      "requiredUniformScale": 1.0
+    },
+    {
+      "frame": 9,
+      "slug": "gum-chew",
+      "rootX": 319.572,
+      "rootY": 288.697,
+      "torsoHeight": 96.0,
+      "requiredTranslationX": 0.062,
+      "requiredTranslationY": -0.244,
+      "requiredUniformScale": 1.0
+    },
+    {
+      "frame": 10,
+      "slug": "bubble-tiny",
+      "rootX": 319.659,
+      "rootY": 288.484,
+      "torsoHeight": 96.0,
+      "requiredTranslationX": -0.025,
+      "requiredTranslationY": -0.032,
+      "requiredUniformScale": 1.0
+    },
+    {
+      "frame": 11,
+      "slug": "bubble-small",
+      "rootX": 319.51,
+      "rootY": 288.38,
+      "torsoHeight": 96.0,
+      "requiredTranslationX": 0.124,
+      "requiredTranslationY": 0.072,
+      "requiredUniformScale": 1.0
+    },
+    {
+      "frame": 12,
+      "slug": "bubble-medium",
+      "rootX": 319.683,
+      "rootY": 288.474,
+      "torsoHeight": 96.0,
+      "requiredTranslationX": -0.048,
+      "requiredTranslationY": -0.022,
+      "requiredUniformScale": 1.0
+    },
+    {
+      "frame": 13,
+      "slug": "bubble-medium-large",
+      "rootX": 319.69,
+      "rootY": 288.566,
+      "torsoHeight": 97.0,
+      "requiredTranslationX": -0.055,
+      "requiredTranslationY": -0.113,
+      "requiredUniformScale": 0.989691
+    },
+    {
+      "frame": 14,
+      "slug": "bubble-large",
+      "rootX": 319.673,
+      "rootY": 288.63,
+      "torsoHeight": 96.0,
+      "requiredTranslationX": -0.039,
+      "requiredTranslationY": -0.177,
+      "requiredUniformScale": 1.0
+    },
+    {
+      "frame": 15,
+      "slug": "gum-splat",
+      "rootX": 319.642,
+      "rootY": 288.58,
+      "torsoHeight": 96.0,
+      "requiredTranslationX": -0.008,
+      "requiredTranslationY": -0.128,
+      "requiredUniformScale": 1.0
+    },
+    {
+      "frame": 16,
+      "slug": "splat-hold",
+      "rootX": 319.671,
+      "rootY": 288.446,
+      "torsoHeight": 97.0,
+      "requiredTranslationX": -0.037,
+      "requiredTranslationY": 0.006,
+      "requiredUniformScale": 0.989691
+    },
+    {
+      "frame": 17,
+      "slug": "stunned-blink",
+      "rootX": 319.659,
+      "rootY": 288.541,
+      "torsoHeight": 96.0,
+      "requiredTranslationX": -0.024,
+      "requiredTranslationY": -0.088,
+      "requiredUniformScale": 1.0
+    },
+    {
+      "frame": 18,
+      "slug": "stunned-to-annoyed",
+      "rootX": 319.659,
+      "rootY": 288.426,
+      "torsoHeight": 96.0,
+      "requiredTranslationX": -0.024,
+      "requiredTranslationY": 0.026,
+      "requiredUniformScale": 1.0
+    },
+    {
+      "frame": 19,
+      "slug": "annoyed-anticipation",
+      "rootX": 319.655,
+      "rootY": 288.38,
+      "torsoHeight": 95.0,
+      "requiredTranslationX": -0.02,
+      "requiredTranslationY": 0.073,
+      "requiredUniformScale": 1.010526
+    },
+    {
+      "frame": 20,
+      "slug": "arm-rise-half",
+      "rootX": 319.665,
+      "rootY": 288.558,
+      "torsoHeight": 96.0,
+      "requiredTranslationX": -0.031,
+      "requiredTranslationY": -0.106,
+      "requiredUniformScale": 1.0
+    },
+    {
+      "frame": 21,
+      "slug": "hand-rise",
+      "rootX": 319.799,
+      "rootY": 288.453,
+      "torsoHeight": 97.0,
+      "requiredTranslationX": -0.164,
+      "requiredTranslationY": -0.0,
+      "requiredUniformScale": 0.989691
+    },
+    {
+      "frame": 22,
+      "slug": "reach-close",
+      "rootX": 319.609,
+      "rootY": 288.474,
+      "torsoHeight": 95.0,
+      "requiredTranslationX": 0.026,
+      "requiredTranslationY": -0.021,
+      "requiredUniformScale": 1.010526
+    },
+    {
+      "frame": 23,
+      "slug": "gum-contact",
+      "rootX": 319.72,
+      "rootY": 288.551,
+      "torsoHeight": 96.0,
+      "requiredTranslationX": -0.085,
+      "requiredTranslationY": -0.098,
+      "requiredUniformScale": 1.0
+    },
+    {
+      "frame": 24,
+      "slug": "peel-start",
+      "rootX": 319.684,
+      "rootY": 288.391,
+      "torsoHeight": 96.0,
+      "requiredTranslationX": -0.049,
+      "requiredTranslationY": 0.061,
+      "requiredUniformScale": 1.0
+    },
+    {
+      "frame": 25,
+      "slug": "gum-peel",
+      "rootX": 319.694,
+      "rootY": 288.826,
+      "torsoHeight": 96.0,
+      "requiredTranslationX": -0.059,
+      "requiredTranslationY": -0.374,
+      "requiredUniformScale": 1.0
+    },
+    {
+      "frame": 26,
+      "slug": "stretch-mid",
+      "rootX": 319.734,
+      "rootY": 288.365,
+      "torsoHeight": 97.0,
+      "requiredTranslationX": -0.099,
+      "requiredTranslationY": 0.087,
+      "requiredUniformScale": 0.989691
+    },
+    {
+      "frame": 27,
+      "slug": "gum-stretch",
+      "rootX": 319.667,
+      "rootY": 288.525,
+      "torsoHeight": 96.0,
+      "requiredTranslationX": -0.032,
+      "requiredTranslationY": -0.072,
+      "requiredUniformScale": 1.0
+    },
+    {
+      "frame": 28,
+      "slug": "detach-recoil",
+      "rootX": 319.626,
+      "rootY": 288.78,
+      "torsoHeight": 97.0,
+      "requiredTranslationX": 0.008,
+      "requiredTranslationY": -0.327,
+      "requiredUniformScale": 0.989691
+    },
+    {
+      "frame": 29,
+      "slug": "gum-free",
+      "rootX": 319.687,
+      "rootY": 288.727,
+      "torsoHeight": 95.0,
+      "requiredTranslationX": -0.053,
+      "requiredTranslationY": -0.274,
+      "requiredUniformScale": 1.010526
+    },
+    {
+      "frame": 30,
+      "slug": "inspect-to-eye-roll",
+      "rootX": 319.66,
+      "rootY": 288.89,
+      "torsoHeight": 97.0,
+      "requiredTranslationX": -0.025,
+      "requiredTranslationY": -0.438,
+      "requiredUniformScale": 0.989691
+    },
+    {
+      "frame": 31,
+      "slug": "bored-eye-roll",
+      "rootX": 319.591,
+      "rootY": 288.471,
+      "torsoHeight": 96.0,
+      "requiredTranslationX": 0.044,
+      "requiredTranslationY": -0.018,
+      "requiredUniformScale": 1.0
+    },
+    {
+      "frame": 32,
+      "slug": "gum-flick",
+      "rootX": 319.645,
+      "rootY": 288.471,
+      "torsoHeight": 96.0,
+      "requiredTranslationX": -0.01,
+      "requiredTranslationY": -0.018,
+      "requiredUniformScale": 1.0
+    },
+    {
+      "frame": 33,
+      "slug": "arm-lower",
+      "rootX": 319.626,
+      "rootY": 288.42,
+      "torsoHeight": 96.0,
+      "requiredTranslationX": 0.008,
+      "requiredTranslationY": 0.032,
+      "requiredUniformScale": 1.0
+    },
+    {
+      "frame": 34,
+      "slug": "settle",
+      "rootX": 319.633,
+      "rootY": 288.34,
+      "torsoHeight": 96.0,
+      "requiredTranslationX": 0.002,
+      "requiredTranslationY": 0.113,
+      "requiredUniformScale": 1.0
+    }
+  ]
+}

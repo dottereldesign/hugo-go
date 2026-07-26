@@ -48,13 +48,21 @@
     "continuityAudit": "src/assets/game/2d-v02/animations/qa/hugo-neutral-idle-adjacent-deltas.json"
   },
   "registration": {
-    "method": "preserved-original-registration-plus-fixed-inbetween-registration",
+    "method": "cream-chest-panel-root-with-uniform-scale-and-fixed-body-position",
     "outputCanvas": [
       640,
       640
     ],
     "inbetweenFigureHeight": 440,
-    "groundBaseline": 540
+    "groundBaseline": 540,
+    "targetFrame": 1,
+    "targetRoot": {
+      "x": 319.635,
+      "y": 288.453,
+      "torsoHeight": 96.0
+    },
+    "maximumScaleChange": 0.04,
+    "reason": "Full-silhouette centering counter-slid the torso when limbs or gum extended. The cream chest panels remain the stable body root."
   },
   "frames": [
     {
@@ -71,6 +79,17 @@
         "file": "src/assets/game/2d-v02/sunrise/poses/hugo-2d-sunrise-01-neutral-front.png",
         "originalFrame": 1,
         "refinement": "preserved-approved-drawing"
+      },
+      "rootRegistration": {
+        "beforeRootX": 319.635,
+        "beforeRootY": 288.453,
+        "beforeTorsoHeight": 96.0,
+        "translationX": 0,
+        "translationY": 0,
+        "uniformScale": 1,
+        "afterRootX": 319.635,
+        "afterRootY": 288.453,
+        "afterTorsoHeight": 96.0
       },
       "output": {
         "width": 640,
@@ -102,16 +121,27 @@
         "originalFrame": 2,
         "refinement": "preserved-approved-drawing"
       },
+      "rootRegistration": {
+        "beforeRootX": 320.507,
+        "beforeRootY": 287.869,
+        "beforeTorsoHeight": 96.0,
+        "translationX": -0.872,
+        "translationY": 0.583,
+        "uniformScale": 1.0,
+        "afterRootX": 319.577,
+        "afterRootY": 288.584,
+        "afterTorsoHeight": 95.0
+      },
       "output": {
         "width": 640,
         "height": 640,
         "alphaBounds": [
-          234,
-          100,
-          406,
-          540
+          231,
+          98,
+          408,
+          543
         ],
-        "sha256": "bbf24268e4886c3c6f7ee74b8c14eba1ae10f354343dd62eefe0d844465c388f"
+        "sha256": "205bfad20e44e979160ec5673a9b75026c71c752a4727510323c424895b91746"
       }
     },
     {
@@ -132,16 +162,27 @@
         "originalFrame": 3,
         "refinement": "preserved-approved-drawing"
       },
+      "rootRegistration": {
+        "beforeRootX": 318.144,
+        "beforeRootY": 287.956,
+        "beforeTorsoHeight": 95.0,
+        "translationX": 1.491,
+        "translationY": 0.496,
+        "uniformScale": 1.010526,
+        "afterRootX": 319.643,
+        "afterRootY": 288.154,
+        "afterTorsoHeight": 96.0
+      },
       "output": {
         "width": 640,
         "height": 640,
         "alphaBounds": [
-          232,
-          99,
-          407,
-          540
+          230,
+          95,
+          412,
+          546
         ],
-        "sha256": "46496b256adeeec81cc7810ae66b1724d289981a1212c2c80f5febea7a2ca46b"
+        "sha256": "f18f4ec9fa1dc9a773752fa793d813c6809447883da99f4965111712d073bca6"
       }
     },
     {
@@ -164,16 +205,27 @@
         ],
         "interpolation": "50% between weight shift and toe-lift anticipation"
       },
+      "rootRegistration": {
+        "beforeRootX": 317.053,
+        "beforeRootY": 284.377,
+        "beforeTorsoHeight": 97.0,
+        "translationX": 2.582,
+        "translationY": 4.076,
+        "uniformScale": 0.989691,
+        "afterRootX": 319.708,
+        "afterRootY": 288.439,
+        "afterTorsoHeight": 95.0
+      },
       "output": {
         "width": 640,
         "height": 640,
         "alphaBounds": [
-          231,
-          100,
-          409,
-          540
+          233,
+          106,
+          413,
+          544
         ],
-        "sha256": "2e0beaf0cc4da4d0c8454833946af20c9f3d975d358fdc1fd66734012cdaca6b"
+        "sha256": "7ee5e4c04bd9ea77971cdb3f996ca1f100d754a24c3e08e22ada431d4bf0beca"
       }
     },
     {
@@ -194,16 +246,27 @@
         "originalFrame": 4,
         "refinement": "preserved-approved-drawing"
       },
+      "rootRegistration": {
+        "beforeRootX": 316.398,
+        "beforeRootY": 288.807,
+        "beforeTorsoHeight": 96.0,
+        "translationX": 3.237,
+        "translationY": -0.354,
+        "uniformScale": 1.0,
+        "afterRootX": 319.653,
+        "afterRootY": 288.685,
+        "afterTorsoHeight": 96.0
+      },
       "output": {
         "width": 640,
         "height": 640,
         "alphaBounds": [
-          230,
-          105,
-          410,
-          540
+          231,
+          102,
+          416,
+          542
         ],
-        "sha256": "5a2a96546e6d5351ce602e57a781f9f59b0e870a811e6ce62ee51e8826d99567"
+        "sha256": "5c3e7dc9bc197bb2f5c369c0900232378de04deab7a7e7bcf9cbf14cc8f206da"
       }
     },
     {
@@ -224,16 +287,27 @@
         "originalFrame": 5,
         "refinement": "preserved-approved-drawing"
       },
+      "rootRegistration": {
+        "beforeRootX": 321.078,
+        "beforeRootY": 288.491,
+        "beforeTorsoHeight": 94.0,
+        "translationX": -1.443,
+        "translationY": -0.039,
+        "uniformScale": 1.021277,
+        "afterRootX": 319.702,
+        "afterRootY": 288.64,
+        "afterTorsoHeight": 96.0
+      },
       "output": {
         "width": 640,
         "height": 640,
         "alphaBounds": [
-          234,
-          105,
-          405,
-          540
+          229,
+          101,
+          408,
+          548
         ],
-        "sha256": "0459cd94b8c24d492eefee7a77f111f37b96056b78aa00201398580fd38d04bf"
+        "sha256": "1adebc11afa48ed451af353342ad1420b9ee3e6e1826d367dc5fa92378019b94"
       }
     },
     {
@@ -254,16 +328,27 @@
         "originalFrame": 6,
         "refinement": "preserved-approved-drawing"
       },
+      "rootRegistration": {
+        "beforeRootX": 320.729,
+        "beforeRootY": 287.754,
+        "beforeTorsoHeight": 95.0,
+        "translationX": -1.094,
+        "translationY": 0.698,
+        "uniformScale": 1.010526,
+        "afterRootX": 319.679,
+        "afterRootY": 288.469,
+        "afterTorsoHeight": 96.0
+      },
       "output": {
         "width": 640,
         "height": 640,
         "alphaBounds": [
-          234,
-          101,
-          405,
-          540
+          231,
+          97,
+          406,
+          545
         ],
-        "sha256": "9b25e676289c95e0a085874beb448cd8da67f755b03b3a50b30bf40ebbfa4d6b"
+        "sha256": "9faa74a0de4c5294aadfc75666feaf5ca3810a1184e0f3cf637a0d10331ca9df"
       }
     },
     {
@@ -286,16 +371,27 @@
         ],
         "interpolation": "50% between raised toe and both shoes grounded"
       },
+      "rootRegistration": {
+        "beforeRootX": 319.438,
+        "beforeRootY": 284.272,
+        "beforeTorsoHeight": 96.0,
+        "translationX": 0.197,
+        "translationY": 4.18,
+        "uniformScale": 1.0,
+        "afterRootX": 319.722,
+        "afterRootY": 288.615,
+        "afterTorsoHeight": 96.0
+      },
       "output": {
         "width": 640,
         "height": 640,
         "alphaBounds": [
-          233,
-          100,
-          407,
-          540
+          232,
+          102,
+          410,
+          547
         ],
-        "sha256": "a8dc29631a6cd338b4224cc7b10bee7bcfc1d9c50758a6c2743729bb3c73598f"
+        "sha256": "2756f36004e893e0a3400767529ac1e873b2d5562a047d6cb79f348fe4160f45"
       }
     },
     {
@@ -316,16 +412,27 @@
         "originalFrame": 7,
         "refinement": "preserved-approved-drawing"
       },
+      "rootRegistration": {
+        "beforeRootX": 319.162,
+        "beforeRootY": 287.541,
+        "beforeTorsoHeight": 96.0,
+        "translationX": 0.472,
+        "translationY": 0.912,
+        "uniformScale": 1.0,
+        "afterRootX": 319.572,
+        "afterRootY": 288.697,
+        "afterTorsoHeight": 96.0
+      },
       "output": {
         "width": 640,
         "height": 640,
         "alphaBounds": [
-          233,
-          101,
-          406,
-          540
+          231,
+          99,
+          409,
+          543
         ],
-        "sha256": "634b64f58e5350ef63268ac2f3c50df734ad65c0f3f4cf5c71a22cacca48f4d8"
+        "sha256": "453a3e84435de8a224a9c1248b3e6a4b1ae99a18f1a227bf01695bd6cabcb57b"
       }
     },
     {
@@ -346,16 +453,27 @@
         "originalFrame": 8,
         "refinement": "preserved-approved-drawing"
       },
+      "rootRegistration": {
+        "beforeRootX": 318.69,
+        "beforeRootY": 287.982,
+        "beforeTorsoHeight": 95.0,
+        "translationX": 0.944,
+        "translationY": 0.471,
+        "uniformScale": 1.010526,
+        "afterRootX": 319.659,
+        "afterRootY": 288.484,
+        "afterTorsoHeight": 96.0
+      },
       "output": {
         "width": 640,
         "height": 640,
         "alphaBounds": [
-          233,
-          101,
-          406,
-          540
+          231,
+          97,
+          410,
+          546
         ],
-        "sha256": "bcc35f0f7793daed6bec63ed01757e2f12db7254f3d0d2b3870dcabc35765ea5"
+        "sha256": "6d52c572b69d552e3e9b6f74edec161c7d1952b3c1e6efffb3caa8612e8c1457"
       }
     },
     {
@@ -376,16 +494,27 @@
         "originalFrame": 9,
         "refinement": "preserved-approved-drawing"
       },
+      "rootRegistration": {
+        "beforeRootX": 319.234,
+        "beforeRootY": 293.658,
+        "beforeTorsoHeight": 94.0,
+        "translationX": 0.4,
+        "translationY": -5.206,
+        "uniformScale": 1.021277,
+        "afterRootX": 319.51,
+        "afterRootY": 288.38,
+        "afterTorsoHeight": 96.0
+      },
       "output": {
         "width": 640,
         "height": 640,
         "alphaBounds": [
-          231,
-          109,
-          408,
-          540
+          227,
+          97,
+          413,
+          543
         ],
-        "sha256": "2259fdb77c24f7121968b825d925b51308a5ec2728b9316102295215a6809dcb"
+        "sha256": "d289ced9a9e5938b695cf89d8c4140b297779408dfb95dab84dc2be6da7dd7c3"
       }
     },
     {
@@ -406,16 +535,27 @@
         "originalFrame": 10,
         "refinement": "preserved-approved-drawing"
       },
+      "rootRegistration": {
+        "beforeRootX": 317.778,
+        "beforeRootY": 293.414,
+        "beforeTorsoHeight": 94.0,
+        "translationX": 1.856,
+        "translationY": -4.961,
+        "uniformScale": 1.021277,
+        "afterRootX": 319.683,
+        "afterRootY": 288.474,
+        "afterTorsoHeight": 96.0
+      },
       "output": {
         "width": 640,
         "height": 640,
         "alphaBounds": [
           231,
-          108,
-          408,
-          540
+          97,
+          414,
+          543
         ],
-        "sha256": "1a62291fc2a1fd50619d715ee725dc4d5ff86a17de2e739bfea83ca2dbc13fb3"
+        "sha256": "1446e28c43c227677d363c0cf702e128b3f382e4a5d3116c4841fbd597ac7cb1"
       }
     },
     {
@@ -438,16 +578,27 @@
         ],
         "interpolation": "50% bubble size between medium and large"
       },
+      "rootRegistration": {
+        "beforeRootX": 317.437,
+        "beforeRootY": 284.535,
+        "beforeTorsoHeight": 97.0,
+        "translationX": 2.198,
+        "translationY": 3.918,
+        "uniformScale": 0.989691,
+        "afterRootX": 319.69,
+        "afterRootY": 288.566,
+        "afterTorsoHeight": 97.0
+      },
       "output": {
         "width": 640,
         "height": 640,
         "alphaBounds": [
-          230,
-          100,
-          409,
-          540
+          231,
+          103,
+          413,
+          544
         ],
-        "sha256": "257885f7c52ccaec2d6f2c80bf3929e7f3a7ae3a7881dfe86e91a1cee3fc180b"
+        "sha256": "e2522376cf8b7abb79514439e4128a5940aeb5be318375b05c6f68b4dde6e210"
       }
     },
     {
@@ -468,16 +619,27 @@
         "originalFrame": 11,
         "refinement": "preserved-approved-drawing"
       },
+      "rootRegistration": {
+        "beforeRootX": 314.385,
+        "beforeRootY": 292.505,
+        "beforeTorsoHeight": 95.0,
+        "translationX": 5.249,
+        "translationY": -4.052,
+        "uniformScale": 1.010526,
+        "afterRootX": 319.673,
+        "afterRootY": 288.63,
+        "afterTorsoHeight": 96.0
+      },
       "output": {
         "width": 640,
         "height": 640,
         "alphaBounds": [
-          229,
-          116,
-          410,
-          540
+          232,
+          108,
+          419,
+          541
         ],
-        "sha256": "2b1f695287c8fbccb5f76ea68ac6682cec73ac8c59b1fc519d66f7750463e335"
+        "sha256": "8dbe90b547b0c9f1854b7d53049fab229af5c120d053f27a47d2e14f8a330c23"
       }
     },
     {
@@ -498,16 +660,27 @@
         "originalFrame": 12,
         "refinement": "preserved-approved-drawing"
       },
+      "rootRegistration": {
+        "beforeRootX": 318.741,
+        "beforeRootY": 292.773,
+        "beforeTorsoHeight": 95.0,
+        "translationX": 0.894,
+        "translationY": -4.321,
+        "uniformScale": 1.010526,
+        "afterRootX": 319.642,
+        "afterRootY": 288.58,
+        "afterTorsoHeight": 96.0
+      },
       "output": {
         "width": 640,
         "height": 640,
         "alphaBounds": [
-          229,
-          105,
-          410,
-          540
+          227,
+          96,
+          413,
+          541
         ],
-        "sha256": "61ec6dca97a07829cc67e1dbbfee10d107fecae84a5ad4c9bfb029764a35abb4"
+        "sha256": "cd80edac80d336059a2734d410d0c2319015712e7d6b4adafdb139747b31e6ef"
       }
     },
     {
@@ -528,16 +701,27 @@
         "originalFrame": 13,
         "refinement": "preserved-approved-drawing"
       },
+      "rootRegistration": {
+        "beforeRootX": 319.171,
+        "beforeRootY": 288.69,
+        "beforeTorsoHeight": 93.0,
+        "translationX": 0.464,
+        "translationY": -0.237,
+        "uniformScale": 1.032258,
+        "afterRootX": 319.671,
+        "afterRootY": 288.446,
+        "afterTorsoHeight": 97.0
+      },
       "output": {
         "width": 640,
         "height": 640,
         "alphaBounds": [
-          234,
-          104,
-          406,
-          540
+          229,
+          95,
+          412,
+          549
         ],
-        "sha256": "9c317ac8a26844c3938e5bb73b362020e53baf63d620dd653e97973de88b7287"
+        "sha256": "09ee5e8d3cd6fa5f4309af4869ac7182a1c81ccf0f8c7500fbc44afe2f9fa77a"
       }
     },
     {
@@ -558,16 +742,27 @@
         "originalFrame": 14,
         "refinement": "preserved-approved-drawing"
       },
+      "rootRegistration": {
+        "beforeRootX": 319.687,
+        "beforeRootY": 289.512,
+        "beforeTorsoHeight": 94.0,
+        "translationX": -0.052,
+        "translationY": -1.06,
+        "uniformScale": 1.021277,
+        "afterRootX": 319.659,
+        "afterRootY": 288.541,
+        "afterTorsoHeight": 96.0
+      },
       "output": {
         "width": 640,
         "height": 640,
         "alphaBounds": [
-          234,
-          104,
-          405,
-          540
+          230,
+          97,
+          409,
+          547
         ],
-        "sha256": "6c32becb83207b2e80e8fc6cedd39eaab1d56e7547ae370d8d7370917f416c98"
+        "sha256": "d0cccc4ef83ad0df7064a2cf9db7972b8f2a639e3b20f0a6b9c2242ee1d027ca"
       }
     },
     {
@@ -590,16 +785,27 @@
         ],
         "interpolation": "50% expression and head turn"
       },
+      "rootRegistration": {
+        "beforeRootX": 317.647,
+        "beforeRootY": 285.793,
+        "beforeTorsoHeight": 96.0,
+        "translationX": 1.987,
+        "translationY": 2.66,
+        "uniformScale": 1.0,
+        "afterRootX": 319.659,
+        "afterRootY": 288.426,
+        "afterTorsoHeight": 96.0
+      },
       "output": {
         "width": 640,
         "height": 640,
         "alphaBounds": [
-          234,
+          236,
           100,
-          405,
-          540
+          407,
+          544
         ],
-        "sha256": "0d663225ae363ff18cfefe601c2382ac98fbc9e1a5ae557e6ea6c38a8232c6a2"
+        "sha256": "853eff81936519c3aee8667c6780e627db802b0ebf198ebb0c28d506d0585546"
       }
     },
     {
@@ -620,16 +826,27 @@
         "originalFrame": 15,
         "refinement": "preserved-approved-drawing"
       },
+      "rootRegistration": {
+        "beforeRootX": 319.998,
+        "beforeRootY": 288.311,
+        "beforeTorsoHeight": 97.0,
+        "translationX": -0.364,
+        "translationY": 0.142,
+        "uniformScale": 0.989691,
+        "afterRootX": 319.655,
+        "afterRootY": 288.38,
+        "afterTorsoHeight": 95.0
+      },
       "output": {
         "width": 640,
         "height": 640,
         "alphaBounds": [
-          234,
+          232,
           103,
-          406,
-          540
+          407,
+          539
         ],
-        "sha256": "89f8837bdaf57463690c391ea236881d037c4943529aed9d67511e084b362a65"
+        "sha256": "e09e9666d4e45911c1855e34a4c3473f08caf1d78249c0e06a328a5b7b77dccc"
       }
     },
     {
@@ -652,16 +869,27 @@
         ],
         "interpolation": "right hand halfway from side to face on a clean arc"
       },
+      "rootRegistration": {
+        "beforeRootX": 320.233,
+        "beforeRootY": 285.599,
+        "beforeTorsoHeight": 96.0,
+        "translationX": -0.598,
+        "translationY": 2.854,
+        "uniformScale": 1.0,
+        "afterRootX": 319.665,
+        "afterRootY": 288.558,
+        "afterTorsoHeight": 96.0
+      },
       "output": {
         "width": 640,
         "height": 640,
         "alphaBounds": [
-          234,
-          100,
-          406,
-          540
+          231,
+          101,
+          408,
+          545
         ],
-        "sha256": "35af8484eb6bc47bc5d361a63f2be941d1e39aa470710c32052d0181572c64b2"
+        "sha256": "ca89e137d368e2767ca10215ff8e6ca15d9d253699c13e77abbe204020522b67"
       }
     },
     {
@@ -682,16 +910,27 @@
         "originalFrame": 16,
         "refinement": "preserved-approved-drawing"
       },
+      "rootRegistration": {
+        "beforeRootX": 319.013,
+        "beforeRootY": 289.893,
+        "beforeTorsoHeight": 94.0,
+        "translationX": 0.622,
+        "translationY": -1.441,
+        "uniformScale": 1.021277,
+        "afterRootX": 319.799,
+        "afterRootY": 288.453,
+        "afterTorsoHeight": 97.0
+      },
       "output": {
         "width": 640,
         "height": 640,
         "alphaBounds": [
-          234,
-          104,
-          406,
-          540
+          230,
+          96,
+          411,
+          546
         ],
-        "sha256": "ed04de21e1ccea2a7973d82ec69e5da44d2b33ef594c743c80009d91807f67a8"
+        "sha256": "bbeda3fdf5f141c12a95421193a69cec653ac7fa6fcf47ae9770aea41bd8c110"
       }
     },
     {
@@ -714,16 +953,27 @@
         ],
         "interpolation": "right hand halfway from raised position to gum contact"
       },
+      "rootRegistration": {
+        "beforeRootX": 319.574,
+        "beforeRootY": 284.751,
+        "beforeTorsoHeight": 96.0,
+        "translationX": 0.061,
+        "translationY": 3.701,
+        "uniformScale": 1.0,
+        "afterRootX": 319.609,
+        "afterRootY": 288.474,
+        "afterTorsoHeight": 95.0
+      },
       "output": {
         "width": 640,
         "height": 640,
         "alphaBounds": [
-          234,
-          100,
-          406,
-          540
+          232,
+          102,
+          409,
+          546
         ],
-        "sha256": "9152717fe81806366fab17b67d4c54b35746180c6b227af0eab5d7198f4c7a00"
+        "sha256": "ea49c41a59783249e3147e834369bce0472ba52adcf8ea9bb529f4003d9d35e2"
       }
     },
     {
@@ -744,16 +994,27 @@
         "originalFrame": 17,
         "refinement": "preserved-approved-drawing"
       },
+      "rootRegistration": {
+        "beforeRootX": 318.874,
+        "beforeRootY": 289.172,
+        "beforeTorsoHeight": 94.0,
+        "translationX": 0.761,
+        "translationY": -0.719,
+        "uniformScale": 1.021277,
+        "afterRootX": 319.72,
+        "afterRootY": 288.551,
+        "afterTorsoHeight": 96.0
+      },
       "output": {
         "width": 640,
         "height": 640,
         "alphaBounds": [
-          233,
-          104,
-          406,
-          540
+          229,
+          97,
+          411,
+          547
         ],
-        "sha256": "b601cbdc7b2700e9cad95dc226461775e7791b6f33d1d5558cb19891016aad36"
+        "sha256": "e41015612981fc36edb32f9824d05d9c40108e9841ff7766d5935b7210252c64"
       }
     },
     {
@@ -776,16 +1037,27 @@
         ],
         "interpolation": "first visible peel with gum still mostly on the face"
       },
+      "rootRegistration": {
+        "beforeRootX": 303.724,
+        "beforeRootY": 285.06,
+        "beforeTorsoHeight": 95.0,
+        "translationX": 15.91,
+        "translationY": 3.392,
+        "uniformScale": 1.010526,
+        "afterRootX": 319.684,
+        "afterRootY": 288.391,
+        "afterTorsoHeight": 96.0
+      },
       "output": {
         "width": 640,
         "height": 640,
         "alphaBounds": [
-          217,
-          100,
-          423,
-          540
+          232,
+          99,
+          443,
+          549
         ],
-        "sha256": "60612d1058a00f5f8209763cbfcdd33c68887a551dd14594a6565c307f4e49e6"
+        "sha256": "d5ecdbff53b934426dbb4181ac1ed182a16a88eb15af9d0881db798cad13cf5e"
       }
     },
     {
@@ -806,16 +1078,27 @@
         "originalFrame": 18,
         "refinement": "preserved-approved-drawing"
       },
+      "rootRegistration": {
+        "beforeRootX": 307.482,
+        "beforeRootY": 289.106,
+        "beforeTorsoHeight": 94.0,
+        "translationX": 12.153,
+        "translationY": -0.653,
+        "uniformScale": 1.021277,
+        "afterRootX": 319.694,
+        "afterRootY": 288.826,
+        "afterTorsoHeight": 96.0
+      },
       "output": {
         "width": 640,
         "height": 640,
         "alphaBounds": [
-          220,
-          103,
-          420,
-          540
+          229,
+          96,
+          436,
+          547
         ],
-        "sha256": "eda0310315936c9c9d4afabf680e0aabf5fed3ba96fbc39776dfdd7c12af0a9f"
+        "sha256": "43dd9b5fd1a2325b0a15396b6fbacf0e61ccb812ba385fbdc4763197c607b1a4"
       }
     },
     {
@@ -838,16 +1121,27 @@
         ],
         "interpolation": "halfway arm extension and elastic gum length"
       },
+      "rootRegistration": {
+        "beforeRootX": 285.857,
+        "beforeRootY": 284.873,
+        "beforeTorsoHeight": 95.0,
+        "translationX": 33.778,
+        "translationY": 3.579,
+        "uniformScale": 1.010526,
+        "afterRootX": 319.734,
+        "afterRootY": 288.365,
+        "afterTorsoHeight": 97.0
+      },
       "output": {
         "width": 640,
         "height": 640,
         "alphaBounds": [
-          199,
-          100,
-          440,
-          540
+          229,
+          99,
+          478,
+          549
         ],
-        "sha256": "42e41c9f87264ee345f11af04d05a6cd7f1a7b16e2a7cecbfb4dbd5682098c9b"
+        "sha256": "295b65a601bb7e9fc5e74e9ceb01eeaf62f40095d66280659b8c88e7c7d6f747"
       }
     },
     {
@@ -868,16 +1162,27 @@
         "originalFrame": 19,
         "refinement": "preserved-approved-drawing"
       },
+      "rootRegistration": {
+        "beforeRootX": 282.734,
+        "beforeRootY": 289.022,
+        "beforeTorsoHeight": 95.0,
+        "translationX": 36.9,
+        "translationY": -0.57,
+        "uniformScale": 1.010526,
+        "afterRootX": 319.667,
+        "afterRootY": 288.525,
+        "afterTorsoHeight": 96.0
+      },
       "output": {
         "width": 640,
         "height": 640,
         "alphaBounds": [
-          197,
-          104,
-          442,
-          540
+          233,
+          99,
+          483,
+          545
         ],
-        "sha256": "8327811901d05a2f6241185cb30195ec84647ed636a2f20f3f378b76a19d9744"
+        "sha256": "2c16e6fcd6aee12d29dba7e001efe559f6b4037de6ef0eb46a302bba5059ee8c"
       }
     },
     {
@@ -900,16 +1205,27 @@
         ],
         "interpolation": "gum just detached; right hand recoiling halfway inward"
       },
+      "rootRegistration": {
+        "beforeRootX": 298.197,
+        "beforeRootY": 284.263,
+        "beforeTorsoHeight": 95.0,
+        "translationX": 21.437,
+        "translationY": 4.189,
+        "uniformScale": 1.010526,
+        "afterRootX": 319.626,
+        "afterRootY": 288.78,
+        "afterTorsoHeight": 97.0
+      },
       "output": {
         "width": 640,
         "height": 640,
         "alphaBounds": [
-          211,
+          229,
           100,
-          428,
-          540
+          453,
+          549
         ],
-        "sha256": "1b6ad72aa9b468655f5bad75de5e3e5c110a76ea27906d41bd7be59b7488d6e1"
+        "sha256": "ef78d3da8559ed3d62ee809f6eaf5604c544fcf99d25fab87d448acb7f30fcb3"
       }
     },
     {
@@ -930,16 +1246,27 @@
         "originalFrame": 20,
         "refinement": "preserved-approved-drawing"
       },
+      "rootRegistration": {
+        "beforeRootX": 309.041,
+        "beforeRootY": 289.019,
+        "beforeTorsoHeight": 94.0,
+        "translationX": 10.593,
+        "translationY": -0.567,
+        "uniformScale": 1.021277,
+        "afterRootX": 319.687,
+        "afterRootY": 288.727,
+        "afterTorsoHeight": 95.0
+      },
       "output": {
         "width": 640,
         "height": 640,
         "alphaBounds": [
-          224,
-          103,
-          415,
-          540
+          230,
+          96,
+          430,
+          547
         ],
-        "sha256": "e39a3d099891f8632512c895dc9aba001ca3e47752edf979c9e81ac9b64d774f"
+        "sha256": "2637b897bc23c7586c81729381338808496367e1b0645ee27c5ba6d21d20a13b"
       }
     },
     {
@@ -962,16 +1289,27 @@
         ],
         "interpolation": "right wrist and elbow halfway lowering; exactly two arms"
       },
+      "rootRegistration": {
+        "beforeRootX": 308.941,
+        "beforeRootY": 285.645,
+        "beforeTorsoHeight": 95.0,
+        "translationX": 10.694,
+        "translationY": 2.807,
+        "uniformScale": 1.010526,
+        "afterRootX": 319.66,
+        "afterRootY": 288.89,
+        "afterTorsoHeight": 97.0
+      },
       "output": {
         "width": 640,
         "height": 640,
         "alphaBounds": [
-          223,
-          100,
-          416,
-          540
+          230,
+          98,
+          430,
+          548
         ],
-        "sha256": "82af260512540fd439c7e3f956cdf1ddc551e13f96e85a88dd08db5038ffe4a3"
+        "sha256": "dc9b068f3e18d6ee4271353f2661afd89b1ab2cf0cdecca12323b4edd65999da"
       }
     },
     {
@@ -992,16 +1330,27 @@
         "originalFrame": 22,
         "refinement": "preserved-approved-drawing"
       },
+      "rootRegistration": {
+        "beforeRootX": 307.563,
+        "beforeRootY": 291.071,
+        "beforeTorsoHeight": 93.0,
+        "translationX": 12.071,
+        "translationY": -2.618,
+        "uniformScale": 1.032258,
+        "afterRootX": 319.591,
+        "afterRootY": 288.471,
+        "afterTorsoHeight": 96.0
+      },
       "output": {
         "width": 640,
         "height": 640,
         "alphaBounds": [
-          221,
-          106,
-          418,
-          540
+          228,
+          95,
+          435,
+          548
         ],
-        "sha256": "2ab061486a9358ef37b9c2a8f81c381c0f5bc0958e759ef46eacc5c9ce0e3e2e"
+        "sha256": "d754023c928a213b9b4493ee925e93da2e98ceb802fb3299758bc51003c63ece"
       }
     },
     {
@@ -1024,16 +1373,27 @@
         ],
         "interpolation": "one-third transition: wrist flicks purple gum away"
       },
+      "rootRegistration": {
+        "beforeRootX": 297.671,
+        "beforeRootY": 285.184,
+        "beforeTorsoHeight": 96.0,
+        "translationX": 21.963,
+        "translationY": 3.269,
+        "uniformScale": 1.0,
+        "afterRootX": 319.645,
+        "afterRootY": 288.471,
+        "afterTorsoHeight": 96.0
+      },
       "output": {
         "width": 640,
         "height": 640,
         "alphaBounds": [
-          210,
-          100,
-          430,
-          540
+          232,
+          102,
+          452,
+          546
         ],
-        "sha256": "82736e0cc554ac158035ba19a1e3c08d98cb5601f4e73385f64af9bd74008e97"
+        "sha256": "2ba08935f91fc2af3a4b18ac56e9c352519decb3838173787d7c5036ac68b0ab"
       }
     },
     {
@@ -1056,16 +1416,27 @@
         ],
         "interpolation": "two-thirds transition: gum is gone and right arm is halfway down"
       },
+      "rootRegistration": {
+        "beforeRootX": 309.52,
+        "beforeRootY": 284.56,
+        "beforeTorsoHeight": 96.0,
+        "translationX": 10.115,
+        "translationY": 3.892,
+        "uniformScale": 1.0,
+        "afterRootX": 319.626,
+        "afterRootY": 288.42,
+        "afterTorsoHeight": 96.0
+      },
       "output": {
         "width": 640,
         "height": 640,
         "alphaBounds": [
-          223,
-          100,
-          416,
-          540
+          231,
+          101,
+          429,
+          545
         ],
-        "sha256": "5be98a75f60c08cbbffe1ca05a2b74a39da0193cf38140fdad5e06ff0af2df47"
+        "sha256": "300d7834cf621fbccdd793f0c8f4de87dea09b1bdeee07343ca5120fd8f8562c"
       }
     },
     {
@@ -1086,16 +1457,27 @@
         "originalFrame": 23,
         "refinement": "preserved-approved-drawing"
       },
+      "rootRegistration": {
+        "beforeRootX": 318.483,
+        "beforeRootY": 290.991,
+        "beforeTorsoHeight": 93.0,
+        "translationX": 1.152,
+        "translationY": -2.539,
+        "uniformScale": 1.032258,
+        "afterRootX": 319.633,
+        "afterRootY": 288.34,
+        "afterTorsoHeight": 96.0
+      },
       "output": {
         "width": 640,
         "height": 640,
         "alphaBounds": [
-          232,
-          106,
-          408,
-          540
+          229,
+          95,
+          415,
+          548
         ],
-        "sha256": "81d05a939abbbf1a6caa06795449f8e84ed8fdd961805e1796da31c916b20473"
+        "sha256": "054a51567da1f4840e122ce48f57351b4f9e432b470c7d4affef98c7f078fd3f"
       }
     },
     {
@@ -1124,5 +1506,5 @@
       }
     }
   ],
-  "qaContactSheet": "src/assets/game/2d-v02/animations/qa/hugo-neutral-idle-contact-sheet.jpg"
+  "qaContactSheet": "src/assets/game/2d-v02/animations/qa/hugo-neutral-idle-contact-sheet-stabilized.jpg"
 }

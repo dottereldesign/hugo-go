@@ -77,6 +77,24 @@ describe('2D Sandbox Version 02 Outfit 03 animations', () => {
     expect(generated[0].source.sheet).not.toBe(generated[11].source.sheet);
   });
 
+  it('locks the neutral-idle torso root without non-uniform stretching', () => {
+    expect(neutralIdle.registration).toMatchObject({
+      method: 'cream-chest-panel-root-with-uniform-scale-and-fixed-body-position',
+      targetFrame: 1,
+      maximumScaleChange: 0.04,
+    });
+    const { x, y, torsoHeight } = neutralIdle.registration.targetRoot;
+    for (const frame of neutralIdle.frames.filter(({ runtime }) => runtime)) {
+      expect(frame.rootRegistration).toBeDefined();
+      const registration = frame.rootRegistration!;
+      expect(Math.abs(registration.afterRootX - x)).toBeLessThan(0.5);
+      expect(Math.abs(registration.afterRootY - y)).toBeLessThan(0.5);
+      expect(Math.abs(registration.afterTorsoHeight - torsoHeight)).toBeLessThanOrEqual(1);
+      expect(registration.uniformScale).toBeGreaterThanOrEqual(0.96);
+      expect(registration.uniformScale).toBeLessThanOrEqual(1.04);
+    }
+  });
+
   it('binds every entry to a named transparent 640px PNG and exact seam copy', () => {
     const files = animations.flatMap(({ frames }) => frames.map(({ file }) => file));
     expect(new Set(files).size).toBe(59);

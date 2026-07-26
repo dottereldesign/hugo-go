@@ -170,6 +170,34 @@ two-tick exposures became one tick plus one new drawing; the rejected frame's
 three ticks fund the final three recovery drawings. The loop therefore remains
 exactly 60 ticks / 5.00 seconds.
 
+### 5B. Lock the root, not the full silhouette
+
+Do not centre a character animation from the complete alpha bounds. A moving
+hand, lifted shoe, wing, flame, or stretched prop changes those bounds and
+causes the torso to slide in the opposite direction. That error was visible in
+the gum-peel section: as the hand extended right, full-silhouette centring
+pushed Hugo's body left.
+
+Neutral-idle registration uses the two cream chest panels as a stable root:
+
+1. isolate the two largest cream components inside the torso ROI;
+2. calculate their shared centre and combined height;
+3. use frame 01 as the target root and torso scale;
+4. apply one uniform affine scale plus X/Y translation to the complete RGBA
+   drawing;
+5. never stretch X and Y independently; and
+6. rerun the detector after transformation and record both measurements.
+
+The QA overlay places frame 01 in translucent cyan and the current drawing in
+translucent orange. Crosshairs show both detected roots. Moving limbs and gum
+are expected to separate; the chest crosshairs should overlap.
+
+Before correction, the pass measured 36.9 px maximum horizontal root drift,
+5.2 px vertical drift, and 3.23% scale drift. After correction, measured root
+error is below 0.5 px and residual scale quantisation is about 1%. This
+stabilises the body without changing pose timing or removing intentional
+secondary action.
+
 ### 6. Extract and register individual files
 
 After approval:
@@ -240,6 +268,10 @@ suit brush, hand return, settle, exact bookend.
 - Chroma restoration helpers: `scripts/2d_v02/restore_protected_pink.py` and
   `scripts/2d_v02/restore_protected_purple.py`
 - Adjacent-pair audit: `scripts/2d_v02/audit_animation_continuity.py`
+- Torso-root detector and stabiliser:
+  `scripts/2d_v02/neutral_registration.py`
+- Before/after opacity overlay:
+  `scripts/2d_v02/audit_neutral_registration.py`
 - A/target/B board builder:
   `scripts/2d_v02/prepare_neutral_inbetween_boards.py`
 - Neutral-idle refinement: `scripts/2d_v02/refine_neutral_idle.py`
