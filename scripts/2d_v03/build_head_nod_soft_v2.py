@@ -24,7 +24,7 @@ CANVAS = 512
 TARGET_HEIGHT = 323
 TARGET_BASELINE_Y = 417
 TARGET_SHOE_CENTRE_X = 250
-BASE_FPS = 6
+BASE_FPS = 3
 
 UNIQUE_FRAMES = (
     ("hugo-head-nod-soft-01-neutral-start.png", "Neutral start"),
@@ -33,7 +33,7 @@ UNIQUE_FRAMES = (
     ("hugo-head-nod-soft-04-nod-down-60-percent.png", "Nod down 60 percent"),
 )
 
-RUNTIME_SEQUENCE = (1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2)
+RUNTIME_SEQUENCE = (1, 2, 3, 4, 3, 2)
 RUNTIME_LABELS = (
     "Neutral start",
     "Nod down 20 percent",
@@ -41,12 +41,6 @@ RUNTIME_LABELS = (
     "Nod down 60 percent",
     "Nod returns through source frame 3",
     "Nod returns through source frame 2",
-    "Neutral midpoint",
-    "Second nod through source frame 2",
-    "Second nod through source frame 3",
-    "Second nod peak",
-    "Second return through source frame 3",
-    "Second return through source frame 2",
 )
 
 PROMPT = """Create one strict 4-column x 1-row game-animation sheet containing
@@ -197,7 +191,7 @@ def write_manifest(metadata: list[dict[str, object]], paths: list[Path]) -> None
             "assetDirectory": "head-nod-soft",
             "name": "Neutral Side · Head nod 03",
             "description": (
-                "A restrained two-beat nod using four canonically coloured "
+                "A restrained nod loop using four canonically coloured "
                 "Outfit 03 Sunrise drawings."
             ),
             "prompt": PROMPT,
@@ -248,7 +242,7 @@ def main() -> None:
 
     save_registered_sheet(frames)
     write_manifest(metadata, output_paths)
-    print("Built four canonical-colour Neutral Side 03 drawings and 12-step loop")
+    print("Built four canonical-colour Neutral Side 03 drawings and 6-step loop")
 
 
 if __name__ == "__main__":

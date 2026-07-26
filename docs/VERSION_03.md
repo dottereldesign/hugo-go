@@ -70,9 +70,9 @@ moving regions over a different base drawing:
 ### Neutral Side head nod 03
 
 Neutral Side 03 is the approved Version 03 animation. It uses four complete
-canonically coloured Outfit 03 Sunrise drawings and plays this exact 12-step
-sequence at 6 FPS over exactly 2 seconds at `1.00×`:
-`1, 2, 3, 4, 3, 2, 1, 2, 3, 4, 3, 2`. The numbered buttons show
+canonically coloured Outfit 03 Sunrise drawings and plays this exact 6-step
+sequence at 3 FPS over exactly 2 seconds at `1.00×`:
+`1, 2, 3, 4, 3, 2`. The numbered buttons show
 the source drawing used by each runtime step and pause the loop on selection.
 
 The earlier Groove Idle and 12-frame Head Nod experiments remain archived as
