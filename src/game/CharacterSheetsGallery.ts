@@ -1,5 +1,5 @@
 const SHEET_MODULES = import.meta.glob(
-  '../../art/source-images/game/2d-v02/**/*.{png,jpg,jpeg,webp}',
+  '../../art/source-images/game/2d-v*/**/*.{png,jpg,jpeg,webp}',
   {
     eager: true,
     query: '?url',

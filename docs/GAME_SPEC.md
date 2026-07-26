@@ -1,5 +1,8 @@
 # HUGO GO! implemented game specification
 
+> **ARCHIVED VERSION 01 MATERIAL — DO NOT USE FOR NEW WORK.**
+> The active direction is [`VERSION_03.md`](./VERSION_03.md).
+
 ## Product shape
 
 HUGO GO! is a single-input, portrait-first endless runner/flight game. Hugo begins every run automatically on the Forest World ground. The player decides when to fire the two shoe jets and move upward.

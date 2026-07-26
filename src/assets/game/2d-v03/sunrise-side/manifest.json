@@ -1,0 +1,276 @@
+{
+  "schemaVersion": 1,
+  "library": "Version 03 Sunrise side profiles",
+  "source": "art/source-images/game/2d-v03/sunrise-side/hugo-sunrise-side-poses-transparent.png",
+  "grid": {
+    "columns": 4,
+    "rows": 3,
+    "poseCount": 12
+  },
+  "poses": [
+    {
+      "index": 1,
+      "slug": "neutral-side",
+      "label": "Neutral side",
+      "filename": "hugo-sunrise-side-01-neutral-side.png",
+      "row": 1,
+      "column": 1,
+      "cellSize": [
+        362,
+        362
+      ],
+      "outputCanvas": [
+        512,
+        512
+      ],
+      "alphaBounds": [
+        202,
+        94,
+        309,
+        417
+      ]
+    },
+    {
+      "index": 2,
+      "slug": "confident-walk",
+      "label": "Confident walk",
+      "filename": "hugo-sunrise-side-02-confident-walk.png",
+      "row": 1,
+      "column": 2,
+      "cellSize": [
+        362,
+        362
+      ],
+      "outputCanvas": [
+        512,
+        512
+      ],
+      "alphaBounds": [
+        158,
+        97,
+        354,
+        414
+      ]
+    },
+    {
+      "index": 3,
+      "slug": "fast-sprint",
+      "label": "Fast sprint",
+      "filename": "hugo-sunrise-side-03-fast-sprint.png",
+      "row": 1,
+      "column": 3,
+      "cellSize": [
+        362,
+        362
+      ],
+      "outputCanvas": [
+        512,
+        512
+      ],
+      "alphaBounds": [
+        138,
+        115,
+        374,
+        396
+      ]
+    },
+    {
+      "index": 4,
+      "slug": "sprint-launch",
+      "label": "Sprint launch",
+      "filename": "hugo-sunrise-side-04-sprint-launch.png",
+      "row": 1,
+      "column": 4,
+      "cellSize": [
+        362,
+        362
+      ],
+      "outputCanvas": [
+        512,
+        512
+      ],
+      "alphaBounds": [
+        119,
+        118,
+        392,
+        394
+      ]
+    },
+    {
+      "index": 5,
+      "slug": "jump-takeoff",
+      "label": "Jump takeoff",
+      "filename": "hugo-sunrise-side-05-jump-takeoff.png",
+      "row": 2,
+      "column": 1,
+      "cellSize": [
+        362,
+        362
+      ],
+      "outputCanvas": [
+        512,
+        512
+      ],
+      "alphaBounds": [
+        145,
+        121,
+        366,
+        390
+      ]
+    },
+    {
+      "index": 6,
+      "slug": "jump-tuck",
+      "label": "Jump tuck",
+      "filename": "hugo-sunrise-side-06-jump-tuck.png",
+      "row": 2,
+      "column": 2,
+      "cellSize": [
+        362,
+        362
+      ],
+      "outputCanvas": [
+        512,
+        512
+      ],
+      "alphaBounds": [
+        187,
+        143,
+        324,
+        368
+      ]
+    },
+    {
+      "index": 7,
+      "slug": "level-glide",
+      "label": "Level glide",
+      "filename": "hugo-sunrise-side-07-level-glide.png",
+      "row": 2,
+      "column": 3,
+      "cellSize": [
+        362,
+        362
+      ],
+      "outputCanvas": [
+        512,
+        512
+      ],
+      "alphaBounds": [
+        117,
+        174,
+        395,
+        338
+      ]
+    },
+    {
+      "index": 8,
+      "slug": "steep-dive",
+      "label": "Steep dive",
+      "filename": "hugo-sunrise-side-08-steep-dive.png",
+      "row": 2,
+      "column": 4,
+      "cellSize": [
+        362,
+        362
+      ],
+      "outputCanvas": [
+        512,
+        512
+      ],
+      "alphaBounds": [
+        111,
+        160,
+        400,
+        351
+      ]
+    },
+    {
+      "index": 9,
+      "slug": "jet-boost",
+      "label": "Jet boost",
+      "filename": "hugo-sunrise-side-09-jet-boost.png",
+      "row": 3,
+      "column": 1,
+      "cellSize": [
+        362,
+        362
+      ],
+      "outputCanvas": [
+        512,
+        512
+      ],
+      "alphaBounds": [
+        164,
+        94,
+        348,
+        420
+      ]
+    },
+    {
+      "index": 10,
+      "slug": "braking-flare",
+      "label": "Braking flare",
+      "filename": "hugo-sunrise-side-10-braking-flare.png",
+      "row": 3,
+      "column": 2,
+      "cellSize": [
+        362,
+        362
+      ],
+      "outputCanvas": [
+        512,
+        512
+      ],
+      "alphaBounds": [
+        153,
+        116,
+        359,
+        396
+      ]
+    },
+    {
+      "index": 11,
+      "slug": "landing-crouch",
+      "label": "Landing crouch",
+      "filename": "hugo-sunrise-side-11-landing-crouch.png",
+      "row": 3,
+      "column": 3,
+      "cellSize": [
+        362,
+        362
+      ],
+      "outputCanvas": [
+        512,
+        512
+      ],
+      "alphaBounds": [
+        122,
+        153,
+        390,
+        359
+      ]
+    },
+    {
+      "index": 12,
+      "slug": "hero-finish",
+      "label": "Hero finish",
+      "filename": "hugo-sunrise-side-12-hero-finish.png",
+      "row": 3,
+      "column": 4,
+      "cellSize": [
+        362,
+        362
+      ],
+      "outputCanvas": [
+        512,
+        512
+      ],
+      "alphaBounds": [
+        191,
+        99,
+        320,
+        412
+      ]
+    }
+  ]
+}

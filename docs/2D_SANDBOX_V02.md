@@ -1,5 +1,8 @@
 # HUGO GO! 2D Sandbox Version 02
 
+> **ARCHIVED VERSION 01 MATERIAL — DO NOT USE FOR NEW WORK.**
+> The active direction is [`VERSION_03.md`](./VERSION_03.md).
+
 Version 02 is the active character-animation direction. Version 01 remains in
 the Sandbox as a useful archive, but its 3D rotation experiments and layered
 rig are not the production model for new motion.

@@ -1,5 +1,8 @@
 # HUGO GO! Animation V2
 
+> **ARCHIVED VERSION 01 MATERIAL — DO NOT USE FOR NEW WORK.**
+> The active direction is [`VERSION_03.md`](./VERSION_03.md).
+
 > **Sandbox Version 01:** this document records the earlier 3D rotation,
 > layered-rig, and full-frame animation experiments. The active 2D production
 > direction is documented in

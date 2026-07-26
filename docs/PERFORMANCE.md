@@ -1,5 +1,8 @@
 # Performance notes
 
+> **ARCHIVED VERSION 01 MATERIAL — DO NOT USE FOR NEW WORK.**
+> The active direction is [`VERSION_03.md`](./VERSION_03.md).
+
 ## Current runtime
 
 The game uses one `390 × 780` logical playfield. Its core always renders at a stable `2×`

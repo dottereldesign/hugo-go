@@ -1,5 +1,8 @@
 # Design audit
 
+> **ARCHIVED VERSION 01 MATERIAL — DO NOT USE FOR NEW WORK.**
+> The active direction is [`VERSION_03.md`](./VERSION_03.md).
+
 ## What now works
 
 - Home keeps its polished HUGO GO! presentation.

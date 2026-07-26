@@ -1,5 +1,8 @@
 # Animation and art ledger
 
+> **ARCHIVED VERSION 01 MATERIAL — DO NOT USE FOR NEW WORK.**
+> The active direction is [`VERSION_03.md`](./VERSION_03.md).
+
 No character image required for the current Forest controls is missing.
 
 ## Completed now

@@ -13,7 +13,8 @@ Pressing **Play** on the home screen opens `#/game` and starts the run immediate
 - Settings includes a fullscreen Animation Sandbox at `#/sandbox` for reviewing every live character and shoe-fire animation. Each preview has independent play, pause, restart, loop, frame-step, and numbered frame-selection controls.
 - The bottom of the Sandbox documents the Animation V2 production framework and includes its approved first 24 Freefall V2 wingsuit-posture frames at 30 fps for comparison with the original.
 - Sandbox edit mode can deactivate individual frames; red frames remain inspectable but are skipped by playback and looping.
-- The reusable authoring, validation, rigging, and prompt standard is documented in [`docs/ANIMATION_V2.md`](docs/ANIMATION_V2.md).
+- The active character-pose standard is documented in [`docs/VERSION_03.md`](docs/VERSION_03.md).
+- Earlier project documentation is retained as archived Version 01 material and is indexed in [`docs/version-01/README.md`](docs/version-01/README.md).
 - Looping-sheet generation now requires a pixel-identical first/final bookend; the duplicate final validation frame is omitted from discrete runtime playback to avoid a seam pause.
 - Occasional two-post drooping wires can be landed on from above. Hugo automatically
   grinds their curved cable with a 30-frame side-profile cycle; press again to jump off.
@@ -70,8 +71,8 @@ src/assets/game/              compressed terrain and character atlases
 art/source-images/game/       full generated sources and prompt record
 tests/engine.test.ts          physics/collision unit tests
 tests/e2e/                    desktop and mobile browser tests
-docs/GAME_SPEC.md             implemented game contract
-docs/ART_BACKLOG.md           optional future visual assets
+docs/VERSION_03.md            active character-pose standard
+docs/version-01/README.md     index of archived historical notes
 ```
 
 ## Creative direction

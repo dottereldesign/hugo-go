@@ -1,5 +1,8 @@
 # Gameplay asset generation and processing
 
+> **ARCHIVED VERSION 01 MATERIAL — DO NOT USE FOR NEW WORK.**
+> The active direction is [`VERSION_03.md`](./VERSION_03.md).
+
 ## Current generated assets
 
 The playable release uses eight Hugo animation atlases, one 30-frame jet-flame atlas,
