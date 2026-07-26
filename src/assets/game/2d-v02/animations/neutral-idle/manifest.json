@@ -1197,12 +1197,31 @@
         "afterTorsoHeight": 86.0
       },
       "output": {
-        "sha256": "be3f99f08a18d28c55178ad83b447f4e3b4f350a82b6f5cbc3a6ca13df49e62a",
+        "sha256": "4ba515413afa6e02548a66a8d3f1fc34e9455a659308bec3a1eec4985f8f96f3",
         "alphaBounds": [
           235,
           35,
           404,
           518
+        ]
+      },
+      "cleanup": {
+        "method": "removed disconnected alpha fragments smaller than 80 pixels",
+        "removedComponents": [
+          1,
+          4,
+          2,
+          1,
+          2,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          29,
+          30
         ]
       }
     },
@@ -1275,12 +1294,25 @@
         "afterTorsoHeight": 89.0
       },
       "output": {
-        "sha256": "4db2bb026fcab68c5d08de2454ffae1c9cfb5d9d07c6649426ee79db9f64334a",
+        "sha256": "f1435774a5e76cc842c33899e3f306c8ee798a22efb9cae38c609ecc26ed3da5",
         "alphaBounds": [
           237,
           50,
           406,
           533
+        ]
+      },
+      "cleanup": {
+        "method": "removed disconnected alpha fragments smaller than 80 pixels",
+        "removedComponents": [
+          27,
+          27,
+          1,
+          11,
+          7,
+          1,
+          1,
+          1
         ]
       }
     },
