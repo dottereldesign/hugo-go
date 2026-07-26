@@ -1,0 +1,232 @@
+{
+  "schemaVersion": 1,
+  "animation": {
+    "id": "head-nod-soft-inbetweens",
+    "assetDirectory": "head-nod-soft-inbetweens",
+    "name": "Neutral Side · Head nod midpoint experiment",
+    "description": "The approved nod with new 10%, 30%, and 50% midpoint drawings.",
+    "prompt": "Create one strict 3-column x 1-row character sheet containing\nexactly three complete full-body Hugo drawings. Use the approved Neutral Side\n03 drawings at nod depths 0, 20, 40, and 60 percent as the motion guide.\nGenerate exact midpoint poses at 10, 30, and 50 percent nod depth. Interpolate\nthe head and neck angle, chin height, nose direction, eye line, ear angle, hair\nangle, and neck compression exactly halfway between each adjacent approved\npair. Redraw the complete figure in every cell. Keep everything below the neck\nunchanged: identical standing pose, arms, hands, legs, black shoes, scale,\nbaseline, centre, Sunrise outfit, lighting, and colour. Match canonical Outfit\n03 Sunrise identity and healthy warm peach/tan skin with no yellow, olive,\ngreen, grey, or sickly cast. Use one flat #FF00FF chroma background, generous\ngutters, no crop, no fragments, no text, and exactly one complete Hugo per\ncell.",
+    "revisionOf": "head-nod-soft"
+  },
+  "timing": {
+    "baseFps": 12,
+    "runtimeFrameCount": 12,
+    "drawingCount": 7,
+    "loopDurationSeconds": 1.0,
+    "loopReturnFrame": 12
+  },
+  "productionMethod": "four approved complete figures plus three complete generated midpoint figures; chroma cleanup and deterministic whole-figure shoe registration only; no body-part compositing, code interpolation, or runtime sheet slicing",
+  "source": {
+    "midpointSheet": "art/source-images/game/2d-v03/animations/head-nod-smooth-v1/hugo-head-nod-smooth-inbetweens-transparent.png",
+    "registeredSequence": "art/source-images/game/2d-v03/animations/head-nod-smooth-v1/hugo-head-nod-smooth-seven-drawings-registered.png",
+    "uniqueDrawings": [
+      {
+        "sourceFrame": 1,
+        "filename": "hugo-head-nod-smooth-01-approved-00-percent.png",
+        "kind": "approved original",
+        "nodDepthPercent": 0,
+        "sha256": "65263b8e680e0b493b732641bf01d6f69a708dbeb5beff3b90750418e3e1215a",
+        "alphaBounds": [
+          200,
+          94,
+          305,
+          417
+        ]
+      },
+      {
+        "sourceFrame": 2,
+        "filename": "hugo-head-nod-smooth-02-new-10-percent.png",
+        "kind": "generated midpoint",
+        "nodDepthPercent": 10,
+        "sha256": "5a1c28e99e1b0a97ea7602eb39a2f4d7a2096fda51402822393e54c8f34e3e4c",
+        "alphaBounds": [
+          201,
+          94,
+          304,
+          417
+        ],
+        "sourceCell": 1,
+        "sourceBounds": [
+          272,
+          70,
+          460,
+          660
+        ],
+        "uniformScale": 0.547458,
+        "shoeAnchorX": 362.0,
+        "sourceBaselineY": 660.0
+      },
+      {
+        "sourceFrame": 3,
+        "filename": "hugo-head-nod-smooth-03-approved-20-percent.png",
+        "kind": "approved original",
+        "nodDepthPercent": 20,
+        "sha256": "83b8bdd6f926a57e55dabc659269eb5e88457037f0b08f34121ab4dee3dc82cd",
+        "alphaBounds": [
+          200,
+          95,
+          305,
+          417
+        ]
+      },
+      {
+        "sourceFrame": 4,
+        "filename": "hugo-head-nod-smooth-04-new-30-percent.png",
+        "kind": "generated midpoint",
+        "nodDepthPercent": 30,
+        "sha256": "df94eb78607b236c8800d6c8d7d734509c7d909b7d90d8618a612fcd4b604ba7",
+        "alphaBounds": [
+          200,
+          99,
+          304,
+          417
+        ],
+        "sourceCell": 2,
+        "sourceBounds": [
+          256,
+          78,
+          445,
+          659
+        ],
+        "uniformScale": 0.547458,
+        "shoeAnchorX": 347.0,
+        "sourceBaselineY": 659.0
+      },
+      {
+        "sourceFrame": 5,
+        "filename": "hugo-head-nod-smooth-05-approved-40-percent.png",
+        "kind": "approved original",
+        "nodDepthPercent": 40,
+        "sha256": "9bf670e8db7b18544ff551d90a806f3b0c36c15bdc8dae2f7222d5d8fa28d60a",
+        "alphaBounds": [
+          200,
+          101,
+          312,
+          417
+        ]
+      },
+      {
+        "sourceFrame": 6,
+        "filename": "hugo-head-nod-smooth-06-new-50-percent.png",
+        "kind": "generated midpoint",
+        "nodDepthPercent": 50,
+        "sha256": "d9ea2210f621b184010365aaf735258e8024ff807dd2550240ba89966149769b",
+        "alphaBounds": [
+          200,
+          106,
+          318,
+          417
+        ],
+        "sourceCell": 3,
+        "sourceBounds": [
+          263,
+          91,
+          477,
+          659
+        ],
+        "uniformScale": 0.547458,
+        "shoeAnchorX": 354.0,
+        "sourceBaselineY": 659.0
+      },
+      {
+        "sourceFrame": 7,
+        "filename": "hugo-head-nod-smooth-07-approved-60-percent.png",
+        "kind": "approved original",
+        "nodDepthPercent": 60,
+        "sha256": "3c76a484988468822e864be788c242fa0d9e3596947d95322eb85ddea070c832",
+        "alphaBounds": [
+          199,
+          108,
+          314,
+          417
+        ]
+      }
+    ]
+  },
+  "frames": [
+    {
+      "index": 1,
+      "sourceFrame": 1,
+      "label": "Approved 0 percent nod · down",
+      "filename": "hugo-head-nod-smooth-01-approved-00-percent.png",
+      "runtime": true
+    },
+    {
+      "index": 2,
+      "sourceFrame": 2,
+      "label": "New 10 percent midpoint · down",
+      "filename": "hugo-head-nod-smooth-02-new-10-percent.png",
+      "runtime": true
+    },
+    {
+      "index": 3,
+      "sourceFrame": 3,
+      "label": "Approved 20 percent nod · down",
+      "filename": "hugo-head-nod-smooth-03-approved-20-percent.png",
+      "runtime": true
+    },
+    {
+      "index": 4,
+      "sourceFrame": 4,
+      "label": "New 30 percent midpoint · down",
+      "filename": "hugo-head-nod-smooth-04-new-30-percent.png",
+      "runtime": true
+    },
+    {
+      "index": 5,
+      "sourceFrame": 5,
+      "label": "Approved 40 percent nod · down",
+      "filename": "hugo-head-nod-smooth-05-approved-40-percent.png",
+      "runtime": true
+    },
+    {
+      "index": 6,
+      "sourceFrame": 6,
+      "label": "New 50 percent midpoint · down",
+      "filename": "hugo-head-nod-smooth-06-new-50-percent.png",
+      "runtime": true
+    },
+    {
+      "index": 7,
+      "sourceFrame": 7,
+      "label": "Approved 60 percent nod · down",
+      "filename": "hugo-head-nod-smooth-07-approved-60-percent.png",
+      "runtime": true
+    },
+    {
+      "index": 8,
+      "sourceFrame": 6,
+      "label": "New 50 percent midpoint · return",
+      "filename": "hugo-head-nod-smooth-06-new-50-percent.png",
+      "runtime": true
+    },
+    {
+      "index": 9,
+      "sourceFrame": 5,
+      "label": "Approved 40 percent nod · return",
+      "filename": "hugo-head-nod-smooth-05-approved-40-percent.png",
+      "runtime": true
+    },
+    {
+      "index": 10,
+      "sourceFrame": 4,
+      "label": "New 30 percent midpoint · return",
+      "filename": "hugo-head-nod-smooth-04-new-30-percent.png",
+      "runtime": true
+    },
+    {
+      "index": 11,
+      "sourceFrame": 3,
+      "label": "Approved 20 percent nod · return",
+      "filename": "hugo-head-nod-smooth-03-approved-20-percent.png",
+      "runtime": true
+    },
+    {
+      "index": 12,
+      "sourceFrame": 2,
+      "label": "New 10 percent midpoint · return",
+      "filename": "hugo-head-nod-smooth-02-new-10-percent.png",
+      "runtime": true
+    }
+  ]
+}

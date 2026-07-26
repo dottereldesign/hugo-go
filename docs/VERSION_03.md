@@ -75,6 +75,20 @@ sequence at 6 FPS over exactly 1 second at `1.00×`:
 `1, 2, 3, 4, 3, 2`. The numbered buttons show
 the source drawing used by each runtime step and pause the loop on selection.
 
+### Neutral Side midpoint experiment
+
+The second active card tests three newly generated in-between drawings without
+changing the approved endpoints:
+
+- new 10% nod between approved 0% and 20%;
+- new 30% nod between approved 20% and 40%; and
+- new 50% nod between approved 40% and 60%.
+
+Its runtime sequence is
+`0%, 10%, 20%, 30%, 40%, 50%, 60%, 50%, 40%, 30%, 20%, 10%`.
+It runs at 12 FPS, so the added drawings improve motion spacing while retaining
+the same 1.00-second loop duration as Neutral Side 03.
+
 The earlier Groove Idle and 12-frame Head Nod experiments remain archived as
 source material, but they are not displayed or bundled in the active Version
 03 animation library.

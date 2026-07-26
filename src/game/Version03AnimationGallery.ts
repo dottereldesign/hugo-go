@@ -1,8 +1,12 @@
 import headNodSoftManifestJson from '../assets/game/2d-v03/animations/head-nod-soft/manifest.json';
+import headNodSoftInbetweensManifestJson from '../assets/game/2d-v03/animations/head-nod-soft-inbetweens/manifest.json';
 import { refreshIcons } from '../icons';
 
 const FRAME_MODULES = import.meta.glob(
-  '../assets/game/2d-v03/animations/head-nod-soft/frames/*.png',
+  [
+    '../assets/game/2d-v03/animations/head-nod-soft/frames/*.png',
+    '../assets/game/2d-v03/animations/head-nod-soft-inbetweens/frames/*.png',
+  ],
   {
     eager: true,
     query: '?url',
@@ -63,6 +67,7 @@ const SPEED_STORAGE_KEY = 'hugo-go:version-03-speed-v2';
 
 const MANIFESTS = [
   headNodSoftManifestJson as AnimationManifest,
+  headNodSoftInbetweensManifestJson as AnimationManifest,
 ];
 
 export class Version03AnimationGallery {
@@ -151,7 +156,9 @@ export class Version03AnimationGallery {
     libraryIndex: number,
   ): AnimationPreview {
     const isHeadNod = manifest.animation.id.startsWith('head-nod');
-    const isSoftHeadNod = manifest.animation.id === 'head-nod-soft';
+    const isSoftHeadNod = manifest.animation.id.startsWith('head-nod-soft');
+    const isMidpointExperiment =
+      manifest.animation.id === 'head-nod-soft-inbetweens';
     const usesRepeatedDrawings =
       manifest.timing.runtimeFrameCount !== manifest.timing.drawingCount;
     const speed = this.loadSpeed(manifest.animation.id);
@@ -211,7 +218,7 @@ export class Version03AnimationGallery {
       ${frameControls}
       <footer class="v03-animation-notes">
         <span>${usesRepeatedDrawings ? `<b>Source drawings:</b> ${manifest.timing.drawingCount} complete figures · ${manifest.timing.runtimeFrameCount}-step loop` : `<b>Full drawings:</b> all ${manifest.timing.runtimeFrameCount} generated characters`}</span>
-        <span><b>Motion:</b> ${isSoftHeadNod ? 'frames 1–4 · mirrored beat loop' : isHeadNod ? 'six down · six back up · head only' : 'head · hand · shoe groove'}</span>
+        <span><b>Motion:</b> ${isMidpointExperiment ? 'drawings 1–7 · midpoint-smoothed loop' : isSoftHeadNod ? 'frames 1–4 · mirrored beat loop' : isHeadNod ? 'six down · six back up · head only' : 'head · hand · shoe groove'}</span>
         <span><b>Processing:</b> chroma cleanup · whole-body registration only</span>
       </footer>
       <div class="v03-animation-prompt">
