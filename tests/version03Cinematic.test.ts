@@ -48,7 +48,8 @@ describe('Version 03 long-view cinematic', () => {
     expect(loadingStart).toBeGreaterThan(futureHomepageStart);
     expect(html.match(/class="future-homepage-loading"/g)).toHaveLength(1);
     expect(html).toContain('MOUNT POGAGA // 01');
-    expect(html).toContain('読み込み中…');
+    expect(html).toContain('aria-label="読み込み中..."');
+    expect(html).toContain('class="future-homepage-loading-dots"');
     expect(html).not.toContain('<span>Loading...</span>');
     expect(html).not.toContain('FOREST SYSTEM');
     expect(html).toContain('A gorilla weighs about as much as 450 squirrels');
@@ -74,8 +75,12 @@ describe('Version 03 long-view cinematic', () => {
     expect(styles).not.toContain('height: 420vh');
     expect(styles).toContain('transform: translate(-50%, -50%)');
     expect(styles).toContain('@keyframes future-loading-type');
+    expect(styles).toContain('@keyframes future-loading-dots');
     expect(styles).toContain('clip-path: polygon(0 -100%, 0 -100%, 0 200%, 0 200%)');
-    expect(styles).toContain('3.2s steps(6, end) .15s infinite both');
+    expect(styles).toContain('3.2s steps(5, end) .15s infinite both');
+    expect(styles).toContain('3.2s steps(3, end) .15s infinite both');
+    expect(styles).not.toContain('.future-homepage-loading-title::after');
+    expect(styles).not.toContain('future-loading-cursor');
     expect(styles).toContain('.v03-cinematic--future-homepage .v03-cinematic-character');
     expect(styles).toContain('@media (hover: hover) and (pointer: fine)');
     expect(styles).toContain('drop-shadow(1.25px 0 0 rgba(78, 255, 148, .98))');

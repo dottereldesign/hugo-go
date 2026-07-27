@@ -167,7 +167,7 @@ test.describe('Outfit 03 reference and V02 animation loops', () => {
     await expect(future.locator('[data-v03-cinematic-line]')).toHaveCount(1);
     await expect(future.locator('[data-v03-cinematic-ground-line]')).toHaveCount(1);
     await expect(future.getByText('MOUNT POGAGA // 01')).toBeVisible();
-    await expect(future.getByRole('heading', { name: '読み込み中…' })).toBeVisible();
+    await expect(future.getByRole('heading', { name: '読み込み中...' })).toBeVisible();
     await expect(future.getByText('Loading...')).toHaveCount(0);
     await expect(future.getByText('SQUIRREL FIELD NOTE')).toHaveCount(0);
     await expect(future.getByText(/A gorilla weighs about as much as 450 squirrels/i)).toBeVisible();
