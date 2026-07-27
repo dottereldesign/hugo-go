@@ -34,6 +34,9 @@ describe('Version 03 long-view cinematic', () => {
 
     expect(existsSync(backdropPath)).toBe(false);
     expect(existsSync(resolve('public/audio/music/sleepy.mp3'))).toBe(true);
+    expect(html).toContain(
+      '<link rel="preload" href="./audio/music/sleepy.mp3" as="audio" type="audio/mpeg" />',
+    );
     expect(html.match(/data-v03-cinematic(?=[\s>])/g)).toHaveLength(2);
     expect(html.match(/data-v03-cinematic-world/g)).toHaveLength(2);
     expect(html.match(/data-v03-cinematic-frame/g)).toHaveLength(2);
