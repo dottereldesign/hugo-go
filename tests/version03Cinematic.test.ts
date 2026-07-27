@@ -57,7 +57,8 @@ describe('Version 03 long-view cinematic', () => {
     expect(app).toContain("@fontsource/rampart-one/latin-400.css");
     expect(app).toContain("@fontsource/rampart-one/japanese-400.css");
     expect(cinematic).not.toContain("'--v03-cinematic-midline-y'");
-    expect(styles).toContain("font: 400 clamp(3.5rem, 8vw, 10rem)/1.18 'Rampart One'");
+    expect(styles).toContain('max-width: 1200px !important');
+    expect(styles).toContain("font: 400 clamp(3.5rem, 8vw, 6.25rem)/1.18 'Rampart One'");
     expect(styles).toContain('--future-homepage-ink: #20231f');
     expect(styles).toContain('height: clamp(36px, 7vh, 84px)');
     expect(styles).toContain('max-width: 520px');

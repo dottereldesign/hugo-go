@@ -3889,7 +3889,8 @@ body.future-homepage-page-open {
   --v03-cinematic-gutter: 0px;
   --future-homepage-ink: #20231f;
   width: 100%;
-  margin-inline: 0;
+  max-width: 1200px !important;
+  margin-inline: auto;
 }
 
 .v03-cinematic--future-homepage .v03-cinematic-stage > .v03-cinematic-line {
@@ -4010,7 +4011,7 @@ body.future-homepage-page-open {
   z-index: 6;
   top: 50%;
   left: 45%;
-  width: min(52vw, 960px);
+  width: 52%;
   color: var(--future-homepage-ink);
   pointer-events: none;
   transform: translateY(-50%);
@@ -4038,7 +4039,7 @@ body.future-homepage-page-open {
   max-width: 100%;
   margin: clamp(8px, 1.3vh, 15px) 0 clamp(10px, 1.7vh, 20px);
   color: var(--future-homepage-ink);
-  font: 400 clamp(3.5rem, 8vw, 10rem)/1.18 'Rampart One', 'Arial Black', sans-serif;
+  font: 400 clamp(3.5rem, 8vw, 6.25rem)/1.18 'Rampart One', 'Arial Black', sans-serif;
   letter-spacing: .015em;
   white-space: nowrap;
 }
