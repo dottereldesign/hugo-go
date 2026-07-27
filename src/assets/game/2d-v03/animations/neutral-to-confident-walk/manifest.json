@@ -4,21 +4,27 @@
     "id": "neutral-to-confident-walk",
     "assetDirectory": "neutral-to-confident-walk",
     "name": "Neutral Side · Step into confident walk",
-    "description": "The exact Neutral Side start transitions through three new whole-body drawings into the approved Confident Walk finish.",
+    "description": "The exact Neutral Side start transitions through three new whole-body drawings into the approved Confident Walk, then continues through the opposite leg's complete next step.",
     "stageLabel": "OUTFIT 03 · WALK START",
-    "prompt": "Create one strict 3-column x 1-row sprite sheet containing\nexactly three complete full-body intermediate Hugo drawings at 25, 50, and 75\npercent progress from the exact first frame of animation 01 into the exact\napproved Confident Walk pose. Progress from a subtle screen-right weight shift,\nthrough a natural passing step, into an opening confident stride. Every\nadjacent drawing must have a small believable motion delta. Keep Hugo facing\nand travelling screen-right in strict side profile. Preserve Hugo's face,\nspiky brown hair, proportions, warm peach/tan skin, orange-and-cream Outfit 03\nSunrise suit, yellow/orange back panel, dark trim, knee pads, and black\nbasketball shoes. Match the canonical polished 2D game-character linework,\nlighting, shading, colour, scale, and perspective. Redraw the complete figure\nin every cell. Use a perfectly flat solid #FF00FF chroma background with\ngenerous clear gutters. No cropped hair, hands, legs, or shoes; no duplicate\nposes, extra people, props, fragments, text, labels, borders, shadows,\nreflections, or watermark."
+    "prompt": "Extend the exact Neutral Side to approved Confident Walk transition\nwith four new complete full-body drawings after source frame 5. In source frame\n5 Hugo faces screen-right with one leg leading toward screen-right and the\nother leg trailing toward screen-left. Lock those leg identities: the trailing\nleg must now perform the next step while the current leading leg accepts the\nweight and moves behind. Draw, in order, rear-foot toe-off, the same rear leg\npassing beneath and ahead of the hips, its forward swing, and a clear\nopposite-leg contact. Counter-swing the arms naturally and keep every adjacent\ndrawing a small chronological motion delta. Do not let the already-leading leg\ntake a second step. Preserve Hugo's exact face, spiky brown hair, proportions,\nwarm peach/tan skin, orange-and-cream Outfit 03 Sunrise suit, yellow/orange back\npanel, dark trim, knee pads, and black basketball shoes. Match the canonical\npolished 2D game-character linework, lighting, shading, colour, scale, and\nstrict screen-right side-profile perspective. Redraw the complete figure in\nevery image on a perfectly flat solid #FF00FF chroma background with generous\npadding. No duplicate poses, cropped hair, hands, legs, or shoes; no extra\npeople, props, fragments, text, labels, borders, shadows, reflections, or\nwatermark."
   },
   "timing": {
-    "baseFps": 7,
-    "runtimeFrameCount": 7,
-    "drawingCount": 5,
+    "baseFps": 10,
+    "runtimeFrameCount": 10,
+    "drawingCount": 9,
     "loopDurationSeconds": 1.0,
-    "bookendFrame": 7
+    "bookendFrame": 10
   },
-  "productionMethod": "two exact approved endpoint figures plus three complete generated in-between figures; chroma cleanup and deterministic whole-body registration only; no body-part compositing, code interpolation, or runtime sheet slicing",
+  "productionMethod": "two exact approved figures plus three complete generated transition drawings and four complete generated opposite-step drawings; chroma cleanup and deterministic whole-body registration only; no body-part compositing, code interpolation, or runtime sheet slicing",
   "source": {
     "generatedSheet": "art/source-images/game/2d-v03/animations/neutral-to-confident-walk-v1/hugo-neutral-to-confident-walk-three-inbetweens-transparent.png",
-    "registeredSequence": "art/source-images/game/2d-v03/animations/neutral-to-confident-walk-v1/hugo-neutral-to-confident-walk-five-drawings-registered.png",
+    "continuationDrawings": [
+      "art/source-images/game/2d-v03/animations/neutral-to-confident-walk-v2/hugo-neutral-to-confident-walk-06-rear-toe-off-transparent.png",
+      "art/source-images/game/2d-v03/animations/neutral-to-confident-walk-v2/hugo-neutral-to-confident-walk-07-opposite-leg-passing-transparent.png",
+      "art/source-images/game/2d-v03/animations/neutral-to-confident-walk-v2/hugo-neutral-to-confident-walk-08-opposite-leg-forward-swing-transparent.png",
+      "art/source-images/game/2d-v03/animations/neutral-to-confident-walk-v2/hugo-neutral-to-confident-walk-09-opposite-contact-transparent.png"
+    ],
+    "registeredSequence": "art/source-images/game/2d-v03/animations/neutral-to-confident-walk-v2/hugo-neutral-to-confident-walk-nine-drawings-registered.png",
     "startEndpoint": "src/assets/game/2d-v03/animations/head-nod-soft-inbetweens/frames/hugo-head-nod-smooth-01-approved-00-percent.png",
     "endEndpoint": "src/assets/game/2d-v03/sunrise-side/poses/hugo-sunrise-side-02-confident-walk.png",
     "uniqueDrawings": [
@@ -116,6 +122,102 @@
           354,
           414
         ]
+      },
+      {
+        "sourceFrame": 6,
+        "filename": "hugo-neutral-to-confident-06-generated-rear-toe-off.png",
+        "kind": "generated opposite-step continuation",
+        "progressPercent": 125,
+        "sha256": "4be8c393e54a0c0e62bf1d23de6010b8d9f7d5bcc3a9f07f3d8426d4b0a8169d",
+        "alphaBounds": [
+          172,
+          97,
+          341,
+          414
+        ],
+        "sourceFile": "art/source-images/game/2d-v03/animations/neutral-to-confident-walk-v2/hugo-neutral-to-confident-walk-06-rear-toe-off-transparent.png",
+        "sourceBounds": [
+          392,
+          169,
+          853,
+          1034
+        ],
+        "oppositeStepPhasePercent": 25,
+        "uniformScale": 0.366474,
+        "targetHeight": 317,
+        "targetBaselineY": 414
+      },
+      {
+        "sourceFrame": 7,
+        "filename": "hugo-neutral-to-confident-07-generated-opposite-leg-passing.png",
+        "kind": "generated opposite-step continuation",
+        "progressPercent": 150,
+        "sha256": "85def89d1906722e49bbab22abd593c583d67a486e9d9fcd0fa634291af19872",
+        "alphaBounds": [
+          185,
+          97,
+          327,
+          414
+        ],
+        "sourceFile": "art/source-images/game/2d-v03/animations/neutral-to-confident-walk-v2/hugo-neutral-to-confident-walk-07-opposite-leg-passing-transparent.png",
+        "sourceBounds": [
+          430,
+          174,
+          822,
+          1050
+        ],
+        "oppositeStepPhasePercent": 50,
+        "uniformScale": 0.361872,
+        "targetHeight": 317,
+        "targetBaselineY": 414
+      },
+      {
+        "sourceFrame": 8,
+        "filename": "hugo-neutral-to-confident-08-generated-opposite-leg-forward-swing.png",
+        "kind": "generated opposite-step continuation",
+        "progressPercent": 175,
+        "sha256": "7f08563ec04bc660eeabaf2093d4e03a19624537e16a0360005faf54271ebe5c",
+        "alphaBounds": [
+          156,
+          97,
+          355,
+          414
+        ],
+        "sourceFile": "art/source-images/game/2d-v03/animations/neutral-to-confident-walk-v2/hugo-neutral-to-confident-walk-08-opposite-leg-forward-swing-transparent.png",
+        "sourceBounds": [
+          403,
+          198,
+          931,
+          1041
+        ],
+        "oppositeStepPhasePercent": 75,
+        "uniformScale": 0.376038,
+        "targetHeight": 317,
+        "targetBaselineY": 414
+      },
+      {
+        "sourceFrame": 9,
+        "filename": "hugo-neutral-to-confident-09-generated-opposite-contact.png",
+        "kind": "generated opposite-step continuation",
+        "progressPercent": 200,
+        "sha256": "019014eea16c763e151b5c4d38ff93e9160ef3de5f27fb5685f93d1f20b8bbb3",
+        "alphaBounds": [
+          159,
+          97,
+          353,
+          414
+        ],
+        "sourceFile": "art/source-images/game/2d-v03/animations/neutral-to-confident-walk-v2/hugo-neutral-to-confident-walk-09-opposite-contact-transparent.png",
+        "sourceBounds": [
+          377,
+          186,
+          886,
+          1017
+        ],
+        "oppositeStepPhasePercent": 100,
+        "uniformScale": 0.381468,
+        "targetHeight": 317,
+        "targetBaselineY": 414
       }
     ]
   },
@@ -158,15 +260,36 @@
     {
       "index": 6,
       "sourceFrame": 5,
-      "label": "Approved Confident Walk finish · hold",
+      "label": "Approved Confident Walk contact",
       "filename": "hugo-neutral-to-confident-05-approved-confident-walk.png",
       "runtime": true
     },
     {
       "index": 7,
-      "sourceFrame": 5,
-      "label": "Approved Confident Walk finish · hold",
-      "filename": "hugo-neutral-to-confident-05-approved-confident-walk.png",
+      "sourceFrame": 6,
+      "label": "Generated rear-foot toe-off",
+      "filename": "hugo-neutral-to-confident-06-generated-rear-toe-off.png",
+      "runtime": true
+    },
+    {
+      "index": 8,
+      "sourceFrame": 7,
+      "label": "Generated opposite leg passing",
+      "filename": "hugo-neutral-to-confident-07-generated-opposite-leg-passing.png",
+      "runtime": true
+    },
+    {
+      "index": 9,
+      "sourceFrame": 8,
+      "label": "Generated opposite leg forward swing",
+      "filename": "hugo-neutral-to-confident-08-generated-opposite-leg-forward-swing.png",
+      "runtime": true
+    },
+    {
+      "index": 10,
+      "sourceFrame": 9,
+      "label": "Generated opposite-leg contact",
+      "filename": "hugo-neutral-to-confident-09-generated-opposite-contact.png",
       "runtime": true
     }
   ]

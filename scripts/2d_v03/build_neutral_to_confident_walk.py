@@ -18,15 +18,41 @@ SOURCE_ROOT = (
 SOURCE_SHEET = (
     SOURCE_ROOT / "hugo-neutral-to-confident-walk-three-inbetweens-transparent.png"
 )
+CONTINUATION_ROOT = (
+    ROOT
+    / "art/source-images/game/2d-v03/animations/neutral-to-confident-walk-v2"
+)
+CONTINUATION_SOURCES = (
+    (
+        "hugo-neutral-to-confident-walk-06-rear-toe-off-transparent.png",
+        "Rear-foot toe-off",
+        25,
+    ),
+    (
+        "hugo-neutral-to-confident-walk-07-opposite-leg-passing-transparent.png",
+        "Opposite leg passing",
+        50,
+    ),
+    (
+        "hugo-neutral-to-confident-walk-08-opposite-leg-forward-swing-transparent.png",
+        "Opposite leg forward swing",
+        75,
+    ),
+    (
+        "hugo-neutral-to-confident-walk-09-opposite-contact-transparent.png",
+        "Opposite-leg contact",
+        100,
+    ),
+)
 REGISTERED_SHEET = (
-    SOURCE_ROOT / "hugo-neutral-to-confident-walk-five-drawings-registered.png"
+    CONTINUATION_ROOT / "hugo-neutral-to-confident-walk-nine-drawings-registered.png"
 )
 POSE_ROOT = ROOT / "src/assets/game/2d-v03/sunrise-side/poses"
 OUTPUT = ROOT / "src/assets/game/2d-v03/animations/neutral-to-confident-walk"
 FRAME_ROOT = OUTPUT / "frames"
 
 CANVAS = 512
-BASE_FPS = 7
+BASE_FPS = 10
 START_HEIGHT = 323
 END_HEIGHT = 317
 START_BASELINE = 417
@@ -67,29 +93,56 @@ DRAWINGS = (
     ),
     (
         "hugo-neutral-to-confident-05-approved-confident-walk.png",
-        "Approved Confident Walk finish",
+        "Approved Confident Walk contact",
         "approved original",
         100,
     ),
+    (
+        "hugo-neutral-to-confident-06-generated-rear-toe-off.png",
+        "Generated rear-foot toe-off",
+        "generated opposite-step continuation",
+        125,
+    ),
+    (
+        "hugo-neutral-to-confident-07-generated-opposite-leg-passing.png",
+        "Generated opposite leg passing",
+        "generated opposite-step continuation",
+        150,
+    ),
+    (
+        "hugo-neutral-to-confident-08-generated-opposite-leg-forward-swing.png",
+        "Generated opposite leg forward swing",
+        "generated opposite-step continuation",
+        175,
+    ),
+    (
+        "hugo-neutral-to-confident-09-generated-opposite-contact.png",
+        "Generated opposite-leg contact",
+        "generated opposite-step continuation",
+        200,
+    ),
 )
 
-RUNTIME_SEQUENCE = (1, 1, 2, 3, 4, 5, 5)
+RUNTIME_SEQUENCE = (1, 1, 2, 3, 4, 5, 6, 7, 8, 9)
 
-PROMPT = """Create one strict 3-column x 1-row sprite sheet containing
-exactly three complete full-body intermediate Hugo drawings at 25, 50, and 75
-percent progress from the exact first frame of animation 01 into the exact
-approved Confident Walk pose. Progress from a subtle screen-right weight shift,
-through a natural passing step, into an opening confident stride. Every
-adjacent drawing must have a small believable motion delta. Keep Hugo facing
-and travelling screen-right in strict side profile. Preserve Hugo's face,
-spiky brown hair, proportions, warm peach/tan skin, orange-and-cream Outfit 03
-Sunrise suit, yellow/orange back panel, dark trim, knee pads, and black
-basketball shoes. Match the canonical polished 2D game-character linework,
-lighting, shading, colour, scale, and perspective. Redraw the complete figure
-in every cell. Use a perfectly flat solid #FF00FF chroma background with
-generous clear gutters. No cropped hair, hands, legs, or shoes; no duplicate
-poses, extra people, props, fragments, text, labels, borders, shadows,
-reflections, or watermark."""
+PROMPT = """Extend the exact Neutral Side to approved Confident Walk transition
+with four new complete full-body drawings after source frame 5. In source frame
+5 Hugo faces screen-right with one leg leading toward screen-right and the
+other leg trailing toward screen-left. Lock those leg identities: the trailing
+leg must now perform the next step while the current leading leg accepts the
+weight and moves behind. Draw, in order, rear-foot toe-off, the same rear leg
+passing beneath and ahead of the hips, its forward swing, and a clear
+opposite-leg contact. Counter-swing the arms naturally and keep every adjacent
+drawing a small chronological motion delta. Do not let the already-leading leg
+take a second step. Preserve Hugo's exact face, spiky brown hair, proportions,
+warm peach/tan skin, orange-and-cream Outfit 03 Sunrise suit, yellow/orange back
+panel, dark trim, knee pads, and black basketball shoes. Match the canonical
+polished 2D game-character linework, lighting, shading, colour, scale, and
+strict screen-right side-profile perspective. Redraw the complete figure in
+every image on a perfectly flat solid #FF00FF chroma background with generous
+padding. No duplicate poses, cropped hair, hands, legs, or shoes; no extra
+people, props, fragments, text, labels, borders, shadows, reflections, or
+watermark."""
 
 
 def sha256(path: Path) -> str:
@@ -179,6 +232,42 @@ def register_generated(
     return frames, metadata
 
 
+def register_continuation() -> tuple[list[Image.Image], list[dict[str, object]]]:
+    frames: list[Image.Image] = []
+    metadata: list[dict[str, object]] = []
+    for filename, label, phase_percent in CONTINUATION_SOURCES:
+        source_path = CONTINUATION_ROOT / filename
+        source = Image.open(source_path).convert("RGBA")
+        source_bounds = alpha_bounds(source)
+        left, top, right, bottom = source_bounds
+        if left <= 8 or right >= source.width - 8 or top <= 8 or bottom >= source.height - 8:
+            raise ValueError(f"{label}: generated source touches a boundary")
+
+        crop = source.crop(source_bounds)
+        target_height = END_HEIGHT
+        target_baseline = END_BASELINE
+        target_width = round(crop.width * target_height / crop.height)
+        resized = crop.resize((target_width, target_height), Image.Resampling.LANCZOS)
+        frame = Image.new("RGBA", (CANVAS, CANVAS))
+        frame_left = round((CANVAS - target_width) / 2)
+        frame_top = target_baseline - target_height
+        frame.alpha_composite(resized, (frame_left, frame_top))
+        validate_frame(frame, label)
+        frames.append(frame)
+        metadata.append(
+            {
+                "sourceFile": str(source_path.relative_to(ROOT)).replace("\\", "/"),
+                "sourceBounds": list(source_bounds),
+                "oppositeStepPhasePercent": phase_percent,
+                "uniformScale": round(target_height / crop.height, 6),
+                "targetHeight": target_height,
+                "targetBaselineY": target_baseline,
+                "alphaBounds": list(alpha_bounds(frame)),
+            }
+        )
+    return frames, metadata
+
+
 def save_registered_sheet(drawings: list[Image.Image]) -> None:
     sheet = Image.new("RGBA", (CANVAS * len(drawings), CANVAS))
     for index, drawing in enumerate(drawings):
@@ -189,11 +278,12 @@ def save_registered_sheet(drawings: list[Image.Image]) -> None:
 def write_manifest(
     paths: list[Path],
     generated_metadata: list[dict[str, object]],
+    continuation_metadata: list[dict[str, object]],
 ) -> None:
     runtime_frames = []
     for runtime_index, source_index in enumerate(RUNTIME_SEQUENCE, 1):
         filename, label, _, _ = DRAWINGS[source_index - 1]
-        hold = " · hold" if runtime_index in (1, 2, 6, 7) else ""
+        hold = " · hold" if runtime_index in (1, 2) else ""
         runtime_frames.append(
             {
                 "index": runtime_index,
@@ -208,6 +298,10 @@ def write_manifest(
         2: generated_metadata[0],
         3: generated_metadata[1],
         4: generated_metadata[2],
+        6: continuation_metadata[0],
+        7: continuation_metadata[1],
+        8: continuation_metadata[2],
+        9: continuation_metadata[3],
     }
     unique_drawings = []
     for index, (path, drawing) in enumerate(zip(paths, DRAWINGS, strict=True), 1):
@@ -234,7 +328,8 @@ def write_manifest(
             "name": "Neutral Side · Step into confident walk",
             "description": (
                 "The exact Neutral Side start transitions through three new "
-                "whole-body drawings into the approved Confident Walk finish."
+                "whole-body drawings into the approved Confident Walk, then "
+                "continues through the opposite leg's complete next step."
             ),
             "stageLabel": "OUTFIT 03 · WALK START",
             "prompt": PROMPT,
@@ -247,13 +342,17 @@ def write_manifest(
             "bookendFrame": len(RUNTIME_SEQUENCE),
         },
         "productionMethod": (
-            "two exact approved endpoint figures plus three complete generated "
-            "in-between figures; chroma cleanup and deterministic whole-body "
-            "registration only; no body-part compositing, code interpolation, "
-            "or runtime sheet slicing"
+            "two exact approved figures plus three complete generated transition "
+            "drawings and four complete generated opposite-step drawings; chroma "
+            "cleanup and deterministic whole-body registration only; no body-part "
+            "compositing, code interpolation, or runtime sheet slicing"
         ),
         "source": {
             "generatedSheet": str(SOURCE_SHEET.relative_to(ROOT)).replace("\\", "/"),
+            "continuationDrawings": [
+                str((CONTINUATION_ROOT / filename).relative_to(ROOT)).replace("\\", "/")
+                for filename, _, _ in CONTINUATION_SOURCES
+            ],
             "registeredSequence": str(REGISTERED_SHEET.relative_to(ROOT)).replace(
                 "\\", "/"
             ),
@@ -271,9 +370,10 @@ def write_manifest(
 
 def main() -> None:
     generated, metadata = register_generated(source_cells())
+    continuation, continuation_metadata = register_continuation()
     start = Image.open(START_POSE).convert("RGBA")
     end = Image.open(END_POSE).convert("RGBA")
-    drawings = [start, *generated, end]
+    drawings = [start, *generated, end, *continuation]
     for drawing, (_, label, _, _) in zip(drawings, DRAWINGS, strict=True):
         validate_frame(drawing, label)
 
@@ -290,8 +390,8 @@ def main() -> None:
         paths.append(path)
 
     save_registered_sheet(drawings)
-    write_manifest(paths, metadata)
-    print("Built 5-drawing Neutral Side to Confident Walk transition at 7 FPS")
+    write_manifest(paths, metadata, continuation_metadata)
+    print("Built 9-drawing Neutral Side to Confident Walk transition at 10 FPS")
 
 
 if __name__ == "__main__":

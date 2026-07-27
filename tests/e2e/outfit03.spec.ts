@@ -105,9 +105,11 @@ test.describe('Outfit 03 reference and V02 animation loops', () => {
     await expect(previews).toHaveCount(2);
     await expect(previews).toContainText('01 · NEUTRAL SIDE');
     await expect(previews).toContainText('02 · NEUTRAL SIDE');
-    await expect(
-      page.locator('[data-v03-animation="neutral-to-confident-walk"]'),
-    ).toContainText('Step into confident walk');
+    const walkStart = page.locator('[data-v03-animation="neutral-to-confident-walk"]');
+    await expect(walkStart).toContainText('Step into confident walk');
+    await expect(walkStart).toContainText('10 runtime frames');
+    await expect(walkStart).toContainText('9 complete figures');
+    await expect(walkStart).toContainText('opposite-leg follow-through');
     await expect(page.locator('[data-v03-animation="head-nod-soft"]')).toHaveCount(0);
 
     const previewSizes = await previews.evaluateAll((cards) => cards.map((card) => {
