@@ -3898,7 +3898,7 @@ body.future-homepage-page-open {
   top: 0;
   left: 0;
   width: 100%;
-  height: clamp(36px, 7vh, 84px);
+  height: max(64px, calc((100% - min(56.25vw, 675px)) / 2));
   background: var(--future-homepage-ink);
   box-shadow: 0 1px 0 rgba(32, 35, 31, .2);
   transform: none;
@@ -4872,6 +4872,10 @@ body.reduce-motion .v03-cinematic--future-homepage .v03-cinematic-character img 
 
   .v03-cinematic--future-homepage .v03-cinematic-character {
     left: 22%;
+  }
+
+  .v03-cinematic--future-homepage .v03-cinematic-stage > .v03-cinematic-line {
+    height: clamp(44px, 9vh, 72px);
   }
 
   .future-homepage-loading {
