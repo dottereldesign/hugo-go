@@ -27,6 +27,9 @@ describe('Version 03 long-view cinematic', () => {
     );
     const html = readFileSync(resolve('index.html'), 'utf8');
     const app = readFileSync(resolve('src/main.ts'), 'utf8');
+    const styles = readFileSync(resolve('src/style.css'), 'utf8');
+    const futureHomepageStart = html.indexOf('id="future-homepage-screen"');
+    const loadingStart = html.indexOf('class="future-homepage-loading"');
 
     expect(existsSync(backdropPath)).toBe(false);
     expect(html.match(/data-v03-cinematic(?=[\s>])/g)).toHaveLength(2);
@@ -37,7 +40,15 @@ describe('Version 03 long-view cinematic', () => {
     expect(html).toContain('id="future-homepage-button"');
     expect(html).toContain('id="version-03-future-homepage-button"');
     expect(html).toContain('id="future-homepage-screen"');
+    expect(loadingStart).toBeGreaterThan(futureHomepageStart);
+    expect(html.match(/class="future-homepage-loading"/g)).toHaveLength(1);
+    expect(html).toContain('Loading...');
+    expect(html).toContain('Some squirrels help forests grow');
     expect(app).toContain("'#/future-homepage'");
+    expect(app).toContain("@fontsource/rampart-one/latin-400.css");
+    expect(styles).toContain("font: 400 clamp(2rem, 5.8vw, 7rem)/.92 'Rampart One'");
+    expect(styles).toContain('@keyframes future-loading-type');
+    expect(styles).toContain('.v03-cinematic--future-homepage .v03-cinematic-character');
     expect(html).not.toContain('data-v03-cinematic-backdrop');
   });
 });

@@ -3898,6 +3898,137 @@ body.future-homepage-page-open {
   margin-inline: 0;
 }
 
+.v03-cinematic--future-homepage .v03-cinematic-world {
+  transform-origin: 28% 62%;
+}
+
+.v03-cinematic--future-homepage .v03-cinematic-character {
+  left: 28%;
+}
+
+.future-homepage-loading {
+  position: absolute;
+  z-index: 6;
+  top: 45%;
+  left: 51%;
+  width: min(45vw, 880px);
+  color: #050505;
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
+.future-homepage-loading-kicker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #050505;
+  font: 800 clamp(.58rem, .75vw, .76rem)/1 'IBM Plex Mono', monospace;
+  letter-spacing: .22em;
+}
+
+.future-homepage-loading-kicker::before {
+  width: clamp(28px, 4vw, 72px);
+  height: 3px;
+  content: '';
+  background: #050505;
+}
+
+.future-homepage-loading-title {
+  position: relative;
+  width: max-content;
+  max-width: 100%;
+  margin: clamp(13px, 2vh, 24px) 0 clamp(18px, 2.5vh, 32px);
+  color: #050505;
+  font: 400 clamp(2rem, 5.8vw, 7rem)/.92 'Rampart One', 'Arial Black', sans-serif;
+  letter-spacing: .015em;
+  white-space: nowrap;
+}
+
+.future-homepage-loading-title span {
+  display: block;
+  color: #050505;
+  clip-path: inset(0 100% 0 0);
+}
+
+.future-homepage-loading-title::after {
+  position: absolute;
+  top: .05em;
+  bottom: .07em;
+  left: 0;
+  width: max(4px, .065em);
+  content: '';
+  background: #050505;
+}
+
+.future-homepage-page-open .future-homepage-loading-title {
+  animation: future-loading-lock-in .2s steps(2, end) 1.8s both;
+}
+
+.future-homepage-page-open .future-homepage-loading-title span {
+  animation: future-loading-type 1.55s steps(10, end) .22s forwards;
+}
+
+.future-homepage-page-open .future-homepage-loading-title::after {
+  animation:
+    future-loading-cursor-travel 1.55s steps(10, end) .22s forwards,
+    future-loading-cursor-blink .62s step-end .22s infinite;
+}
+
+.future-homepage-squirrel-fact {
+  display: grid;
+  grid-template-columns: minmax(100px, 8.5vw) minmax(0, 1fr);
+  gap: clamp(15px, 2.4vw, 34px);
+  max-width: 700px;
+  margin: 0;
+  padding-top: clamp(14px, 2vh, 22px);
+  border-top: 3px solid #050505;
+  color: #050505;
+  font: 700 clamp(.72rem, 1vw, .92rem)/1.65 'IBM Plex Mono', monospace;
+}
+
+.future-homepage-squirrel-fact strong {
+  color: #050505;
+  font: 400 clamp(.75rem, 1.15vw, 1.05rem)/1.2 'Rampart One', 'Arial Black', sans-serif;
+  letter-spacing: .06em;
+}
+
+@keyframes future-loading-type {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes future-loading-cursor-travel {
+  from { left: 0; }
+  to { left: 100%; }
+}
+
+@keyframes future-loading-cursor-blink {
+  0%,
+  48% { opacity: 1; }
+  49%,
+  100% { opacity: 0; }
+}
+
+@keyframes future-loading-lock-in {
+  0% { transform: translateX(4px) skewX(-2deg); }
+  50% { transform: translateX(-2px) skewX(1deg); }
+  100% { transform: translateX(0) skewX(0); }
+}
+
+body.reduce-motion .future-homepage-loading-title,
+body.reduce-motion .future-homepage-loading-title span,
+body.reduce-motion .future-homepage-loading-title::after {
+  animation: none;
+}
+
+body.reduce-motion .future-homepage-loading-title span {
+  clip-path: none;
+}
+
+body.reduce-motion .future-homepage-loading-title::after {
+  left: 100%;
+}
+
 @media (min-width: 1800px) {
   .version-03-pose-grid {
     grid-template-columns: repeat(8, minmax(0, 1fr));
@@ -4649,6 +4780,36 @@ body.future-homepage-page-open {
 
   .future-homepage-back-button span {
     display: none;
+  }
+
+  .v03-cinematic--future-homepage .v03-cinematic-world {
+    transform-origin: 22% 62%;
+  }
+
+  .v03-cinematic--future-homepage .v03-cinematic-character {
+    left: 22%;
+  }
+
+  .future-homepage-loading {
+    top: 44%;
+    left: 42%;
+    width: 55%;
+    padding-right: 12px;
+  }
+
+  .future-homepage-loading-title {
+    font-size: clamp(1.55rem, 7vw, 2.3rem);
+  }
+
+  .future-homepage-squirrel-fact {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+    font-size: clamp(.6rem, 2.5vw, .72rem);
+    line-height: 1.48;
+  }
+
+  .future-homepage-squirrel-fact strong {
+    font-size: clamp(.64rem, 2.7vw, .76rem);
   }
 
   .version-03-pose-grid {
