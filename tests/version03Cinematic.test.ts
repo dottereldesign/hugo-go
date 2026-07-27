@@ -62,6 +62,8 @@ describe('Version 03 long-view cinematic', () => {
     expect(styles).toContain('clip-path: inset(-.12em 100% -.2em 0)');
     expect(styles).toContain('3.2s steps(10, end) .15s infinite both');
     expect(styles).toContain('.v03-cinematic--future-homepage .v03-cinematic-character');
+    expect(styles).toContain('@media (hover: hover) and (pointer: fine)');
+    expect(styles).toContain('drop-shadow(0 0 8px rgba(36, 255, 127, .5))');
     expect(html).not.toContain('data-v03-cinematic-backdrop');
   });
 });
