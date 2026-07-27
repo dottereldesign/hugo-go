@@ -9,6 +9,7 @@ import '@fontsource/ibm-plex-mono/latin-600.css';
 import '@fontsource/ibm-plex-mono/latin-700.css';
 import '@fontsource/titan-one/latin-400.css';
 import '@fontsource/rampart-one/latin-400.css';
+import '@fontsource/rampart-one/japanese-400.css';
 import './style.css';
 import { AudioEngine, UI_SOUND_PACKS, isUiSoundPack, type UiSound } from './audio';
 import { HOME_PANEL_ART, HOME_WORLD_ART } from './homeAssets';

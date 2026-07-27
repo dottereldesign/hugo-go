@@ -162,7 +162,9 @@ test.describe('Outfit 03 reference and V02 animation loops', () => {
     );
     await expect(cinematic.locator('[data-v03-cinematic-line]')).toHaveCount(1);
     await expect(cinematic.locator('[data-v03-cinematic-ground-line]')).toHaveCount(1);
+    await expect(future.getByText('MOUNT POGAGA // 01')).toBeVisible();
     await expect(future.getByText('Loading...')).toBeVisible();
+    await expect(future.getByText('読み込み中…')).toBeVisible();
     await expect(future.getByText('SQUIRREL FIELD NOTE')).toHaveCount(0);
     await expect(future.getByText(/unrecovered seeds can germinate into new trees/i)).toBeVisible();
     await expect(future.locator('#future-homepage-sleepy-audio')).toHaveAttribute(
