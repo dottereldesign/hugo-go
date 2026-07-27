@@ -53,6 +53,9 @@ describe('Version 03 long-view cinematic', () => {
     expect(html).toContain('MOUNT POGAGA // 01');
     expect(html).toContain('id="future-homepage-start"');
     expect(html).toContain('class="future-homepage-start-arrow"');
+    expect(html).toContain('data-lucide="arrow-right"');
+    expect(html).toContain('<span>START</span>');
+    expect(html).toContain('class="future-homepage-blue-wipe"');
     expect(html).toContain('data-v03-cinematic-color-frame');
     expect(html).toContain('aria-label="読み込み中..."');
     expect(html).toContain('class="future-homepage-loading-dots"');
@@ -78,7 +81,10 @@ describe('Version 03 long-view cinematic', () => {
     expect(styles).toContain('max-width: 1200px !important');
     expect(styles).toContain("font: 400 clamp(3.5rem, 8vw, 6.25rem)/1.18 'Rampart One'");
     expect(styles).toContain('--future-homepage-ink: #20231f');
+    expect(styles).toContain('--future-homepage-blue-start: #20c8f3');
+    expect(styles).toContain('--future-homepage-blue-end: #31e1ff');
     expect(styles).toContain('.future-homepage-screen > .v03-cinematic-line');
+    expect(styles).toContain('.future-homepage-screen.is-running > .v03-cinematic-line');
     expect(styles).toContain('height: max(64px, calc((100% - min(56.25vw, 675px)) / 2))');
     expect(styles).toContain('height: clamp(44px, 9vh, 72px)');
     expect(styles).toContain('max-width: 520px');
@@ -92,6 +98,7 @@ describe('Version 03 long-view cinematic', () => {
     expect(styles).toContain('@keyframes future-loading-type');
     expect(styles).toContain('@keyframes future-loading-dots');
     expect(styles).toContain('@keyframes future-homepage-colour-reveal');
+    expect(styles).toContain('@keyframes future-homepage-blue-wipe');
     expect(styles).toContain('@keyframes future-homepage-column-exit');
     expect(styles).toContain('@keyframes future-homepage-slash-enter');
     expect(styles).toContain('transform: translate(-50%, -81.25%)');

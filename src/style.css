@@ -3182,6 +3182,8 @@ body.future-homepage-page-open {
 
 .future-homepage-screen {
   --future-homepage-ink: #20231f;
+  --future-homepage-blue-start: #20c8f3;
+  --future-homepage-blue-end: #31e1ff;
   --future-homepage-bar-height: max(64px, calc((100% - min(56.25vw, 675px)) / 2));
   position: fixed;
   z-index: 121;
@@ -3197,6 +3199,8 @@ body.future-homepage-page-open {
 }
 
 .future-homepage-scroll {
+  position: relative;
+  z-index: 1;
   width: 100%;
   height: 100%;
   overflow-x: hidden;
@@ -3886,6 +3890,29 @@ body.future-homepage-page-open {
   width: 100%;
   max-width: 1200px !important;
   margin-inline: auto;
+  background: transparent;
+}
+
+.v03-cinematic--future-homepage .v03-cinematic-stage {
+  background: transparent;
+}
+
+.future-homepage-blue-wipe {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    var(--future-homepage-blue-start),
+    var(--future-homepage-blue-end)
+  );
+  clip-path: inset(0 100% 0 0);
+  pointer-events: none;
+  will-change: clip-path;
+}
+
+.future-homepage-screen.is-resolved .future-homepage-blue-wipe {
+  animation: future-homepage-blue-wipe 1400ms cubic-bezier(.4, 0, .2, 1) both;
 }
 
 .future-homepage-screen > .v03-cinematic-line {
@@ -3896,11 +3923,11 @@ body.future-homepage-page-open {
   height: var(--future-homepage-bar-height);
   background: var(--future-homepage-ink);
   box-shadow: 0 1px 0 rgba(32, 35, 31, .2);
-  transform: scaleY(1);
+  transform: scaleY(0);
   transform-origin: top;
 }
 
-body.future-homepage-page-open .future-homepage-screen > .v03-cinematic-line {
+.future-homepage-screen.is-running > .v03-cinematic-line {
   animation: future-homepage-letterbox-in 1100ms cubic-bezier(.76, 0, .24, 1) both;
 }
 
@@ -3979,7 +4006,17 @@ body.future-homepage-page-open .future-homepage-screen > .v03-cinematic-line {
 }
 
 .future-homepage-screen.is-resolved .v03-cinematic-color-frame {
-  animation: future-homepage-colour-reveal 1050ms cubic-bezier(.16, 1, .3, 1) 80ms both;
+  animation: future-homepage-colour-reveal 520ms cubic-bezier(.4, 0, .2, 1) 300ms both;
+}
+
+@keyframes future-homepage-blue-wipe {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+
+  to {
+    clip-path: inset(0);
+  }
 }
 
 @keyframes future-homepage-colour-reveal {
@@ -4120,8 +4157,8 @@ body.future-homepage-page-open .future-homepage-screen > .v03-cinematic-line {
   color: #f4f4f1;
   background: var(--future-homepage-ink);
   box-shadow: none;
-  font: 400 clamp(1rem, 1.4vw, 1.25rem)/1 'Rampart One', 'Arial Black', sans-serif;
-  letter-spacing: .04em;
+  font: 700 clamp(.82rem, 1vw, .95rem)/1 'IBM Plex Mono', monospace;
+  letter-spacing: .12em;
   cursor: pointer;
   transition:
     color 260ms ease,
@@ -4147,7 +4184,9 @@ body.future-homepage-page-open .future-homepage-screen > .v03-cinematic-line {
 
 .future-homepage-start-arrow {
   display: block;
-  font-family: 'Rampart One', 'Arial Black', sans-serif;
+  width: 21px;
+  height: 21px;
+  stroke-width: 1.8;
   transition: transform 360ms cubic-bezier(.16, 1, .3, 1);
 }
 
@@ -4340,14 +4379,20 @@ body.reduce-motion .future-homepage-screen.is-resolved .v03-cinematic-color-fram
   mask-image: none;
 }
 
+body.reduce-motion .future-homepage-screen.is-resolved .future-homepage-blue-wipe {
+  animation: none;
+  clip-path: inset(0);
+}
+
 body.reduce-motion .future-homepage-screen.is-resolved .future-homepage-loading {
   opacity: 0;
   animation: none;
   transform: translate3d(110vw, -50%, 0);
 }
 
-body.reduce-motion.future-homepage-page-open .future-homepage-screen > .v03-cinematic-line {
+body.reduce-motion .future-homepage-screen.is-running > .v03-cinematic-line {
   animation: none;
+  transform: scaleY(1);
 }
 
 @media (min-width: 1800px) {

@@ -168,7 +168,7 @@ test.describe('Outfit 03 reference and V02 animation loops', () => {
     await expect(future.locator('[data-v03-cinematic-ground-line]')).toHaveCount(1);
     await expect(future.locator('[data-v03-cinematic-line]').first()).toHaveCSS(
       'animation-name',
-      'future-homepage-letterbox-in',
+      'none',
     );
     await expect(cinematic.locator('[data-v03-cinematic-frame]')).toHaveCSS(
       'filter',
@@ -182,6 +182,13 @@ test.describe('Outfit 03 reference and V02 animation loops', () => {
     await expect(
       future.getByRole('button', { name: 'Start the Mount Pogaga sequence' }),
     ).toBeVisible();
+    await expect(future.locator('.future-homepage-start-arrow')).toHaveCount(1);
+    await expect(future.locator('.future-homepage-blue-wipe')).toHaveCount(1);
+    await future.getByRole('button', { name: 'Start the Mount Pogaga sequence' }).click();
+    await expect(future.locator('[data-v03-cinematic-line]').first()).toHaveCSS(
+      'animation-name',
+      'future-homepage-letterbox-in',
+    );
     await expect(future.getByText('Loading...')).toHaveCount(0);
     await expect(future.getByText('SQUIRREL FIELD NOTE')).toHaveCount(0);
     await expect(future.getByText(/A gorilla weighs about as much as 450 squirrels/i)).toBeVisible();
