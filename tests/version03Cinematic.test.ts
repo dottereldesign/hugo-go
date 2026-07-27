@@ -56,6 +56,11 @@ describe('Version 03 long-view cinematic', () => {
     expect(html).toContain('data-lucide="arrow-right"');
     expect(html).toContain('<span>START</span>');
     expect(html).toContain('class="future-homepage-blue-wipe"');
+    expect(html).toContain('class="future-homepage-credits"');
+    expect(html).toContain('A Jamie Wilson');
+    expect(html).toContain('Created &amp; directed by');
+    expect(html).toContain('Dotterel Design');
+    expect(html).toContain('<strong>Hugo Go!</strong>');
     expect(html).toContain('data-v03-cinematic-color-frame');
     expect(
       html.slice(futureHomepageStart).match(/draggable="false"/g),
@@ -108,6 +113,9 @@ describe('Version 03 long-view cinematic', () => {
     expect(styles).toContain('@keyframes future-homepage-colour-lock');
     expect(styles).toContain('@keyframes future-homepage-blue-wipe');
     expect(styles).toContain('@keyframes future-homepage-column-exit');
+    expect(styles).toContain('@keyframes future-homepage-credit-beat');
+    expect(styles).toContain('.future-homepage-screen.is-resolved .future-homepage-credit--production');
+    expect(styles).toContain('1550ms both');
     expect(styles).toContain('@keyframes future-homepage-slash-enter');
     expect(styles).toContain('transform: translate(-50%, -81.25%)');
     expect(styles).toContain('width: clamp(145px, 13vw, 210px)');

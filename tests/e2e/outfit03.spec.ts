@@ -188,6 +188,11 @@ test.describe('Outfit 03 reference and V02 animation loops', () => {
     ).toBeVisible();
     await expect(future.locator('.future-homepage-start-arrow')).toHaveCount(1);
     await expect(future.locator('.future-homepage-blue-wipe')).toHaveCount(1);
+    await expect(future.locator('.future-homepage-credit')).toHaveCount(4);
+    await expect(future.locator('.future-homepage-credits')).toHaveAttribute(
+      'aria-label',
+      /A Jamie Wilson production.*Dotterel Design game.*Hugo Go/i,
+    );
     await future.getByRole('button', { name: 'Start the Mount Pogaga sequence' }).click();
     await expect(future.locator('[data-v03-cinematic-line]').first()).toHaveCSS(
       'animation-name',
