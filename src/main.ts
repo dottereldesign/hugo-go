@@ -307,6 +307,7 @@ class HugoGoApp {
 
     this.futureHomepageStart.disabled = true;
     this.futureHomepageScreen.classList.add('is-running');
+    this.audio.pauseMusic();
     this.futureHomepageAudio.prime();
     this.futureHomepageCinematic.start();
   }

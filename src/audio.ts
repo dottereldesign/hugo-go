@@ -32,6 +32,15 @@ export function resolveUiSoundUrl(
   return new URL(`${appBase}audio/ui/packs/${pack}/${UI_SOUND_FILES[pack][sound]}`, pageBase).href;
 }
 
+export function isBackgroundMusicSuppressed(
+  bodyClasses: Pick<DOMTokenList, 'contains'> = document.body.classList,
+): boolean {
+  return (
+    bodyClasses.contains('version-03-page-open')
+    || bodyClasses.contains('future-homepage-page-open')
+  );
+}
+
 export class AudioEngine {
   muted: boolean;
   private context: AudioContext | null = null;
@@ -56,7 +65,7 @@ export class AudioEngine {
     if (
       !this.muted
       && this.musicEnabled
-      && !document.body.classList.contains('version-03-page-open')
+      && !isBackgroundMusicSuppressed()
       && this.music?.paused
     ) {
       void this.music.play().catch(() => undefined);
