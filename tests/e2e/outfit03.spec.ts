@@ -124,10 +124,10 @@ test.describe('Outfit 03 reference and V02 animation loops', () => {
     }
   });
 
-  test('pulls back through the full-screen Version 03 cliff scene', async ({ page }) => {
+  test('pulls back through the full-screen Version 03 line scene', async ({ page }) => {
     await page.goto('/#/version-03');
 
-    const cinematic = page.locator('[data-v03-cinematic]');
+    const cinematic = page.locator('#version-03-screen [data-v03-cinematic]');
     const scroll = page.locator('#version-03-scroll');
     await expect(cinematic).toHaveCount(1);
     await expect(cinematic.locator('[data-v03-cinematic-frame]')).toHaveAttribute(
@@ -135,6 +135,7 @@ test.describe('Outfit 03 reference and V02 animation loops', () => {
       /hugo-head-nod-smooth/,
     );
     await expect(cinematic.locator('[data-v03-cinematic-line]')).toHaveCount(1);
+    await expect(cinematic.locator('[data-v03-cinematic-ground-line]')).toHaveCount(1);
 
     await scroll.evaluate((element, section) => {
       const target = section as HTMLElement;
@@ -142,5 +143,27 @@ test.describe('Outfit 03 reference and V02 animation loops', () => {
       element.dispatchEvent(new Event('scroll'));
     }, await cinematic.elementHandle());
     await expect(cinematic).toHaveAttribute('data-camera-phase', 'wide');
+  });
+
+  test('opens the animation-only Future Homepage from Version 03 navigation', async ({ page }) => {
+    await page.goto('/#/version-03');
+    await page.getByRole('button', { name: 'Future Homepage' }).click();
+
+    await expect(page).toHaveURL(/#\/future-homepage$/);
+    const future = page.locator('#future-homepage-screen');
+    const cinematic = future.locator('[data-v03-cinematic]');
+    await expect(future).toBeVisible();
+    await expect(page.locator('#version-03-screen')).toBeHidden();
+    await expect(future.locator('.outfit-03-header, .version-03-library')).toHaveCount(0);
+    await expect(cinematic).toHaveCount(1);
+    await expect(cinematic.locator('[data-v03-cinematic-frame]')).toHaveAttribute(
+      'src',
+      /hugo-head-nod-smooth/,
+    );
+    await expect(cinematic.locator('[data-v03-cinematic-line]')).toHaveCount(1);
+    await expect(cinematic.locator('[data-v03-cinematic-ground-line]')).toHaveCount(1);
+
+    await future.getByRole('button', { name: 'Back to Version 03' }).click();
+    await expect(page).toHaveURL(/#\/version-03$/);
   });
 });

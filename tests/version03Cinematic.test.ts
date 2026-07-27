@@ -21,17 +21,23 @@ describe('Version 03 long-view cinematic', () => {
     }
   });
 
-  it('ships a blank full-screen scene with one straight line', () => {
+  it('ships the library and future-homepage scenes with two straight lines each', () => {
     const backdropPath = resolve(
       'src/assets/game/2d-v03/cinematic/hugo-cliff-city-backdrop.webp',
     );
     const html = readFileSync(resolve('index.html'), 'utf8');
+    const app = readFileSync(resolve('src/main.ts'), 'utf8');
 
     expect(existsSync(backdropPath)).toBe(false);
-    expect(html).toContain('data-v03-cinematic');
-    expect(html).toContain('data-v03-cinematic-world');
-    expect(html).toContain('data-v03-cinematic-frame');
-    expect(html).toContain('data-v03-cinematic-line');
+    expect(html.match(/data-v03-cinematic(?=[\s>])/g)).toHaveLength(2);
+    expect(html.match(/data-v03-cinematic-world/g)).toHaveLength(2);
+    expect(html.match(/data-v03-cinematic-frame/g)).toHaveLength(2);
+    expect(html.match(/data-v03-cinematic-line/g)).toHaveLength(2);
+    expect(html.match(/data-v03-cinematic-ground-line/g)).toHaveLength(2);
+    expect(html).toContain('id="future-homepage-button"');
+    expect(html).toContain('id="version-03-future-homepage-button"');
+    expect(html).toContain('id="future-homepage-screen"');
+    expect(app).toContain("'#/future-homepage'");
     expect(html).not.toContain('data-v03-cinematic-backdrop');
   });
 });

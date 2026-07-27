@@ -742,6 +742,9 @@
           <button class="game-back-button version-03-button" id="version-03-button" type="button">
             <i data-lucide="sparkles" aria-hidden="true"></i><span>Version 03</span>
           </button>
+          <button class="game-back-button future-homepage-button" id="future-homepage-button" type="button">
+            <i data-lucide="panels-top-left" aria-hidden="true"></i><span>Future Homepage</span>
+          </button>
         </nav>
         <div class="outfit-03-heading">
           <span>2D SANDBOX · VERSION 02</span>
@@ -852,9 +855,14 @@
 
     <section class="version-03-screen" id="version-03-screen" aria-labelledby="version-03-title" hidden>
       <header class="outfit-03-header">
-        <button class="game-back-button outfit-03-back-button" id="version-03-back-button" type="button" aria-label="Back to Outfit 03">
-          <i data-lucide="arrow-left" aria-hidden="true"></i><span>Outfit 03</span>
-        </button>
+        <nav class="outfit-03-header-nav" aria-label="Version 03 navigation">
+          <button class="game-back-button outfit-03-back-button" id="version-03-back-button" type="button" aria-label="Back to Outfit 03">
+            <i data-lucide="arrow-left" aria-hidden="true"></i><span>Outfit 03</span>
+          </button>
+          <button class="game-back-button future-homepage-button" id="version-03-future-homepage-button" type="button">
+            <i data-lucide="panels-top-left" aria-hidden="true"></i><span>Future Homepage</span>
+          </button>
+        </nav>
         <div class="outfit-03-heading">
           <span>2D SANDBOX · NEW DIRECTION</span>
           <h1 id="version-03-title">Version 03</h1>
@@ -965,6 +973,7 @@
           <div class="v03-cinematic-stage">
             <div class="v03-cinematic-world" data-v03-cinematic-world>
               <div class="v03-cinematic-line" data-v03-cinematic-line aria-hidden="true"></div>
+              <div class="v03-cinematic-line v03-cinematic-line--ground" data-v03-cinematic-ground-line aria-hidden="true"></div>
               <div class="v03-cinematic-character">
                 <img
                   data-v03-cinematic-frame
@@ -993,6 +1002,31 @@
           <span>Restart</span>
         </button>
       </div>
+    </section>
+
+    <section class="future-homepage-screen" id="future-homepage-screen" aria-labelledby="future-homepage-title" hidden>
+      <h1 class="visually-hidden" id="future-homepage-title">Future Homepage</h1>
+      <button class="game-back-button future-homepage-back-button" id="future-homepage-back-button" type="button" aria-label="Back to Version 03">
+        <i data-lucide="arrow-left" aria-hidden="true"></i><span>Version 03</span>
+      </button>
+      <main class="future-homepage-scroll" id="future-homepage-scroll">
+        <section class="v03-cinematic v03-cinematic--future-homepage" data-v03-cinematic aria-label="Future homepage neutral side nod camera pullback">
+          <div class="v03-cinematic-stage">
+            <div class="v03-cinematic-world" data-v03-cinematic-world>
+              <div class="v03-cinematic-line" data-v03-cinematic-line aria-hidden="true"></div>
+              <div class="v03-cinematic-line v03-cinematic-line--ground" data-v03-cinematic-ground-line aria-hidden="true"></div>
+              <div class="v03-cinematic-character">
+                <img
+                  data-v03-cinematic-frame
+                  width="512"
+                  height="512"
+                  alt="Hugo nodding in side profile"
+                >
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
     </section>
 
     <section class="character-sheets-screen" id="character-sheets-screen" aria-labelledby="character-sheets-title" hidden>

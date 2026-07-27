@@ -40,6 +40,8 @@ class HugoGoApp {
   private readonly characterSheetsScroll = this.element('character-sheets-scroll');
   private readonly version03Screen = this.element('version-03-screen');
   private readonly version03Scroll = this.element('version-03-scroll');
+  private readonly futureHomepageScreen = this.element('future-homepage-screen');
+  private readonly futureHomepageScroll = this.element('future-homepage-scroll');
   private readonly homeHero = this.element('home-hero');
   private readonly homeTopbar = this.element('home-topbar');
   private readonly homeProfileButton = this.button('home-profile-button');
@@ -59,6 +61,7 @@ class HugoGoApp {
   private readonly characterSheetsGallery: CharacterSheetsGallery;
   private readonly version03AnimationGallery: Version03AnimationGallery;
   private readonly version03Cinematic: Version03Cinematic;
+  private readonly futureHomepageCinematic: Version03Cinematic;
 
   constructor() {
     this.flightGame = new FlightGame({
@@ -82,6 +85,10 @@ class HugoGoApp {
       this.version03Screen,
       this.version03Scroll,
     );
+    this.futureHomepageCinematic = new Version03Cinematic(
+      this.futureHomepageScreen,
+      this.futureHomepageScroll,
+    );
     this.compactHomeSections = this.prepareCompactHomeLayout();
     this.audio.configure(this.state.settings);
     this.applySettings();
@@ -99,13 +106,15 @@ class HugoGoApp {
     this.frameAnimationGallery.stop();
     this.version03AnimationGallery.stop();
     this.version03Cinematic.stop();
+    this.futureHomepageCinematic.stop();
     this.gameScreen.hidden = true;
     this.sandboxScreen.hidden = true;
     this.outfit03Screen.hidden = true;
     this.characterSheetsScreen.hidden = true;
     this.version03Screen.hidden = true;
+    this.futureHomepageScreen.hidden = true;
     this.homeScreen.classList.add('is-open');
-    document.body.classList.remove('game-page-open', 'sandbox-page-open', 'outfit-03-page-open', 'character-sheets-page-open', 'version-03-page-open');
+    document.body.classList.remove('game-page-open', 'sandbox-page-open', 'outfit-03-page-open', 'character-sheets-page-open', 'version-03-page-open', 'future-homepage-page-open');
     this.setCompactMenuOpen(false);
     this.setMobileResourcesExpanded(false);
     if (updateRoute) this.pushRoute('#/home');
@@ -117,15 +126,17 @@ class HugoGoApp {
     this.frameAnimationGallery.stop();
     this.version03AnimationGallery.stop();
     this.version03Cinematic.stop();
+    this.futureHomepageCinematic.stop();
     this.state.selectedWorld = 'forest';
     this.homeScreen.classList.remove('is-open');
     this.sandboxScreen.hidden = true;
     this.outfit03Screen.hidden = true;
     this.characterSheetsScreen.hidden = true;
     this.version03Screen.hidden = true;
+    this.futureHomepageScreen.hidden = true;
     this.gameScreen.hidden = false;
     document.body.classList.add('game-page-open');
-    document.body.classList.remove('sandbox-page-open', 'outfit-03-page-open', 'character-sheets-page-open', 'version-03-page-open');
+    document.body.classList.remove('sandbox-page-open', 'outfit-03-page-open', 'character-sheets-page-open', 'version-03-page-open', 'future-homepage-page-open');
     this.setCompactMenuOpen(false);
     this.setMobileResourcesExpanded(false);
     this.element('game-world-label').textContent = getWorld('forest').name;
@@ -142,11 +153,13 @@ class HugoGoApp {
     this.outfit03Screen.hidden = true;
     this.characterSheetsScreen.hidden = true;
     this.version03Screen.hidden = true;
+    this.futureHomepageScreen.hidden = true;
     this.frameAnimationGallery.stop();
     this.version03AnimationGallery.stop();
     this.version03Cinematic.stop();
+    this.futureHomepageCinematic.stop();
     this.sandboxScreen.hidden = false;
-    document.body.classList.remove('game-page-open', 'outfit-03-page-open', 'character-sheets-page-open', 'version-03-page-open');
+    document.body.classList.remove('game-page-open', 'outfit-03-page-open', 'character-sheets-page-open', 'version-03-page-open', 'future-homepage-page-open');
     document.body.classList.add('sandbox-page-open');
     this.setCompactMenuOpen(false);
     this.setMobileResourcesExpanded(false);
@@ -161,14 +174,16 @@ class HugoGoApp {
     this.animationSandbox.stop();
     this.version03AnimationGallery.stop();
     this.version03Cinematic.stop();
+    this.futureHomepageCinematic.stop();
     this.closeHomePanel();
     this.homeScreen.classList.remove('is-open');
     this.gameScreen.hidden = true;
     this.sandboxScreen.hidden = true;
     this.characterSheetsScreen.hidden = true;
     this.version03Screen.hidden = true;
+    this.futureHomepageScreen.hidden = true;
     this.outfit03Screen.hidden = false;
-    document.body.classList.remove('game-page-open', 'sandbox-page-open', 'character-sheets-page-open', 'version-03-page-open');
+    document.body.classList.remove('game-page-open', 'sandbox-page-open', 'character-sheets-page-open', 'version-03-page-open', 'future-homepage-page-open');
     document.body.classList.add('outfit-03-page-open');
     this.setCompactMenuOpen(false);
     this.setMobileResourcesExpanded(false);
@@ -185,14 +200,16 @@ class HugoGoApp {
     this.frameAnimationGallery.stop();
     this.version03AnimationGallery.stop();
     this.version03Cinematic.stop();
+    this.futureHomepageCinematic.stop();
     this.closeHomePanel();
     this.homeScreen.classList.remove('is-open');
     this.gameScreen.hidden = true;
     this.sandboxScreen.hidden = true;
     this.outfit03Screen.hidden = true;
     this.version03Screen.hidden = true;
+    this.futureHomepageScreen.hidden = true;
     this.characterSheetsScreen.hidden = false;
-    document.body.classList.remove('game-page-open', 'sandbox-page-open', 'outfit-03-page-open', 'version-03-page-open');
+    document.body.classList.remove('game-page-open', 'sandbox-page-open', 'outfit-03-page-open', 'version-03-page-open', 'future-homepage-page-open');
     document.body.classList.add('character-sheets-page-open');
     if (updateRoute) this.pushRoute('#/character-sheets');
     document.title = 'HUGO GO! — Character Sheets';
@@ -205,14 +222,16 @@ class HugoGoApp {
     this.flightGame.stop();
     this.animationSandbox.stop();
     this.frameAnimationGallery.stop();
+    this.futureHomepageCinematic.stop();
     this.closeHomePanel();
     this.homeScreen.classList.remove('is-open');
     this.gameScreen.hidden = true;
     this.sandboxScreen.hidden = true;
     this.outfit03Screen.hidden = true;
     this.characterSheetsScreen.hidden = true;
+    this.futureHomepageScreen.hidden = true;
     this.version03Screen.hidden = false;
-    document.body.classList.remove('game-page-open', 'sandbox-page-open', 'outfit-03-page-open', 'character-sheets-page-open');
+    document.body.classList.remove('game-page-open', 'sandbox-page-open', 'outfit-03-page-open', 'character-sheets-page-open', 'future-homepage-page-open');
     document.body.classList.add('version-03-page-open');
     this.audio.pauseMusic();
     if (updateRoute) this.pushRoute('#/version-03');
@@ -220,6 +239,30 @@ class HugoGoApp {
     this.version03Scroll.scrollTop = 0;
     this.version03AnimationGallery.start();
     this.version03Cinematic.start();
+    refreshIcons();
+  }
+
+  showFutureHomepage(updateRoute = true): void {
+    this.flightGame.stop();
+    this.animationSandbox.stop();
+    this.frameAnimationGallery.stop();
+    this.version03AnimationGallery.stop();
+    this.version03Cinematic.stop();
+    this.closeHomePanel();
+    this.homeScreen.classList.remove('is-open');
+    this.gameScreen.hidden = true;
+    this.sandboxScreen.hidden = true;
+    this.outfit03Screen.hidden = true;
+    this.characterSheetsScreen.hidden = true;
+    this.version03Screen.hidden = true;
+    this.futureHomepageScreen.hidden = false;
+    document.body.classList.remove('game-page-open', 'sandbox-page-open', 'outfit-03-page-open', 'character-sheets-page-open', 'version-03-page-open');
+    document.body.classList.add('future-homepage-page-open');
+    this.audio.pauseMusic();
+    if (updateRoute) this.pushRoute('#/future-homepage');
+    document.title = 'HUGO GO! — Future Homepage';
+    this.futureHomepageScroll.scrollTop = 0;
+    this.futureHomepageCinematic.start();
     refreshIcons();
   }
 
@@ -256,6 +299,10 @@ class HugoGoApp {
       this.showOutfit03();
       return true;
     }
+    if (!this.futureHomepageScreen.hidden) {
+      this.showVersion03();
+      return true;
+    }
     if (!this.sandboxScreen.hidden) {
       this.showHome();
       return true;
@@ -277,6 +324,9 @@ class HugoGoApp {
     this.button('character-sheets-back-button').addEventListener('click', () => this.showOutfit03());
     this.button('version-03-button').addEventListener('click', () => this.showVersion03());
     this.button('version-03-back-button').addEventListener('click', () => this.showOutfit03());
+    this.button('future-homepage-button').addEventListener('click', () => this.showFutureHomepage());
+    this.button('version-03-future-homepage-button').addEventListener('click', () => this.showFutureHomepage());
+    this.button('future-homepage-back-button').addEventListener('click', () => this.showVersion03());
     this.button('game-over-home').addEventListener('click', () => this.showHome());
 
     const introButton = this.button('home-intro-next');
@@ -608,7 +658,8 @@ class HugoGoApp {
   }
 
   private showRoute(updateRoute: boolean): void {
-    if (window.location.hash === '#/version-03') this.showVersion03(updateRoute);
+    if (window.location.hash === '#/future-homepage') this.showFutureHomepage(updateRoute);
+    else if (window.location.hash === '#/version-03') this.showVersion03(updateRoute);
     else if (window.location.hash === '#/character-sheets') this.showCharacterSheets(updateRoute);
     else if (window.location.hash === '#/outfit-03') this.showOutfit03(updateRoute);
     else if (window.location.hash === '#/sandbox') this.showSandbox(updateRoute);
@@ -672,6 +723,7 @@ declare global {
       showOutfit03: () => void;
       showCharacterSheets: () => void;
       showVersion03: () => void;
+      showFutureHomepage: () => void;
       getSelectedWorld: () => WorldId;
       getGameState: () => Readonly<FlightGameState>;
     };
@@ -686,6 +738,7 @@ window.__HUGO_GO__ = {
   showOutfit03: () => app.showOutfit03(),
   showCharacterSheets: () => app.showCharacterSheets(),
   showVersion03: () => app.showVersion03(),
+  showFutureHomepage: () => app.showFutureHomepage(),
   getSelectedWorld: () => app.getSelectedWorld(),
   getGameState: () => app.getGameState(),
 };
