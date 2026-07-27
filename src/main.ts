@@ -20,7 +20,10 @@ import { FrameAnimationGallery } from './game/FrameAnimationGallery';
 import { FlightGame, type RunResult } from './game/FlightGame';
 import { FutureHomepageAudio } from './game/FutureHomepageAudio';
 import { Version03AnimationGallery } from './game/Version03AnimationGallery';
-import { Version03Cinematic } from './game/Version03Cinematic';
+import {
+  Version03Cinematic,
+  type Version03CinematicFrame,
+} from './game/Version03Cinematic';
 import type { FlightGameState } from './game/engine';
 import { createDefaultPlayerState, loadPlayerState, recordRun, savePlayerState, type PlayerState } from './state';
 import { getWorld, type WorldId } from './worlds';
@@ -45,6 +48,7 @@ class HugoGoApp {
   private readonly version03Scroll = this.element('version-03-scroll');
   private readonly futureHomepageScreen = this.element('future-homepage-screen');
   private readonly futureHomepageScroll = this.element('future-homepage-scroll');
+  private readonly futureHomepageStart = this.button('future-homepage-start');
   private readonly homeHero = this.element('home-hero');
   private readonly homeTopbar = this.element('home-topbar');
   private readonly homeProfileButton = this.button('home-profile-button');
@@ -66,6 +70,8 @@ class HugoGoApp {
   private readonly version03Cinematic: Version03Cinematic;
   private readonly futureHomepageCinematic: Version03Cinematic;
   private readonly futureHomepageAudio: FutureHomepageAudio;
+  private futureHomepageMusicCued = false;
+  private futureHomepageSequenceResolved = false;
 
   constructor() {
     this.flightGame = new FlightGame({
@@ -89,11 +95,14 @@ class HugoGoApp {
       this.version03Screen,
       this.version03Scroll,
     );
+    this.futureHomepageAudio = new FutureHomepageAudio(this.futureHomepageScreen);
     this.futureHomepageCinematic = new Version03Cinematic(
       this.futureHomepageScreen,
       this.futureHomepageScroll,
+      {
+        onFrame: (frame) => this.handleFutureHomepageFrame(frame),
+      },
     );
-    this.futureHomepageAudio = new FutureHomepageAudio(this.futureHomepageScreen);
     this.compactHomeSections = this.prepareCompactHomeLayout();
     this.audio.configure(this.state.settings);
     this.applySettings();
@@ -273,9 +282,55 @@ class HugoGoApp {
     if (updateRoute) this.pushRoute('#/future-homepage');
     document.title = 'HUGO GO! — Future Homepage';
     this.futureHomepageScroll.scrollTop = 0;
-    this.futureHomepageCinematic.start();
-    this.futureHomepageAudio.start();
+    this.futureHomepageAudio.stop();
+    this.futureHomepageMusicCued = false;
+    this.futureHomepageSequenceResolved = false;
+    this.futureHomepageStart.disabled = false;
+    this.futureHomepageScreen.classList.remove(
+      'is-intro',
+      'is-running',
+      'is-resolved',
+    );
+    this.futureHomepageCinematic.holdFirstFrame();
+    void this.futureHomepageScreen.offsetWidth;
+    this.futureHomepageScreen.classList.add('is-intro');
     refreshIcons();
+  }
+
+  private startFutureHomepageSequence(): void {
+    if (
+      this.futureHomepageScreen.hidden ||
+      this.futureHomepageScreen.classList.contains('is-running')
+    ) {
+      return;
+    }
+
+    this.futureHomepageStart.disabled = true;
+    this.futureHomepageScreen.classList.add('is-running');
+    this.futureHomepageAudio.prime();
+    this.futureHomepageCinematic.start();
+  }
+
+  private handleFutureHomepageFrame(frame: Version03CinematicFrame): void {
+    if (
+      this.futureHomepageScreen.hidden ||
+      !this.futureHomepageScreen.classList.contains('is-running')
+    ) {
+      return;
+    }
+
+    if (!this.futureHomepageMusicCued && frame.frameNumber === 7) {
+      this.futureHomepageMusicCued = true;
+      this.futureHomepageAudio.start();
+    }
+
+    if (
+      !this.futureHomepageSequenceResolved &&
+      frame.completedLoops >= 3
+    ) {
+      this.futureHomepageSequenceResolved = true;
+      this.futureHomepageScreen.classList.add('is-resolved');
+    }
   }
 
   getSelectedWorld(): WorldId {
@@ -338,6 +393,10 @@ class HugoGoApp {
     this.button('version-03-back-button').addEventListener('click', () => this.showOutfit03());
     this.button('future-homepage-button').addEventListener('click', () => this.showFutureHomepage());
     this.button('version-03-future-homepage-button').addEventListener('click', () => this.showFutureHomepage());
+    this.futureHomepageStart.addEventListener(
+      'click',
+      () => this.startFutureHomepageSequence(),
+    );
     this.button('game-over-home').addEventListener('click', () => this.showHome());
 
     const introButton = this.button('home-intro-next');

@@ -1015,22 +1015,46 @@
             <div class="v03-cinematic-world" data-v03-cinematic-world>
               <div class="v03-cinematic-character">
                 <img
+                  class="v03-cinematic-base-frame"
                   data-v03-cinematic-frame
                   width="512"
                   height="512"
                   alt="Hugo nodding in side profile"
                 >
+                <img
+                  class="v03-cinematic-color-frame"
+                  data-v03-cinematic-color-frame
+                  width="512"
+                  height="512"
+                  alt=""
+                  aria-hidden="true"
+                >
               </div>
             </div>
-            <aside class="future-homepage-loading" role="status" aria-live="polite">
-              <span class="future-homepage-loading-kicker">MOUNT POGAGA // 01</span>
+            <aside class="future-homepage-loading">
+              <span class="future-homepage-loading-kicker" aria-label="MOUNT POGAGA // 01">
+                <i class="future-homepage-kicker-rule" aria-hidden="true"></i>
+                <span class="future-homepage-kicker-place">MOUNT POGAGA</span>
+                <span class="future-homepage-kicker-slashes" aria-hidden="true"><i>/</i><i>/</i></span>
+                <span class="future-homepage-kicker-index">01</span>
+              </span>
               <h2 class="future-homepage-loading-title" lang="ja" aria-label="読み込み中...">
                 <span class="future-homepage-loading-word" aria-hidden="true">読み込み中</span>
                 <span class="future-homepage-loading-dots" aria-hidden="true">...</span>
               </h2>
+              <i class="future-homepage-fact-rule" aria-hidden="true"></i>
               <p class="future-homepage-squirrel-fact">
                 A gorilla weighs about as much as 450 squirrels, but it would take roughly 5,000 to defeat one. The other 4,550 are there for emotional support.
               </p>
+              <button
+                class="future-homepage-start"
+                id="future-homepage-start"
+                type="button"
+                aria-label="Start the Mount Pogaga sequence"
+              >
+                <span>Start</span>
+                <span class="future-homepage-start-arrow" aria-hidden="true">→</span>
+              </button>
             </aside>
           </div>
         </section>

@@ -2,6 +2,34 @@ import { describe, expect, it, vi } from 'vitest';
 import { FutureHomepageAudio } from '../src/game/FutureHomepageAudio';
 
 describe('Future Homepage music', () => {
+  it('primes Sleepy silently during the Start-button gesture', async () => {
+    const audio = {
+      addEventListener: vi.fn(),
+      autoplay: false,
+      currentTime: 18,
+      load: vi.fn(),
+      networkState: 1,
+      pause: vi.fn(),
+      paused: true,
+      play: vi.fn().mockResolvedValue(undefined),
+      volume: 1,
+    };
+    const root = {
+      querySelector: vi.fn().mockReturnValue(audio),
+    } as unknown as HTMLElement;
+    const music = new FutureHomepageAudio(root, new EventTarget());
+
+    music.prime();
+    await Promise.resolve();
+
+    expect(audio.volume).toBe(0);
+    expect(audio.currentTime).toBe(0);
+    expect(audio.play).toHaveBeenCalledOnce();
+
+    music.stop();
+    expect(audio.volume).toBe(0.55);
+  });
+
   it('starts Sleepy automatically and resets it when the page closes', async () => {
     const audio = {
       addEventListener: vi.fn(),

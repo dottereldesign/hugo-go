@@ -174,8 +174,14 @@ test.describe('Outfit 03 reference and V02 animation loops', () => {
       'filter',
       /grayscale\(1\)/,
     );
-    await expect(future.getByText('MOUNT POGAGA // 01')).toBeVisible();
+    await expect(future.locator('.future-homepage-loading-kicker')).toHaveAttribute(
+      'aria-label',
+      'MOUNT POGAGA // 01',
+    );
     await expect(future.getByRole('heading', { name: '読み込み中...' })).toBeVisible();
+    await expect(
+      future.getByRole('button', { name: 'Start the Mount Pogaga sequence' }),
+    ).toBeVisible();
     await expect(future.getByText('Loading...')).toHaveCount(0);
     await expect(future.getByText('SQUIRREL FIELD NOTE')).toHaveCount(0);
     await expect(future.getByText(/A gorilla weighs about as much as 450 squirrels/i)).toBeVisible();

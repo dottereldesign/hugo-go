@@ -51,6 +51,9 @@ describe('Version 03 long-view cinematic', () => {
     expect(loadingStart).toBeGreaterThan(futureHomepageStart);
     expect(html.match(/class="future-homepage-loading"/g)).toHaveLength(1);
     expect(html).toContain('MOUNT POGAGA // 01');
+    expect(html).toContain('id="future-homepage-start"');
+    expect(html).toContain('class="future-homepage-start-arrow"');
+    expect(html).toContain('data-v03-cinematic-color-frame');
     expect(html).toContain('aria-label="読み込み中..."');
     expect(html).toContain('class="future-homepage-loading-dots"');
     expect(html).not.toContain('<span>Loading...</span>');
@@ -62,6 +65,10 @@ describe('Version 03 long-view cinematic', () => {
     expect(app).toContain("'#/future-homepage'");
     expect(app).toContain("@fontsource/rampart-one/latin-400.css");
     expect(app).toContain("@fontsource/rampart-one/japanese-400.css");
+    expect(app).toContain('this.futureHomepageCinematic.holdFirstFrame()');
+    expect(app).toContain('this.futureHomepageAudio.prime()');
+    expect(app).toContain('frame.frameNumber === 7');
+    expect(app).toContain('frame.completedLoops >= 3');
     expect(cinematic).not.toContain("'--v03-cinematic-midline-y'");
     expect(cinematic).not.toContain('syncCamera');
     expect(cinematic).not.toContain("addEventListener('scroll'");
@@ -84,6 +91,11 @@ describe('Version 03 long-view cinematic', () => {
     expect(styles).toContain('transform: translate(-50%, -50%)');
     expect(styles).toContain('@keyframes future-loading-type');
     expect(styles).toContain('@keyframes future-loading-dots');
+    expect(styles).toContain('@keyframes future-homepage-colour-reveal');
+    expect(styles).toContain('@keyframes future-homepage-column-exit');
+    expect(styles).toContain('@keyframes future-homepage-slash-enter');
+    expect(styles).toContain('transform: translate(-50%, -81.25%)');
+    expect(styles).toContain('width: clamp(145px, 13vw, 210px)');
     expect(styles).toContain('clip-path: polygon(0 -100%, 0 -100%, 0 200%, 0 200%)');
     expect(styles).toContain('3.2s steps(5, end) .15s infinite both');
     expect(styles).toContain('3.2s steps(3, end) .15s infinite both');

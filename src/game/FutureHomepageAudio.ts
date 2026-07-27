@@ -1,4 +1,6 @@
 export class FutureHomepageAudio {
+  private static readonly PLAYBACK_VOLUME = 0.55;
+
   private readonly audio: HTMLAudioElement;
   private readonly interactionTarget: EventTarget;
   private active = false;
@@ -13,20 +15,35 @@ export class FutureHomepageAudio {
 
     this.audio = audio;
     this.interactionTarget = interactionTarget;
-    this.audio.volume = 0.55;
+    this.audio.volume = FutureHomepageAudio.PLAYBACK_VOLUME;
     this.audio.addEventListener('pause', this.handleUnexpectedPause);
+  }
+
+  prime(): void {
+    this.active = true;
+    this.cancelRetry();
+    this.audio.volume = 0;
+    this.prepareMedia();
+    this.audio.currentTime = 0;
+    this.armRetry();
+    void this.playOrRetry();
   }
 
   start(): void {
     this.active = true;
     this.cancelRetry();
+    this.audio.volume = FutureHomepageAudio.PLAYBACK_VOLUME;
+    this.prepareMedia();
+    this.audio.currentTime = 0;
+    this.armRetry();
+    void this.playOrRetry();
+  }
+
+  private prepareMedia(): void {
     this.audio.autoplay = true;
     if (this.audio.networkState === 0) {
       this.audio.load();
     }
-    this.audio.currentTime = 0;
-    this.armRetry();
-    void this.playOrRetry();
   }
 
   stop(): void {
@@ -36,6 +53,7 @@ export class FutureHomepageAudio {
     this.audio.autoplay = false;
     this.audio.pause();
     this.audio.currentTime = 0;
+    this.audio.volume = FutureHomepageAudio.PLAYBACK_VOLUME;
   }
 
   private async playOrRetry(): Promise<void> {

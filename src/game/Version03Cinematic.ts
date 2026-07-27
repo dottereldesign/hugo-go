@@ -32,6 +32,16 @@ interface AlphaMask {
   alpha: Uint8Array;
 }
 
+export interface Version03CinematicFrame {
+  frameIndex: number;
+  frameNumber: number;
+  completedLoops: number;
+}
+
+interface Version03CinematicOptions {
+  onFrame?: (frame: Version03CinematicFrame) => void;
+}
+
 const manifest = headNodManifestJson as CinematicManifest;
 
 export class Version03Cinematic {
@@ -39,8 +49,10 @@ export class Version03Cinematic {
   private readonly scrollRoot: HTMLElement;
   private readonly character: HTMLElement;
   private readonly frameImage: HTMLImageElement;
+  private readonly colorFrameImage?: HTMLImageElement;
   private readonly frameUrls: string[];
   private readonly usesAlphaHover: boolean;
+  private readonly onFrame?: (frame: Version03CinematicFrame) => void;
   private readonly alphaMasks = new Map<string, AlphaMask>();
   private pointerPosition?: { clientX: number; clientY: number };
   private active = false;
@@ -49,10 +61,16 @@ export class Version03Cinematic {
   private lastTimestamp = 0;
   private elapsedMs = 0;
   private frameIndex = 0;
+  private completedLoops = 0;
 
-  constructor(root: HTMLElement, scrollRoot: HTMLElement) {
+  constructor(
+    root: HTMLElement,
+    scrollRoot: HTMLElement,
+    options: Version03CinematicOptions = {},
+  ) {
     this.root = this.required<HTMLElement>(root, '[data-v03-cinematic]');
     this.scrollRoot = scrollRoot;
+    this.onFrame = options.onFrame;
     this.character = this.required<HTMLElement>(
       this.root,
       '.v03-cinematic-character',
@@ -61,6 +79,9 @@ export class Version03Cinematic {
       this.root,
       '[data-v03-cinematic-frame]',
     );
+    this.colorFrameImage = this.root.querySelector<HTMLImageElement>(
+      '[data-v03-cinematic-color-frame]',
+    ) ?? undefined;
     this.usesAlphaHover = this.root.classList.contains(
       'v03-cinematic--future-homepage',
     );
@@ -82,7 +103,7 @@ export class Version03Cinematic {
       this.character.addEventListener('pointerleave', this.clearAlphaHover);
       this.frameImage.addEventListener('load', this.handleFrameImageLoad);
     }
-    this.syncFrame();
+    this.syncFrame(false);
     this.syncLayout();
     window.addEventListener('resize', this.handleResize, { passive: true });
   }
@@ -94,6 +115,16 @@ export class Version03Cinematic {
     this.active = true;
     this.lastTimestamp = performance.now();
     this.raf = requestAnimationFrame((timestamp) => this.tick(timestamp));
+  }
+
+  holdFirstFrame(): void {
+    this.stop();
+    this.ensureAssets();
+    this.elapsedMs = 0;
+    this.frameIndex = 0;
+    this.completedLoops = 0;
+    this.syncFrame(false);
+    this.syncLayout();
   }
 
   stop(): void {
@@ -136,21 +167,30 @@ export class Version03Cinematic {
     this.lastTimestamp = timestamp;
     this.elapsedMs += delta;
     const frameDuration = 1000 / manifest.timing.baseFps;
-    let changed = false;
     while (this.elapsedMs >= frameDuration) {
       this.elapsedMs -= frameDuration;
       this.frameIndex = (this.frameIndex + 1) % manifest.timing.runtimeFrameCount;
-      changed = true;
+      if (this.frameIndex === 0) this.completedLoops += 1;
+      this.syncFrame();
     }
-    if (changed) this.syncFrame();
     this.raf = requestAnimationFrame((nextTimestamp) => this.tick(nextTimestamp));
   }
 
-  private syncFrame(): void {
+  private syncFrame(notify = true): void {
     const frame = manifest.frames[this.frameIndex];
     this.frameImage.src = this.frameUrls[this.frameIndex];
     this.frameImage.alt = `Hugo nodding in side profile: ${frame.label}`;
+    if (this.colorFrameImage) {
+      this.colorFrameImage.src = this.frameUrls[this.frameIndex];
+    }
     this.syncAlphaHover();
+    if (notify) {
+      this.onFrame?.({
+        frameIndex: this.frameIndex,
+        frameNumber: frame.index,
+        completedLoops: this.completedLoops,
+      });
+    }
   }
 
   private syncAlphaHover(): void {
