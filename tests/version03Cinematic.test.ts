@@ -59,8 +59,10 @@ describe('Version 03 long-view cinematic', () => {
     expect(html).toContain('class="future-homepage-credits"');
     expect(html).toContain('A Jamie Wilson');
     expect(html).toContain('Created &amp; directed by');
-    expect(html).toContain('Dotterel Design');
-    expect(html).toContain('<strong>Hugo Go!</strong>');
+    expect(html).not.toContain('Dotterel Design');
+    expect(html).toContain('<strong aria-label="HUGO GO!">');
+    expect(html).toContain('<i>HUGO</i>');
+    expect(html).toContain('<i>GO!</i>');
     expect(html).toContain('data-v03-cinematic-color-frame');
     expect(
       html.slice(futureHomepageStart).match(/draggable="false"/g),
@@ -118,6 +120,11 @@ describe('Version 03 long-view cinematic', () => {
     expect(styles).toContain(
       '.future-homepage-credit--production,\n.future-homepage-credit--creator,',
     );
+    expect(styles).toContain('.future-homepage-credit--title strong i:first-child');
+    expect(styles).toContain('color: #ffd724');
+    expect(styles).toContain('color: #ff941f');
+    expect(styles).toContain('3800ms cubic-bezier(.22, 1, .36, 1)');
+    expect(styles).not.toContain('.future-homepage-credit--studio');
     expect(styles).toContain('1550ms both');
     expect(styles).toContain('@keyframes future-homepage-slash-enter');
     expect(styles).toContain('transform: translate(-50%, -81.25%)');
