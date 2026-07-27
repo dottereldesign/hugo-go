@@ -3954,6 +3954,10 @@ body.future-homepage-page-open {
   width: clamp(320px, 31vw, 570px);
   cursor: default;
   transform: translate(-50%, -50%);
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
   transition:
     top 1250ms cubic-bezier(.22, .88, .2, 1),
     left 1250ms cubic-bezier(.22, .88, .2, 1),
@@ -3967,6 +3971,10 @@ body.future-homepage-page-open {
 
 .v03-cinematic--future-homepage .v03-cinematic-character img {
   backface-visibility: hidden;
+  pointer-events: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  user-select: none;
   filter:
     grayscale(1)
     sepia(.08)

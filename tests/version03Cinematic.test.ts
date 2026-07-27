@@ -57,6 +57,9 @@ describe('Version 03 long-view cinematic', () => {
     expect(html).toContain('<span>START</span>');
     expect(html).toContain('class="future-homepage-blue-wipe"');
     expect(html).toContain('data-v03-cinematic-color-frame');
+    expect(
+      html.slice(futureHomepageStart).match(/draggable="false"/g),
+    ).toHaveLength(2);
     expect(html).toContain('aria-label="読み込み中..."');
     expect(html).toContain('class="future-homepage-loading-dots"');
     expect(html).not.toContain('<span>Loading...</span>');
@@ -93,6 +96,9 @@ describe('Version 03 long-view cinematic', () => {
       'width: min(82vw, var(--v03-native-frame-css-width, 170px))',
     );
     expect(styles).toContain('.v03-cinematic-character.is-alpha-hovered');
+    expect(styles).toContain('-webkit-user-drag: none');
+    expect(styles).toContain('-webkit-touch-callout: none');
+    expect(styles).toContain('pointer-events: none');
     expect(styles).not.toContain('height: 420vh');
     expect(styles).toContain('transform: translate(-50%, -50%)');
     expect(styles).toContain('@keyframes future-loading-type');
