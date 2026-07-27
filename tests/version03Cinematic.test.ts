@@ -59,6 +59,9 @@ describe('Version 03 long-view cinematic', () => {
     expect(app).toContain("@fontsource/rampart-one/latin-400.css");
     expect(app).toContain("@fontsource/rampart-one/japanese-400.css");
     expect(cinematic).not.toContain("'--v03-cinematic-midline-y'");
+    expect(cinematic).not.toContain('syncCamera');
+    expect(cinematic).not.toContain("addEventListener('scroll'");
+    expect(cinematic).toContain('this.root.style.height = `${viewportHeight}px`');
     expect(styles).toContain('max-width: 1200px !important');
     expect(styles).toContain("font: 400 clamp(3.5rem, 8vw, 6.25rem)/1.18 'Rampart One'");
     expect(styles).toContain('--future-homepage-ink: #20231f');
@@ -68,7 +71,7 @@ describe('Version 03 long-view cinematic', () => {
     expect(styles).toContain('max-width: 520px');
     expect(styles).toContain('width: clamp(68px, 6.5vw, 120px)');
     expect(styles).toContain('.v03-cinematic-character.is-alpha-hovered');
-    expect(styles).toContain('transform-origin: 28% 50%');
+    expect(styles).not.toContain('height: 420vh');
     expect(styles).toContain('transform: translate(-50%, -50%)');
     expect(styles).toContain('@keyframes future-loading-type');
     expect(styles).toContain('clip-path: polygon(0 -100%, 0 -100%, 0 200%, 0 200%)');

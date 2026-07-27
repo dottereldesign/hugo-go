@@ -124,7 +124,7 @@ test.describe('Outfit 03 reference and V02 animation loops', () => {
     }
   });
 
-  test('pulls back through the full-screen Version 03 line scene', async ({ page }) => {
+  test('keeps the full-screen Version 03 line scene at a fixed scale', async ({ page }) => {
     await page.goto('/#/version-03');
 
     const cinematic = page.locator('#version-03-screen [data-v03-cinematic]');
@@ -136,13 +136,15 @@ test.describe('Outfit 03 reference and V02 animation loops', () => {
     );
     await expect(cinematic.locator('[data-v03-cinematic-line]')).toHaveCount(1);
     await expect(cinematic.locator('[data-v03-cinematic-ground-line]')).toHaveCount(1);
+    const world = cinematic.locator('[data-v03-cinematic-world]');
 
     await scroll.evaluate((element, section) => {
       const target = section as HTMLElement;
       element.scrollTop = target.offsetTop + target.offsetHeight;
       element.dispatchEvent(new Event('scroll'));
     }, await cinematic.elementHandle());
-    await expect(cinematic).toHaveAttribute('data-camera-phase', 'wide');
+    await expect(cinematic).not.toHaveAttribute('data-camera-phase', /.+/);
+    await expect(world).not.toHaveAttribute('style', /transform/);
   });
 
   test('opens the animation-only Future Homepage from Version 03 navigation', async ({ page }) => {

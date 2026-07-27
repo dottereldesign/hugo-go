@@ -3821,19 +3821,17 @@ body.future-homepage-page-open {
 
 .v03-cinematic {
   --v03-cinematic-gutter: max(24px, calc((100vw - 2200px) / 2));
-  --v03-cinematic-line-scale: 1;
   position: relative;
   width: calc(100% + var(--v03-cinematic-gutter) + var(--v03-cinematic-gutter));
   max-width: none !important;
-  height: 420vh;
+  height: 100vh;
   margin-right: calc(0px - var(--v03-cinematic-gutter));
   margin-left: calc(0px - var(--v03-cinematic-gutter));
   background: #f4f4f1;
 }
 
 .v03-cinematic-stage {
-  position: sticky;
-  top: 0;
+  position: relative;
   height: var(--v03-cinematic-viewport, 80vh);
   min-height: 420px;
   overflow: hidden;
@@ -3846,8 +3844,6 @@ body.future-homepage-page-open {
   z-index: 1;
   inset: 0;
   overflow: hidden;
-  transform-origin: 50% 62%;
-  will-change: transform;
 }
 
 .v03-cinematic-line {
@@ -3859,8 +3855,6 @@ body.future-homepage-page-open {
   height: 2px;
   background: #080808;
   pointer-events: none;
-  transform: scaleY(var(--v03-cinematic-line-scale));
-  transform-origin: center;
 }
 
 .v03-cinematic-line--ground {
@@ -3908,10 +3902,6 @@ body.future-homepage-page-open {
   top: auto;
   bottom: 0;
   box-shadow: 0 -1px 0 rgba(32, 35, 31, .2);
-}
-
-.v03-cinematic--future-homepage .v03-cinematic-world {
-  transform-origin: 28% 50%;
 }
 
 .v03-cinematic--future-homepage .v03-cinematic-character {
@@ -4806,10 +4796,6 @@ body.reduce-motion .v03-cinematic--future-homepage .v03-cinematic-character img 
 
   .v03-cinematic-character {
     width: clamp(82px, 20vw, 112px);
-  }
-
-  .v03-cinematic--future-homepage .v03-cinematic-world {
-    transform-origin: 22% 50%;
   }
 
   .v03-cinematic--future-homepage .v03-cinematic-character {
