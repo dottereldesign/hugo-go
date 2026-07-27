@@ -70,9 +70,9 @@ describe('Version 03 long-view cinematic', () => {
     expect(styles).toContain('3.2s steps(6, end) .15s infinite both');
     expect(styles).toContain('.v03-cinematic--future-homepage .v03-cinematic-character');
     expect(styles).toContain('@media (hover: hover) and (pointer: fine)');
-    expect(styles).toContain('border: 1.25px solid rgba(119, 255, 173, .96)');
-    expect(styles).toContain('drop-shadow(1.25px 0 0 rgba(119, 255, 173, .98))');
-    expect(styles).toContain('transform: translateZ(0) scale(1.018)');
+    expect(styles).toContain('drop-shadow(1.25px 0 0 rgba(78, 255, 148, .98))');
+    expect(styles).not.toContain('.v03-cinematic--future-homepage .v03-cinematic-character::before');
+    expect(styles).not.toContain('.v03-cinematic--future-homepage .v03-cinematic-character::after');
     expect(html).not.toContain('data-v03-cinematic-backdrop');
   });
 });
