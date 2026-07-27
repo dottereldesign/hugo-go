@@ -27,6 +27,7 @@ describe('Version 03 long-view cinematic', () => {
     );
     const html = readFileSync(resolve('index.html'), 'utf8');
     const app = readFileSync(resolve('src/main.ts'), 'utf8');
+    const cinematic = readFileSync(resolve('src/game/Version03Cinematic.ts'), 'utf8');
     const styles = readFileSync(resolve('src/style.css'), 'utf8');
     const futureHomepageStart = html.indexOf('id="future-homepage-screen"');
     const loadingStart = html.indexOf('class="future-homepage-loading"');
@@ -47,10 +48,13 @@ describe('Version 03 long-view cinematic', () => {
     expect(html.match(/class="future-homepage-loading"/g)).toHaveLength(1);
     expect(html).toContain('Loading...');
     expect(html).toContain('Some squirrels help forests grow');
+    expect(html).not.toContain('SQUIRREL FIELD NOTE');
     expect(app).toContain("'#/future-homepage'");
     expect(app).toContain("@fontsource/rampart-one/latin-400.css");
-    expect(styles).toContain("font: 400 clamp(2rem, 5.8vw, 7rem)/.92 'Rampart One'");
+    expect(cinematic).toContain("'--v03-cinematic-midline-y'");
+    expect(styles).toContain("font: 400 clamp(3.5rem, 8vw, 10rem)/.88 'Rampart One'");
     expect(styles).toContain('@keyframes future-loading-type');
+    expect(styles).toContain('3.2s steps(10, end) .15s infinite both');
     expect(styles).toContain('.v03-cinematic--future-homepage .v03-cinematic-character');
     expect(html).not.toContain('data-v03-cinematic-backdrop');
   });

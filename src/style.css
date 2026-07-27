@@ -3909,9 +3909,9 @@ body.future-homepage-page-open {
 .future-homepage-loading {
   position: absolute;
   z-index: 6;
-  top: 45%;
-  left: 51%;
-  width: min(45vw, 880px);
+  top: var(--v03-cinematic-midline-y, 50%);
+  left: 45%;
+  width: min(52vw, 960px);
   color: #050505;
   pointer-events: none;
   transform: translateY(-50%);
@@ -3937,9 +3937,9 @@ body.future-homepage-page-open {
   position: relative;
   width: max-content;
   max-width: 100%;
-  margin: clamp(13px, 2vh, 24px) 0 clamp(18px, 2.5vh, 32px);
+  margin: clamp(8px, 1.3vh, 15px) 0 clamp(10px, 1.7vh, 20px);
   color: #050505;
-  font: 400 clamp(2rem, 5.8vw, 7rem)/.92 'Rampart One', 'Arial Black', sans-serif;
+  font: 400 clamp(3.5rem, 8vw, 10rem)/.88 'Rampart One', 'Arial Black', sans-serif;
   letter-spacing: .015em;
   white-space: nowrap;
 }
@@ -3960,24 +3960,17 @@ body.future-homepage-page-open {
   background: #050505;
 }
 
-.future-homepage-page-open .future-homepage-loading-title {
-  animation: future-loading-lock-in .2s steps(2, end) 1.8s both;
-}
-
 .future-homepage-page-open .future-homepage-loading-title span {
-  animation: future-loading-type 1.55s steps(10, end) .22s forwards;
+  animation: future-loading-type 3.2s steps(10, end) .15s infinite both;
 }
 
 .future-homepage-page-open .future-homepage-loading-title::after {
   animation:
-    future-loading-cursor-travel 1.55s steps(10, end) .22s forwards,
-    future-loading-cursor-blink .62s step-end .22s infinite;
+    future-loading-cursor-travel 3.2s steps(10, end) .15s infinite both,
+    future-loading-cursor-blink .62s step-end .15s infinite;
 }
 
 .future-homepage-squirrel-fact {
-  display: grid;
-  grid-template-columns: minmax(100px, 8.5vw) minmax(0, 1fr);
-  gap: clamp(15px, 2.4vw, 34px);
   max-width: 700px;
   margin: 0;
   padding-top: clamp(14px, 2vh, 22px);
@@ -3986,20 +3979,22 @@ body.future-homepage-page-open {
   font: 700 clamp(.72rem, 1vw, .92rem)/1.65 'IBM Plex Mono', monospace;
 }
 
-.future-homepage-squirrel-fact strong {
-  color: #050505;
-  font: 400 clamp(.75rem, 1.15vw, 1.05rem)/1.2 'Rampart One', 'Arial Black', sans-serif;
-  letter-spacing: .06em;
-}
-
 @keyframes future-loading-type {
-  from { clip-path: inset(0 100% 0 0); }
-  to { clip-path: inset(0 0 0 0); }
+  0%,
+  5% { clip-path: inset(0 100% 0 0); }
+  55%,
+  82% { clip-path: inset(0 0 0 0); }
+  82.01%,
+  100% { clip-path: inset(0 100% 0 0); }
 }
 
 @keyframes future-loading-cursor-travel {
-  from { left: 0; }
-  to { left: 100%; }
+  0%,
+  5% { left: 0; }
+  55%,
+  82% { left: 100%; }
+  82.01%,
+  100% { left: 0; }
 }
 
 @keyframes future-loading-cursor-blink {
@@ -4007,12 +4002,6 @@ body.future-homepage-page-open {
   48% { opacity: 1; }
   49%,
   100% { opacity: 0; }
-}
-
-@keyframes future-loading-lock-in {
-  0% { transform: translateX(4px) skewX(-2deg); }
-  50% { transform: translateX(-2px) skewX(1deg); }
-  100% { transform: translateX(0) skewX(0); }
 }
 
 body.reduce-motion .future-homepage-loading-title,
@@ -4791,25 +4780,19 @@ body.reduce-motion .future-homepage-loading-title::after {
   }
 
   .future-homepage-loading {
-    top: 44%;
-    left: 42%;
-    width: 55%;
+    top: var(--v03-cinematic-midline-y, 50%);
+    left: 38%;
+    width: 60%;
     padding-right: 12px;
   }
 
   .future-homepage-loading-title {
-    font-size: clamp(1.55rem, 7vw, 2.3rem);
+    font-size: clamp(2.2rem, 9.4vw, 3.7rem);
   }
 
   .future-homepage-squirrel-fact {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 8px;
     font-size: clamp(.6rem, 2.5vw, .72rem);
     line-height: 1.48;
-  }
-
-  .future-homepage-squirrel-fact strong {
-    font-size: clamp(.64rem, 2.7vw, .76rem);
   }
 
   .version-03-pose-grid {
