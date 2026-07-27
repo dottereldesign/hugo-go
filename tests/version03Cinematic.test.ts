@@ -42,6 +42,7 @@ describe('Version 03 long-view cinematic', () => {
     expect(html).toContain('id="future-homepage-button"');
     expect(html).toContain('id="version-03-future-homepage-button"');
     expect(html).toContain('id="future-homepage-screen"');
+    expect(html).not.toContain('id="future-homepage-back-button"');
     expect(html).toContain('id="future-homepage-sleepy-audio"');
     expect(html).toContain('src="./audio/music/sleepy.mp3"');
     expect(loadingStart).toBeGreaterThan(futureHomepageStart);
@@ -55,8 +56,11 @@ describe('Version 03 long-view cinematic', () => {
     expect(app).toContain("'#/future-homepage'");
     expect(app).toContain("@fontsource/rampart-one/latin-400.css");
     expect(app).toContain("@fontsource/rampart-one/japanese-400.css");
-    expect(cinematic).toContain("'--v03-cinematic-midline-y'");
+    expect(cinematic).not.toContain("'--v03-cinematic-midline-y'");
     expect(styles).toContain("font: 400 clamp(3.5rem, 8vw, 10rem)/1.18 'Rampart One'");
+    expect(styles).toContain('--future-homepage-ink: #20231f');
+    expect(styles).toContain('height: clamp(36px, 7vh, 84px)');
+    expect(styles).toContain('max-width: 520px');
     expect(styles).toContain('@keyframes future-loading-type');
     expect(styles).toContain('clip-path: polygon(0 -100%, 0 -100%, 0 200%, 0 200%)');
     expect(styles).toContain('3.2s steps(6, end) .15s infinite both');

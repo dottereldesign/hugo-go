@@ -135,11 +135,6 @@ export class Version03Cinematic {
       '--v03-cinematic-line-scale',
       (1 / scale).toFixed(4),
     );
-    const midlineY = 62 + (59 - 62) * scale + panY;
-    this.root.style.setProperty(
-      '--v03-cinematic-midline-y',
-      `${midlineY.toFixed(3)}%`,
-    );
     this.world.style.transform =
       `translate3d(${panX.toFixed(3)}%, ${panY.toFixed(3)}%, 0) scale(${scale.toFixed(4)})`;
     this.root.dataset.cameraPhase =

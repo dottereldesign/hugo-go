@@ -338,7 +338,6 @@ class HugoGoApp {
     this.button('version-03-back-button').addEventListener('click', () => this.showOutfit03());
     this.button('future-homepage-button').addEventListener('click', () => this.showFutureHomepage());
     this.button('version-03-future-homepage-button').addEventListener('click', () => this.showFutureHomepage());
-    this.button('future-homepage-back-button').addEventListener('click', () => this.showVersion03());
     this.button('game-over-home').addEventListener('click', () => this.showHome());
 
     const introButton = this.button('home-intro-next');

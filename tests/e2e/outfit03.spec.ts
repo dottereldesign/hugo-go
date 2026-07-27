@@ -172,8 +172,6 @@ test.describe('Outfit 03 reference and V02 animation loops', () => {
       /audio\/music\/sleepy\.mp3/,
     );
     await expect(future.locator('#future-homepage-sleepy-audio')).toHaveAttribute('loop', '');
-
-    await future.getByRole('button', { name: 'Back to Version 03' }).click();
-    await expect(page).toHaveURL(/#\/version-03$/);
+    await expect(future.getByRole('button', { name: 'Back to Version 03' })).toHaveCount(0);
   });
 });
