@@ -123,4 +123,27 @@ test.describe('Outfit 03 reference and V02 animation loops', () => {
       expect(imageHeight).toBeLessThanOrEqual(stageHeight * 1.07);
     }
   });
+
+  test('pulls back through the full-screen Version 03 cliff scene', async ({ page }) => {
+    await page.goto('/#/version-03');
+
+    const cinematic = page.locator('[data-v03-cinematic]');
+    const scroll = page.locator('#version-03-scroll');
+    await expect(cinematic).toHaveCount(1);
+    await expect(cinematic.locator('[data-v03-cinematic-frame]')).toHaveAttribute(
+      'src',
+      /hugo-head-nod-smooth/,
+    );
+    await expect(cinematic.locator('[data-v03-cinematic-backdrop]')).toHaveAttribute(
+      'src',
+      /hugo-cliff-city-backdrop/,
+    );
+
+    await scroll.evaluate((element, section) => {
+      const target = section as HTMLElement;
+      element.scrollTop = target.offsetTop + target.offsetHeight;
+      element.dispatchEvent(new Event('scroll'));
+    }, await cinematic.elementHandle());
+    await expect(cinematic).toHaveAttribute('data-camera-phase', 'wide');
+  });
 });

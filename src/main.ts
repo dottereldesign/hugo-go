@@ -17,6 +17,7 @@ import { CharacterSheetsGallery } from './game/CharacterSheetsGallery';
 import { FrameAnimationGallery } from './game/FrameAnimationGallery';
 import { FlightGame, type RunResult } from './game/FlightGame';
 import { Version03AnimationGallery } from './game/Version03AnimationGallery';
+import { Version03Cinematic } from './game/Version03Cinematic';
 import type { FlightGameState } from './game/engine';
 import { createDefaultPlayerState, loadPlayerState, recordRun, savePlayerState, type PlayerState } from './state';
 import { getWorld, type WorldId } from './worlds';
@@ -57,6 +58,7 @@ class HugoGoApp {
   private readonly frameAnimationGallery: FrameAnimationGallery;
   private readonly characterSheetsGallery: CharacterSheetsGallery;
   private readonly version03AnimationGallery: Version03AnimationGallery;
+  private readonly version03Cinematic: Version03Cinematic;
 
   constructor() {
     this.flightGame = new FlightGame({
@@ -76,6 +78,10 @@ class HugoGoApp {
     this.frameAnimationGallery = new FrameAnimationGallery(this.outfit03Screen);
     this.characterSheetsGallery = new CharacterSheetsGallery(this.characterSheetsScreen);
     this.version03AnimationGallery = new Version03AnimationGallery(this.version03Screen);
+    this.version03Cinematic = new Version03Cinematic(
+      this.version03Screen,
+      this.version03Scroll,
+    );
     this.compactHomeSections = this.prepareCompactHomeLayout();
     this.audio.configure(this.state.settings);
     this.applySettings();
@@ -92,6 +98,7 @@ class HugoGoApp {
     this.animationSandbox.stop();
     this.frameAnimationGallery.stop();
     this.version03AnimationGallery.stop();
+    this.version03Cinematic.stop();
     this.gameScreen.hidden = true;
     this.sandboxScreen.hidden = true;
     this.outfit03Screen.hidden = true;
@@ -109,6 +116,7 @@ class HugoGoApp {
     this.animationSandbox.stop();
     this.frameAnimationGallery.stop();
     this.version03AnimationGallery.stop();
+    this.version03Cinematic.stop();
     this.state.selectedWorld = 'forest';
     this.homeScreen.classList.remove('is-open');
     this.sandboxScreen.hidden = true;
@@ -136,6 +144,7 @@ class HugoGoApp {
     this.version03Screen.hidden = true;
     this.frameAnimationGallery.stop();
     this.version03AnimationGallery.stop();
+    this.version03Cinematic.stop();
     this.sandboxScreen.hidden = false;
     document.body.classList.remove('game-page-open', 'outfit-03-page-open', 'character-sheets-page-open', 'version-03-page-open');
     document.body.classList.add('sandbox-page-open');
@@ -151,6 +160,7 @@ class HugoGoApp {
     this.flightGame.stop();
     this.animationSandbox.stop();
     this.version03AnimationGallery.stop();
+    this.version03Cinematic.stop();
     this.closeHomePanel();
     this.homeScreen.classList.remove('is-open');
     this.gameScreen.hidden = true;
@@ -174,6 +184,7 @@ class HugoGoApp {
     this.animationSandbox.stop();
     this.frameAnimationGallery.stop();
     this.version03AnimationGallery.stop();
+    this.version03Cinematic.stop();
     this.closeHomePanel();
     this.homeScreen.classList.remove('is-open');
     this.gameScreen.hidden = true;
@@ -208,6 +219,7 @@ class HugoGoApp {
     document.title = 'HUGO GO! — Version 03';
     this.version03Scroll.scrollTop = 0;
     this.version03AnimationGallery.start();
+    this.version03Cinematic.start();
     refreshIcons();
   }
 
