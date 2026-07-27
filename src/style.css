@@ -3939,9 +3939,7 @@ body.future-homepage-page-open .future-homepage-screen > .v03-cinematic-line {
     sepia(.08)
     saturate(.65)
     contrast(1.08)
-    brightness(.94)
-    drop-shadow(0 5px 6px rgba(32, 35, 31, .14))
-    drop-shadow(0 20px 18px rgba(32, 35, 31, .2));
+    brightness(.94);
   transform: translateZ(0);
   transition: filter 360ms cubic-bezier(.16, 1, .3, 1);
   will-change: filter;
@@ -3954,9 +3952,7 @@ body.future-homepage-page-open .future-homepage-screen > .v03-cinematic-line {
       sepia(0)
       saturate(.82)
       contrast(1.04)
-      brightness(.98)
-      drop-shadow(0 5px 6px rgba(32, 35, 31, .16))
-      drop-shadow(0 20px 18px rgba(32, 35, 31, .22));
+      brightness(.98);
   }
 }
 
