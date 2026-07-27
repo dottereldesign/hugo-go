@@ -67,7 +67,7 @@ describe('Version 03 long-view cinematic', () => {
     expect(styles).toContain('height: clamp(44px, 9vh, 72px)');
     expect(styles).toContain('max-width: 520px');
     expect(styles).toContain('width: clamp(68px, 6.5vw, 120px)');
-    expect(styles).toContain('cursor: pointer');
+    expect(styles).toContain('.v03-cinematic-character.is-alpha-hovered');
     expect(styles).toContain('transform-origin: 28% 50%');
     expect(styles).toContain('transform: translate(-50%, -50%)');
     expect(styles).toContain('@keyframes future-loading-type');
@@ -76,8 +76,12 @@ describe('Version 03 long-view cinematic', () => {
     expect(styles).toContain('.v03-cinematic--future-homepage .v03-cinematic-character');
     expect(styles).toContain('@media (hover: hover) and (pointer: fine)');
     expect(styles).toContain('drop-shadow(1.25px 0 0 rgba(78, 255, 148, .98))');
+    expect(styles).not.toContain('.v03-cinematic-character:hover img');
     expect(styles).not.toContain('.v03-cinematic--future-homepage .v03-cinematic-character::before');
     expect(styles).not.toContain('.v03-cinematic--future-homepage .v03-cinematic-character::after');
+    expect(cinematic).toContain("'pointermove'");
+    expect(cinematic).toContain("getImageData(");
+    expect(cinematic).toContain("'is-alpha-hovered'");
     expect(html).not.toContain('data-v03-cinematic-backdrop');
   });
 });

@@ -3918,8 +3918,12 @@ body.future-homepage-page-open {
   top: 50%;
   left: 28%;
   width: clamp(68px, 6.5vw, 120px);
-  cursor: pointer;
+  cursor: default;
   transform: translate(-50%, -50%);
+}
+
+.v03-cinematic--future-homepage .v03-cinematic-character.is-alpha-hovered {
+  cursor: pointer;
 }
 
 .v03-cinematic--future-homepage .v03-cinematic-character img {
@@ -3936,7 +3940,7 @@ body.future-homepage-page-open {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .v03-cinematic--future-homepage .v03-cinematic-character:hover img {
+  .v03-cinematic--future-homepage .v03-cinematic-character.is-alpha-hovered img {
     filter:
       drop-shadow(1.25px 0 0 rgba(78, 255, 148, .98))
       drop-shadow(-1.25px 0 0 rgba(78, 255, 148, .98))
