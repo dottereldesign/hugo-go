@@ -243,7 +243,20 @@ export class Version03Cinematic {
 
   private syncLayout(): void {
     const viewportHeight = this.scrollRoot.clientHeight;
+    const sourceFrameWidth =
+      this.frameImage.naturalWidth ||
+      Number(this.frameImage.getAttribute('width')) ||
+      512;
+    const devicePixelRatio = Math.max(1, window.devicePixelRatio || 1);
+    const nativeFrameCssWidth = Math.max(
+      1,
+      Math.floor(sourceFrameWidth / devicePixelRatio),
+    );
     this.root.style.setProperty('--v03-cinematic-viewport', `${viewportHeight}px`);
+    this.root.style.setProperty(
+      '--v03-native-frame-css-width',
+      `${nativeFrameCssWidth}px`,
+    );
     this.root.style.height = `${viewportHeight}px`;
   }
 

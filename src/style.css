@@ -4811,6 +4811,13 @@ body.reduce-motion.future-homepage-page-open .future-homepage-screen > .v03-cine
 
   .v03-cinematic--future-homepage .v03-cinematic-character {
     left: 22%;
+    width: min(82vw, var(--v03-native-frame-css-width, 170px));
+  }
+
+  .v03-cinematic--future-homepage .v03-cinematic-character img {
+    backface-visibility: visible;
+    transform: none;
+    will-change: auto;
   }
 
   .future-homepage-screen > .v03-cinematic-line {
