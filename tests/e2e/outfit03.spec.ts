@@ -134,10 +134,7 @@ test.describe('Outfit 03 reference and V02 animation loops', () => {
       'src',
       /hugo-head-nod-smooth/,
     );
-    await expect(cinematic.locator('[data-v03-cinematic-backdrop]')).toHaveAttribute(
-      'src',
-      /hugo-cliff-city-backdrop/,
-    );
+    await expect(cinematic.locator('[data-v03-cinematic-line]')).toHaveCount(1);
 
     await scroll.evaluate((element, section) => {
       const target = section as HTMLElement;

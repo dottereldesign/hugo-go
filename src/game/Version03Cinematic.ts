@@ -1,5 +1,4 @@
 import headNodManifestJson from '../assets/game/2d-v03/animations/head-nod-soft-inbetweens/manifest.json';
-import backdropUrl from '../assets/game/2d-v03/cinematic/hugo-cliff-city-backdrop.webp';
 
 const FRAME_MODULES = import.meta.glob(
   '../assets/game/2d-v03/animations/head-nod-soft-inbetweens/frames/*.png',
@@ -33,7 +32,6 @@ export class Version03Cinematic {
   private readonly root: HTMLElement;
   private readonly scrollRoot: HTMLElement;
   private readonly world: HTMLElement;
-  private readonly backdrop: HTMLImageElement;
   private readonly frameImage: HTMLImageElement;
   private readonly frameUrls: string[];
   private active = false;
@@ -47,10 +45,6 @@ export class Version03Cinematic {
     this.root = this.required<HTMLElement>(root, '[data-v03-cinematic]');
     this.scrollRoot = scrollRoot;
     this.world = this.required<HTMLElement>(this.root, '[data-v03-cinematic-world]');
-    this.backdrop = this.required<HTMLImageElement>(
-      this.root,
-      '[data-v03-cinematic-backdrop]',
-    );
     this.frameImage = this.required<HTMLImageElement>(
       this.root,
       '[data-v03-cinematic-frame]',
@@ -65,7 +59,6 @@ export class Version03Cinematic {
       }
       return url;
     });
-    this.backdrop.src = backdropUrl;
     this.syncFrame();
     this.syncLayout();
     this.syncCamera();
@@ -138,18 +131,9 @@ export class Version03Cinematic {
     const panX = (1 - eased) * -1.4;
     const panY = (1 - eased) * 1.8;
 
-    this.root.style.setProperty('--v03-cinematic-progress', progress.toFixed(4));
     this.root.style.setProperty(
-      '--v03-cinematic-progress-width',
-      `${(progress * 100).toFixed(2)}%`,
-    );
-    this.root.style.setProperty(
-      '--v03-cinematic-copy-opacity',
-      this.clamp(1 - progress * 5, 0, 1).toFixed(4),
-    );
-    this.root.style.setProperty(
-      '--v03-cinematic-copy-y',
-      `${(progress * -18).toFixed(2)}px`,
+      '--v03-cinematic-line-scale',
+      (1 / scale).toFixed(4),
     );
     this.world.style.transform =
       `translate3d(${panX.toFixed(3)}%, ${panY.toFixed(3)}%, 0) scale(${scale.toFixed(4)})`;
@@ -160,8 +144,6 @@ export class Version03Cinematic {
   private ensureAssets(): void {
     if (this.assetsStarted) return;
     this.assetsStarted = true;
-    const backdrop = new Image();
-    backdrop.src = backdropUrl;
     for (const url of this.frameUrls) {
       const image = new Image();
       image.src = url;
