@@ -3982,7 +3982,7 @@ body.future-homepage-page-open {
   z-index: 1;
 }
 
-.v03-cinematic--future-homepage .v03-cinematic-color-frame {
+.v03-cinematic--future-homepage .v03-cinematic-character .v03-cinematic-color-frame {
   z-index: 3;
   opacity: 1;
   filter: none;

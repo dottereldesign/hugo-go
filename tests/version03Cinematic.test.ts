@@ -113,6 +113,9 @@ describe('Version 03 long-view cinematic', () => {
     expect(styles).toContain('@media (hover: hover) and (pointer: fine)');
     expect(styles).toContain('grayscale(1)');
     expect(styles).toContain('clip-path: inset(0 100% 0 0)');
+    expect(styles).toContain(
+      '.v03-cinematic--future-homepage .v03-cinematic-character .v03-cinematic-color-frame',
+    );
     expect(styles).toContain('.future-homepage-screen.is-resolved .v03-cinematic-base-frame');
     expect(styles).not.toContain('-webkit-mask-position');
     expect(styles).toContain('sepia(.08)');
