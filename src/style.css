@@ -3978,24 +3978,17 @@ body.future-homepage-page-open {
   will-change: filter;
 }
 
+.v03-cinematic--future-homepage .v03-cinematic-base-frame {
+  z-index: 1;
+}
+
 .v03-cinematic--future-homepage .v03-cinematic-color-frame {
-  z-index: 2;
-  opacity: 0;
-  filter:
-    grayscale(0)
-    sepia(0)
-    saturate(.82)
-    contrast(1.04)
-    brightness(.98);
-  -webkit-mask-image: linear-gradient(90deg, #000 0 40%, transparent 60% 100%);
-  mask-image: linear-gradient(90deg, #000 0 40%, transparent 60% 100%);
-  -webkit-mask-position: 100% 0;
-  mask-position: 100% 0;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-size: 300% 100%;
-  mask-size: 300% 100%;
+  z-index: 3;
+  opacity: 1;
+  filter: none;
+  clip-path: inset(0 100% 0 0);
   pointer-events: none;
+  will-change: clip-path;
 }
 
 .future-homepage-screen.is-resolved .v03-cinematic--future-homepage .v03-cinematic-character {
@@ -4006,7 +3999,11 @@ body.future-homepage-page-open {
 }
 
 .future-homepage-screen.is-resolved .v03-cinematic-color-frame {
-  animation: future-homepage-colour-reveal 520ms cubic-bezier(.4, 0, .2, 1) 300ms both;
+  animation: future-homepage-colour-reveal 640ms cubic-bezier(.4, 0, .2, 1) 250ms both;
+}
+
+.future-homepage-screen.is-resolved .v03-cinematic-base-frame {
+  animation: future-homepage-colour-lock 1ms linear 900ms both;
 }
 
 @keyframes future-homepage-blue-wipe {
@@ -4021,15 +4018,22 @@ body.future-homepage-page-open {
 
 @keyframes future-homepage-colour-reveal {
   from {
-    opacity: 1;
-    -webkit-mask-position: 100% 0;
-    mask-position: 100% 0;
+    clip-path: inset(0 100% 0 0);
   }
 
   to {
-    opacity: 1;
-    -webkit-mask-position: 0 0;
-    mask-position: 0 0;
+    clip-path: inset(0);
+  }
+}
+
+@keyframes future-homepage-colour-lock {
+  to {
+    filter:
+      grayscale(0)
+      sepia(0)
+      saturate(.82)
+      contrast(1.04)
+      brightness(.98);
   }
 }
 
@@ -4375,8 +4379,17 @@ body.reduce-motion .v03-cinematic--future-homepage .v03-cinematic-character img 
 body.reduce-motion .future-homepage-screen.is-resolved .v03-cinematic-color-frame {
   opacity: 1;
   animation: none;
-  -webkit-mask-image: none;
-  mask-image: none;
+  clip-path: none;
+}
+
+body.reduce-motion .future-homepage-screen.is-resolved .v03-cinematic-base-frame {
+  animation: none;
+  filter:
+    grayscale(0)
+    sepia(0)
+    saturate(.82)
+    contrast(1.04)
+    brightness(.98);
 }
 
 body.reduce-motion .future-homepage-screen.is-resolved .future-homepage-blue-wipe {

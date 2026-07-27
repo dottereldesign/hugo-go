@@ -98,6 +98,7 @@ describe('Version 03 long-view cinematic', () => {
     expect(styles).toContain('@keyframes future-loading-type');
     expect(styles).toContain('@keyframes future-loading-dots');
     expect(styles).toContain('@keyframes future-homepage-colour-reveal');
+    expect(styles).toContain('@keyframes future-homepage-colour-lock');
     expect(styles).toContain('@keyframes future-homepage-blue-wipe');
     expect(styles).toContain('@keyframes future-homepage-column-exit');
     expect(styles).toContain('@keyframes future-homepage-slash-enter');
@@ -111,6 +112,9 @@ describe('Version 03 long-view cinematic', () => {
     expect(styles).toContain('.v03-cinematic--future-homepage .v03-cinematic-character');
     expect(styles).toContain('@media (hover: hover) and (pointer: fine)');
     expect(styles).toContain('grayscale(1)');
+    expect(styles).toContain('clip-path: inset(0 100% 0 0)');
+    expect(styles).toContain('.future-homepage-screen.is-resolved .v03-cinematic-base-frame');
+    expect(styles).not.toContain('-webkit-mask-position');
     expect(styles).toContain('sepia(.08)');
     expect(styles).toContain('saturate(.82)');
     expect(styles).not.toContain('drop-shadow(0 20px 18px rgba(32, 35, 31');
