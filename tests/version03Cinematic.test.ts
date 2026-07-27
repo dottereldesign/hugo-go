@@ -70,7 +70,7 @@ describe('Version 03 long-view cinematic', () => {
     expect(styles).toContain('height: max(64px, calc((100% - min(56.25vw, 675px)) / 2))');
     expect(styles).toContain('height: clamp(44px, 9vh, 72px)');
     expect(styles).toContain('max-width: 520px');
-    expect(styles).toContain('width: clamp(68px, 6.5vw, 120px)');
+    expect(styles).toContain('width: clamp(320px, 31vw, 570px)');
     expect(styles).toContain('.v03-cinematic-character.is-alpha-hovered');
     expect(styles).not.toContain('height: 420vh');
     expect(styles).toContain('transform: translate(-50%, -50%)');
