@@ -3936,11 +3936,12 @@ body.future-homepage-page-open .future-homepage-screen > .v03-cinematic-line {
   backface-visibility: hidden;
   filter:
     grayscale(1)
-    drop-shadow(1.25px 0 0 rgba(78, 255, 148, 0))
-    drop-shadow(-1.25px 0 0 rgba(78, 255, 148, 0))
-    drop-shadow(0 1.25px 0 rgba(78, 255, 148, 0))
-    drop-shadow(0 -1.25px 0 rgba(78, 255, 148, 0))
-    drop-shadow(0 0 2px rgba(45, 255, 134, 0));
+    sepia(.08)
+    saturate(.65)
+    contrast(1.08)
+    brightness(.94)
+    drop-shadow(0 5px 6px rgba(32, 35, 31, .14))
+    drop-shadow(0 20px 18px rgba(32, 35, 31, .2));
   transform: translateZ(0);
   transition: filter 360ms cubic-bezier(.16, 1, .3, 1);
   will-change: filter;
@@ -3950,11 +3951,12 @@ body.future-homepage-page-open .future-homepage-screen > .v03-cinematic-line {
   .v03-cinematic--future-homepage .v03-cinematic-character.is-alpha-hovered img {
     filter:
       grayscale(0)
-      drop-shadow(1.25px 0 0 rgba(78, 255, 148, .98))
-      drop-shadow(-1.25px 0 0 rgba(78, 255, 148, .98))
-      drop-shadow(0 1.25px 0 rgba(78, 255, 148, .98))
-      drop-shadow(0 -1.25px 0 rgba(78, 255, 148, .98))
-      drop-shadow(0 0 2px rgba(45, 255, 134, .48));
+      sepia(0)
+      saturate(.82)
+      contrast(1.04)
+      brightness(.98)
+      drop-shadow(0 5px 6px rgba(32, 35, 31, .16))
+      drop-shadow(0 20px 18px rgba(32, 35, 31, .22));
   }
 }
 

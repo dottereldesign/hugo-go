@@ -86,7 +86,11 @@ describe('Version 03 long-view cinematic', () => {
     expect(styles).not.toContain('future-loading-cursor');
     expect(styles).toContain('.v03-cinematic--future-homepage .v03-cinematic-character');
     expect(styles).toContain('@media (hover: hover) and (pointer: fine)');
-    expect(styles).toContain('drop-shadow(1.25px 0 0 rgba(78, 255, 148, .98))');
+    expect(styles).toContain('grayscale(1)');
+    expect(styles).toContain('sepia(.08)');
+    expect(styles).toContain('saturate(.82)');
+    expect(styles).toContain('drop-shadow(0 20px 18px rgba(32, 35, 31, .2))');
+    expect(styles).not.toContain('rgba(78, 255, 148');
     expect(styles).not.toContain('.v03-cinematic-character:hover img');
     expect(styles).not.toContain('.v03-cinematic--future-homepage .v03-cinematic-character::before');
     expect(styles).not.toContain('.v03-cinematic--future-homepage .v03-cinematic-character::after');
