@@ -32,6 +32,7 @@ describe('Version 03 long-view cinematic', () => {
     const loadingStart = html.indexOf('class="future-homepage-loading"');
 
     expect(existsSync(backdropPath)).toBe(false);
+    expect(existsSync(resolve('public/audio/music/sleepy.mp3'))).toBe(true);
     expect(html.match(/data-v03-cinematic(?=[\s>])/g)).toHaveLength(2);
     expect(html.match(/data-v03-cinematic-world/g)).toHaveLength(2);
     expect(html.match(/data-v03-cinematic-frame/g)).toHaveLength(2);
@@ -40,6 +41,8 @@ describe('Version 03 long-view cinematic', () => {
     expect(html).toContain('id="future-homepage-button"');
     expect(html).toContain('id="version-03-future-homepage-button"');
     expect(html).toContain('id="future-homepage-screen"');
+    expect(html).toContain('id="future-homepage-sleepy-audio"');
+    expect(html).toContain('src="./audio/music/sleepy.mp3"');
     expect(loadingStart).toBeGreaterThan(futureHomepageStart);
     expect(html.match(/class="future-homepage-loading"/g)).toHaveLength(1);
     expect(html).toContain('Loading...');

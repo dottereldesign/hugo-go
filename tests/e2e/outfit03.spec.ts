@@ -165,6 +165,11 @@ test.describe('Outfit 03 reference and V02 animation loops', () => {
     await expect(future.getByText('Loading...')).toBeVisible();
     await expect(future.getByText('SQUIRREL FIELD NOTE')).toBeVisible();
     await expect(future.getByText(/unrecovered seeds can germinate into new trees/i)).toBeVisible();
+    await expect(future.locator('#future-homepage-sleepy-audio')).toHaveAttribute(
+      'src',
+      /audio\/music\/sleepy\.mp3/,
+    );
+    await expect(future.locator('#future-homepage-sleepy-audio')).toHaveAttribute('loop', '');
 
     await future.getByRole('button', { name: 'Back to Version 03' }).click();
     await expect(page).toHaveURL(/#\/version-03$/);
