@@ -4289,6 +4289,8 @@ body.future-homepage-page-open {
   text-transform: uppercase;
 }
 
+.future-homepage-credit--production,
+.future-homepage-credit--creator,
 .future-homepage-credit--title {
   flex-direction: column;
   align-items: center;

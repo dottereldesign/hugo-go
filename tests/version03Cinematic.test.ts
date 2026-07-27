@@ -115,6 +115,9 @@ describe('Version 03 long-view cinematic', () => {
     expect(styles).toContain('@keyframes future-homepage-column-exit');
     expect(styles).toContain('@keyframes future-homepage-credit-beat');
     expect(styles).toContain('.future-homepage-screen.is-resolved .future-homepage-credit--production');
+    expect(styles).toContain(
+      '.future-homepage-credit--production,\n.future-homepage-credit--creator,',
+    );
     expect(styles).toContain('1550ms both');
     expect(styles).toContain('@keyframes future-homepage-slash-enter');
     expect(styles).toContain('transform: translate(-50%, -81.25%)');
