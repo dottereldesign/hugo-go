@@ -166,6 +166,14 @@ test.describe('Outfit 03 reference and V02 animation loops', () => {
     await expect(cinematic.locator('[data-v03-cinematic-ground-line]')).toHaveCount(0);
     await expect(future.locator('[data-v03-cinematic-line]')).toHaveCount(1);
     await expect(future.locator('[data-v03-cinematic-ground-line]')).toHaveCount(1);
+    await expect(future.locator('[data-v03-cinematic-line]').first()).toHaveCSS(
+      'animation-name',
+      'future-homepage-letterbox-in',
+    );
+    await expect(cinematic.locator('[data-v03-cinematic-frame]')).toHaveCSS(
+      'filter',
+      /grayscale\(1\)/,
+    );
     await expect(future.getByText('MOUNT POGAGA // 01')).toBeVisible();
     await expect(future.getByRole('heading', { name: '読み込み中...' })).toBeVisible();
     await expect(future.getByText('Loading...')).toHaveCount(0);

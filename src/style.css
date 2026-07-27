@@ -3895,13 +3895,29 @@ body.future-homepage-page-open {
   height: max(64px, calc((100% - min(56.25vw, 675px)) / 2));
   background: var(--future-homepage-ink);
   box-shadow: 0 1px 0 rgba(32, 35, 31, .2);
-  transform: none;
+  transform: scaleY(1);
+  transform-origin: top;
+}
+
+body.future-homepage-page-open .future-homepage-screen > .v03-cinematic-line {
+  animation: future-homepage-letterbox-in 1100ms cubic-bezier(.76, 0, .24, 1) both;
 }
 
 .future-homepage-screen > .v03-cinematic-line--ground {
   top: auto;
   bottom: 0;
   box-shadow: 0 -1px 0 rgba(32, 35, 31, .2);
+  transform-origin: bottom;
+}
+
+@keyframes future-homepage-letterbox-in {
+  from {
+    transform: scaleY(0);
+  }
+
+  to {
+    transform: scaleY(1);
+  }
 }
 
 .v03-cinematic--future-homepage .v03-cinematic-character {
@@ -3919,6 +3935,7 @@ body.future-homepage-page-open {
 .v03-cinematic--future-homepage .v03-cinematic-character img {
   backface-visibility: hidden;
   filter:
+    grayscale(1)
     drop-shadow(1.25px 0 0 rgba(78, 255, 148, 0))
     drop-shadow(-1.25px 0 0 rgba(78, 255, 148, 0))
     drop-shadow(0 1.25px 0 rgba(78, 255, 148, 0))
@@ -3932,6 +3949,7 @@ body.future-homepage-page-open {
 @media (hover: hover) and (pointer: fine) {
   .v03-cinematic--future-homepage .v03-cinematic-character.is-alpha-hovered img {
     filter:
+      grayscale(0)
       drop-shadow(1.25px 0 0 rgba(78, 255, 148, .98))
       drop-shadow(-1.25px 0 0 rgba(78, 255, 148, .98))
       drop-shadow(0 1.25px 0 rgba(78, 255, 148, .98))
@@ -4046,6 +4064,10 @@ body.reduce-motion .future-homepage-loading-dots {
 
 body.reduce-motion .v03-cinematic--future-homepage .v03-cinematic-character img {
   transition-duration: .01ms;
+}
+
+body.reduce-motion.future-homepage-page-open .future-homepage-screen > .v03-cinematic-line {
+  animation: none;
 }
 
 @media (min-width: 1800px) {
