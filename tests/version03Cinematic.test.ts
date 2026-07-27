@@ -51,7 +51,9 @@ describe('Version 03 long-view cinematic', () => {
     expect(html).toContain('読み込み中…');
     expect(html).not.toContain('<span>Loading...</span>');
     expect(html).not.toContain('FOREST SYSTEM');
-    expect(html).toContain('Some squirrels help forests grow');
+    expect(html).toContain('A gorilla weighs about as much as 450 squirrels');
+    expect(html).toContain('The other 4,550 are there for emotional support.');
+    expect(html).not.toContain('Some squirrels help forests grow');
     expect(html).not.toContain('SQUIRREL FIELD NOTE');
     expect(app).toContain("'#/future-homepage'");
     expect(app).toContain("@fontsource/rampart-one/latin-400.css");

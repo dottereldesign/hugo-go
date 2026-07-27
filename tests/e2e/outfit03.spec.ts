@@ -166,7 +166,8 @@ test.describe('Outfit 03 reference and V02 animation loops', () => {
     await expect(future.getByRole('heading', { name: '読み込み中…' })).toBeVisible();
     await expect(future.getByText('Loading...')).toHaveCount(0);
     await expect(future.getByText('SQUIRREL FIELD NOTE')).toHaveCount(0);
-    await expect(future.getByText(/unrecovered seeds can germinate into new trees/i)).toBeVisible();
+    await expect(future.getByText(/A gorilla weighs about as much as 450 squirrels/i)).toBeVisible();
+    await expect(future.getByText(/The other 4,550 are there for emotional support/i)).toBeVisible();
     await expect(future.locator('#future-homepage-sleepy-audio')).toHaveAttribute(
       'src',
       /audio\/music\/sleepy\.mp3/,
