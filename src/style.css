@@ -3987,23 +3987,24 @@ body.future-homepage-page-open {
   position: relative;
   width: max-content;
   max-width: 100%;
-  margin: clamp(8px, 1.3vh, 15px) 0 0;
+  margin: clamp(8px, 1.3vh, 15px) 0 clamp(10px, 1.7vh, 20px);
   color: #050505;
-  font: 400 clamp(3.5rem, 8vw, 10rem)/1.08 'Rampart One', 'Arial Black', sans-serif;
+  font: 400 clamp(3.5rem, 8vw, 10rem)/1.18 'Rampart One', 'Arial Black', sans-serif;
   letter-spacing: .015em;
   white-space: nowrap;
 }
 
 .future-homepage-loading-title span {
   display: block;
+  padding: .1em .06em .22em 0;
   color: #050505;
-  clip-path: inset(-.12em 100% -.2em 0);
+  clip-path: polygon(0 -100%, 0 -100%, 0 200%, 0 200%);
 }
 
 .future-homepage-loading-title::after {
   position: absolute;
-  top: .12em;
-  bottom: .2em;
+  top: .2em;
+  bottom: .32em;
   left: 0;
   width: max(4px, .065em);
   content: '';
@@ -4011,29 +4012,13 @@ body.future-homepage-page-open {
 }
 
 .future-homepage-page-open .future-homepage-loading-title span {
-  animation: future-loading-type 3.2s steps(10, end) .15s infinite both;
+  animation: future-loading-type 3.2s steps(6, end) .15s infinite both;
 }
 
 .future-homepage-page-open .future-homepage-loading-title::after {
   animation:
-    future-loading-cursor-travel 3.2s steps(10, end) .15s infinite both,
+    future-loading-cursor-travel 3.2s steps(6, end) .15s infinite both,
     future-loading-cursor-blink .62s step-end .15s infinite;
-}
-
-.future-homepage-loading-japanese {
-  display: block;
-  width: max-content;
-  max-width: 100%;
-  margin: -.08em 0 clamp(10px, 1.7vh, 20px);
-  color: #050505;
-  font: 400 clamp(.9rem, 1.35vw, 1.5rem)/1.45 'Rampart One', sans-serif;
-  letter-spacing: .2em;
-  white-space: nowrap;
-  clip-path: inset(-.15em 100% -.2em 0);
-}
-
-.future-homepage-page-open .future-homepage-loading-japanese {
-  animation: future-loading-type-japanese 3.2s steps(6, end) .15s infinite both;
 }
 
 .future-homepage-squirrel-fact {
@@ -4047,20 +4032,11 @@ body.future-homepage-page-open {
 
 @keyframes future-loading-type {
   0%,
-  5% { clip-path: inset(-.12em 100% -.2em 0); }
+  5% { clip-path: polygon(0 -100%, 0 -100%, 0 200%, 0 200%); }
   55%,
-  82% { clip-path: inset(-.12em 0 -.2em 0); }
+  82% { clip-path: polygon(0 -100%, 100% -100%, 100% 200%, 0 200%); }
   82.01%,
-  100% { clip-path: inset(-.12em 100% -.2em 0); }
-}
-
-@keyframes future-loading-type-japanese {
-  0%,
-  28% { clip-path: inset(-.15em 100% -.2em 0); }
-  58%,
-  82% { clip-path: inset(-.15em 0 -.2em 0); }
-  82.01%,
-  100% { clip-path: inset(-.15em 100% -.2em 0); }
+  100% { clip-path: polygon(0 -100%, 0 -100%, 0 200%, 0 200%); }
 }
 
 @keyframes future-loading-cursor-travel {
@@ -4081,13 +4057,11 @@ body.future-homepage-page-open {
 
 body.reduce-motion .future-homepage-loading-title,
 body.reduce-motion .future-homepage-loading-title span,
-body.reduce-motion .future-homepage-loading-title::after,
-body.reduce-motion .future-homepage-loading-japanese {
+body.reduce-motion .future-homepage-loading-title::after {
   animation: none;
 }
 
-body.reduce-motion .future-homepage-loading-title span,
-body.reduce-motion .future-homepage-loading-japanese {
+body.reduce-motion .future-homepage-loading-title span {
   clip-path: none;
 }
 
