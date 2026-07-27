@@ -64,8 +64,9 @@ describe('Version 03 long-view cinematic', () => {
     expect(html).toContain('class="future-homepage-loading-dots"');
     expect(html).not.toContain('<span>Loading...</span>');
     expect(html).not.toContain('FOREST SYSTEM');
-    expect(html).toContain('A gorilla weighs about as much as 450 squirrels');
-    expect(html).toContain('The other 4,550 are there for emotional support.');
+    expect(html).toContain('"The world saw only a boy.<br>');
+    expect(html).toContain('The boy saw a world waiting to be conquered."');
+    expect(html).not.toContain('A gorilla weighs about as much as 450 squirrels');
     expect(html).not.toContain('Some squirrels help forests grow');
     expect(html).not.toContain('SQUIRREL FIELD NOTE');
     expect(app).toContain("'#/future-homepage'");
