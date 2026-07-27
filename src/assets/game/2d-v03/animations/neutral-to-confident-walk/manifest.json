@@ -1,0 +1,173 @@
+{
+  "schemaVersion": 1,
+  "animation": {
+    "id": "neutral-to-confident-walk",
+    "assetDirectory": "neutral-to-confident-walk",
+    "name": "Neutral Side · Step into confident walk",
+    "description": "The exact Neutral Side start transitions through three new whole-body drawings into the approved Confident Walk finish.",
+    "stageLabel": "OUTFIT 03 · WALK START",
+    "prompt": "Create one strict 3-column x 1-row sprite sheet containing\nexactly three complete full-body intermediate Hugo drawings at 25, 50, and 75\npercent progress from the exact first frame of animation 01 into the exact\napproved Confident Walk pose. Progress from a subtle screen-right weight shift,\nthrough a natural passing step, into an opening confident stride. Every\nadjacent drawing must have a small believable motion delta. Keep Hugo facing\nand travelling screen-right in strict side profile. Preserve Hugo's face,\nspiky brown hair, proportions, warm peach/tan skin, orange-and-cream Outfit 03\nSunrise suit, yellow/orange back panel, dark trim, knee pads, and black\nbasketball shoes. Match the canonical polished 2D game-character linework,\nlighting, shading, colour, scale, and perspective. Redraw the complete figure\nin every cell. Use a perfectly flat solid #FF00FF chroma background with\ngenerous clear gutters. No cropped hair, hands, legs, or shoes; no duplicate\nposes, extra people, props, fragments, text, labels, borders, shadows,\nreflections, or watermark."
+  },
+  "timing": {
+    "baseFps": 7,
+    "runtimeFrameCount": 7,
+    "drawingCount": 5,
+    "loopDurationSeconds": 1.0,
+    "bookendFrame": 7
+  },
+  "productionMethod": "two exact approved endpoint figures plus three complete generated in-between figures; chroma cleanup and deterministic whole-body registration only; no body-part compositing, code interpolation, or runtime sheet slicing",
+  "source": {
+    "generatedSheet": "art/source-images/game/2d-v03/animations/neutral-to-confident-walk-v1/hugo-neutral-to-confident-walk-three-inbetweens-transparent.png",
+    "registeredSequence": "art/source-images/game/2d-v03/animations/neutral-to-confident-walk-v1/hugo-neutral-to-confident-walk-five-drawings-registered.png",
+    "startEndpoint": "src/assets/game/2d-v03/animations/head-nod-soft-inbetweens/frames/hugo-head-nod-smooth-01-approved-00-percent.png",
+    "endEndpoint": "src/assets/game/2d-v03/sunrise-side/poses/hugo-sunrise-side-02-confident-walk.png",
+    "uniqueDrawings": [
+      {
+        "sourceFrame": 1,
+        "filename": "hugo-neutral-to-confident-01-approved-neutral-side.png",
+        "kind": "approved original",
+        "progressPercent": 0,
+        "sha256": "65263b8e680e0b493b732641bf01d6f69a708dbeb5beff3b90750418e3e1215a",
+        "alphaBounds": [
+          200,
+          94,
+          305,
+          417
+        ]
+      },
+      {
+        "sourceFrame": 2,
+        "filename": "hugo-neutral-to-confident-02-generated-weight-shift.png",
+        "kind": "generated in-between",
+        "progressPercent": 25,
+        "sha256": "cb5e67c1010a8c58cc4de5bf69ecddd3dff341293071d3e13bf91bbeecf30c92",
+        "alphaBounds": [
+          184,
+          94,
+          328,
+          416
+        ],
+        "sourceCell": 1,
+        "sourceBounds": [
+          330,
+          111,
+          561,
+          628
+        ],
+        "uniformScale": 0.622824,
+        "targetHeight": 322,
+        "targetBaselineY": 416
+      },
+      {
+        "sourceFrame": 3,
+        "filename": "hugo-neutral-to-confident-03-generated-passing-step.png",
+        "kind": "generated in-between",
+        "progressPercent": 50,
+        "sha256": "b2692a90d42a998032bfbd78f8bf4b2f9d6622c6b6d265e0db22fa4ae69d8342",
+        "alphaBounds": [
+          153,
+          96,
+          359,
+          416
+        ],
+        "sourceCell": 2,
+        "sourceBounds": [
+          168,
+          111,
+          499,
+          625
+        ],
+        "uniformScale": 0.622568,
+        "targetHeight": 320,
+        "targetBaselineY": 416
+      },
+      {
+        "sourceFrame": 4,
+        "filename": "hugo-neutral-to-confident-04-generated-stride-open.png",
+        "kind": "generated in-between",
+        "progressPercent": 75,
+        "sha256": "280eaf69528b9f0c2db6feadb08c036d5a7c90d640a62a061273debedae03bdb",
+        "alphaBounds": [
+          146,
+          97,
+          365,
+          415
+        ],
+        "sourceCell": 3,
+        "sourceBounds": [
+          77,
+          103,
+          436,
+          625
+        ],
+        "uniformScale": 0.609195,
+        "targetHeight": 318,
+        "targetBaselineY": 415
+      },
+      {
+        "sourceFrame": 5,
+        "filename": "hugo-neutral-to-confident-05-approved-confident-walk.png",
+        "kind": "approved original",
+        "progressPercent": 100,
+        "sha256": "38e768f5702dfda21c6d8f86b4dbc95c1b7bca63ab113c98ef17dd3c720527db",
+        "alphaBounds": [
+          158,
+          97,
+          354,
+          414
+        ]
+      }
+    ]
+  },
+  "frames": [
+    {
+      "index": 1,
+      "sourceFrame": 1,
+      "label": "Approved Neutral Side start · hold",
+      "filename": "hugo-neutral-to-confident-01-approved-neutral-side.png",
+      "runtime": true
+    },
+    {
+      "index": 2,
+      "sourceFrame": 1,
+      "label": "Approved Neutral Side start · hold",
+      "filename": "hugo-neutral-to-confident-01-approved-neutral-side.png",
+      "runtime": true
+    },
+    {
+      "index": 3,
+      "sourceFrame": 2,
+      "label": "Generated early weight shift",
+      "filename": "hugo-neutral-to-confident-02-generated-weight-shift.png",
+      "runtime": true
+    },
+    {
+      "index": 4,
+      "sourceFrame": 3,
+      "label": "Generated passing step",
+      "filename": "hugo-neutral-to-confident-03-generated-passing-step.png",
+      "runtime": true
+    },
+    {
+      "index": 5,
+      "sourceFrame": 4,
+      "label": "Generated stride opening",
+      "filename": "hugo-neutral-to-confident-04-generated-stride-open.png",
+      "runtime": true
+    },
+    {
+      "index": 6,
+      "sourceFrame": 5,
+      "label": "Approved Confident Walk finish · hold",
+      "filename": "hugo-neutral-to-confident-05-approved-confident-walk.png",
+      "runtime": true
+    },
+    {
+      "index": 7,
+      "sourceFrame": 5,
+      "label": "Approved Confident Walk finish · hold",
+      "filename": "hugo-neutral-to-confident-05-approved-confident-walk.png",
+      "runtime": true
+    }
+  ]
+}

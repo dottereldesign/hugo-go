@@ -102,8 +102,12 @@ test.describe('Outfit 03 reference and V02 animation loops', () => {
     await page.goto('/#/version-03');
 
     const previews = page.locator('[data-v03-animation]');
-    await expect(previews).toHaveCount(1);
+    await expect(previews).toHaveCount(2);
     await expect(previews).toContainText('01 · NEUTRAL SIDE');
+    await expect(previews).toContainText('02 · NEUTRAL SIDE');
+    await expect(
+      page.locator('[data-v03-animation="neutral-to-confident-walk"]'),
+    ).toContainText('Step into confident walk');
     await expect(page.locator('[data-v03-animation="head-nod-soft"]')).toHaveCount(0);
 
     const previewSizes = await previews.evaluateAll((cards) => cards.map((card) => {

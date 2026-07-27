@@ -1,8 +1,9 @@
 import headNodSoftInbetweensManifestJson from '../assets/game/2d-v03/animations/head-nod-soft-inbetweens/manifest.json';
+import neutralToConfidentWalkManifestJson from '../assets/game/2d-v03/animations/neutral-to-confident-walk/manifest.json';
 import { refreshIcons } from '../icons';
 
 const FRAME_MODULES = import.meta.glob(
-  '../assets/game/2d-v03/animations/head-nod-soft-inbetweens/frames/*.png',
+  '../assets/game/2d-v03/animations/*/frames/*.png',
   {
     eager: true,
     query: '?url',
@@ -25,6 +26,7 @@ interface AnimationManifest {
     name: string;
     description: string;
     prompt: string;
+    stageLabel?: string;
   };
   timing: {
     baseFps: number;
@@ -63,6 +65,7 @@ const SPEED_STORAGE_KEY = 'hugo-go:version-03-speed-v2';
 
 const MANIFESTS = [
   headNodSoftInbetweensManifestJson as AnimationManifest,
+  neutralToConfidentWalkManifestJson as AnimationManifest,
 ];
 
 export class Version03AnimationGallery {
@@ -154,12 +157,13 @@ export class Version03AnimationGallery {
     const isSoftHeadNod = manifest.animation.id.startsWith('head-nod-soft');
     const isMidpointExperiment =
       manifest.animation.id === 'head-nod-soft-inbetweens';
+    const isNeutralToConfidentWalk =
+      manifest.animation.id === 'neutral-to-confident-walk';
     const usesRepeatedDrawings =
       manifest.timing.runtimeFrameCount !== manifest.timing.drawingCount;
     const speed = this.loadSpeed(manifest.animation.id);
     const speedId = `version-03-speed-${manifest.animation.id}`;
-    const frameControls = isSoftHeadNod
-      ? `
+    const frameControls = `
         <div class="v03-animation-frames" aria-label="${manifest.animation.name} frame selector">
           ${manifest.frames.map((frame, index) => `
             <button
@@ -169,8 +173,7 @@ export class Version03AnimationGallery {
             >${frame.sourceFrame ?? frame.index}</button>
           `).join('')}
         </div>
-      `
-      : '';
+      `;
     root.innerHTML = `
       <header>
         <div>
@@ -183,7 +186,7 @@ export class Version03AnimationGallery {
       <div class="v03-animation-stage">
         <div class="v03-animation-stage-grid" aria-hidden="true"></div>
         <img width="512" height="512" alt="${manifest.animation.name} animation preview">
-        <span>OUTFIT 03 · GAME IDLE</span>
+        <span>${manifest.animation.stageLabel ?? 'OUTFIT 03 · GAME IDLE'}</span>
       </div>
       <div class="v03-animation-controls">
         <button type="button" data-v03-action="restart">
@@ -213,7 +216,7 @@ export class Version03AnimationGallery {
       ${frameControls}
       <footer class="v03-animation-notes">
         <span>${usesRepeatedDrawings ? `<b>Source drawings:</b> ${manifest.timing.drawingCount} complete figures · ${manifest.timing.runtimeFrameCount}-step loop` : `<b>Full drawings:</b> all ${manifest.timing.runtimeFrameCount} generated characters`}</span>
-        <span><b>Motion:</b> ${isMidpointExperiment ? 'drawings 1–7 · midpoint-smoothed loop' : isSoftHeadNod ? 'frames 1–4 · mirrored beat loop' : isHeadNod ? 'six down · six back up · head only' : 'head · hand · shoe groove'}</span>
+        <span><b>Motion:</b> ${isMidpointExperiment ? 'drawings 1–7 · midpoint-smoothed loop' : isNeutralToConfidentWalk ? 'exact neutral · three in-betweens · exact Confident Walk' : isSoftHeadNod ? 'frames 1–4 · mirrored beat loop' : isHeadNod ? 'six down · six back up · head only' : 'head · hand · shoe groove'}</span>
         <span><b>Processing:</b> chroma cleanup · whole-body registration only</span>
       </footer>
       <div class="v03-animation-prompt">
