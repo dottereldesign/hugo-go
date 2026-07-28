@@ -4283,8 +4283,8 @@ body.future-homepage-page-open {
 }
 
 .future-homepage-credit--title {
-  width: min(92vw, 1000px);
-  max-width: min(92vw, 1000px);
+  width: min(92vw, 760px);
+  max-width: min(92vw, 760px);
   gap: 0;
 }
 
