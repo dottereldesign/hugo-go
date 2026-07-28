@@ -219,8 +219,8 @@ export class Version03AnimationGallery {
       </label>
       ${frameControls}
       <footer class="v03-animation-notes">
-        <span>${usesRepeatedDrawings ? `<b>Source drawings:</b> ${manifest.timing.drawingCount} complete figures · ${manifest.timing.runtimeFrameCount}-step loop` : `<b>Full drawings:</b> all ${manifest.timing.runtimeFrameCount} generated characters`}</span>
-        <span><b>Motion:</b> ${isMidpointExperiment ? 'drawings 1–7 · midpoint-smoothed loop' : isNeutralToConfidentWalk ? 'exact neutral · lead step · opposite-leg follow-through' : isNeutralToNarutoRun ? 'exact neutral · two-leg exchange · Naruto launch' : isSoftHeadNod ? 'frames 1–4 · mirrored beat loop' : isHeadNod ? 'six down · six back up · head only' : 'head · hand · shoe groove'}</span>
+        <span>${usesRepeatedDrawings ? `<b>Source drawings:</b> ${manifest.timing.drawingCount} complete figures · ${manifest.timing.runtimeFrameCount}-step loop` : `<b>Full drawings:</b> ${manifest.timing.runtimeFrameCount} complete figures`}</span>
+        <span><b>Motion:</b> ${isMidpointExperiment ? 'drawings 1–7 · midpoint-smoothed loop' : isNeutralToConfidentWalk ? 'exact neutral · lead step · opposite-leg follow-through' : isNeutralToNarutoRun ? 'exact neutral · gradual lean · heel lift' : isSoftHeadNod ? 'frames 1–4 · mirrored beat loop' : isHeadNod ? 'six down · six back up · head only' : 'head · hand · shoe groove'}</span>
         <span><b>Processing:</b> chroma cleanup · whole-body registration only</span>
       </footer>
       <div class="v03-animation-prompt">

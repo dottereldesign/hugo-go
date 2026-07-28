@@ -113,9 +113,9 @@ test.describe('Outfit 03 reference and V02 animation loops', () => {
     await expect(walkStart).toContainText('opposite-leg follow-through');
     const narutoStart = page.locator('[data-v03-animation="neutral-to-naruto-run"]');
     await expect(narutoStart).toContainText('Launch into Naruto run');
-    await expect(narutoStart).toContainText('14 runtime frames');
-    await expect(narutoStart).toContainText('8 complete figures');
-    await expect(narutoStart).toContainText('two-leg exchange');
+    await expect(narutoStart).toContainText('4 runtime frames');
+    await expect(narutoStart).toContainText('4 complete figures');
+    await expect(narutoStart).toContainText('gradual lean');
     await expect(page.locator('[data-v03-animation="head-nod-soft"]')).toHaveCount(0);
 
     const previewSizes = await previews.evaluateAll((cards) => cards.map((card) => {
