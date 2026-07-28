@@ -4283,47 +4283,23 @@ body.future-homepage-page-open {
 }
 
 .future-homepage-credit--title {
-  gap: clamp(1px, .25vw, 4px);
-}
-
-.future-homepage-credit--title strong {
-  display: inline-flex;
-  align-items: baseline;
+  width: min(92vw, 1000px);
+  max-width: min(92vw, 1000px);
   gap: 0;
-  font-size: clamp(3.5rem, 9vw, 8rem);
-  font-synthesis: none;
-  letter-spacing: -.035em;
-  white-space: nowrap;
-  transform: rotate(-1deg);
-  filter:
-    drop-shadow(0 8px 0 rgba(32, 35, 31, .26))
-    drop-shadow(0 14px 22px rgba(32, 35, 31, .2));
 }
 
-.future-homepage-credit--title .future-homepage-credit-title--japanese {
-  font-family: 'Rampart One', 'Arial Black', sans-serif;
-  letter-spacing: -.065em;
-}
-
-.future-homepage-credit--title strong i {
+.future-homepage-credit-title-image {
   display: block;
-  font-style: normal;
-  -webkit-text-stroke: clamp(3px, .4vw, 6px) var(--future-homepage-ink);
-  paint-order: stroke fill;
-}
-
-.future-homepage-credit--title strong i:first-child {
-  color: #ffd724;
-  text-shadow:
-    0 4px 0 #ff9d00,
-    0 8px 0 #b83c00;
-}
-
-.future-homepage-credit--title strong i:last-child {
-  color: #ff941f;
-  text-shadow:
-    0 4px 0 #ef5b16,
-    0 8px 0 #982b08;
+  width: 100%;
+  height: auto;
+  max-height: min(64vh, 560px);
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  filter:
+    drop-shadow(0 10px 0 rgba(32, 35, 31, .18))
+    drop-shadow(0 18px 24px rgba(32, 35, 31, .2));
 }
 
 .future-homepage-screen.is-resolved .future-homepage-credit--production {

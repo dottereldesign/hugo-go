@@ -70,17 +70,23 @@ describe('Version 03 long-view cinematic', () => {
     expect(html).not.toContain('Created &amp; directed by');
     expect(html).not.toContain('<span>Introducing</span>');
     expect(html).not.toContain('Dotterel Design');
-    expect(html).toContain('<strong aria-label="HUGO GO!">');
-    expect(html).toContain('<i>HUGO</i>');
-    expect(html).toContain('<i>GO!</i>');
-    expect(html).toContain('class="future-homepage-credit-title--japanese"');
-    expect(html).toContain('aria-label="ヒューゴゴー!"');
-    expect(html).toContain('<i>ヒューゴ</i>');
-    expect(html).toContain('<i>ゴー!</i>');
+    expect(html).toContain('class="future-homepage-credit-title-image"');
+    expect(html).toContain('src="./src/assets/branding/hugogo-title-transparent.png"');
+    expect(html).toContain('alt="HUGOGO! ヒューゴゴー!"');
+    expect(html).not.toContain('class="future-homepage-credit-title--japanese"');
+    expect(
+      existsSync(resolve('src/assets/branding/hugogo-title-transparent.png')),
+    ).toBe(true);
+    const titleLogo = readFileSync(
+      resolve('src/assets/branding/hugogo-title-transparent.png'),
+    );
+    expect(titleLogo.readUInt32BE(16)).toBe(1066);
+    expect(titleLogo.readUInt32BE(20)).toBe(537);
+    expect(titleLogo[25]).toBe(6);
     expect(html).toContain('data-v03-cinematic-color-frame');
     expect(
       html.slice(futureHomepageStart).match(/draggable="false"/g),
-    ).toHaveLength(2);
+    ).toHaveLength(3);
     expect(html).toContain('aria-label="読み込み中..."');
     expect(html).toContain('class="future-homepage-loading-dots"');
     expect(html).not.toContain('<span>Loading...</span>');
@@ -134,14 +140,10 @@ describe('Version 03 long-view cinematic', () => {
     expect(styles).toContain(
       '.future-homepage-credit--production,\n.future-homepage-credit--music,',
     );
-    expect(styles).toContain('display: inline-flex');
-    expect(styles).toContain('white-space: nowrap');
-    expect(styles).toContain('gap: clamp(1px, .25vw, 4px)');
-    expect(styles).toContain('.future-homepage-credit-title--japanese');
-    expect(styles).toContain("font-family: 'Rampart One'");
-    expect(styles).toContain('.future-homepage-credit--title strong i:first-child');
-    expect(styles).toContain('color: #ffd724');
-    expect(styles).toContain('color: #ff941f');
+    expect(styles).toContain('.future-homepage-credit-title-image');
+    expect(styles).toContain('width: min(92vw, 1000px)');
+    expect(styles).toContain('max-height: min(64vh, 560px)');
+    expect(styles).toContain('object-fit: contain');
     expect(styles).toContain('3800ms cubic-bezier(.22, 1, .36, 1)');
     expect(styles).not.toContain('.future-homepage-credit--studio');
     expect(styles).toContain('1550ms both');
