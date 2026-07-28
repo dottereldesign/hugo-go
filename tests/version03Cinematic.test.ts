@@ -57,10 +57,18 @@ describe('Version 03 long-view cinematic', () => {
     expect(html).toContain('<span>START</span>');
     expect(html).toContain('class="future-homepage-blue-wipe"');
     expect(html).toContain('class="future-homepage-credits"');
-    expect(html).toContain('A Jamie Wilson');
+    expect(html).toContain('<span>A game by</span>');
+    expect(html).toContain('<strong>Jamie Wilson</strong>');
     expect(html).toContain('<strong>Johnny Tukuniu</strong>');
     expect(html).toContain('Original music composer &amp; producer');
+    expect(html.indexOf('<span>A game by</span>')).toBeLessThan(
+      html.indexOf('<strong>Jamie Wilson</strong>'),
+    );
+    expect(html.indexOf('<strong>Johnny Tukuniu</strong>')).toBeLessThan(
+      html.indexOf('Original music composer &amp; producer'),
+    );
     expect(html).not.toContain('Created &amp; directed by');
+    expect(html).not.toContain('<span>Introducing</span>');
     expect(html).not.toContain('Dotterel Design');
     expect(html).toContain('<strong aria-label="HUGO GO!">');
     expect(html).toContain('<i>HUGO</i>');
