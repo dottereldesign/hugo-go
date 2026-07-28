@@ -58,8 +58,8 @@ describe('Version 03 long-view cinematic', () => {
     expect(html).toContain('class="future-homepage-blue-wipe"');
     expect(html).toContain('class="future-homepage-credits"');
     expect(html).toContain('A Jamie Wilson');
-    expect(html).toContain('Music composed &amp; produced by');
     expect(html).toContain('<strong>Johnny Tukuniu</strong>');
+    expect(html).toContain('Original music composer &amp; producer');
     expect(html).not.toContain('Created &amp; directed by');
     expect(html).not.toContain('Dotterel Design');
     expect(html).toContain('<strong aria-label="HUGO GO!">');
