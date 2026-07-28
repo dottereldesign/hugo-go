@@ -80,8 +80,8 @@ describe('Version 03 long-view cinematic', () => {
     const titleLogo = readFileSync(
       resolve('src/assets/branding/hugogo-title-transparent.png'),
     );
-    expect(titleLogo.readUInt32BE(16)).toBe(1066);
-    expect(titleLogo.readUInt32BE(20)).toBe(537);
+    expect(titleLogo.readUInt32BE(16)).toBe(1768);
+    expect(titleLogo.readUInt32BE(20)).toBe(890);
     expect(titleLogo[25]).toBe(6);
     expect(html).toContain('data-v03-cinematic-color-frame');
     expect(
