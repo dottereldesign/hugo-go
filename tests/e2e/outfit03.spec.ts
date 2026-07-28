@@ -193,7 +193,7 @@ test.describe('Outfit 03 reference and V02 animation loops', () => {
     await expect(future.locator('.future-homepage-credit')).toHaveCount(3);
     await expect(future.locator('.future-homepage-credits')).toHaveAttribute(
       'aria-label',
-      /A game by Jamie Wilson.*Johnny Tukuniu, original music composer and producer.*Hugo Go/i,
+      /A game by Jamie Wilson.*Original music composer and producer, Johnny Tukuniu.*Hugo Go/i,
     );
     await expect(future.getByText('Dotterel Design')).toHaveCount(0);
     await future.getByRole('button', { name: 'Start the Mount Pogaga sequence' }).click();

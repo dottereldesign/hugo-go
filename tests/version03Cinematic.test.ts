@@ -64,8 +64,8 @@ describe('Version 03 long-view cinematic', () => {
     expect(html.indexOf('<span>A game by</span>')).toBeLessThan(
       html.indexOf('<strong>Jamie Wilson</strong>'),
     );
-    expect(html.indexOf('<strong>Johnny Tukuniu</strong>')).toBeLessThan(
-      html.indexOf('Original music composer &amp; producer'),
+    expect(html.indexOf('Original music composer &amp; producer')).toBeLessThan(
+      html.indexOf('<strong>Johnny Tukuniu</strong>'),
     );
     expect(html).not.toContain('Created &amp; directed by');
     expect(html).not.toContain('<span>Introducing</span>');
