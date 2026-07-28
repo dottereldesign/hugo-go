@@ -4297,11 +4297,13 @@ body.future-homepage-page-open {
 }
 
 .future-homepage-credit--title strong {
-  display: grid;
-  row-gap: clamp(4px, .5vw, 8px);
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0;
   font-size: clamp(3.5rem, 9vw, 8rem);
   font-synthesis: none;
   letter-spacing: -.035em;
+  white-space: nowrap;
   transform: rotate(-1deg);
   filter:
     drop-shadow(0 8px 0 rgba(32, 35, 31, .26))

@@ -122,6 +122,8 @@ describe('Version 03 long-view cinematic', () => {
     expect(styles).toContain(
       '.future-homepage-credit--production,\n.future-homepage-credit--music,',
     );
+    expect(styles).toContain('display: inline-flex');
+    expect(styles).toContain('white-space: nowrap');
     expect(styles).toContain('.future-homepage-credit--title strong i:first-child');
     expect(styles).toContain('color: #ffd724');
     expect(styles).toContain('color: #ff941f');
