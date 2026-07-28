@@ -59,6 +59,7 @@ describe('Version 03 long-view cinematic', () => {
     expect(html).toContain('class="future-homepage-credits"');
     expect(html).toContain('<span>A game by</span>');
     expect(html).toContain('class="future-homepage-credit-name-image"');
+    expect(html).toContain('src="./src/assets/branding/jamie-wilson-title-transparent.png"');
     expect(html).toContain('alt="Jamie Wilson"');
     expect(html).toContain('<strong>Johnny Tukuniu</strong>');
     expect(html).toContain('Original music composer &amp; producer');
@@ -84,14 +85,13 @@ describe('Version 03 long-view cinematic', () => {
     expect(titleLogo.readUInt32BE(16)).toBe(1768);
     expect(titleLogo.readUInt32BE(20)).toBe(890);
     expect(titleLogo[25]).toBe(6);
-    expect(
-      existsSync(resolve('src/assets/branding/jamie-wilson-cloud-title-transparent.png')),
-    ).toBe(true);
-    const productionCredit = readFileSync(
-      resolve('src/assets/branding/jamie-wilson-cloud-title-transparent.png'),
+    const productionCreditPath = resolve(
+      'src/assets/branding/jamie-wilson-title-transparent.png',
     );
-    expect(productionCredit.readUInt32BE(16)).toBe(2172);
-    expect(productionCredit.readUInt32BE(20)).toBe(724);
+    expect(existsSync(productionCreditPath)).toBe(true);
+    const productionCredit = readFileSync(productionCreditPath);
+    expect(productionCredit.readUInt32BE(16)).toBe(1672);
+    expect(productionCredit.readUInt32BE(20)).toBe(941);
     expect(productionCredit[25]).toBe(6);
     expect(html).toContain('data-v03-cinematic-color-frame');
     expect(

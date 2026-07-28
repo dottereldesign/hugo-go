@@ -4291,7 +4291,7 @@ body.future-homepage-page-open {
   display: block;
   width: 100%;
   height: auto;
-  max-height: min(42vh, 320px);
+  max-height: min(58vh, 480px);
   object-fit: contain;
   pointer-events: none;
   user-select: none;
