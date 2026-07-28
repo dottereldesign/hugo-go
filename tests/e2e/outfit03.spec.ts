@@ -193,7 +193,7 @@ test.describe('Outfit 03 reference and V02 animation loops', () => {
     await expect(future.locator('.future-homepage-credit')).toHaveCount(3);
     await expect(future.locator('.future-homepage-credits')).toHaveAttribute(
       'aria-label',
-      /A Jamie Wilson production.*Created and directed by Jamie Wilson.*Hugo Go/i,
+      /A Jamie Wilson production.*Music composed and produced by Johnny Tukuniu.*Hugo Go/i,
     );
     await expect(future.getByText('Dotterel Design')).toHaveCount(0);
     await future.getByRole('button', { name: 'Start the Mount Pogaga sequence' }).click();

@@ -58,7 +58,9 @@ describe('Version 03 long-view cinematic', () => {
     expect(html).toContain('class="future-homepage-blue-wipe"');
     expect(html).toContain('class="future-homepage-credits"');
     expect(html).toContain('A Jamie Wilson');
-    expect(html).toContain('Created &amp; directed by');
+    expect(html).toContain('Music composed &amp; produced by');
+    expect(html).toContain('<strong>Johnny Tukuniu</strong>');
+    expect(html).not.toContain('Created &amp; directed by');
     expect(html).not.toContain('Dotterel Design');
     expect(html).toContain('<strong aria-label="HUGO GO!">');
     expect(html).toContain('<i>HUGO</i>');
@@ -118,7 +120,7 @@ describe('Version 03 long-view cinematic', () => {
     expect(styles).toContain('@keyframes future-homepage-credit-beat');
     expect(styles).toContain('.future-homepage-screen.is-resolved .future-homepage-credit--production');
     expect(styles).toContain(
-      '.future-homepage-credit--production,\n.future-homepage-credit--creator,',
+      '.future-homepage-credit--production,\n.future-homepage-credit--music,',
     );
     expect(styles).toContain('.future-homepage-credit--title strong i:first-child');
     expect(styles).toContain('color: #ffd724');
