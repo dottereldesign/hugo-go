@@ -1,5 +1,6 @@
 import headNodSoftInbetweensManifestJson from '../assets/game/2d-v03/animations/head-nod-soft-inbetweens/manifest.json';
 import neutralToConfidentWalkManifestJson from '../assets/game/2d-v03/animations/neutral-to-confident-walk/manifest.json';
+import neutralToNarutoRunManifestJson from '../assets/game/2d-v03/animations/neutral-to-naruto-run/manifest.json';
 import { refreshIcons } from '../icons';
 
 const FRAME_MODULES = import.meta.glob(
@@ -66,6 +67,7 @@ const SPEED_STORAGE_KEY = 'hugo-go:version-03-speed-v2';
 const MANIFESTS = [
   headNodSoftInbetweensManifestJson as AnimationManifest,
   neutralToConfidentWalkManifestJson as AnimationManifest,
+  neutralToNarutoRunManifestJson as AnimationManifest,
 ];
 
 export class Version03AnimationGallery {
@@ -159,6 +161,8 @@ export class Version03AnimationGallery {
       manifest.animation.id === 'head-nod-soft-inbetweens';
     const isNeutralToConfidentWalk =
       manifest.animation.id === 'neutral-to-confident-walk';
+    const isNeutralToNarutoRun =
+      manifest.animation.id === 'neutral-to-naruto-run';
     const usesRepeatedDrawings =
       manifest.timing.runtimeFrameCount !== manifest.timing.drawingCount;
     const speed = this.loadSpeed(manifest.animation.id);
@@ -216,7 +220,7 @@ export class Version03AnimationGallery {
       ${frameControls}
       <footer class="v03-animation-notes">
         <span>${usesRepeatedDrawings ? `<b>Source drawings:</b> ${manifest.timing.drawingCount} complete figures · ${manifest.timing.runtimeFrameCount}-step loop` : `<b>Full drawings:</b> all ${manifest.timing.runtimeFrameCount} generated characters`}</span>
-        <span><b>Motion:</b> ${isMidpointExperiment ? 'drawings 1–7 · midpoint-smoothed loop' : isNeutralToConfidentWalk ? 'exact neutral · lead step · opposite-leg follow-through' : isSoftHeadNod ? 'frames 1–4 · mirrored beat loop' : isHeadNod ? 'six down · six back up · head only' : 'head · hand · shoe groove'}</span>
+        <span><b>Motion:</b> ${isMidpointExperiment ? 'drawings 1–7 · midpoint-smoothed loop' : isNeutralToConfidentWalk ? 'exact neutral · lead step · opposite-leg follow-through' : isNeutralToNarutoRun ? 'exact neutral · two-leg exchange · Naruto launch' : isSoftHeadNod ? 'frames 1–4 · mirrored beat loop' : isHeadNod ? 'six down · six back up · head only' : 'head · hand · shoe groove'}</span>
         <span><b>Processing:</b> chroma cleanup · whole-body registration only</span>
       </footer>
       <div class="v03-animation-prompt">
