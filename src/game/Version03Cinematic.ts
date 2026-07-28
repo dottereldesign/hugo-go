@@ -26,12 +26,6 @@ interface CinematicManifest {
   }>;
 }
 
-interface AlphaMask {
-  width: number;
-  height: number;
-  alpha: Uint8Array;
-}
-
 export interface Version03CinematicFrame {
   frameIndex: number;
   frameNumber: number;
@@ -47,14 +41,10 @@ const manifest = headNodManifestJson as CinematicManifest;
 export class Version03Cinematic {
   private readonly root: HTMLElement;
   private readonly scrollRoot: HTMLElement;
-  private readonly character: HTMLElement;
   private readonly frameImage: HTMLImageElement;
   private readonly colorFrameImage?: HTMLImageElement;
   private readonly frameUrls: string[];
-  private readonly usesAlphaHover: boolean;
   private readonly onFrame?: (frame: Version03CinematicFrame) => void;
-  private readonly alphaMasks = new Map<string, AlphaMask>();
-  private pointerPosition?: { clientX: number; clientY: number };
   private active = false;
   private assetsStarted = false;
   private raf = 0;
@@ -71,10 +61,6 @@ export class Version03Cinematic {
     this.root = this.required<HTMLElement>(root, '[data-v03-cinematic]');
     this.scrollRoot = scrollRoot;
     this.onFrame = options.onFrame;
-    this.character = this.required<HTMLElement>(
-      this.root,
-      '.v03-cinematic-character',
-    );
     this.frameImage = this.required<HTMLImageElement>(
       this.root,
       '[data-v03-cinematic-frame]',
@@ -82,9 +68,6 @@ export class Version03Cinematic {
     this.colorFrameImage = this.root.querySelector<HTMLImageElement>(
       '[data-v03-cinematic-color-frame]',
     ) ?? undefined;
-    this.usesAlphaHover = this.root.classList.contains(
-      'v03-cinematic--future-homepage',
-    );
     const assetDirectory = manifest.animation.assetDirectory ?? manifest.animation.id;
     this.frameUrls = manifest.frames.map((frame) => {
       const modulePath =
@@ -95,14 +78,6 @@ export class Version03Cinematic {
       }
       return url;
     });
-    if (this.usesAlphaHover) {
-      this.character.addEventListener(
-        'pointermove',
-        this.handleCharacterPointerMove,
-      );
-      this.character.addEventListener('pointerleave', this.clearAlphaHover);
-      this.frameImage.addEventListener('load', this.handleFrameImageLoad);
-    }
     this.syncFrame(false);
     this.syncLayout();
     window.addEventListener('resize', this.handleResize, { passive: true });
@@ -132,33 +107,10 @@ export class Version03Cinematic {
     cancelAnimationFrame(this.raf);
     this.raf = 0;
     this.lastTimestamp = 0;
-    this.clearAlphaHover();
   }
 
   private readonly handleResize = (): void => {
     this.syncLayout();
-    this.syncAlphaHover();
-  };
-
-  private readonly handleCharacterPointerMove = (event: PointerEvent): void => {
-    if (event.pointerType && event.pointerType !== 'mouse') {
-      this.clearAlphaHover();
-      return;
-    }
-    this.pointerPosition = {
-      clientX: event.clientX,
-      clientY: event.clientY,
-    };
-    this.syncAlphaHover();
-  };
-
-  private readonly handleFrameImageLoad = (): void => {
-    this.syncAlphaHover();
-  };
-
-  private readonly clearAlphaHover = (): void => {
-    this.pointerPosition = undefined;
-    this.character.classList.remove('is-alpha-hovered');
   };
 
   private tick(timestamp: number): void {
@@ -183,101 +135,12 @@ export class Version03Cinematic {
     if (this.colorFrameImage) {
       this.colorFrameImage.src = this.frameUrls[this.frameIndex];
     }
-    this.syncAlphaHover();
     if (notify) {
       this.onFrame?.({
         frameIndex: this.frameIndex,
         frameNumber: frame.index,
         completedLoops: this.completedLoops,
       });
-    }
-  }
-
-  private syncAlphaHover(): void {
-    if (!this.usesAlphaHover || !this.pointerPosition) return;
-
-    const rect = this.frameImage.getBoundingClientRect();
-    const { naturalWidth, naturalHeight } = this.frameImage;
-    if (
-      !this.frameImage.complete ||
-      naturalWidth === 0 ||
-      naturalHeight === 0 ||
-      rect.width === 0 ||
-      rect.height === 0
-    ) {
-      this.character.classList.remove('is-alpha-hovered');
-      return;
-    }
-
-    const naturalAspect = naturalWidth / naturalHeight;
-    const elementAspect = rect.width / rect.height;
-    let renderedWidth = rect.width;
-    let renderedHeight = rect.height;
-    let offsetX = 0;
-    let offsetY = 0;
-
-    if (naturalAspect > elementAspect) {
-      renderedHeight = rect.width / naturalAspect;
-      offsetY = (rect.height - renderedHeight) / 2;
-    } else {
-      renderedWidth = rect.height * naturalAspect;
-      offsetX = (rect.width - renderedWidth) / 2;
-    }
-
-    const localX = this.pointerPosition.clientX - rect.left - offsetX;
-    const localY = this.pointerPosition.clientY - rect.top - offsetY;
-    if (
-      localX < 0 ||
-      localY < 0 ||
-      localX >= renderedWidth ||
-      localY >= renderedHeight
-    ) {
-      this.character.classList.remove('is-alpha-hovered');
-      return;
-    }
-
-    const sourceX = Math.min(
-      naturalWidth - 1,
-      Math.floor((localX / renderedWidth) * naturalWidth),
-    );
-    const sourceY = Math.min(
-      naturalHeight - 1,
-      Math.floor((localY / renderedHeight) * naturalHeight),
-    );
-    const mask = this.getAlphaMask();
-    const isVisiblePixel =
-      mask !== undefined && mask.alpha[sourceY * mask.width + sourceX] >= 24;
-    this.character.classList.toggle('is-alpha-hovered', isVisiblePixel);
-  }
-
-  private getAlphaMask(): AlphaMask | undefined {
-    const key = this.frameImage.currentSrc || this.frameImage.src;
-    const cached = this.alphaMasks.get(key);
-    if (cached) return cached;
-
-    const canvas = document.createElement('canvas');
-    canvas.width = this.frameImage.naturalWidth;
-    canvas.height = this.frameImage.naturalHeight;
-    const context = canvas.getContext('2d', { willReadFrequently: true });
-    if (!context) return undefined;
-
-    try {
-      context.drawImage(this.frameImage, 0, 0);
-      const pixels = context.getImageData(
-        0,
-        0,
-        canvas.width,
-        canvas.height,
-      ).data;
-      const alpha = new Uint8Array(canvas.width * canvas.height);
-      for (let index = 0, pixel = 3; index < alpha.length; index += 1, pixel += 4) {
-        alpha[index] = pixels[pixel];
-      }
-      const mask = { width: canvas.width, height: canvas.height, alpha };
-      this.alphaMasks.set(key, mask);
-      return mask;
-    } catch {
-      return undefined;
     }
   }
 

@@ -117,7 +117,7 @@ describe('Version 03 long-view cinematic', () => {
     expect(styles).toContain(
       'width: min(82vw, var(--v03-native-frame-css-width, 170px))',
     );
-    expect(styles).toContain('.v03-cinematic-character.is-alpha-hovered');
+    expect(styles).not.toContain('.v03-cinematic-character.is-alpha-hovered');
     expect(styles).toContain('-webkit-user-drag: none');
     expect(styles).toContain('-webkit-touch-callout: none');
     expect(styles).toContain('pointer-events: none');
@@ -169,9 +169,9 @@ describe('Version 03 long-view cinematic', () => {
     expect(styles).not.toContain('.v03-cinematic-character:hover img');
     expect(styles).not.toContain('.v03-cinematic--future-homepage .v03-cinematic-character::before');
     expect(styles).not.toContain('.v03-cinematic--future-homepage .v03-cinematic-character::after');
-    expect(cinematic).toContain("'pointermove'");
-    expect(cinematic).toContain("getImageData(");
-    expect(cinematic).toContain("'is-alpha-hovered'");
+    expect(cinematic).not.toContain("'pointermove'");
+    expect(cinematic).not.toContain("getImageData(");
+    expect(cinematic).not.toContain("'is-alpha-hovered'");
     expect(html).not.toContain('data-v03-cinematic-backdrop');
   });
 });
