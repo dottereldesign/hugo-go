@@ -61,13 +61,15 @@ describe('Version 03 long-view cinematic', () => {
     expect(html).toContain('class="future-homepage-credit-name-image"');
     expect(html).toContain('src="./src/assets/branding/jamie-wilson-title-transparent.png"');
     expect(html).toContain('alt="Jamie Wilson"');
-    expect(html).toContain('<strong>Johnny Tukuniu</strong>');
+    expect(html.match(/class="future-homepage-credit-name-image"/g)).toHaveLength(2);
+    expect(html).toContain('src="./src/assets/branding/johnny-tukuniu-title-transparent.png"');
+    expect(html).toContain('alt="Johnny Tukuniu"');
     expect(html).toContain('Original music composer &amp; producer');
     expect(html.indexOf('<span>A game by</span>')).toBeLessThan(
       html.indexOf('class="future-homepage-credit-name-image"'),
     );
     expect(html.indexOf('Original music composer &amp; producer')).toBeLessThan(
-      html.indexOf('<strong>Johnny Tukuniu</strong>'),
+      html.indexOf('src="./src/assets/branding/johnny-tukuniu-title-transparent.png"'),
     );
     expect(html).not.toContain('Created &amp; directed by');
     expect(html).not.toContain('<span>Introducing</span>');
@@ -93,10 +95,18 @@ describe('Version 03 long-view cinematic', () => {
     expect(productionCredit.readUInt32BE(16)).toBe(1672);
     expect(productionCredit.readUInt32BE(20)).toBe(941);
     expect(productionCredit[25]).toBe(6);
+    const musicCreditPath = resolve(
+      'src/assets/branding/johnny-tukuniu-title-transparent.png',
+    );
+    expect(existsSync(musicCreditPath)).toBe(true);
+    const musicCredit = readFileSync(musicCreditPath);
+    expect(musicCredit.readUInt32BE(16)).toBe(1672);
+    expect(musicCredit.readUInt32BE(20)).toBe(941);
+    expect(musicCredit[25]).toBe(6);
     expect(html).toContain('data-v03-cinematic-color-frame');
     expect(
       html.slice(futureHomepageStart).match(/draggable="false"/g),
-    ).toHaveLength(4);
+    ).toHaveLength(5);
     expect(html).toContain('aria-label="読み込み中..."');
     expect(html).toContain('class="future-homepage-loading-dots"');
     expect(html).not.toContain('<span>Loading...</span>');

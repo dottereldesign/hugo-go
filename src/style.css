@@ -4282,7 +4282,8 @@ body.future-homepage-page-open {
   align-items: center;
 }
 
-.future-homepage-credit--production {
+.future-homepage-credit--production,
+.future-homepage-credit--music {
   width: min(90vw, 760px);
   max-width: min(90vw, 760px);
 }
