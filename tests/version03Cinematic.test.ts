@@ -73,6 +73,10 @@ describe('Version 03 long-view cinematic', () => {
     expect(html).toContain('<strong aria-label="HUGO GO!">');
     expect(html).toContain('<i>HUGO</i>');
     expect(html).toContain('<i>GO!</i>');
+    expect(html).toContain('class="future-homepage-credit-title--japanese"');
+    expect(html).toContain('aria-label="ヒューゴゴー!"');
+    expect(html).toContain('<i>ヒューゴ</i>');
+    expect(html).toContain('<i>ゴー!</i>');
     expect(html).toContain('data-v03-cinematic-color-frame');
     expect(
       html.slice(futureHomepageStart).match(/draggable="false"/g),
@@ -132,6 +136,9 @@ describe('Version 03 long-view cinematic', () => {
     );
     expect(styles).toContain('display: inline-flex');
     expect(styles).toContain('white-space: nowrap');
+    expect(styles).toContain('gap: clamp(1px, .25vw, 4px)');
+    expect(styles).toContain('.future-homepage-credit-title--japanese');
+    expect(styles).toContain("font-family: 'Rampart One'");
     expect(styles).toContain('.future-homepage-credit--title strong i:first-child');
     expect(styles).toContain('color: #ffd724');
     expect(styles).toContain('color: #ff941f');

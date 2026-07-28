@@ -4296,6 +4296,10 @@ body.future-homepage-page-open {
   align-items: center;
 }
 
+.future-homepage-credit--title {
+  gap: clamp(1px, .25vw, 4px);
+}
+
 .future-homepage-credit--title strong {
   display: inline-flex;
   align-items: baseline;
@@ -4308,6 +4312,11 @@ body.future-homepage-page-open {
   filter:
     drop-shadow(0 8px 0 rgba(32, 35, 31, .26))
     drop-shadow(0 14px 22px rgba(32, 35, 31, .2));
+}
+
+.future-homepage-credit--title .future-homepage-credit-title--japanese {
+  font-family: 'Rampart One', 'Arial Black', sans-serif;
+  letter-spacing: -.065em;
 }
 
 .future-homepage-credit--title strong i {
