@@ -16,14 +16,18 @@ SOURCE_ROOT = (
     ROOT
     / "art/source-images/game/2d-v03/animations/neutral-to-naruto-run-v1"
 )
+EARLY_SOURCE_ROOT = (
+    ROOT
+    / "art/source-images/game/2d-v03/animations/neutral-to-naruto-run-v2"
+)
 OUTPUT = ROOT / "src/assets/game/2d-v03/animations/neutral-to-naruto-run"
 FRAME_ROOT = OUTPUT / "frames"
 REGISTERED_SEQUENCE = (
-    SOURCE_ROOT / "hugo-neutral-to-naruto-six-drawings-registered.png"
+    EARLY_SOURCE_ROOT / "hugo-neutral-to-naruto-eight-drawings-registered.png"
 )
 
 CANVAS = 512
-BASE_FPS = 10
+BASE_FPS = 14
 
 START_POSE = (
     ROOT
@@ -38,8 +42,30 @@ END_POSE = (
 
 GENERATED_SOURCES = (
     (
-        "hugo-neutral-to-naruto-02-anticipation-transparent.png",
-        "hugo-neutral-to-naruto-02-generated-anticipation.png",
+        EARLY_SOURCE_ROOT
+        / "hugo-neutral-to-naruto-02-near-neutral-preparation-transparent.png",
+        "hugo-neutral-to-naruto-02-generated-near-neutral-preparation.png",
+        "Generated near-neutral preparation",
+        7,
+        {
+            "nearLeg": "stays planted while its knee begins to soften",
+            "farLeg": "stays planted and independently softens at the knee",
+        },
+    ),
+    (
+        EARLY_SOURCE_ROOT
+        / "hugo-neutral-to-naruto-03-light-lean-transparent.png",
+        "hugo-neutral-to-naruto-03-generated-light-lean.png",
+        "Generated light lean and knee bend",
+        13,
+        {
+            "nearLeg": "remains planted and accepts the early weight shift",
+            "farLeg": "remains close and prepares for the heel lift",
+        },
+    ),
+    (
+        SOURCE_ROOT / "hugo-neutral-to-naruto-02-anticipation-transparent.png",
+        "hugo-neutral-to-naruto-04-generated-anticipation.png",
         "Generated weight shift and heel lift",
         20,
         {
@@ -48,8 +74,8 @@ GENERATED_SOURCES = (
         },
     ),
     (
-        "hugo-neutral-to-naruto-03-first-stride-transparent.png",
-        "hugo-neutral-to-naruto-03-generated-first-stride.png",
+        SOURCE_ROOT / "hugo-neutral-to-naruto-03-first-stride-transparent.png",
+        "hugo-neutral-to-naruto-05-generated-first-stride.png",
         "Generated first stride",
         40,
         {
@@ -58,8 +84,8 @@ GENERATED_SOURCES = (
         },
     ),
     (
-        "hugo-neutral-to-naruto-04-leg-passing-transparent.png",
-        "hugo-neutral-to-naruto-04-generated-leg-passing.png",
+        SOURCE_ROOT / "hugo-neutral-to-naruto-04-leg-passing-transparent.png",
+        "hugo-neutral-to-naruto-06-generated-leg-passing.png",
         "Generated opposite-leg passing exchange",
         60,
         {
@@ -68,8 +94,8 @@ GENERATED_SOURCES = (
         },
     ),
     (
-        "hugo-neutral-to-naruto-05-opposite-drive-transparent.png",
-        "hugo-neutral-to-naruto-05-generated-opposite-drive.png",
+        SOURCE_ROOT / "hugo-neutral-to-naruto-05-opposite-drive-transparent.png",
+        "hugo-neutral-to-naruto-07-generated-opposite-drive.png",
         "Generated opposite-leg drive",
         80,
         {
@@ -95,7 +121,7 @@ DRAWINGS = (
         for _, filename, label, progress, leg_mechanics in GENERATED_SOURCES
     ),
     (
-        "hugo-neutral-to-naruto-06-approved-naruto-run.png",
+        "hugo-neutral-to-naruto-08-approved-naruto-run.png",
         "Approved Naruto run finish",
         "approved original",
         100,
@@ -106,16 +132,18 @@ DRAWINGS = (
     ),
 )
 
-RUNTIME_SEQUENCE = (1, 2, 3, 4, 5, 6, 5, 4, 3, 2)
+RUNTIME_SEQUENCE = (1, 2, 3, 4, 5, 6, 7, 8, 7, 6, 5, 4, 3, 2)
 
 PROMPT = """Create a minimalist full-body transition from the exact approved
 Neutral Side start into the exact approved Naruto-run finish in strict
 screen-right side profile. Preserve the two supplied endpoint drawings
-unchanged. Between them, redraw four complete chronological in-between figures:
-(1) anticipation, with the near foot loading while the far heel lifts;
-(2) first stride, with one knee reaching forward and the other leg extending
-through toe-off; (3) a compact passing pose where the two legs visibly exchange
-roles beneath the hips; and (4) the opposite-leg drive, with the formerly
+unchanged. Between them, redraw six complete chronological in-between figures:
+(1) a near-neutral preparation with both feet planted and only a tiny knee and
+shoulder shift; (2) a light forward lean with both feet still close and low;
+(3) anticipation, with the near foot loading while the far heel lifts;
+(4) first stride, with one knee reaching forward and the other leg extending
+through toe-off; (5) a compact passing pose where the two legs visibly exchange
+roles beneath the hips; and (6) the opposite-leg drive, with the formerly
 trailing leg moving forward while the other extends behind. Both legs must
 change position independently, both knee pads and both black shoes must remain
 visible, and no pose may duplicate an adjacent drawing. Progress the torso from
@@ -178,8 +206,7 @@ def register_generated() -> tuple[list[Image.Image], list[dict[str, object]]]:
 
     frames: list[Image.Image] = []
     metadata: list[dict[str, object]] = []
-    for source_name, _, label, progress_percent, _ in GENERATED_SOURCES:
-        source_path = SOURCE_ROOT / source_name
+    for source_path, _, label, progress_percent, _ in GENERATED_SOURCES:
         source = Image.open(source_path).convert("RGBA")
         source_bounds = alpha_bounds(source)
         left, top, right, bottom = source_bounds
@@ -235,7 +262,7 @@ def write_manifest(paths: list[Path], metadata: list[dict[str, object]]) -> None
     runtime_frames = []
     for runtime_index, source_index in enumerate(RUNTIME_SEQUENCE, 1):
         filename, label, _, _, _ = DRAWINGS[source_index - 1]
-        direction = "launch" if runtime_index <= 6 else "recover"
+        direction = "launch" if runtime_index <= 8 else "recover"
         runtime_frames.append(
             {
                 "index": runtime_index,
@@ -260,7 +287,7 @@ def write_manifest(paths: list[Path], metadata: list[dict[str, object]]) -> None
                 "alphaBounds": list(
                     alpha_bounds(Image.open(path).convert("RGBA"))
                 ),
-                **(metadata[index - 2] if 2 <= index <= 5 else {}),
+                **(metadata[index - 2] if 2 <= index <= 7 else {}),
             }
         )
 
@@ -271,8 +298,9 @@ def write_manifest(paths: list[Path], metadata: list[dict[str, object]]) -> None
             "assetDirectory": "neutral-to-naruto-run",
             "name": "Neutral Side · Launch into Naruto run",
             "description": (
-                "The exact Neutral Side start uses a clear two-leg exchange "
-                "to reach the approved arms-back Naruto run."
+                "The exact Neutral Side start eases through two gentle "
+                "preparation drawings before the full two-leg launch into "
+                "the approved arms-back Naruto run."
             ),
             "stageLabel": "OUTFIT 03 · RUN START",
             "prompt": PROMPT,
@@ -285,15 +313,15 @@ def write_manifest(paths: list[Path], metadata: list[dict[str, object]]) -> None
             "loopReturnFrame": len(RUNTIME_SEQUENCE),
         },
         "productionMethod": (
-            "two exact approved endpoint figures plus four complete generated "
+            "two exact approved endpoint figures plus six complete generated "
             "in-between drawings; chroma cleanup and deterministic whole-body "
             "registration only; no body-part compositing, code interpolation, "
             "or runtime sheet slicing"
         ),
         "source": {
             "generatedDrawings": [
-                str((SOURCE_ROOT / source_name).relative_to(ROOT)).replace("\\", "/")
-                for source_name, *_ in GENERATED_SOURCES
+                str(source_path.relative_to(ROOT)).replace("\\", "/")
+                for source_path, *_ in GENERATED_SOURCES
             ],
             "registeredSequence": str(REGISTERED_SEQUENCE.relative_to(ROOT)).replace(
                 "\\", "/"
@@ -333,7 +361,7 @@ def main() -> None:
 
     save_registered_sequence(drawings)
     write_manifest(paths, metadata)
-    print("Built 6-drawing Neutral Side to Naruto Run transition at 10 FPS")
+    print("Built 8-drawing Neutral Side to Naruto Run transition at 14 FPS")
 
 
 if __name__ == "__main__":

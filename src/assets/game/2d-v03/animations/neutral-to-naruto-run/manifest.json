@@ -4,26 +4,28 @@
     "id": "neutral-to-naruto-run",
     "assetDirectory": "neutral-to-naruto-run",
     "name": "Neutral Side · Launch into Naruto run",
-    "description": "The exact Neutral Side start uses a clear two-leg exchange to reach the approved arms-back Naruto run.",
+    "description": "The exact Neutral Side start eases through two gentle preparation drawings before the full two-leg launch into the approved arms-back Naruto run.",
     "stageLabel": "OUTFIT 03 · RUN START",
-    "prompt": "Create a minimalist full-body transition from the exact approved\nNeutral Side start into the exact approved Naruto-run finish in strict\nscreen-right side profile. Preserve the two supplied endpoint drawings\nunchanged. Between them, redraw four complete chronological in-between figures:\n(1) anticipation, with the near foot loading while the far heel lifts;\n(2) first stride, with one knee reaching forward and the other leg extending\nthrough toe-off; (3) a compact passing pose where the two legs visibly exchange\nroles beneath the hips; and (4) the opposite-leg drive, with the formerly\ntrailing leg moving forward while the other extends behind. Both legs must\nchange position independently, both knee pads and both black shoes must remain\nvisible, and no pose may duplicate an adjacent drawing. Progress the torso from\nupright into the approved forward lean while both arms sweep gradually behind\nthe hips. Preserve Hugo's exact identity, face, spiky brown hair, warm\npeach/tan skin, proportions, orange-and-cream Outfit 03 Sunrise suit,\nyellow/orange back panel, dark trim, knee pads, and black basketball shoes.\nMatch the canonical polished 2D game-character linework, lighting, shading,\ncolour, and scale. Draw exactly one complete Hugo on a perfectly flat solid\n#FF00FF chroma background with generous padding. No crop, floor, shadow, glow,\ntext, labels, borders, extra people, duplicate anatomy, fragments, props, or\nwatermark."
+    "prompt": "Create a minimalist full-body transition from the exact approved\nNeutral Side start into the exact approved Naruto-run finish in strict\nscreen-right side profile. Preserve the two supplied endpoint drawings\nunchanged. Between them, redraw six complete chronological in-between figures:\n(1) a near-neutral preparation with both feet planted and only a tiny knee and\nshoulder shift; (2) a light forward lean with both feet still close and low;\n(3) anticipation, with the near foot loading while the far heel lifts;\n(4) first stride, with one knee reaching forward and the other leg extending\nthrough toe-off; (5) a compact passing pose where the two legs visibly exchange\nroles beneath the hips; and (6) the opposite-leg drive, with the formerly\ntrailing leg moving forward while the other extends behind. Both legs must\nchange position independently, both knee pads and both black shoes must remain\nvisible, and no pose may duplicate an adjacent drawing. Progress the torso from\nupright into the approved forward lean while both arms sweep gradually behind\nthe hips. Preserve Hugo's exact identity, face, spiky brown hair, warm\npeach/tan skin, proportions, orange-and-cream Outfit 03 Sunrise suit,\nyellow/orange back panel, dark trim, knee pads, and black basketball shoes.\nMatch the canonical polished 2D game-character linework, lighting, shading,\ncolour, and scale. Draw exactly one complete Hugo on a perfectly flat solid\n#FF00FF chroma background with generous padding. No crop, floor, shadow, glow,\ntext, labels, borders, extra people, duplicate anatomy, fragments, props, or\nwatermark."
   },
   "timing": {
-    "baseFps": 10,
-    "runtimeFrameCount": 10,
-    "drawingCount": 6,
+    "baseFps": 14,
+    "runtimeFrameCount": 14,
+    "drawingCount": 8,
     "loopDurationSeconds": 1.0,
-    "loopReturnFrame": 10
+    "loopReturnFrame": 14
   },
-  "productionMethod": "two exact approved endpoint figures plus four complete generated in-between drawings; chroma cleanup and deterministic whole-body registration only; no body-part compositing, code interpolation, or runtime sheet slicing",
+  "productionMethod": "two exact approved endpoint figures plus six complete generated in-between drawings; chroma cleanup and deterministic whole-body registration only; no body-part compositing, code interpolation, or runtime sheet slicing",
   "source": {
     "generatedDrawings": [
+      "art/source-images/game/2d-v03/animations/neutral-to-naruto-run-v2/hugo-neutral-to-naruto-02-near-neutral-preparation-transparent.png",
+      "art/source-images/game/2d-v03/animations/neutral-to-naruto-run-v2/hugo-neutral-to-naruto-03-light-lean-transparent.png",
       "art/source-images/game/2d-v03/animations/neutral-to-naruto-run-v1/hugo-neutral-to-naruto-02-anticipation-transparent.png",
       "art/source-images/game/2d-v03/animations/neutral-to-naruto-run-v1/hugo-neutral-to-naruto-03-first-stride-transparent.png",
       "art/source-images/game/2d-v03/animations/neutral-to-naruto-run-v1/hugo-neutral-to-naruto-04-leg-passing-transparent.png",
       "art/source-images/game/2d-v03/animations/neutral-to-naruto-run-v1/hugo-neutral-to-naruto-05-opposite-drive-transparent.png"
     ],
-    "registeredSequence": "art/source-images/game/2d-v03/animations/neutral-to-naruto-run-v1/hugo-neutral-to-naruto-six-drawings-registered.png",
+    "registeredSequence": "art/source-images/game/2d-v03/animations/neutral-to-naruto-run-v2/hugo-neutral-to-naruto-eight-drawings-registered.png",
     "startEndpoint": "src/assets/game/2d-v03/animations/head-nod-soft-inbetweens/frames/hugo-head-nod-smooth-01-approved-00-percent.png",
     "endEndpoint": "src/assets/game/2d-v03/sunrise-side/poses/hugo-sunrise-side-35-naruto-run.png",
     "uniqueDrawings": [
@@ -46,7 +48,61 @@
       },
       {
         "sourceFrame": 2,
-        "filename": "hugo-neutral-to-naruto-02-generated-anticipation.png",
+        "filename": "hugo-neutral-to-naruto-02-generated-near-neutral-preparation.png",
+        "kind": "generated in-between",
+        "progressPercent": 7,
+        "legMechanics": {
+          "nearLeg": "stays planted while its knee begins to soften",
+          "farLeg": "stays planted and independently softens at the knee"
+        },
+        "sha256": "29c276f53d51a6fb7fbe890ae38f52d8cde931111f79c7268f8f02b2ef2ece90",
+        "alphaBounds": [
+          201,
+          90,
+          311,
+          414
+        ],
+        "sourceFile": "art/source-images/game/2d-v03/animations/neutral-to-naruto-run-v2/hugo-neutral-to-naruto-02-near-neutral-preparation-transparent.png",
+        "sourceBounds": [
+          471,
+          187,
+          753,
+          1018
+        ],
+        "uniformScale": 0.390349,
+        "targetDiagonal": 342.549,
+        "targetBaselineY": 414
+      },
+      {
+        "sourceFrame": 3,
+        "filename": "hugo-neutral-to-naruto-03-generated-light-lean.png",
+        "kind": "generated in-between",
+        "progressPercent": 13,
+        "legMechanics": {
+          "nearLeg": "remains planted and accepts the early weight shift",
+          "farLeg": "remains close and prepares for the heel lift"
+        },
+        "sha256": "b0df387ada0effa835ffe3acf504d69f15576d020a8c0c061034b742f57e1582",
+        "alphaBounds": [
+          190,
+          93,
+          321,
+          412
+        ],
+        "sourceFile": "art/source-images/game/2d-v03/animations/neutral-to-naruto-run-v2/hugo-neutral-to-naruto-03-light-lean-transparent.png",
+        "sourceBounds": [
+          446,
+          236,
+          764,
+          1013
+        ],
+        "uniformScale": 0.410984,
+        "targetDiagonal": 345.044,
+        "targetBaselineY": 412
+      },
+      {
+        "sourceFrame": 4,
+        "filename": "hugo-neutral-to-naruto-04-generated-anticipation.png",
         "kind": "generated in-between",
         "progressPercent": 20,
         "legMechanics": {
@@ -72,8 +128,8 @@
         "targetBaselineY": 409
       },
       {
-        "sourceFrame": 3,
-        "filename": "hugo-neutral-to-naruto-03-generated-first-stride.png",
+        "sourceFrame": 5,
+        "filename": "hugo-neutral-to-naruto-05-generated-first-stride.png",
         "kind": "generated in-between",
         "progressPercent": 40,
         "legMechanics": {
@@ -99,8 +155,8 @@
         "targetBaselineY": 401
       },
       {
-        "sourceFrame": 4,
-        "filename": "hugo-neutral-to-naruto-04-generated-leg-passing.png",
+        "sourceFrame": 6,
+        "filename": "hugo-neutral-to-naruto-06-generated-leg-passing.png",
         "kind": "generated in-between",
         "progressPercent": 60,
         "legMechanics": {
@@ -126,8 +182,8 @@
         "targetBaselineY": 392
       },
       {
-        "sourceFrame": 5,
-        "filename": "hugo-neutral-to-naruto-05-generated-opposite-drive.png",
+        "sourceFrame": 7,
+        "filename": "hugo-neutral-to-naruto-07-generated-opposite-drive.png",
         "kind": "generated in-between",
         "progressPercent": 80,
         "legMechanics": {
@@ -153,8 +209,8 @@
         "targetBaselineY": 384
       },
       {
-        "sourceFrame": 6,
-        "filename": "hugo-neutral-to-naruto-06-approved-naruto-run.png",
+        "sourceFrame": 8,
+        "filename": "hugo-neutral-to-naruto-08-approved-naruto-run.png",
         "kind": "approved original",
         "progressPercent": 100,
         "legMechanics": {
@@ -182,64 +238,92 @@
     {
       "index": 2,
       "sourceFrame": 2,
-      "label": "Generated weight shift and heel lift · launch",
-      "filename": "hugo-neutral-to-naruto-02-generated-anticipation.png",
+      "label": "Generated near-neutral preparation · launch",
+      "filename": "hugo-neutral-to-naruto-02-generated-near-neutral-preparation.png",
       "runtime": true
     },
     {
       "index": 3,
       "sourceFrame": 3,
-      "label": "Generated first stride · launch",
-      "filename": "hugo-neutral-to-naruto-03-generated-first-stride.png",
+      "label": "Generated light lean and knee bend · launch",
+      "filename": "hugo-neutral-to-naruto-03-generated-light-lean.png",
       "runtime": true
     },
     {
       "index": 4,
       "sourceFrame": 4,
-      "label": "Generated opposite-leg passing exchange · launch",
-      "filename": "hugo-neutral-to-naruto-04-generated-leg-passing.png",
+      "label": "Generated weight shift and heel lift · launch",
+      "filename": "hugo-neutral-to-naruto-04-generated-anticipation.png",
       "runtime": true
     },
     {
       "index": 5,
       "sourceFrame": 5,
-      "label": "Generated opposite-leg drive · launch",
-      "filename": "hugo-neutral-to-naruto-05-generated-opposite-drive.png",
+      "label": "Generated first stride · launch",
+      "filename": "hugo-neutral-to-naruto-05-generated-first-stride.png",
       "runtime": true
     },
     {
       "index": 6,
       "sourceFrame": 6,
-      "label": "Approved Naruto run finish · launch",
-      "filename": "hugo-neutral-to-naruto-06-approved-naruto-run.png",
+      "label": "Generated opposite-leg passing exchange · launch",
+      "filename": "hugo-neutral-to-naruto-06-generated-leg-passing.png",
       "runtime": true
     },
     {
       "index": 7,
-      "sourceFrame": 5,
-      "label": "Generated opposite-leg drive · recover",
-      "filename": "hugo-neutral-to-naruto-05-generated-opposite-drive.png",
+      "sourceFrame": 7,
+      "label": "Generated opposite-leg drive · launch",
+      "filename": "hugo-neutral-to-naruto-07-generated-opposite-drive.png",
       "runtime": true
     },
     {
       "index": 8,
-      "sourceFrame": 4,
-      "label": "Generated opposite-leg passing exchange · recover",
-      "filename": "hugo-neutral-to-naruto-04-generated-leg-passing.png",
+      "sourceFrame": 8,
+      "label": "Approved Naruto run finish · launch",
+      "filename": "hugo-neutral-to-naruto-08-approved-naruto-run.png",
       "runtime": true
     },
     {
       "index": 9,
-      "sourceFrame": 3,
-      "label": "Generated first stride · recover",
-      "filename": "hugo-neutral-to-naruto-03-generated-first-stride.png",
+      "sourceFrame": 7,
+      "label": "Generated opposite-leg drive · recover",
+      "filename": "hugo-neutral-to-naruto-07-generated-opposite-drive.png",
       "runtime": true
     },
     {
       "index": 10,
-      "sourceFrame": 2,
+      "sourceFrame": 6,
+      "label": "Generated opposite-leg passing exchange · recover",
+      "filename": "hugo-neutral-to-naruto-06-generated-leg-passing.png",
+      "runtime": true
+    },
+    {
+      "index": 11,
+      "sourceFrame": 5,
+      "label": "Generated first stride · recover",
+      "filename": "hugo-neutral-to-naruto-05-generated-first-stride.png",
+      "runtime": true
+    },
+    {
+      "index": 12,
+      "sourceFrame": 4,
       "label": "Generated weight shift and heel lift · recover",
-      "filename": "hugo-neutral-to-naruto-02-generated-anticipation.png",
+      "filename": "hugo-neutral-to-naruto-04-generated-anticipation.png",
+      "runtime": true
+    },
+    {
+      "index": 13,
+      "sourceFrame": 3,
+      "label": "Generated light lean and knee bend · recover",
+      "filename": "hugo-neutral-to-naruto-03-generated-light-lean.png",
+      "runtime": true
+    },
+    {
+      "index": 14,
+      "sourceFrame": 2,
+      "label": "Generated near-neutral preparation · recover",
+      "filename": "hugo-neutral-to-naruto-02-generated-near-neutral-preparation.png",
       "runtime": true
     }
   ]
