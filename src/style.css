@@ -4284,14 +4284,16 @@ body.future-homepage-page-open {
 
 .future-homepage-credit--production,
 .future-homepage-credit--music {
-  width: min(90vw, 760px);
-  max-width: min(90vw, 760px);
+  width: min(82vw, 560px);
+  max-width: min(82vw, 560px);
+  gap: clamp(2px, .5vh, 6px);
 }
 
 .future-homepage-credit-name-image {
   display: block;
   width: 100%;
   height: auto;
+  margin-block: -18%;
   max-height: min(58vh, 480px);
   object-fit: contain;
   pointer-events: none;

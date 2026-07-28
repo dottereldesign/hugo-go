@@ -161,6 +161,8 @@ describe('Version 03 long-view cinematic', () => {
       '.future-homepage-credit--production,\n.future-homepage-credit--music,',
     );
     expect(styles).toContain('.future-homepage-credit-title-image');
+    expect(styles).toContain('width: min(82vw, 560px)');
+    expect(styles).toContain('margin-block: -18%');
     expect(styles).toContain('width: min(92vw, 560px)');
     expect(styles).toContain('max-height: min(64vh, 560px)');
     expect(styles).toContain('object-fit: contain');
