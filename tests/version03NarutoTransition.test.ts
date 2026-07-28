@@ -13,6 +13,13 @@ const digest = (path: string): string => (
 );
 
 describe('Version 03 Neutral Side to Naruto Run transition', () => {
+  it('has a matching Version 03 page card for the registered manifest', () => {
+    const html = readFileSync(resolve('index.html'), 'utf8');
+    expect(html).toContain(
+      'data-v03-animation="neutral-to-naruto-run"',
+    );
+  });
+
   it('preserves both exact approved endpoints in Animation 03', () => {
     expect(manifest.animation.id).toBe('neutral-to-naruto-run');
     expect(manifest.timing.drawingCount).toBe(6);

@@ -102,14 +102,20 @@ test.describe('Outfit 03 reference and V02 animation loops', () => {
     await page.goto('/#/version-03');
 
     const previews = page.locator('[data-v03-animation]');
-    await expect(previews).toHaveCount(2);
+    await expect(previews).toHaveCount(3);
     await expect(previews).toContainText('01 · NEUTRAL SIDE');
     await expect(previews).toContainText('02 · NEUTRAL SIDE');
+    await expect(previews).toContainText('03 · NEUTRAL SIDE');
     const walkStart = page.locator('[data-v03-animation="neutral-to-confident-walk"]');
     await expect(walkStart).toContainText('Step into confident walk');
     await expect(walkStart).toContainText('10 runtime frames');
     await expect(walkStart).toContainText('9 complete figures');
     await expect(walkStart).toContainText('opposite-leg follow-through');
+    const narutoStart = page.locator('[data-v03-animation="neutral-to-naruto-run"]');
+    await expect(narutoStart).toContainText('Launch into Naruto run');
+    await expect(narutoStart).toContainText('10 runtime frames');
+    await expect(narutoStart).toContainText('6 complete figures');
+    await expect(narutoStart).toContainText('two-leg exchange');
     await expect(page.locator('[data-v03-animation="head-nod-soft"]')).toHaveCount(0);
 
     const previewSizes = await previews.evaluateAll((cards) => cards.map((card) => {
